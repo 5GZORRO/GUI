@@ -1,0 +1,27 @@
+//! statusCode: 200
+//! Content-Type: application/json
+{
+  "totalPages": 0,
+  "totalElements": 0,
+  "pageable": {
+    "page": 0,
+    "size": 0,
+    "sort": [
+      "string"
+    ]
+  },
+  "first": true,
+  "last": true,
+  "sort": {
+    "sorted": true,
+    "unsorted": true,
+    "empty": true
+  },
+  "size": 0,
+  "content": [
+    {}
+  ],
+  "number": 0,
+  "numberOfElements": 0,
+  "empty": true
+}

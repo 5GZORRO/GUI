@@ -1,0 +1,150 @@
+image: node:14.4-alpine3.10
+
+variables:
+  DOCKER_DRIVER: overlay
+
+stages:
+  - checks
+  - preview
+  - promote
+  - release
+  - deploy
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+
+before_script:
+  - apk --no-cache add git
+  - export GIT_AUTHOR_NAME="Ubiwhere Release Tools"
+  - export GIT_AUTHOR_EMAIL="ci@ubiwhere.com"
+  - git config user.name "Ubiwhere Release Tools"
+  - git config user.email "ci@ubiwhere.com"
+  - export NODE_OPTIONS=--max_old_space_size=4096
+  - yarn install
+
+
+# Eslint check
+lint:
+  stage: checks
+  allow_failure: false
+  script:
+    - yarn lint
+  except:
+    refs:
+      - master
+      - staging
+      - tags
+
+# Typescript
+type:
+  stage: checks
+  allow_failure: false
+  script:
+    - yarn typescript
+  except:
+    refs:
+      - master
+      - staging
+      - tags
+
+# Test
+test:
+  stage: checks
+  allow_failure: true
+  script:
+    - yarn test:ci --reporters=default --reporters=jest-junit
+  except:
+    refs:
+      - master
+      - staging
+      - tags
+  coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
+  artifacts:
+    when: always
+    reports:
+      junit:
+        - junit.xml
+
+# Build
+build:
+  stage: checks
+  script:
+    - yarn build
+  except:
+    refs:
+      - master
+      - staging
+      - tags
+
+# Promote to Master
+promote to master:
+  stage: promote
+  when: manual
+  only:
+    - development
+  before_script:
+    - apk --no-cache add git
+    - export URL_HOST=$(git remote get-url origin | sed -e "s/https:\/\/gitlab-ci-token:.*@//g")
+    - git remote set-url origin "https://gitlab-ci-token:${GITLAB_TOKEN}@${URL_HOST}"
+  script:
+    - git checkout master
+    - git pull
+    - git pull origin development
+    - git push
+
+
+
+release:
+  stage: release
+  script:
+    - yarn release
+  only:
+    - master
+  except:
+    refs:
+      - tags
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /chore\(release\)/
+
+
+  ## VPN
+  ## Inspiration from: https://torguard.net/knowledgebase.php?action=displayarticle&id=138
+  ## And http://forum.gitlab.com/t/connect-vpn-during-ci-cd/7585
+  ## Content from Variables to files: https://stackoverflow.com/a/49418265/4396362
+  ## Waiting for opnevpn connect would be better than sleeping, the closest would be https://askubuntu.com/questions/28733/how-do-i-run-a-script-after-openvpn-has-connected-successfully
+  ## Maybe this would work https://unix.stackexchange.com/questions/403202/create-bash-script-to-wait-and-then-run
+  ##
+  
+
+# Deploy production
+deploy:production:
+  stage: deploy
+  when: manual
+  script:
+    - apk add openvpn rsync openssh # Install openvpn, ssh and rsync if not available.
+    - cat $SSH_PRIVATE > /priv_key
+    - chmod 0400 /priv_key
+    - cat $CLIENT_OVPN > /VPN.ovpn
+    - cat $VPN_CRED > /credentials.txt
+    - cat $VPN_KEY > /VPN.key
+    - cat $VPN_CRT > /VPN.crt
+    - openvpn --config /VPN.ovpn --daemon
+    - sleep 10s # Wait for some time so the vpn can connect before doing anything else.
+    - mkdir /root/.ssh
+    - ssh-keyscan -p 22 -H -t ecdsa $IP_MACHINE >> /root/.ssh/known_hosts
+    - ping -c 1 $IP_MACHINE
+    - ssh -i /priv_key ubuntu@${IP_MACHINE} whoami
+    - yarn build
+    - rm -rf public
+    - mv build public
+    - rsync -avzhe "ssh -i /priv_key" public/ ${ARTIFACT_USER}@${IP_MACHINE}:/home/ubuntu/frontend
+
+  only:
+    - master
+  except:
+    refs:
+      - tags
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /chore\(release\)/
