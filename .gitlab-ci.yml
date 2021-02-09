@@ -22,7 +22,7 @@ before_script:
   - git config user.name "Ubiwhere Release Tools"
   - git config user.email "ci@ubiwhere.com"
   - export NODE_OPTIONS=--max_old_space_size=4096
-  - yarn install
+  - npm install
 
 
 # Eslint check
@@ -30,7 +30,7 @@ lint:
   stage: checks
   allow_failure: false
   script:
-    - yarn lint
+    - npm run lint
   except:
     refs:
       - master
@@ -42,7 +42,7 @@ type:
   stage: checks
   allow_failure: false
   script:
-    - yarn typescript
+    - npm run typescript
   except:
     refs:
       - master
@@ -54,7 +54,7 @@ test:
   stage: checks
   allow_failure: true
   script:
-    - yarn test:ci --reporters=default --reporters=jest-junit
+    - npm run test --reporters=default --reporters=jest-junit
   except:
     refs:
       - master
@@ -71,7 +71,7 @@ test:
 build:
   stage: checks
   script:
-    - yarn build
+    - npm run build
   except:
     refs:
       - master
