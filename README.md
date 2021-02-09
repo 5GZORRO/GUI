@@ -23,14 +23,14 @@
 ## Installation
 ``` bash
 # install app's dependencies
-$ npm install
+$ yarn install
 ```
 
 ### Basic usage
 
 ``` bash
 # dev server  with hot reload at http://localhost:3000
-$ npm start
+$ yarn start
 ```
 
 Navigate to [http://localhost:3000](http://localhost:3000). The app will automatically reload if you change any of the source files.
@@ -41,7 +41,7 @@ Run `build` to build the project. The build artifacts will be stored in the `bui
 
 ```bash
 # build for production with minification
-$ npm run build
+$ yarn build
 ```
 
 ## What's included

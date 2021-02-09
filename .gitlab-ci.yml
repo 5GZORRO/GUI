@@ -30,7 +30,7 @@ lint:
   stage: checks
   allow_failure: false
   script:
-    - npm run lint
+    - yarn lint
   except:
     refs:
       - master
@@ -42,7 +42,7 @@ type:
   stage: checks
   allow_failure: false
   script:
-    - npm run typescript
+    - yarn typescript
   except:
     refs:
       - master
@@ -54,7 +54,7 @@ test:
   stage: checks
   allow_failure: true
   script:
-    - npm run test --reporters=default --reporters=jest-junit
+    - yarn test --reporters=default --reporters=jest-junit
   except:
     refs:
       - master
@@ -71,7 +71,7 @@ test:
 build:
   stage: checks
   script:
-    - npm run build
+    - yarn build
   except:
     refs:
       - master
