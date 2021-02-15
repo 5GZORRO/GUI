@@ -3,10 +3,14 @@ import { logo } from './logo'
 import { logoNegative } from './logo-negative'
 
 import {
+  cilScrubber,
   cilApplicationsSettings,
   cilSpeedometer,
   cilSun,
-  cilMoon
+  cilMoon,
+  cilLockLocked,
+  cilUser,
+  cilAt
 } from '@coreui/icons/js/free'
 
 export const icons = Object.assign({}, {
@@ -14,6 +18,10 @@ export const icons = Object.assign({}, {
   logo,
   logoNegative
 }, {
+  cilScrubber,
+  cilAt,
+  cilUser,
+  cilLockLocked,
   cilApplicationsSettings,
   cilSpeedometer,
   cilSun,
