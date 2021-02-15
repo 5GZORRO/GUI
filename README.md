@@ -22,6 +22,12 @@
 
 # 5GZorro
 
+### 🛠 Stack used
+- [React](https://pt-br.reactjs.org/)
+- [CoreUI for React](https://coreui.io/react/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [ReactQuery](https://react-query.tanstack.com/)
+- [ReactHooksForm](https://react-hook-form.com/)
 ## Installation
 ``` bash
 # install app's dependencies
