@@ -1,27 +1,33 @@
 //! statusCode: 200
 //! Content-Type: application/json
 {
-  "totalPages": 0,
-  "totalElements": 0,
-  "pageable": {
-    "page": 0,
+  "pagedMembers": {
+    "totalPages": 0,
+    "totalElements": 0,
     "size": 0,
-    "sort": [
-      "string"
-    ]
-  },
-  "first": true,
-  "last": true,
-  "sort": {
-    "sorted": true,
-    "unsorted": true,
+    "content": [
+      {
+        "stakeholderId": "string",
+        "legalName": "string",
+        "address": "string"
+      }
+    ],
+    "number": 0,
+    "sort": {
+      "sorted": true,
+      "unsorted": true,
+      "empty": true
+    },
+    "pageable": {
+      "page": 0,
+      "size": 0,
+      "sort": [
+        "string"
+      ]
+    },
+    "numberOfElements": 0,
+    "first": true,
+    "last": true,
     "empty": true
-  },
-  "size": 0,
-  "content": [
-    {}
-  ],
-  "number": 0,
-  "numberOfElements": 0,
-  "empty": true
+  }
 }

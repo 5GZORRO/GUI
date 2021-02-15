@@ -1,0 +1,228 @@
+//! statusCode: 200
+//! Content-Type: application/json
+{
+  "pagedGovernanceProposals": {
+    "totalPages": 0,
+    "totalElements": 0,
+    "size": 20,
+    "content": [
+      {
+        "proposalId": "737d5c36-a43f-4812-a4e4-4f7e807e3c4e",
+        "status": "PROPOSED",
+        "actionType": "ONBOARD_STAKEHOLDER",
+        "actionParams": {
+          "entityIdentityId": "3dbc01ff-88fd-488d-8812-4e4253b25cfa",
+          "evidence": "string"
+        },
+        "statusUpdated": "2021-02-10T16:27:15.717Z"
+      },
+      {
+        "proposalId": "a5472abc-27dd-4194-9eba-f9873aec100a",
+        "status": "PROPOSED",
+        "actionType": "ONBOARD_STAKEHOLDER",
+        "actionParams": {
+          "entityIdentityId": "99ee20fe-9ae6-49a6-9616-652a366197f6",
+          "evidence": "string"
+        },
+        "statusUpdated": "2021-02-10T16:27:15.717Z"
+      },
+      {
+        "proposalId": "cafe5485-d439-4768-9f27-505120c9802b",
+        "status": "PROPOSED",
+        "actionType": "ONBOARD_STAKEHOLDER",
+        "actionParams": {
+          "entityIdentityId": "b294b7cd-5f34-48de-8c66-542365e2d20b",
+          "evidence": "string"
+        },
+        "statusUpdated": "2021-02-10T16:27:15.717Z"
+      },
+      {
+        "proposalId": "7203ab15-a897-4b46-aaa9-a43715e6c8f5",
+        "status": "PROPOSED",
+        "actionType": "ONBOARD_STAKEHOLDER",
+        "actionParams": {
+          "entityIdentityId": "be2b47d1-93da-47e0-aaba-51a55c236fcb",
+          "evidence": "string"
+        },
+        "statusUpdated": "2021-02-10T16:27:15.717Z"
+      },
+      {
+        "proposalId": "f23b7ecf-8808-4073-8e76-9bf7258d2327",
+        "status": "PROPOSED",
+        "actionType": "ONBOARD_STAKEHOLDER",
+        "actionParams": {
+          "entityIdentityId": "1f9af1ee-0fe7-4b0b-a8c8-c1a10ea40eb8",
+          "evidence": "string"
+        },
+        "statusUpdated": "2021-02-10T16:27:15.717Z"
+      },
+      {
+        "proposalId": "737d5c36-a43f-4812-a4e4-4f7e807e3c4e",
+        "status": "PROPOSED",
+        "actionType": "ONBOARD_STAKEHOLDER",
+        "actionParams": {
+          "entityIdentityId": "3dbc01ff-88fd-488d-8812-4e4253b25cfa",
+          "evidence": "string"
+        },
+        "statusUpdated": "2021-02-10T16:27:15.717Z"
+      },
+      {
+        "proposalId": "a5472abc-27dd-4194-9eba-f9873aec100a",
+        "status": "PROPOSED",
+        "actionType": "ONBOARD_STAKEHOLDER",
+        "actionParams": {
+          "entityIdentityId": "99ee20fe-9ae6-49a6-9616-652a366197f6",
+          "evidence": "string"
+        },
+        "statusUpdated": "2021-02-10T16:27:15.717Z"
+      },
+      {
+        "proposalId": "cafe5485-d439-4768-9f27-505120c9802b",
+        "status": "PROPOSED",
+        "actionType": "ONBOARD_STAKEHOLDER",
+        "actionParams": {
+          "entityIdentityId": "b294b7cd-5f34-48de-8c66-542365e2d20b",
+          "evidence": "string"
+        },
+        "statusUpdated": "2021-02-10T16:27:15.717Z"
+      },
+      {
+        "proposalId": "7203ab15-a897-4b46-aaa9-a43715e6c8f5",
+        "status": "PROPOSED",
+        "actionType": "ONBOARD_STAKEHOLDER",
+        "actionParams": {
+          "entityIdentityId": "be2b47d1-93da-47e0-aaba-51a55c236fcb",
+          "evidence": "string"
+        },
+        "statusUpdated": "2021-02-10T16:27:15.717Z"
+      },
+      {
+        "proposalId": "f23b7ecf-8808-4073-8e76-9bf7258d2327",
+        "status": "PROPOSED",
+        "actionType": "ONBOARD_STAKEHOLDER",
+        "actionParams": {
+          "entityIdentityId": "1f9af1ee-0fe7-4b0b-a8c8-c1a10ea40eb8",
+          "evidence": "string"
+        },
+        "statusUpdated": "2021-02-10T16:27:15.717Z"
+      },
+      {
+        "proposalId": "737d5c36-a43f-4812-a4e4-4f7e807e3c4e",
+        "status": "PROPOSED",
+        "actionType": "ONBOARD_STAKEHOLDER",
+        "actionParams": {
+          "entityIdentityId": "3dbc01ff-88fd-488d-8812-4e4253b25cfa",
+          "evidence": "string"
+        },
+        "statusUpdated": "2021-02-10T16:27:15.717Z"
+      },
+      {
+        "proposalId": "a5472abc-27dd-4194-9eba-f9873aec100a",
+        "status": "PROPOSED",
+        "actionType": "ONBOARD_STAKEHOLDER",
+        "actionParams": {
+          "entityIdentityId": "99ee20fe-9ae6-49a6-9616-652a366197f6",
+          "evidence": "string"
+        },
+        "statusUpdated": "2021-02-10T16:27:15.717Z"
+      },
+      {
+        "proposalId": "cafe5485-d439-4768-9f27-505120c9802b",
+        "status": "PROPOSED",
+        "actionType": "ONBOARD_STAKEHOLDER",
+        "actionParams": {
+          "entityIdentityId": "b294b7cd-5f34-48de-8c66-542365e2d20b",
+          "evidence": "string"
+        },
+        "statusUpdated": "2021-02-10T16:27:15.717Z"
+      },
+      {
+        "proposalId": "7203ab15-a897-4b46-aaa9-a43715e6c8f5",
+        "status": "PROPOSED",
+        "actionType": "ONBOARD_STAKEHOLDER",
+        "actionParams": {
+          "entityIdentityId": "be2b47d1-93da-47e0-aaba-51a55c236fcb",
+          "evidence": "string"
+        },
+        "statusUpdated": "2021-02-10T16:27:15.717Z"
+      },
+      {
+        "proposalId": "f23b7ecf-8808-4073-8e76-9bf7258d2327",
+        "status": "PROPOSED",
+        "actionType": "ONBOARD_STAKEHOLDER",
+        "actionParams": {
+          "entityIdentityId": "1f9af1ee-0fe7-4b0b-a8c8-c1a10ea40eb8",
+          "evidence": "string"
+        },
+        "statusUpdated": "2021-02-10T16:27:15.717Z"
+      }
+      ,  {
+        "proposalId": "737d5c36-a43f-4812-a4e4-4f7e807e3c4e",
+        "status": "PROPOSED",
+        "actionType": "ONBOARD_STAKEHOLDER",
+        "actionParams": {
+          "entityIdentityId": "3dbc01ff-88fd-488d-8812-4e4253b25cfa",
+          "evidence": "string"
+        },
+        "statusUpdated": "2021-02-10T16:27:15.717Z"
+      },
+      {
+        "proposalId": "a5472abc-27dd-4194-9eba-f9873aec100a",
+        "status": "PROPOSED",
+        "actionType": "ONBOARD_STAKEHOLDER",
+        "actionParams": {
+          "entityIdentityId": "99ee20fe-9ae6-49a6-9616-652a366197f6",
+          "evidence": "string"
+        },
+        "statusUpdated": "2021-02-10T16:27:15.717Z"
+      },
+      {
+        "proposalId": "cafe5485-d439-4768-9f27-505120c9802b",
+        "status": "PROPOSED",
+        "actionType": "ONBOARD_STAKEHOLDER",
+        "actionParams": {
+          "entityIdentityId": "b294b7cd-5f34-48de-8c66-542365e2d20b",
+          "evidence": "string"
+        },
+        "statusUpdated": "2021-02-10T16:27:15.717Z"
+      },
+      {
+        "proposalId": "7203ab15-a897-4b46-aaa9-a43715e6c8f5",
+        "status": "PROPOSED",
+        "actionType": "ONBOARD_STAKEHOLDER",
+        "actionParams": {
+          "entityIdentityId": "be2b47d1-93da-47e0-aaba-51a55c236fcb",
+          "evidence": "string"
+        },
+        "statusUpdated": "2021-02-10T16:27:15.717Z"
+      },
+      {
+        "proposalId": "f23b7ecf-8808-4073-8e76-9bf7258d2327",
+        "status": "PROPOSED",
+        "actionType": "ONBOARD_STAKEHOLDER",
+        "actionParams": {
+          "entityIdentityId": "1f9af1ee-0fe7-4b0b-a8c8-c1a10ea40eb8",
+          "evidence": "string"
+        },
+        "statusUpdated": "2021-02-10T16:27:15.717Z"
+      }
+    ],
+    "number": 0,
+    "sort": {
+      "sorted": true,
+      "unsorted": true,
+      "empty": false
+    },
+    "pageable": {
+      "page": 1,
+      "size": 5,
+      "sort": [
+        "string"
+      ]
+    },
+    "first": true,
+    "last": true,
+    "numberOfElements": 5,
+    "empty": true
+  }
+}

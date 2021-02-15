@@ -1,0 +1,7 @@
+//! statusCode: 201
+//! body: { "stakeholderId": "string", "stakeholderClaimCertificate": "string", "notificationMethod": {"notificationType": "EMAIL", "distributionList": ["string"] }
+//! Content-Type: application/json
+{
+  "index":"post",
+  "key":"value"
+}
