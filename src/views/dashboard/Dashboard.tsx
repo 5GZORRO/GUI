@@ -1,16 +1,21 @@
-import React, { useEffect } from 'react'
-import axios from 'axios'
+import React from 'react'
+import { CDataTable } from '@coreui/react'
+
+/** Hooks */
+import { useGovernances } from 'hooks/api/GovernanceActions'
+
+const fields = ['actionParams.evidence','statusUpdated', 'actionType', 'status']
 
 const Dashboard:React.FC = () => {
-
-  useEffect(() => {
-    axios.get(`${process.env.REACT_APP_API}/governanceActions`).then(res => console.log(res))
-  }, [])
-
+  const { data, isError, isLoading } = useGovernances()
+  console.log(data)
   return (
-    <>
-      Hello world!
-    </>
+    <CDataTable
+      items={data?.content}
+      fields={fields}
+      itemsPerPage={5}
+      pagination
+    />
   )
 }
 

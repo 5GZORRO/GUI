@@ -55,9 +55,9 @@ export type MemberbershipAPIResponse = BaseApiResponse<MembershipsResponse>
 export type GovernanceActionsAPIResponse = BaseApiResponse<GovernanceActionsResponse>
 
 interface BaseApiParams {
-  page: number
-  size: number
-  sort: string
+  page?: number
+  size?: number
+  sort?: string
 }
 
 export interface ApiParamsMembership extends BaseApiParams {
