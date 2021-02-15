@@ -1,18 +1,19 @@
 import axios from 'axios'
 import { camelizeKeys, decamelizeKeys } from 'humps'
+import { AUTH_TOKEN_SLUG, BASE_API } from 'config'
 
 const decamelizeKeysTransformer = (data: Record<string, unknown>): string => {
 	return data && JSON.stringify(decamelizeKeys(data))
 }
 
 const apiInstance = axios.create({
-	baseURL: process.env.REACT_APP_API
+	baseURL: BASE_API
 })
 
 apiInstance.interceptors.request.use((config) => {
-	const authToken = localStorage.getItem('vas')
+	const authToken = localStorage.getItem('5gzorro')
 	if (authToken) {
-		config.headers.Authorization = `${process.env.REACT_APP_TOKEN}`
+		config.headers.Authorization = `${AUTH_TOKEN_SLUG} ${authToken}`
 	}
 	return config
 }, (error) => {
@@ -35,14 +36,14 @@ apiInstance.interceptors.request.use(
 	(config) => {
 		const currentContentType = config.headers['Content-Type']
 
-		// Converts URL get params to underscored
+		/* Converts URL get params to underscored
 		if (config.params) {
 			config.params = decamelizeKeys(config.params)
-		}
+		} */
 
 		if (!currentContentType) {
 			config.headers['Content-Type'] = 'application/json'
-			config.transformRequest = [decamelizeKeysTransformer]
+			// config.transformRequest = [decamelizeKeysTransformer]
 		}
 		return config
 	},
