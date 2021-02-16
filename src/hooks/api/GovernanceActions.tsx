@@ -2,7 +2,7 @@
 import { useQuery } from 'react-query'
 
 import { api } from 'api'
-import { ApiParamsGovernanceActions, ApiParamsMembership } from 'types/api' 
+import { ApiParamsGovernanceActions } from 'types/api' 
 
 // Define a default query function that will receive the query key
 export const useGovernances = (params?: ApiParamsGovernanceActions) => {

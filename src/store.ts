@@ -13,6 +13,7 @@ const initialState: state = {
   darkMode: false
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type args = { type?: string, [key: string]: any }
 
 const changeState = (state = initialState, { type, ...rest }: args) => {

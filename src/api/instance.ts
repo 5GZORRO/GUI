@@ -1,10 +1,6 @@
 import axios from 'axios'
-import { camelizeKeys, decamelizeKeys } from 'humps'
+import { camelizeKeys } from 'humps'
 import { AUTH_TOKEN_SLUG, BASE_API } from 'config'
-
-const decamelizeKeysTransformer = (data: Record<string, unknown>): string => {
-	return data && JSON.stringify(decamelizeKeys(data))
-}
 
 const apiInstance = axios.create({
 	baseURL: BASE_API

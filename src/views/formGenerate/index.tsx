@@ -1,5 +1,5 @@
 import React from 'react'
-import { CContainer, CRow, CForm, CFormGroup, CLabel, CInput, CCol, CFormText, CSelect, CButton } from '@coreui/react'
+import { CContainer, CRow, CForm, CFormGroup, CLabel, CInput, CCol, CFormText, CButton } from '@coreui/react'
 import { useForm, Controller } from 'react-hook-form'
 
 interface Inputs {
