@@ -5,9 +5,12 @@ module.exports = {
         'jest/globals': true
     },
     'settings': {
-        'jest': {
-            'version': 26
-            }
+      jest: {
+        version: 26
+      },
+      react: {
+        version: 'detect'
+      }
     },
     'extends': [
         'eslint:recommended',
