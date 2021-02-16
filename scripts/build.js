@@ -6,9 +6,8 @@ process.env.NODE_ENV = 'production';
 
 
 // Variable importing
-const environment = process.env.APP_ENV || `development`;
-const exportFile = `
-export * from 'environments/${environment}'
+const environment = process.env.APP_ENV || 'development';
+const exportFile = `export * from 'environments/${environment}'
 `
 
 const configFile = `${__dirname}/../src/config.js`
@@ -35,7 +34,6 @@ require('../config/env');
 
 const path = require('path');
 const chalk = require('react-dev-utils/chalk');
-const fs = require('fs-extra');
 const bfj = require('bfj');
 const webpack = require('webpack');
 const configFactory = require('../config/webpack.config');
