@@ -140,7 +140,7 @@
     "jest-junit": "^12.0.0",
     "semantic-release": "^17.3.8",
     "ts-node": "^9.1.1",
-    "typescript": "^3.9.7",
+    "typescript": "^4.1.5",
     "webpack-cli": "^4.5.0"
   },
   "hooks": {
