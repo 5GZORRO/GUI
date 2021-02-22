@@ -1,5 +1,4 @@
 import React from 'react'
-import { useTypedSelector } from '../store'
 import {
   TheContent,
   TheSidebar,
@@ -8,23 +7,18 @@ import {
   TheHeader
 } from './index'
 
-const TheLayout: React.FC = () => {
-  const darkMode = useTypedSelector((state) => state.darkMode)
-  const classes = `c-app c-default-layout ${darkMode ? 'c-dark-theme' : ''}`
-
-  return (
-    <div className={classes}>
-      <TheSidebar/>
-      <TheAside/>
-      <div className="c-wrapper">
-        <TheHeader/>
-        <div className="c-body">
-          <TheContent/>
-        </div>
-        <TheFooter/>
+const TheLayout: React.FC = () => (
+  <div className={'c-app c-default-layout c-dark-theme'}>
+    <TheSidebar/>
+    <TheAside/>
+    <div className="c-wrapper">
+      <TheHeader/>
+      <div className="c-body">
+        <TheContent/>
       </div>
+      <TheFooter/>
     </div>
-  )
-}
+  </div>
+)
 
 export default TheLayout

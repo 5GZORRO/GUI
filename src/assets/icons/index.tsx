@@ -1,7 +1,4 @@
 import { sygnet } from './sygnet'
-import { logo } from './logo'
-import { logoNegative } from './logo-negative'
-
 import {
   cilScrubber,
   cilApplicationsSettings,
@@ -10,13 +7,18 @@ import {
   cilMoon,
   cilLockLocked,
   cilUser,
-  cilAt
+  cilAt,
+  cilLibraryBuilding,
+  cilDescription,
+  cilTag,
+  cilBookmark,
+  cilLayers,
+  cilDollar,
+  cilCalendar,
 } from '@coreui/icons/js/free'
 
 export const icons = Object.assign({}, {
-  sygnet,
-  logo,
-  logoNegative
+  sygnet
 }, {
   cilScrubber,
   cilAt,
@@ -25,5 +27,12 @@ export const icons = Object.assign({}, {
   cilApplicationsSettings,
   cilSpeedometer,
   cilSun,
-  cilMoon
+  cilMoon,
+  cilLibraryBuilding,
+  cilDescription,
+  cilTag,
+  cilBookmark,
+  cilLayers,
+  cilDollar,
+  cilCalendar
 })

@@ -1,3 +1,3 @@
 export const APP_TOKEN= `JWT`
-export const BASE_API= `http://localhost:5000`
-export const ENV = `Fake`
+export const BASE_API= `http://localhost:3000/api`
+export const ENV = `fake`

@@ -49,6 +49,10 @@ export default async (): Promise<Config.InitialOptions> => {
       'jest-watch-typeahead/filename',
       'jest-watch-typeahead/testname'
     ],
+    moduleDirectories: [
+      'node_modules',
+      'src'
+  ],
     'resetMocks': true
   }
 }

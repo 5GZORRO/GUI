@@ -5,7 +5,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
-import chalk from 'chalk'
 import {
   QueryClient,
   QueryClientProvider
@@ -15,15 +14,25 @@ import { icons } from './assets/icons'
 
 import { Provider } from 'react-redux'
 import store from './store'
-import { ENV, VERSION } from './config'
+import { ENV, VERSION, BUILD_DATE } from './config'
+import { makeServer } from 'server'
 
 React.icons = icons
-const log = console.log;
-log(chalk.blueBright.bold(`APP Enviroment: ${ENV}`))
-log(chalk.red.bold(`Version: ${VERSION}`))
+// Version info for debugging
+const logMessage = `
+5GZorro by @ubiwhere
+%cVersion: ${VERSION}
+%cPlatform: ${ENV}
+Build date: ${BUILD_DATE}\n`
+console.log(logMessage, 'color:#4d5a72;font-weight:bold', 'color:#3d3d3d;font-weight:bold')
+
 
  // Create a client
  const queryClient = new QueryClient()
+
+ if (ENV === 'fake') {
+  makeServer({ environment: 'development' })
+}
 
 ReactDOM.render(
   <React.StrictMode>

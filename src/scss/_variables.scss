@@ -1,7 +1,42 @@
-$body-bg: #fff;
-$body-color: #111;
+$body-bg: #0E0E15;
+$body-color: rgba(255, 255, 255, 0.87);
+
 
 $theme-colors: (
-  "primary": #75aada,
-  "danger": #ff4136
+  primary: #26005F,
+  secondary: #47005F,
+  light: #6C6E7E,
+  dark: #0E0E15,
+  danger: #ED1C24,
+  warning: #F7931E,
+  info: #004A93,
+  success: #8CC63F,
+  white: #fff
 );
+
+$gray-100:   #EBEDEF;
+$gray-200:   #D8DBE0;
+$gray-300:   #C4C9D0;
+$gray-400:   #B1B7C1;
+$gray-500:   #9DA5B1;
+$gray-600:   #8A93A2;
+$gray-700:   #768192;
+$gray-800:   #636F83;
+$gray-900:   #4F5D73;
+
+
+$font-family-sans-serif:
+// Safari for macOS and iOS (San Francisco)
+  -apple-system,
+  // Chrome < 56 for macOS (San Francisco)
+  BlinkMacSystemFont,
+  // Windows
+  "Segoe UI",
+  // Android
+  "Roboto",
+  // Basic web fallback
+  "Helvetica Neue", Arial, sans-serif,
+  // Emoji fonts
+  "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
+  
+$enable-gradients: false;

@@ -8,13 +8,14 @@ import {
   CSidebarNav,
   CSidebarNavDivider,
   CSidebarNavTitle,
-  CSidebarMinimizer,
   CSidebarNavDropdown,
   CSidebarNavItem
 } from '@coreui/react'
 
 // sidebar nav config
 import navigation from './_nav'
+
+import { LogoHorizontalWhite } from 'assets/icons/logos'
 
 const TheSidebar = () => {
   const dispatch = useDispatch()
@@ -27,7 +28,7 @@ const TheSidebar = () => {
       onShowChange={(val: boolean) => dispatch({ type: 'set', sidebarShow: val })}
     >
       <CSidebarBrand className="d-md-down-none" to="/login">
-        <h1>Logo</h1>
+        <LogoHorizontalWhite width={'144px'} height={'32px'} />
       </CSidebarBrand>
       <CSidebarNav>
         <CCreateElement
@@ -39,9 +40,7 @@ const TheSidebar = () => {
             CSidebarNavTitle
           }}
           />
-
       </CSidebarNav>
-      <CSidebarMinimizer className="c-d-md-down-none"/>
     </CSidebar>
   )
 }

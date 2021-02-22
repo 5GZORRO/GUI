@@ -1,13 +1,13 @@
 import React from 'react'
-import { CFooter, CLink } from '@coreui/react'
+import { CFooter } from '@coreui/react'
 
 const TheFooter = () => {
   return (
     <CFooter fixed={false}>
       <div>
-        <CLink href="https://coreui.io/react/docs/" target="_blank">
-          Library documentation
-        </CLink>
+        <span>
+          ©2021, All Rights 5GZorro
+        </span>
       </div>
       <div className="ml-auto">
         <span className="mr-1">Right text</span>

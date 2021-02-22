@@ -9,7 +9,8 @@ import {
   CHeaderNavLink,
   CSubheader,
   CToggler,
-  CBreadcrumbRouter
+  CBreadcrumbRouter,
+  CLink
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 
@@ -19,7 +20,6 @@ import routes from '../routes'
 const TheHeader:React.FC = () => {
   const dispatch = useDispatch()
   const asideShow = useTypedSelector((state) => state.asideShow)
-  const darkMode = useTypedSelector((state) => state.darkMode)
   const sidebarShow = useTypedSelector((state) => state.sidebarShow)
 
   const toggleSidebar = () => {
@@ -31,7 +31,7 @@ const TheHeader:React.FC = () => {
     const val = [false, 'responsive'].includes(sidebarShow) ? true : 'responsive'
     dispatch({ type: 'set', sidebarShow: val })
   }
-
+  console.log('routes', routes)
   return (
     <CHeader withSubheader>
       <CToggler
@@ -45,7 +45,7 @@ const TheHeader:React.FC = () => {
         onClick={toggleSidebar}
       />
       <CHeaderBrand className="mx-auto d-lg-none" to="/">
-        <CIcon name="logo" height="48" alt="Logo"/>
+        {/* <CIcon name="logo" height="48" alt="Logo"/> */} lOGO
       </CHeaderBrand>
 
       <CHeaderNav className="d-md-down-none mr-auto">
@@ -55,16 +55,6 @@ const TheHeader:React.FC = () => {
       </CHeaderNav>
 
       <CHeaderNav className="px-3">
-        <CToggler
-          inHeader
-          className="ml-3 d-md-down-none"
-          onClick={() => dispatch({ type: 'set', darkMode: !darkMode })}
-          title="Toggle Light/Dark Mode"
-
-        >
-          <CIcon name="cil-moon" className="c-d-dark-none" alt="CoreUI Icons Moon" />
-          <CIcon name="cil-sun" className="c-d-default-none" alt="CoreUI Icons Sun" />
-        </CToggler>
         <CToggler
           inHeader
           className="d-md-down-none"

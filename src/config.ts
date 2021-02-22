@@ -7,6 +7,7 @@ export * from 'environments/fake/fake'
 export const VERSION = process.env.VERSION && process.env.VERSION.replace(/"/g, '')
 export const AUTH_TOKEN_SLUG = `JWT`
 export const APP_ENV = process.env.APP_ENV
+export const BUILD_DATE = process.env.BUILD_DATE
 
 // Field Constants
 

@@ -3,14 +3,12 @@ import { useSelector, TypedUseSelectorHook } from 'react-redux'
 
 type state = {
   sidebarShow: 'responsive' | boolean,
-  asideShow: boolean,
-  darkMode: boolean
+  asideShow: boolean
 }
 
 const initialState: state = {
   sidebarShow: 'responsive',
-  asideShow: false,
-  darkMode: false
+  asideShow: false
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
