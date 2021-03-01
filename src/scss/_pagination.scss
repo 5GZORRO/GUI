@@ -1,0 +1,99 @@
+.pagination {
+  display: flex;
+  @include list-unstyled();
+  @include border-radius();
+}
+
+.page-link {
+  position: relative;
+  display: block;
+  padding: $pagination-padding-y $pagination-padding-x;
+  line-height: $pagination-line-height;
+  text-decoration: if($link-decoration == none, null, none);
+  border: $pagination-border-width solid;
+  @include ltr {
+    margin-left: -$pagination-border-width;
+  }
+  @include rtl {
+    margin-right: -$pagination-border-width;
+  }
+  @include themes($pagination-theme-map, $create: parent) {
+    color: rgba(255,255,255,0.87);
+    background-color: #51536A;
+    border-color: #000 ;
+  }
+
+  &:hover {
+    z-index: 2;
+    text-decoration: none;
+    @include themes($pagination-theme-map, $create: parent) {
+      color: rgba(255,255,255,0.87);
+      background-color: transparent;
+      border-color: #000;
+    }
+  } 
+
+  &:focus {
+    z-index: 3;
+    outline: none;
+    box-shadow: none;
+  }
+}
+
+.page-item {
+  &:first-child {
+    .page-link {
+      @include ltr {
+        margin-left: 0;
+        @include border-left-radius($border-radius);
+      }
+      @include rtl {
+        margin-right: 0;
+        @include border-right-radius($border-radius);
+      }
+    }
+  }
+  &:last-child {
+    .page-link {
+      @include ltr {
+        @include border-right-radius($border-radius);
+      }
+      @include rtl {
+        @include border-left-radius($border-radius);
+      }
+    }
+  }
+
+  &.active .page-link {
+    z-index: 3;
+    @include themes($pagination-theme-map, $create: parent) {
+      color: themes-get-value("pagination-active-color");
+      background-color: #26005F;
+      border-color: #000;
+    }
+  }
+
+  &.disabled .page-link {
+    pointer-events: none;
+    // Opinionated: remove the "hand" cursor set previously for .page-link
+    cursor: auto;
+    @include themes($pagination-theme-map, $create: parent) {
+      color: rgba(255,255,255,0.87);
+      background-color: #2A2B36;
+      border-color: #000;
+    }
+  }
+}
+
+
+//
+// Sizing
+//
+
+.pagination-lg {
+  @include pagination-size($pagination-padding-y-lg, $pagination-padding-x-lg, $font-size-lg, $line-height-lg, $border-radius-lg);
+}
+
+.pagination-sm {
+  @include pagination-size($pagination-padding-y-sm, $pagination-padding-x-sm, $font-size-sm, $line-height-sm, $border-radius-sm);
+}

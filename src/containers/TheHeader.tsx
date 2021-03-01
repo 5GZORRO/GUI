@@ -31,12 +31,13 @@ const TheHeader:React.FC = () => {
     const val = [false, 'responsive'].includes(sidebarShow) ? true : 'responsive'
     dispatch({ type: 'set', sidebarShow: val })
   }
-  console.log('routes', routes)
+
   return (
     <CHeader withSubheader>
       <CToggler
         inHeader
         className="ml-md-3 d-lg-none"
+        style={{fill: 'red'}}
         onClick={toggleSidebarMobile}
       />
       <CToggler
@@ -60,7 +61,7 @@ const TheHeader:React.FC = () => {
           className="d-md-down-none"
           onClick={() => dispatch({ type: 'set', asideShow: !asideShow })}
         >
-          <CIcon className="mr-2" size="lg" name="cil-applications-settings" />
+          <CIcon className="mr-2" size="lg"  color={'#fff'} name="cil-applications-settings" />
         </CToggler>
       </CHeaderNav>
 

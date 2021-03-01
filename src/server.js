@@ -8,14 +8,17 @@ export function makeServer({environment = 'development'} = {}) {
     
     serializers: {
       resource: RestSerializer.extend({
-        include: ['category', 'resourceSpecification', 'resourcePhysicalCapabilities', 'resourceVirtualCapabilities'],
+        serializeIds: false,
+        include: ['resourceSpecification', 'resourcePhysicalCapabilities', 'resourceVirtualCapabilities'],
         embed: true,
       }),
       resourcePhysicalCapabilitie: RestSerializer.extend({
+        serializeIds: false,
         include: ['hardwareCapabilities', 'feature'],
         embed: true,
       }),
       resourceVirtualCapabilitie: RestSerializer.extend({
+        serializeIds: false,
         include: ['virtualCapabilities'],
         embed: true,
       })
@@ -25,18 +28,18 @@ export function makeServer({environment = 'development'} = {}) {
       pagedGovernanceProposal: Model,
       membership: Model,
       resource: Model.extend({
-        category: belongsTo(),
         resourceSpecification: belongsTo(),
         resourcePhysicalCapabilities: hasMany(),
         resourceVirtualCapabilities: hasMany()
       }),
-      category: Model,
+
       resourceSpecification: Model,
 
       resourcePhysicalCapabilitie: Model.extend({
         hardwareCapabilities: hasMany(),
         feature: belongsTo()        
       }),
+
       hardwareCapabilitie: Model,
       feature: Model,
 
@@ -47,7 +50,6 @@ export function makeServer({environment = 'development'} = {}) {
     },
     
     factories: {
-
       pagedGovernanceProposal: Factory.extend({
         proposalId() {
           return faker.random.uuid()
@@ -102,20 +104,15 @@ export function makeServer({environment = 'development'} = {}) {
         ownerdid() {
           return faker.random.uuid()
         },
-      }),
-
-      category: Factory.extend({
-        name() {
-          return faker.lorem.word()
-        },
-        type () {
-          return faker.name.jobType()
-        },
-        version () {
-          return faker.system.semver()
+        category() {
+          return {
+            name: faker.lorem.word(),
+            type: faker.name.jobType(),
+            version: faker.system.semver()
+          }
         }
       }),
-
+      
       resourceSpecification: Factory.extend({
         name() {
           return faker.lorem.word()
@@ -183,8 +180,7 @@ export function makeServer({environment = 'development'} = {}) {
     seeds(server) {
       server.createList('pagedGovernanceProposal', 60)
       server.createList('membership', 60)
-      server.createList('resource', 50, {
-        category: server.create('category'),
+      server.createList('resource', 10, {
         resourceSpecification: server.create('resourceSpecification'),
         resourcePhysicalCapabilities: server.createList('resourcePhysicalCapabilitie', 5, {
           hardwareCapabilities: server.createList('hardwareCapabilitie', 5),
@@ -198,7 +194,7 @@ export function makeServer({environment = 'development'} = {}) {
 
     routes() {
       this.namespace = 'api'
-      this.timing = 3000
+    
       this.get('/governance-actions', (schema) => {
         const content = schema.pagedGovernanceProposals.all()
         const items = content.models.map(({attrs}) => ({ ...attrs }))
@@ -273,8 +269,9 @@ export function makeServer({environment = 'development'} = {}) {
 
       this.post('/resources', (schema, request) => {
         let attrs = JSON.parse(request.requestBody)
-        
+        console.log(attrs)
         return schema.resources.create(attrs)
+        // new Response(400, { some: 'header' }, { errors: [ 'name cannot be blank'] });        
       })
     },
   })

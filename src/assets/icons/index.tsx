@@ -15,7 +15,16 @@ import {
   cilLayers,
   cilDollar,
   cilCalendar,
+  cilShieldAlt,
+  cilTrash,
+  cilStorage,
+  cilMemory,
+  cilOptions,
+  cilFindInPage,
+  cilListRich,
+  cilArrowLeft
 } from '@coreui/icons/js/free'
+
 
 export const icons = Object.assign({}, {
   sygnet
@@ -34,5 +43,13 @@ export const icons = Object.assign({}, {
   cilBookmark,
   cilLayers,
   cilDollar,
-  cilCalendar
+  cilCalendar,
+  cilShieldAlt,
+  cilTrash,
+  cilStorage,
+  cilMemory,
+  cilOptions,
+  cilFindInPage,
+  cilListRich,
+  cilArrowLeft
 })

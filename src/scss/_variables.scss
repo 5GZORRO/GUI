@@ -1,11 +1,16 @@
 $body-bg: #0E0E15;
 $body-color: rgba(255, 255, 255, 0.87);
 
+// new variables
+$light: #6C6E7E;
+$gradient: linear-gradient(90deg, #26005F 0%, #47005F 23.69%, #6F005F 55.95%, #A5005F 85.96%, #AD005F 100%);
+$gradient-dark: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), linear-gradient(90deg, #26005F 0%, #47005F 23.69%, #6F005F 55.95%, #A5005F 85.96%, #AD005F 100%);
+$gradient-light: linear-gradient(0deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), linear-gradient(90deg, #26005F 0%, #47005F 23.69%, #6F005F 55.95%, #A5005F 85.96%, #AD005F 100%);
 
 $theme-colors: (
   primary: #26005F,
   secondary: #47005F,
-  light: #6C6E7E,
+  light: $light,
   dark: #0E0E15,
   danger: #ED1C24,
   warning: #F7931E,
@@ -24,19 +29,49 @@ $gray-700:   #768192;
 $gray-800:   #636F83;
 $gray-900:   #4F5D73;
 
+// Card background
+$card-bg: #2A2B36;
+$card-border-radius: 4px;
 
-$font-family-sans-serif:
-// Safari for macOS and iOS (San Francisco)
-  -apple-system,
-  // Chrome < 56 for macOS (San Francisco)
-  BlinkMacSystemFont,
-  // Windows
-  "Segoe UI",
-  // Android
-  "Roboto",
-  // Basic web fallback
-  "Helvetica Neue", Arial, sans-serif,
-  // Emoji fonts
-  "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
+.card-selected {
+  background: $gradient !important;
+  background-color: none;
+  padding: 2px;
+}
+
+.card-dotted {
+  border: 1px dashed $light !important;
+  background-color: #292A33 !important;
+}
+
+// Input
+$input-bg: #32333A !important;
+$input-color: white;
+$input-height: 36px;
+$input-border-color:#3C3C43;
+
+.input-group-text {
+  background-color: #171821 !important;
+  border-color: #171821 !important;
+  color: $light !important;
+}
+
+.text-gradient {
+  background: -webkit-linear-gradient(90deg, #26005F 0%, #47005F 23.69%, #6F005F 55.95%, #A5005F 85.96%, #AD005F 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 24px;
+}
   
 $enable-gradients: false;
+
+//footer
+$footer-height: 88px;
+
+// Button 
+$btn-padding-y: 6px;
+$btn-padding-x: 12px;
+$btn-font-size: 14px;
+

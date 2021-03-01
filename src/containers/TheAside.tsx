@@ -15,7 +15,6 @@ const TheAside = () => {
   return (
     <CSidebar
       aside
-      colorScheme='light'
       size='lg'
       overlaid
       show={show}

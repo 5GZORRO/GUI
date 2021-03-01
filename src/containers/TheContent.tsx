@@ -11,15 +11,15 @@ import { LogoVerticalWhite } from 'assets/icons/logos'
 import routes from '../routes'
 
 const loading = (
-  <div className="pt-3 text-center">
+  <div style={{ height: '100%'}} className='d-flex justify-content-center align-items-center'>
     <LogoVerticalWhite />
   </div>
 )
 
 const TheContent = () => {
   return (
-    <main className="c-main">
-      <CContainer fluid>
+    <main className='c-main'>
+      <CContainer fluid={false} style={{ height: '100%'}}>
         <Suspense fallback={loading}>
           <Switch>
             {routes.map((route, idx) => {

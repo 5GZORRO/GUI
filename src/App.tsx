@@ -2,9 +2,10 @@ import React, { Suspense } from 'react'
 import { HashRouter, Route, Switch } from 'react-router-dom'
 import './scss/style.scss'
 import { LogoVerticalWhite } from 'assets/icons/logos'
+import { CContainer } from '@coreui/react'
 
 const loading = (
-  <div className="pt-3 text-center">
+  <div style={{height: '100vh'}} className='d-flex justify-content-center align-items-center'>
     <LogoVerticalWhite />
   </div>
 )

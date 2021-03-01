@@ -8,7 +8,7 @@ import {
 } from './index'
 
 const TheLayout: React.FC = () => (
-  <div className={'c-app c-default-layout c-dark-theme'}>
+  <div className={'c-app c-default-layout'}>
     <TheSidebar/>
     <TheAside/>
     <div className="c-wrapper">
