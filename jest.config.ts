@@ -20,6 +20,9 @@ export default async (): Promise<Config.InitialOptions> => {
     testEnvironment: 'node',
     testRunner: '/home/gpatriarca/Training/react-test/my-app/node_modules/jest-circus/runner.js',
     transform: {
+      // Jest transformations -- this adds support for TypeScript
+      // using ts-jest
+      '^.+\\.tsx?$': 'ts-jest',
       '^.+\\.(js|jsx|mjs|cjs|ts|tsx)$': '<rootDir>/config/jest/babelTransform.js',
       '^.+\\.css$': '<rootDir>/config/jest/cssTransform.js',
       '^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)': '<rootDir>/config/jest/fileTransform.js'
