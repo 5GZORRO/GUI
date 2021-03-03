@@ -27,7 +27,7 @@ interface InputsLogin {
 }
 
 const Login:React.FC = () => {
-  const { handleSubmit, control } = useForm<InputsLogin>()
+  const { handleSubmit, errors, control } = useForm<InputsLogin>()
 
   const onSubmit = (data: InputsLogin) => {
     console.log(data)
@@ -56,13 +56,14 @@ const Login:React.FC = () => {
                           name='key'
                           render={({ onChange, onBlur, value }) => (
                             <MaskedInput
-                              guide
+                              guide={'true'}
                               placeholder={'999 999 999'}
                               mask={[/[1-9]/, /[1-9]/, /[1-9]/, ' ', /[1-9]/, /[1-9]/, /[1-9]/, ' ', /[1-9]/, /[1-9]/, /[1-9]/]}
                               className='form-control'
                               onChange={onChange}
                               onBlur={onBlur}
                               value={value}
+                              data-testid='key'
                               render={(ref, props) => (
                                 <CInput innerRef={ref} {...props} />
                               )}
@@ -73,16 +74,36 @@ const Login:React.FC = () => {
                       <CFormText color='muted'>
                         ex. 999 999 999
                       </CFormText>
+                    {errors.key &&
+                      <CFormText
+                        className='help-block'
+                        data-testid='error-message'
+                      >
+                        Please enter a valid key
+                      </CFormText>
+                    }
                     </CFormGroup>
                       <CFormGroup>
                         <Input />
                       </CFormGroup>
                     <CRow>
                       <CCol xs={12} className='text-right'>
-                        <CButton color='link' className='px-0 text-uppercase'>did you have any problem?</CButton>
+                        <CButton
+                          color='link'
+                          className='px-0 text-uppercase'
+                        >
+                          did you have any problem?
+                        </CButton>
                       </CCol>
                       <CCol xs={12}>
-                        <CButton color={'gradient'} className='px-5 text-uppercase' type='submit'>submit</CButton>
+                        <CButton
+                          color={'gradient'}
+                          className='px-5 text-uppercase'
+                          data-testid='submit'
+                          type='submit'
+                        >
+                          submit
+                        </CButton>
                       </CCol>
                     </CRow>
                 </CCardBody>

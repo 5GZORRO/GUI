@@ -62,7 +62,8 @@ exports[`Login Snapshot  1`] = `
                   </div>
                   <input
                     className="form-control"
-                    guide={true}
+                    data-testid="key"
+                    guide="true"
                     mask={
                       Array [
                         /\\[1-9\\]/,
@@ -225,6 +226,7 @@ exports[`Login Snapshot  1`] = `
                 >
                   <button
                     className="px-5 text-uppercase btn btn-gradient"
+                    data-testid="submit"
                     onClick={[Function]}
                     type="submit"
                   >

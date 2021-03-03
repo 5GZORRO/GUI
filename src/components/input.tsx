@@ -25,7 +25,7 @@ const Input:React.FC = () => {
         </div>
         </CCol>
         <CCol sm={5} lg={4} className={'d-flex justify-content-end'}>
-          <label className="custom-file-upload">
+          <label className='custom-file-upload'>
             <CInputFile
               id='file-input'
               name='file-input'
