@@ -63,7 +63,7 @@ exports[`Login Snapshot  1`] = `
                   <input
                     className="form-control"
                     data-testid="key"
-                    guide="true"
+                    guide={true}
                     mask={
                       Array [
                         /\\[1-9\\]/,
