@@ -25,7 +25,6 @@ import {
   cilArrowLeft
 } from '@coreui/icons/js/free'
 
-
 export const icons = Object.assign({}, {
   sygnet
 }, {

@@ -6,7 +6,7 @@ import { CDataTable, CButton, CFormGroup, CInputCheckbox, CLabel } from '@coreui
 /** Hooks */
 import { useGovernances } from 'hooks/api/GovernanceActions'
 
-const fields =[
+const fields = [
   { key: 'select', label: '', filter: false },
   'statusUpdated',
   'actionType',
@@ -21,15 +21,15 @@ const fields =[
 const Dashboard:React.FC = () => {
   const { data, isLoading } = useGovernances()
   const [selected, setSelected] = useState([2, 3])
-  
+
   const check = (e: React.FormEvent<any>, id: number) => {
     if (e) {
-      setSelected([...selected, id]);
+      setSelected([...selected, id])
     } else {
-      setSelected(selected.filter(itemId => itemId !== id));
+      setSelected(selected.filter(itemId => itemId !== id))
     }
   }
-  
+
   return (
     <div className={'bg-gradient-dark-test'}>
     <CDataTable
@@ -60,9 +60,9 @@ const Dashboard:React.FC = () => {
             </td>
           )
         },
-        'show_details':
-          (item: { id: any }) => {
-        return (
+        show_details:
+          () => {
+            return (
           <td className="py-2">
             <CButton
               color="primary"
@@ -74,8 +74,9 @@ const Dashboard:React.FC = () => {
               {'Show'}
             </CButton>
           </td>
-        )
-      },}}
+            )
+          }
+      }}
       sorter
       hover
       pagination

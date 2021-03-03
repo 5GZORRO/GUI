@@ -1,7 +1,7 @@
-import React from "react";
-import { Controller, useFieldArray, useForm } from "react-hook-form";
-import CIcon from "@coreui/icons-react";
-import { Link } from "react-router-dom";
+import React from 'react'
+import { Controller, useFieldArray, useForm } from 'react-hook-form'
+import CIcon from '@coreui/icons-react'
+import { Link } from 'react-router-dom'
 import {
   CButton,
   CCard,
@@ -15,10 +15,10 @@ import {
   CInput,
   CLabel,
   CRow,
-  CTextarea,
-} from "@coreui/react";
+  CTextarea
+} from '@coreui/react'
 /** Components */
-import { PlusCircle } from "assets/icons/externalIcons";
+import { PlusCircle } from 'assets/icons/externalIcons'
 
 interface FormVirtualResource {
   key: string;
@@ -39,43 +39,43 @@ interface FormPhysical {
 const NewPhysicalResource: React.FC = () => {
   const { control, handleSubmit, errors } = useForm<FormPhysical>({
     defaultValues: {
-      name: "test",
+      name: 'test',
       description:
-        "asdkasjdkasdjsakldjasdkasjdaksdjakdasjdkasjdaskldjaskdljsadlkjaskldjaskdlasjdaskldjasdkasjdaksldjaskldjvcbxnvbcxnvmbxcvnmsdbfrnmsdvhjsdfbdhjb",
-      href: "wwww.asdasdasad.com",
-      type: "nice",
+        'asdkasjdkasdjsakldjasdkasjdaksdjakdasjdkasjdaskldjaskdljsadlkjaskldjaskdlasjdaskldjasdkasjdaksldjaskldjvcbxnvbcxnvmbxcvnmsdbfrnmsdvhjsdfbdhjb',
+      href: 'wwww.asdasdasad.com',
+      type: 'nice',
       virtualResource: [
         {
-          key: "34",
-          number: "34",
-          unit: "MB",
-          quota: "2",
-        },
-      ],
-    },
-  });
+          key: '34',
+          number: '34',
+          unit: 'MB',
+          quota: '2'
+        }
+      ]
+    }
+  })
   const { fields, remove, append } = useFieldArray({
     control,
-    name: "virtualResource",
+    name: 'virtualResource'
   })
 
-  const onSubmit = (data: FormPhysical) => { 
-   console.log('data FormPhysical', data)
+  const onSubmit = (data: FormPhysical) => {
+    console.log('data FormPhysical', data)
   }
 
-  const addVirtualResource = () => append({ key: "", value: "", unit: "", quota: "" });
+  const addVirtualResource = () => append({ key: '', value: '', unit: '', quota: '' })
 
-  console.log('errors',errors)
+  console.log('errors', errors)
   return (
     <CContainer style={{ marginBottom: '200px' }}>
-      <CRow
-        className={"d-flex justify-content-flex-start align-items-center mb-5"}
+      <div
+        className={'d-flex justify-content-flex-start align-items-center mb-5'}
       >
-        <Link to="/resource/new-resource">
-          <CIcon className={"mr-3"} size={"xl"} name="cilArrowLeft" />
+        <Link style={{ color: 'rgba(255,255,255,0.87)' }} to="/resource/new-resource">
+          <CIcon className={'mr-3'} size={'xl'} name="cilArrowLeft" />
         </Link>
-        <h1>New Resource - Physical Capabilities</h1>
-      </CRow>
+        <h1 className={'m-0'}>New Resource - Physical Capabilities</h1>
+      </div>
       <CForm onSubmit={handleSubmit(onSubmit)}>
         <CCard>
           <CCardHeader>
@@ -88,7 +88,7 @@ const NewPhysicalResource: React.FC = () => {
                   <CLabel htmlFor="name">Name</CLabel>
                   <Controller
                     control={control}
-                    defaultValue={""}
+                    defaultValue={''}
                     rules={{ required: true }}
                     name="name"
                     render={({ onChange, onBlur, value }) => (
@@ -137,15 +137,15 @@ const NewPhysicalResource: React.FC = () => {
             {fields.map((field, index) => (
               <CCard key={field.id}>
                 <CCardHeader>
-                  <div className={"d-flex justify-content-between"}>
+                  <div className={'d-flex justify-content-between'}>
                     <h2>Create Resource Virtual Capabilities</h2>
                     {index > 0 && (
                       <CButton
-                        variant={"ghost"}
+                        variant={'ghost'}
                         className="d-flex justify-content-center align-items-center"
                         onClick={() => remove(index)}
                       >
-                        <CIcon name="cilTrash" size={"xl"} className={"mr-2"} />
+                        <CIcon name="cilTrash" size={'xl'} className={'mr-2'} />
                         <span>Delete Resource</span>
                       </CButton>
                     )}
@@ -252,10 +252,10 @@ const NewPhysicalResource: React.FC = () => {
             <div className="d-flex justify-content-center align-items-center">
               <CButton
                 className="d-flex justify-content-center align-items-center"
-                variant={"ghost"}
+                variant={'ghost'}
                 onClick={addVirtualResource}
               >
-                <PlusCircle className={"mr-2"} /> Add Resource Virtual Capabilities
+                <PlusCircle className={'mr-2'} /> Add Resource Virtual Capabilities
               </CButton>
             </div>
           </CCardBody>
@@ -286,7 +286,7 @@ const NewPhysicalResource: React.FC = () => {
                   <CFormText className='help-block'>
                     Please enter your email
                   </CFormText>
-                )}
+                  )}
                 </CFormGroup>
               </CCol>
               <CCol xs={6}>
@@ -294,7 +294,7 @@ const NewPhysicalResource: React.FC = () => {
                   <CLabel htmlFor="type">Type</CLabel>
                   <Controller
                     control={control}
-                    defaultValue={""}
+                    defaultValue={''}
                     rules={{ required: true }}
                     name="type"
                     render={({ onChange, onBlur, value }) => (
@@ -323,7 +323,7 @@ const NewPhysicalResource: React.FC = () => {
         </CRow>
       </CForm>
     </CContainer>
-  );
-};
+  )
+}
 
-export default NewPhysicalResource;
+export default NewPhysicalResource

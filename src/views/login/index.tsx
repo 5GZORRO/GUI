@@ -26,7 +26,7 @@ interface InputsLogin {
 }
 
 const Login:React.FC = () => {
-  const { handleSubmit, errors, control } = useForm<InputsLogin>()
+  const { handleSubmit, control } = useForm<InputsLogin>()
 
   const onSubmit = (data: InputsLogin) => {
     console.log(data)
@@ -57,7 +57,7 @@ const Login:React.FC = () => {
                             <MaskedInput
                               guide
                               placeholder={'999 999 999'}
-                              mask={[/[1-9]/,/[1-9]/,/[1-9]/,' ',/[1-9]/,/[1-9]/,/[1-9]/,' ',/[1-9]/,/[1-9]/,/[1-9]/]}
+                              mask={[/[1-9]/, /[1-9]/, /[1-9]/, ' ', /[1-9]/, /[1-9]/, /[1-9]/, ' ', /[1-9]/, /[1-9]/, /[1-9]/]}
                               className='form-control'
                               onChange={onChange}
                               onBlur={onBlur}
@@ -70,7 +70,7 @@ const Login:React.FC = () => {
                         />
                       </CInputGroup>
                       <CFormText color='muted'>
-                        ex. 999 999 999 
+                        ex. 999 999 999
                       </CFormText>
                     </CFormGroup>
                       <CFormGroup>

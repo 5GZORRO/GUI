@@ -1,5 +1,7 @@
 $body-bg: #0E0E15;
 $body-color: rgba(255, 255, 255, 0.87);
+$white: #fff;
+$primary: #26005F;
 
 // new variables
 $light: #6C6E7E;
@@ -8,7 +10,7 @@ $gradient-dark: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), l
 $gradient-light: linear-gradient(0deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), linear-gradient(90deg, #26005F 0%, #47005F 23.69%, #6F005F 55.95%, #A5005F 85.96%, #AD005F 100%);
 
 $theme-colors: (
-  primary: #26005F,
+  primary: $primary,
   secondary: #47005F,
   light: $light,
   dark: #0E0E15,
@@ -30,7 +32,7 @@ $gray-800:   #636F83;
 $gray-900:   #4F5D73;
 
 // Card background
-$card-bg: #2A2B36;
+$card-bg: #23242D;
 $card-border-radius: 4px;
 
 .card-selected {
@@ -61,17 +63,40 @@ $input-border-color:#3C3C43;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: 700;
-  font-size: 14px;
-  line-height: 24px;
+  font-size: 0.875rem;
+  line-height: 1.5rem;
 }
   
 $enable-gradients: false;
 
 //footer
-$footer-height: 88px;
+$footer-height: 5.5rem;
 
 // Button 
-$btn-padding-y: 6px;
-$btn-padding-x: 12px;
-$btn-font-size: 14px;
+$btn-padding-y: 0.375rem;
+$btn-padding-x: 0.75rem;
+$btn-font-size: 0.875rem;
 
+// Close Icon
+$close-font-size: 1.5rem;
+$close-font-weight: 400;
+
+// font
+$font-size-base: 0.875rem;
+
+// link 
+$link-theme-map: (
+  "link-color": #fff,
+  "link-hover-color": #fff
+);
+
+// nav 
+$nav-link-disabled-color:            $gray-600 !default;
+$nav-tabs-border-color:              #2A2B36 !default;
+$nav-tabs-link-hover-border-color:   $light !default;
+$nav-tabs-link-active-color:         $white !default;
+$nav-tabs-link-active-bg:            $primary !default;
+$nav-tabs-link-active-border-color:  transparent !default;
+
+$nav-pills-link-active-color: $white !important;
+$nav-divider-color:            $gray-200 !important;

@@ -21,8 +21,8 @@ const routes = [
   { path: '/resource/new-resource/new-category', name: 'New Category', component: NewCategory },
   { path: '/resource/new-resource/new-physical-resource', name: 'New Resource - Physical Capabilities', component: NewPhysicalResource },
   { path: '/resource/new-resource/new-virtual-resource', name: 'New Resource - Virtual Capabilities', component: NewVirtualResource },
-  { path: '/membership', name: 'Membership', component: Membership},
-  { path: '/proposals', name: 'Proposals', component: Proposals}
+  { path: '/membership', name: 'Membership', component: Membership },
+  { path: '/proposals', name: 'Proposals', component: Proposals }
 ]
 
 export default routes

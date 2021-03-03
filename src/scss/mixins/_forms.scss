@@ -14,11 +14,13 @@
   &:focus {
     @include themes($form-theme-map) {
       color: $input-focus-color;
-      background-color: $input-focus-bg;
-      border: 2px solid transparent;
+      //background-color: $input-focus-bg;
+      background-color: none;
+      background: 
+      linear-gradient(#32333A, #32333A) padding-box, /*this is your grey background*/
+      $gradient border-box;
+      border: 1.5px solid transparent;
       border-radius: 4px;
-      border-image: linear-gradient(90deg, #26005F 0%, #47005F 23.69%, #6F005F 55.95%, #A5005F 85.96%, #AD005F 100%);
-      border-image-slice: 1;
     }
       outline: none;
       box-shadow: none;

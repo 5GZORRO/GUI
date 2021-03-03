@@ -1,11 +1,10 @@
 import React from 'react'
-import { CButton, CCard, CCardBody, CCardHeader, CCol, CRow } from '@coreui/react'
+import { CCard, CCardBody, CCardHeader, CCol, CRow } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { IconRAM } from 'assets/icons/externalIcons'
 interface CardResourceProps {
   height?: number
 }
-
 
 const CardResource:React.FC<CardResourceProps> = ({ height }) => {
   return (
@@ -15,15 +14,15 @@ const CardResource:React.FC<CardResourceProps> = ({ height }) => {
           <div className={'d-flex align-items-center justify-content-center'}>
             <p className={'mb-0'}>Name Resource</p>
           </div>
-          <CButton variant={'ghost'} size={'sm'}><CIcon name='cilTrash' width={18} height={18} /></CButton>
+          <CIcon style={{ cursor: 'pointer' }} name='cilTrash' width={18} height={18} onClick={() => console.log('remove resource')} />
         </div>
       </CCardHeader>
-      <CCardBody className={'p-4'}>
-        <p className={'font-weight-bold text-muted mb-1'}>Description</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      <CCardBody>
+        <p className={'mb-1'}><small><strong className={'text-light'}>Description</strong></small></p>
+        <p className={'mb-3'}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
         <CRow className={'mb-3'}>
           <CCol xs={12}>
-          <p className={'font-weight-bold text-muted mb-2'}>Hardware Capabilities</p>
+            <p className={'mb-1'} ><small><strong className={'text-light'}>Hardware Capabilities</strong></small></p>
           </CCol>
           <CCol sm={6}>
             <IconRAM fill={'#fff'} />
@@ -42,15 +41,15 @@ const CardResource:React.FC<CardResourceProps> = ({ height }) => {
           </CCol>
           <CCol sm={6}>
             <CIcon name='cilOptions' />
-            <span className={'ml-2 text-muted'}>Others...</span>
+            <span className={'ml-2 text-light'}>Others...</span>
           </CCol>
         </CRow>
         <CRow>
           <CCol xs={12}>
-            <p className={'font-weight-bold text-muted mb-2'}>Features</p>
+            <p className={'mb-1'}><small><strong className={'text-light'}>Features</strong></small></p>
           </CCol>
           <CCol sm={4}>
-            <span className={'ml-2 text-muted'}>Type</span>
+            <span className={'ml-2 text-light'}>Type</span>
           </CCol>
           <CCol sm={8}>
             <span className={'ml-2'}>Label Type</span>
@@ -58,7 +57,7 @@ const CardResource:React.FC<CardResourceProps> = ({ height }) => {
         </CRow>
         <CRow>
           <CCol sm={4}>
-            <span className={'ml-2 text-muted'}>Type</span>
+            <span className={'ml-2 text-light'}>Type</span>
           </CCol>
           <CCol sm={8}>
             <span className={'ml-2'}>Label Type</span>

@@ -5,6 +5,7 @@ import { PDFIcon } from 'assets/icons/externalIcons'
 const Input:React.FC = () => {
   const [fileName, setFileName] = useState(null)
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const fileUpload = (e: any) => {
     const files = e.target.files
     setFileName(files[0].name)
@@ -13,7 +14,7 @@ const Input:React.FC = () => {
   return (
     <>
     <CLabel htmlFor='file-input'>Certified upload</CLabel>
-      <CRow className={'m-0 p-2 d-flex align-items-center'} style={{boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: '4px'}}>
+      <CRow className={'m-0 p-2 d-flex align-items-center'} style={{ boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: '4px' }}>
         <CCol sm={7} lg={8} className={'d-flex align-items-center'}>
         <div style={{ backgroundColor: '#181924', display: 'flex', alignItems: 'center', borderRadius: '4px', width: '36px', height: '36px' }} className={'p-2'}>
           <PDFIcon width={18} height={18} />
@@ -25,7 +26,7 @@ const Input:React.FC = () => {
         </CCol>
         <CCol sm={5} lg={4} className={'d-flex justify-content-end'}>
           <label className="custom-file-upload">
-            <CInputFile 
+            <CInputFile
               id='file-input'
               name='file-input'
               accept='.pdf'
@@ -37,9 +38,9 @@ const Input:React.FC = () => {
                 cursor: 'pointer',
                 width: '0px'
               }}
-              onChange={e => fileUpload(e)} 
+              onChange={e => fileUpload(e)}
             />
-            <span style={{ color:'#9DA5B1', textDecorationLine: 'underline', cursor: 'pointer' }}>
+            <span style={{ color: '#9DA5B1', textDecorationLine: 'underline', cursor: 'pointer' }}>
               <strong>Choose File</strong>
             </span>
           </label>

@@ -26,11 +26,10 @@ const logMessage = `
 Build date: ${BUILD_DATE}\n`
 console.log(logMessage, 'color:#4d5a72;font-weight:bold', 'color:#3d3d3d;font-weight:bold')
 
+// Create a client
+const queryClient = new QueryClient()
 
- // Create a client
- const queryClient = new QueryClient()
-
- if (ENV === 'fake') {
+if (ENV === 'fake') {
   makeServer({ environment: 'development' })
 }
 

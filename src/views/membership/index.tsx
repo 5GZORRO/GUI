@@ -32,14 +32,14 @@ const FormGenerate:React.FC = () => {
                 />
               )}
             />
-            {errors.name && 
+            {errors.name &&
             <CFormText className='help-block'>Please enter your email</CFormText>
             }
           </CFormGroup>
           <CFormGroup>
             <CLabel htmlFor="Type">Type</CLabel>
-           
-            {errors.type && 
+
+            {errors.type &&
             <CFormText className='help-block'>Please enter your password</CFormText>
             }
           </CFormGroup>

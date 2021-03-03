@@ -44,10 +44,10 @@ interface Inputs {
 const NewResource:React.FC = () => {
   const resource = useCreateResource()
   const { handleSubmit, errors, control } = useForm<Inputs>()
-  
-  const onSubmit = (data: Inputs) => { 
+
+  const onSubmit = (data: Inputs) => {
     const { name, description, version, validFor, ownerDid, category } = data
-		resource.mutate({ 
+    resource.mutate({
       name,
       description,
       version,
@@ -59,9 +59,9 @@ const NewResource:React.FC = () => {
 
   return (
     <CContainer fluid={false}>
-      <h2>New Resource & Service</h2>
+      <h2 className={'mb-5'}>New Resource & Service</h2>
       <CForm onSubmit={handleSubmit(onSubmit)}>
-        <CCard>
+        <CCard className={'mb-5'}>
           <CCardHeader>
           <h2>Resource Creation</h2>
         </CCardHeader>
@@ -83,7 +83,7 @@ const NewResource:React.FC = () => {
                       />
                     )}
                   />
-                  {errors.name && 
+                  {errors.name &&
                   <CFormText className='help-block'>Please enter your email</CFormText>
                   }
                   </CFormGroup>
@@ -105,7 +105,7 @@ const NewResource:React.FC = () => {
                       />
                     )}
                   />
-                  {errors.description && 
+                  {errors.description &&
                   <CFormText className='help-block'>Please enter your email</CFormText>
                   }
                 </CFormGroup>
@@ -127,7 +127,7 @@ const NewResource:React.FC = () => {
                       />
                     )}
                   />
-                  {errors.version && 
+                  {errors.version &&
                   <CFormText className='help-block'>Please enter your email</CFormText>
                   }
                 </CFormGroup>
@@ -150,11 +150,11 @@ const NewResource:React.FC = () => {
                           Component={InputAdapter}
                           className='form-control'
                           onChange={onChange}
-                          
+
                           onBlur={onBlur}
                           value={value}
                         />
-                        )}
+                      )}
                     />
                   </CInputGroup>
                   <CFormText color="muted">
@@ -183,14 +183,14 @@ const NewResource:React.FC = () => {
                         </CSelect>
                       )}
                     />
-                    {errors.category && 
+                    {errors.category &&
                       <CFormText className='help-block'>Please select a type</CFormText>
                     }
                     <CInputGroupAppend>
                       <Link to='/resource/new-resource/new-category'>
-                        <CButton 
+                        <CButton
                           type="button"
-                          color="secondary" 
+                          color="secondary"
                           variant={'ghost'}
                         >
                           <PlusCircle />
@@ -221,7 +221,7 @@ const NewResource:React.FC = () => {
                         </CSelect>
                       )}
                     />
-                    {errors.category && 
+                    {errors.category &&
                       <CFormText className='help-block'>Please select a type</CFormText>
                     }
                     <CInputGroupAppend>
@@ -247,7 +247,7 @@ const NewResource:React.FC = () => {
                       />
                     )}
                   />
-                  {errors.ownerDid && 
+                  {errors.ownerDid &&
                   <CFormText className='help-block'>Please enter your email</CFormText>
                   }
                 </CFormGroup>
@@ -255,7 +255,7 @@ const NewResource:React.FC = () => {
           </CRow>
         </CCardBody>
         </CCard>
-        <CCard>
+        <CCard className={'mb-5'}>
           <CCardHeader>
             <h2>Resource Physical Capabilities</h2>
           </CCardHeader>
@@ -284,7 +284,7 @@ const NewResource:React.FC = () => {
             </CRow>
           </CCardBody>
         </CCard>
-        <CCard>
+        <CCard className={'mb-5'}>
           <CCardHeader>
             <h2>Resource Virtual Capabilities</h2>
           </CCardHeader>

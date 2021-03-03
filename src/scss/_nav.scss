@@ -7,7 +7,7 @@
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 0;
-  list-style: none;
+  list-style: none; 
 
   @include ltr {
     padding-left: 0;
@@ -52,7 +52,10 @@
   }
 
   .nav-link {
-    border: $nav-tabs-border-width solid transparent;
+    border-top: 1px solid $light;
+    border-left: 1px solid $light;
+    border-right: 1px solid $light;
+    color: $light;
     @include border-top-radius($nav-tabs-border-radius);
 
     @include hover-focus() {
@@ -202,8 +205,8 @@
 .nav-pills {
   .nav-link {
     @include border-radius($nav-pills-border-radius);
+    color: $light !important;
   }
-  color: #6C6E7E !important;
   .nav-link.active,
   .show > .nav-link {
     @include themes($nav-theme-map, $create: parent) {

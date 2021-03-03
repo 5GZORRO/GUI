@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 interface BaseApiResponse <T> {
   totalPages: number
   totalElements: number
@@ -39,7 +40,7 @@ enum actionTypes {
   SLA_DISPUTE = 'SLA_DISPUTE'
 }
 
-interface GovernanceActionsResponse  {
+interface GovernanceActionsResponse {
   proposalId: string
   status: ProposalStatus
   actionType: actionTypes,
@@ -61,7 +62,7 @@ interface BaseApiParams {
 }
 
 export interface ApiParamsMembership extends BaseApiParams {
-  filterText?: string 
+  filterText?: string
 }
 
 export interface ApiParamsGovernanceActions extends BaseApiParams {

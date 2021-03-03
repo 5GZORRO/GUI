@@ -9,8 +9,7 @@ import {
   CHeaderNavLink,
   CSubheader,
   CToggler,
-  CBreadcrumbRouter,
-  CLink
+  CBreadcrumbRouter
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 
@@ -37,7 +36,6 @@ const TheHeader:React.FC = () => {
       <CToggler
         inHeader
         className="ml-md-3 d-lg-none"
-        style={{fill: 'red'}}
         onClick={toggleSidebarMobile}
       />
       <CToggler
@@ -61,7 +59,7 @@ const TheHeader:React.FC = () => {
           className="d-md-down-none"
           onClick={() => dispatch({ type: 'set', asideShow: !asideShow })}
         >
-          <CIcon className="mr-2" size="lg"  color={'#fff'} name="cil-applications-settings" />
+          <CIcon className="mr-2" size="lg" color={'#fff'} name="cil-applications-settings" />
         </CToggler>
       </CHeaderNav>
 

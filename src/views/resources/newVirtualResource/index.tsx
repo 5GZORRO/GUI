@@ -1,7 +1,7 @@
-import React from 'react';
-import { Controller, useFieldArray, useForm } from 'react-hook-form';
-import CIcon from '@coreui/icons-react';
-import { Link } from 'react-router-dom';
+import React from 'react'
+import { Controller, useFieldArray, useForm } from 'react-hook-form'
+import CIcon from '@coreui/icons-react'
+import { Link } from 'react-router-dom'
 import {
   CButton,
   CCard,
@@ -16,10 +16,10 @@ import {
   CLabel,
   CRow,
   CSwitch,
-  CTextarea,
-} from '@coreui/react';
+  CTextarea
+} from '@coreui/react'
 /** Components */
-import { PlusCircle } from 'assets/icons/externalIcons';
+import { PlusCircle } from 'assets/icons/externalIcons'
 
 interface FormVirtualResource {
   key: string
@@ -47,32 +47,32 @@ const NewVirtualResource: React.FC = () => {
           key: '34',
           value: '43242342342',
           unit: 'MB'
-        },
-      ],
-    },
-  });
+        }
+      ]
+    }
+  })
   const { fields, remove, append } = useFieldArray({
     control,
-    name: 'virtualResource',
+    name: 'virtualResource'
   })
 
-  const onSubmit = (data: FormPhysical) => { 
-   console.log('data FormPhysical', data)
+  const onSubmit = (data: FormPhysical) => {
+    console.log('data FormPhysical', data)
   }
 
-  const addVirtualResource = () => append({ key: '', value: '', unit: '' });
+  const addVirtualResource = () => append({ key: '', value: '', unit: '' })
 
-  console.log('errors',errors)
+  console.log('errors', errors)
   return (
     <CContainer style={{ marginBottom: '200px' }}>
-      <CRow
+      <div
         className={'d-flex justify-content-flex-start align-items-center mb-5'}
       >
-        <Link to='/resource/new-resource'>
-          <CIcon className={'mr-3'} size={'xl'} name='cilArrowLeft' />
+        <Link style={{ color: 'rgba(255,255,255,0.87)' }} to="/resource/new-resource">
+          <CIcon className={'mr-3'} size={'xl'} name="cilArrowLeft" />
         </Link>
-        <h1>New Resource - Virtual Capabilities</h1>
-      </CRow>
+        <h1 className={'m-0'}>New Resource - Virtual Capabilities</h1>
+      </div>
       <CForm onSubmit={handleSubmit(onSubmit)}>
         <CCard>
           <CCardHeader>
@@ -284,7 +284,7 @@ const NewVirtualResource: React.FC = () => {
         </CRow>
       </CForm>
     </CContainer>
-  );
-};
+  )
+}
 
-export default NewVirtualResource;
+export default NewVirtualResource

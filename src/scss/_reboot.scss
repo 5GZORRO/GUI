@@ -169,7 +169,7 @@ strong {
 }
 
 small {
-  @include font-size(80%); // Add the correct font size in all browsers
+  font-size: 0.75rem;
 }
 
 //

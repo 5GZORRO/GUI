@@ -1,4 +1,4 @@
-import type {Config} from '@jest/types'
+import type { Config } from '@jest/types'
 
 export default async (): Promise<Config.InitialOptions> => {
   return {
@@ -52,7 +52,7 @@ export default async (): Promise<Config.InitialOptions> => {
     moduleDirectories: [
       'node_modules',
       'src'
-  ],
-    'resetMocks': true
+    ],
+    resetMocks: true
   }
 }

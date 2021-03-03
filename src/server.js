@@ -2,25 +2,25 @@
 import { createServer, Model, Factory, belongsTo, RestSerializer, hasMany } from 'miragejs'
 import faker from 'faker'
 
-export function makeServer({environment = 'development'} = {}) {
-  let server = createServer({
+export function makeServer ({ environment = 'development' } = {}) {
+  const server = createServer({
     environment,
-    
+
     serializers: {
       resource: RestSerializer.extend({
         serializeIds: false,
         include: ['resourceSpecification', 'resourcePhysicalCapabilities', 'resourceVirtualCapabilities'],
-        embed: true,
+        embed: true
       }),
       resourcePhysicalCapabilitie: RestSerializer.extend({
         serializeIds: false,
         include: ['hardwareCapabilities', 'feature'],
-        embed: true,
+        embed: true
       }),
       resourceVirtualCapabilitie: RestSerializer.extend({
         serializeIds: false,
         include: ['virtualCapabilities'],
-        embed: true,
+        embed: true
       })
     },
 
@@ -37,7 +37,7 @@ export function makeServer({environment = 'development'} = {}) {
 
       resourcePhysicalCapabilitie: Model.extend({
         hardwareCapabilities: hasMany(),
-        feature: belongsTo()        
+        feature: belongsTo()
       }),
 
       hardwareCapabilitie: Model,
@@ -48,10 +48,10 @@ export function makeServer({environment = 'development'} = {}) {
       }),
       virtualCapabilitie: Model
     },
-    
+
     factories: {
       pagedGovernanceProposal: Factory.extend({
-        proposalId() {
+        proposalId () {
           return faker.random.uuid()
         },
         status () {
@@ -65,31 +65,31 @@ export function makeServer({environment = 'development'} = {}) {
             'SLA_DISPUTE'
           ])
         },
-        statusUpdated() {
+        statusUpdated () {
           return faker.date.recent()
         },
-        actionParams() {
+        actionParams () {
           return {
             entityIdentityId: faker.random.uuid(),
             evidence: faker.random.word()
-          };
-        },
+          }
+        }
       }),
 
       membership: Factory.extend({
-        stakeholderId() {
-          return faker.random.uuid() 
+        stakeholderId () {
+          return faker.random.uuid()
         },
-        legalName() {
+        legalName () {
           return faker.random.word()
         },
-        address() {
+        address () {
           return faker.address.streetAddress()
         }
       }),
 
       resource: Factory.extend({
-        name() {
+        name () {
           return faker.lorem.word()
         },
         description () {
@@ -98,13 +98,13 @@ export function makeServer({environment = 'development'} = {}) {
         version () {
           return faker.system.semver()
         },
-        validFor() {
+        validFor () {
           return faker.date.past()
         },
-        ownerdid() {
+        ownerdid () {
           return faker.random.uuid()
         },
-        category() {
+        category () {
           return {
             name: faker.lorem.word(),
             type: faker.name.jobType(),
@@ -112,9 +112,9 @@ export function makeServer({environment = 'development'} = {}) {
           }
         }
       }),
-      
+
       resourceSpecification: Factory.extend({
-        name() {
+        name () {
           return faker.lorem.word()
         },
         description () {
@@ -126,7 +126,7 @@ export function makeServer({environment = 'development'} = {}) {
       }),
 
       resourcePhysicalCapabilitie: Factory.extend({
-        name() {
+        name () {
           return faker.lorem.word()
         },
         description () {
@@ -151,9 +151,9 @@ export function makeServer({environment = 'development'} = {}) {
           return faker.random.word()
         }
       }),
-      
+
       resourceVirtualCapabilitie: Factory.extend({
-        name() {
+        name () {
           return faker.lorem.word()
         },
         description () {
@@ -167,7 +167,7 @@ export function makeServer({environment = 'development'} = {}) {
         }
       }),
 
-      virtualCapabilitie : Factory.extend({
+      virtualCapabilitie: Factory.extend({
         capValue () {
           return faker.random.float()
         },
@@ -177,7 +177,7 @@ export function makeServer({environment = 'development'} = {}) {
       })
     },
 
-    seeds(server) {
+    seeds (server) {
       server.createList('pagedGovernanceProposal', 60)
       server.createList('membership', 60)
       server.createList('resource', 10, {
@@ -192,12 +192,12 @@ export function makeServer({environment = 'development'} = {}) {
       })
     },
 
-    routes() {
+    routes () {
       this.namespace = 'api'
-    
+
       this.get('/governance-actions', (schema) => {
         const content = schema.pagedGovernanceProposals.all()
-        const items = content.models.map(({attrs}) => ({ ...attrs }))
+        const items = content.models.map(({ attrs }) => ({ ...attrs }))
         return {
           pagedGovernanceProposals: {
             totalPages: 0,
@@ -226,7 +226,7 @@ export function makeServer({environment = 'development'} = {}) {
       })
 
       this.post('/governance-actions', (schema, request) => {
-        let attrs = JSON.parse(request.requestBody)
+        const attrs = JSON.parse(request.requestBody)
         console.log(attrs)
 
         return schema.pagedGovernanceProposals.create(attrs)
@@ -234,7 +234,7 @@ export function makeServer({environment = 'development'} = {}) {
 
       this.get('/memberships', (schema) => {
         const content = schema.memberships.all()
-        const items = content.models.map(({attrs}) => ({ ...attrs }))
+        const items = content.models.map(({ attrs }) => ({ ...attrs }))
         return {
           pagedMembers: {
             totalPages: 0,
@@ -263,17 +263,16 @@ export function makeServer({environment = 'development'} = {}) {
       })
 
       this.get('/resources', (schema) => {
-
         return schema.resources.all()
       })
 
       this.post('/resources', (schema, request) => {
-        let attrs = JSON.parse(request.requestBody)
+        const attrs = JSON.parse(request.requestBody)
         console.log(attrs)
         return schema.resources.create(attrs)
-        // new Response(400, { some: 'header' }, { errors: [ 'name cannot be blank'] });        
+        // new Response(400, { some: 'header' }, { errors: [ 'name cannot be blank'] });
       })
-    },
+    }
   })
 
   return server
