@@ -25,8 +25,8 @@ import {
   CTabs,
   CTextarea
 } from '@coreui/react'
-import { Link } from 'react-router-dom'
 import { Controller, useForm } from 'react-hook-form'
+import { useHistory } from 'react-router-dom'
 
 interface Search {
   search: string
@@ -34,6 +34,8 @@ interface Search {
 
 const DiscoverOffers:React.FC = () => {
   const [modal, setModal] = useState(false)
+
+  const history = useHistory()
 
   const { handleSubmit, errors, control } = useForm<Search>()
 
@@ -48,15 +50,14 @@ const DiscoverOffers:React.FC = () => {
           <h1>Discover Offers</h1>
         </CCol>
         <CCol className='d-flex justify-content-end'>
-          <Link to='/discover-offers'>
-            <CButton
-              block={false}
-              color={'gradient'}
-              className={'text-uppercase'}
-            >
-              create product offer
-            </CButton>
-          </Link>
+          <CButton
+            block={false}
+            color={'gradient'}
+            className={'text-uppercase'}
+            onClick={() => history.push('/discover-offers')}
+          >
+            create product offer
+          </CButton>
         </CCol>
       </CRow>
         <CTabs activeTab='allOffers'>
