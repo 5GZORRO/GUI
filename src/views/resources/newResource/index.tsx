@@ -67,35 +67,35 @@ const NewResource:React.FC = () => {
         </CCardHeader>
           <CCardBody>
           <CRow>
-              <CCol sm={6}>
-                <CFormGroup>
-                  <CLabel htmlFor="name">Name</CLabel>
-                  <Controller
-                    control={control}
-                    defaultValue={''}
-                    rules={{ required: true }}
-                    name="name"
-                    render={({ onChange, onBlur, value }) => (
-                      <CInput
-                        onChange={onChange}
-                        onBlur={onBlur}
-                        value={value}
-                      />
-                    )}
-                  />
-                  {errors.name &&
-                  <CFormText className='help-block'>Please enter your email</CFormText>
-                  }
-                  </CFormGroup>
-              </CCol>
+            <CCol sm={6}>
+              <CFormGroup>
+                <CLabel htmlFor='name'>Name</CLabel>
+                <Controller
+                  control={control}
+                  defaultValue={''}
+                  rules={{ required: true }}
+                  name='name'
+                  render={({ onChange, onBlur, value }) => (
+                    <CInput
+                      onChange={onChange}
+                      onBlur={onBlur}
+                      value={value}
+                    />
+                  )}
+                />
+              {errors.name &&
+                <CFormText className='help-block'>Please enter your email</CFormText>
+              }
+              </CFormGroup>
+            </CCol>
               <CCol xs={12}>
                 <CFormGroup>
-                  <CLabel htmlFor="description">Description</CLabel>
+                  <CLabel htmlFor='description'>Description</CLabel>
                   <Controller
                     control={control}
                     defaultValue={''}
                     rules={{ required: true }}
-                    name="description"
+                    name='description'
                     render={({ onChange, onBlur, value }) => (
                       <CTextarea
                         rows={2}
@@ -112,12 +112,12 @@ const NewResource:React.FC = () => {
               </CCol>
               <CCol>
                 <CFormGroup>
-                  <CLabel htmlFor="version">Version</CLabel>
+                  <CLabel htmlFor='version'>Version</CLabel>
                   <Controller
                     control={control}
                     defaultValue={''}
                     rules={{ required: true }}
-                    name="version"
+                    name='version'
                     render={({ onChange, onBlur, value }) => (
                       <CInput
                         onChange={onChange}
@@ -137,7 +137,7 @@ const NewResource:React.FC = () => {
                   <CLabel>Valid For</CLabel>
                   <CInputGroup>
                     <CInputGroupPrepend>
-                      <CInputGroupText><CIcon name="cilCalendar" /></CInputGroupText>
+                      <CInputGroupText><CIcon name='cilCalendar' /></CInputGroupText>
                     </CInputGroupPrepend>
                     <Controller
                       control={control}
@@ -157,7 +157,7 @@ const NewResource:React.FC = () => {
                       )}
                     />
                   </CInputGroup>
-                  <CFormText color="muted">
+                  <CFormText color='muted'>
                     ex. 01/01/1970
                   </CFormText>
               </CFormGroup>
@@ -167,7 +167,7 @@ const NewResource:React.FC = () => {
                   <CLabel>Category</CLabel>
                   <CInputGroup>
                     <CInputGroupPrepend>
-                      <CInputGroupText><CIcon name="cilFindInPage" /></CInputGroupText>
+                      <CInputGroupText><CIcon name='cilFindInPage' /></CInputGroupText>
                     </CInputGroupPrepend>
                     <Controller
                       control={control}
@@ -176,21 +176,18 @@ const NewResource:React.FC = () => {
                       name='category'
                       render={({ onChange, onBlur, value }) => (
                         <CSelect onChange={onChange} onBlur={onBlur} value={value}>
-                          <option value="0">Please select</option>
-                          <option value="1">Option #1</option>
-                          <option value="2">Option #2</option>
-                          <option value="3">Option #3</option>
+                          <option value='0'>Please select</option>
+                          <option value='1'>Option #1</option>
+                          <option value='2'>Option #2</option>
+                          <option value='3'>Option #3</option>
                         </CSelect>
                       )}
                     />
-                    {errors.category &&
-                      <CFormText className='help-block'>Please select a type</CFormText>
-                    }
                     <CInputGroupAppend>
                       <Link to='/resource/new-resource/new-category'>
                         <CButton
-                          type="button"
-                          color="secondary"
+                          type='button'
+                          color='secondary'
                           variant={'ghost'}
                         >
                           <PlusCircle />
@@ -198,6 +195,9 @@ const NewResource:React.FC = () => {
                       </Link>
                     </CInputGroupAppend>
                   </CInputGroup>
+                  {errors.category &&
+                    <CFormText className='help-block'>Please select a type</CFormText>
+                  }
                 </CFormGroup>
               </CCol>
               <CCol sm={6}>
@@ -205,7 +205,7 @@ const NewResource:React.FC = () => {
                   <CLabel>Resource Specification</CLabel>
                   <CInputGroup>
                     <CInputGroupPrepend>
-                      <CInputGroupText><CIcon name="cilListRich" /></CInputGroupText>
+                      <CInputGroupText><CIcon name='cilListRich' /></CInputGroupText>
                     </CInputGroupPrepend>
                     <Controller
                       control={control}
@@ -214,30 +214,30 @@ const NewResource:React.FC = () => {
                       name='resourceSpecification'
                       render={({ onChange, onBlur, value }) => (
                         <CSelect onChange={onChange} onBlur={onBlur} value={value}>
-                          <option value="0">Please select</option>
-                          <option value="1">Option #1</option>
-                          <option value="2">Option #2</option>
-                          <option value="3">Option #3</option>
+                          <option value='0'>Please select</option>
+                          <option value='1'>Option #1</option>
+                          <option value='2'>Option #2</option>
+                          <option value='3'>Option #3</option>
                         </CSelect>
                       )}
                     />
-                    {errors.category &&
-                      <CFormText className='help-block'>Please select a type</CFormText>
-                    }
                     <CInputGroupAppend>
-                      <CButton type="button" color="secondary" variant={'ghost'}><PlusCircle /></CButton>
+                      <CButton type='button' color='white' variant={'ghost'}><PlusCircle /></CButton>
                     </CInputGroupAppend>
                   </CInputGroup>
+                  {errors.category &&
+                    <CFormText className='help-block'>Please select a type</CFormText>
+                  }
                 </CFormGroup>
               </CCol>
               <CCol sm={6 }>
                 <CFormGroup>
-                  <CLabel htmlFor="owner">Owner</CLabel>
+                  <CLabel htmlFor='owner'>Owner</CLabel>
                   <Controller
                     control={control}
                     defaultValue={''}
                     rules={{ required: true }}
-                    name="owner"
+                    name='owner'
                     render={({ onChange, onBlur, value }) => (
                       <CInput
                         value={value}

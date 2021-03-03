@@ -2,13 +2,11 @@ import { createStore } from 'redux'
 import { useSelector, TypedUseSelectorHook } from 'react-redux'
 
 type state = {
-  sidebarShow: 'responsive' | boolean,
-  asideShow: boolean
+  sidebarShow: 'responsive' | boolean
 }
 
 const initialState: state = {
-  sidebarShow: 'responsive',
-  asideShow: false
+  sidebarShow: 'responsive'
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

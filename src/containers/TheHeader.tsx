@@ -11,14 +11,12 @@ import {
   CToggler,
   CBreadcrumbRouter
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
 
 // routes config
 import routes from '../routes'
 
 const TheHeader:React.FC = () => {
   const dispatch = useDispatch()
-  const asideShow = useTypedSelector((state) => state.asideShow)
   const sidebarShow = useTypedSelector((state) => state.sidebarShow)
 
   const toggleSidebar = () => {
@@ -52,17 +50,6 @@ const TheHeader:React.FC = () => {
           <CHeaderNavLink to="/dashboard">Dashboard</CHeaderNavLink>
         </CHeaderNavItem>
       </CHeaderNav>
-
-      <CHeaderNav className="px-3">
-        <CToggler
-          inHeader
-          className="d-md-down-none"
-          onClick={() => dispatch({ type: 'set', asideShow: !asideShow })}
-        >
-          <CIcon className="mr-2" size="lg" color={'#fff'} name="cil-applications-settings" />
-        </CToggler>
-      </CHeaderNav>
-
       <CSubheader className="px-3 justify-content-between">
         <CBreadcrumbRouter className="border-0 c-subheader-nav m-0 px-0 px-md-3" routes={routes} />
       </CSubheader>
