@@ -3,7 +3,7 @@ import type { Config } from '@jest/types'
 export default async (): Promise<Config.InitialOptions> => {
   return {
     roots: [
-      '<rootDir>/src'
+      '<rootDir>/src/'
     ],
     collectCoverageFrom: [
       'src/**/*.{js,jsx,ts,tsx}',
