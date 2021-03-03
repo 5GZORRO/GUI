@@ -56,7 +56,7 @@ const Login:React.FC = () => {
                           name='key'
                           render={({ onChange, onBlur, value }) => (
                             <MaskedInput
-                              guide={'true'}
+                              guide={true}
                               placeholder={'999 999 999'}
                               mask={[/[1-9]/, /[1-9]/, /[1-9]/, ' ', /[1-9]/, /[1-9]/, /[1-9]/, ' ', /[1-9]/, /[1-9]/, /[1-9]/]}
                               className='form-control'
