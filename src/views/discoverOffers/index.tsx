@@ -59,21 +59,21 @@ const DiscoverOffers:React.FC = () => {
           </Link>
         </CCol>
       </CRow>
-        <CTabs activeTab="allOffers">
-          <CNav variant="tabs">
+        <CTabs activeTab='allOffers'>
+          <CNav variant='tabs'>
             <CNavItem>
-              <CNavLink data-tab="allOffers" className={'text-uppercase'}>
+              <CNavLink data-tab='allOffers' className={'text-uppercase'}>
                 All offers
               </CNavLink>
             </CNavItem>
             <CNavItem>
-              <CNavLink data-tab="myOffers" className={'text-uppercase'}>
+              <CNavLink data-tab='myOffers' className={'text-uppercase'}>
                 My offers
               </CNavLink>
             </CNavItem>
           </CNav>
           <CTabContent>
-            <CTabPane data-tab="allOffers">
+            <CTabPane data-tab='allOffers'>
               <CCard className={'mt-4'}>
                 <CCardHeader>
                   <CCardTitle>All Offers</CCardTitle>
@@ -81,12 +81,12 @@ const DiscoverOffers:React.FC = () => {
                 <CCardBody>
                   <CForm onSubmit={handleSubmit(onSubmit)}>
                     <CFormGroup>
-                    <CLabel htmlFor="search">Insert your search</CLabel>
+                    <CLabel htmlFor='search'>Insert your search</CLabel>
                     <Controller
                       control={control}
                       defaultValue={''}
                       rules={{ required: true }}
-                      name="search"
+                      name='search'
                       render={({ onChange, onBlur, value }) => (
                         <CTextarea
                           rows={4}
@@ -99,7 +99,7 @@ const DiscoverOffers:React.FC = () => {
                     {errors.search &&
                     <CFormText className='help-block'>Please enter your email</CFormText>
                     }
-                    <CFormText color="muted">
+                    <CFormText color='muted'>
                     <p className='mb-0'>ex. SELECT;</p>
                     <p className='mb-0'>call.*,</p>
                     <p className='mb-0'>DATEDIFF(SECOND, call.start_time, call.end_time) AS call_duration</p>
@@ -121,19 +121,19 @@ const DiscoverOffers:React.FC = () => {
                 </CCardBody>
               </CCard>
             </CTabPane>
-            <CTabPane data-tab="myOffers">
+            <CTabPane data-tab='myOffers'>
               <CCard className={'mt-4'}>
                 <CCardHeader>
                   <CCardTitle>My Offers</CCardTitle>
                 </CCardHeader>
                 <CCardBody>
                   <CFormGroup>
-                  <CLabel htmlFor="search">Insert your search</CLabel>
+                  <CLabel htmlFor='search'>Insert your search</CLabel>
                   <Controller
                     control={control}
                     defaultValue={''}
                     rules={{ required: true }}
-                    name="search"
+                    name='search'
                     render={({ onChange, onBlur, value }) => (
                       <CTextarea
                         rows={4}
@@ -146,7 +146,7 @@ const DiscoverOffers:React.FC = () => {
                   {errors.search &&
                   <CFormText className='help-block'>Please enter your email</CFormText>
                   }
-                  <CFormText color="muted">
+                  <CFormText color='muted'>
                   <p className='mb-0'>ex. SELECT;</p>
                   <p className='mb-0'>call.*,</p>
                   <p className='mb-0'>DATEDIFF(SECOND, call.start_time, call.end_time) AS call_duration</p>
@@ -179,30 +179,30 @@ const DiscoverOffers:React.FC = () => {
             <CButtonClose onClick={() => setModal(false)}/>
           </CModalHeader>
           <CModalBody>
-            <CTabs activeTab="resourceDetail">
-              <CNav variant="pills">
+            <CTabs activeTab='resourceDetail'>
+              <CNav variant='pills'>
                 <CNavItem>
-                  <CNavLink data-tab="resourceDetail" color={'#6C6E7E'}>Resource Details</CNavLink>
+                  <CNavLink data-tab='resourceDetail' color={'#6C6E7E'}>Resource Details</CNavLink>
                 </CNavItem>
                 <CNavItem>
-                  <CNavLink data-tab="physicalCap">Resource - Physical Capabilities</CNavLink>
+                  <CNavLink data-tab='physicalCap'>Resource - Physical Capabilities</CNavLink>
                 </CNavItem>
                 <CNavItem>
-                  <CNavLink data-tab="virtualCap">Resource - Virtual Capabilities</CNavLink>
+                  <CNavLink data-tab='virtualCap'>Resource - Virtual Capabilities</CNavLink>
                 </CNavItem>
               </CNav>
               <CTabContent>
-                <CTabPane data-tab="resourceDetail">
+                <CTabPane data-tab='resourceDetail'>
                   <CRow className={'mt-4'}>
                     <CCol>
                       <p>Name Label Resource</p>
                     </CCol>
                   </CRow>
                 </CTabPane>
-                <CTabPane data-tab="physicalCap">
+                <CTabPane data-tab='physicalCap'>
                   PROFILE
                 </CTabPane>
-                <CTabPane data-tab="virtualCap">
+                <CTabPane data-tab='virtualCap'>
                   Messages
                 </CTabPane>
               </CTabContent>
