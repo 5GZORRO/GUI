@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react'
 import { makeServer } from 'server'
 import TestRenderer from 'react-test-renderer'
