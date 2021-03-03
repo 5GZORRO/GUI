@@ -22,7 +22,7 @@ before_script:
   - git config user.name "Ubiwhere Release Tools"
   - git config user.email "ci@ubiwhere.com"
   - export NODE_OPTIONS=--max_old_space_size=4096
-  - npm install
+  - yarn install
 
 
 # Eslint check
