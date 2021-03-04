@@ -11,7 +11,7 @@ const FormGenerate:React.FC = () => {
   const { handleSubmit, errors, control } = useForm<Inputs>()
 
   const onSubmit = (data: Inputs) => console.log(data)
-  console.log(errors)
+
   return (
     <CContainer fluid>
     <CRow>

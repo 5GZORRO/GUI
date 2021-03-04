@@ -22,7 +22,7 @@ import {
 import { useForm, Controller } from 'react-hook-form'
 import CIcon from '@coreui/icons-react'
 import { TextMask, InputAdapter } from 'react-text-mask-hoc'
-import { Link } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 /** Hooks */
 import { useCreateResource } from 'hooks/api/Resources'
@@ -43,6 +43,7 @@ interface Inputs {
 
 const NewResource:React.FC = () => {
   const resource = useCreateResource()
+  const history = useHistory()
   const { handleSubmit, errors, control } = useForm<Inputs>()
 
   const onSubmit = (data: Inputs) => {
@@ -184,15 +185,13 @@ const NewResource:React.FC = () => {
                       )}
                     />
                     <CInputGroupAppend>
-                      <Link to='/resource/new-resource/new-category'>
                         <CButton
                           type='button'
-                          color='secondary'
-                          variant={'ghost'}
+                          color='white'
+                          onClick={() => history.push('/resource/new-resource/new-category')}
                         >
                           <PlusCircle />
                         </CButton>
-                      </Link>
                     </CInputGroupAppend>
                   </CInputGroup>
                   {errors.category &&
@@ -222,7 +221,7 @@ const NewResource:React.FC = () => {
                       )}
                     />
                     <CInputGroupAppend>
-                      <CButton type='button' color='white' variant={'ghost'}><PlusCircle /></CButton>
+                      <CButton type='button' color='white' onClick={() => console.log('/resource/new-resource/new-category')}><PlusCircle /></CButton>
                     </CInputGroupAppend>
                   </CInputGroup>
                   {errors.category &&
@@ -262,9 +261,9 @@ const NewResource:React.FC = () => {
           <CCardBody>
             <CRow>
               <CCol sm={4}>
-                <Link to={'/resource/new-resource/new-physical-resource'}>
-                  <NewCardResource />
-                </Link>
+                <NewCardResource
+                  onClick={() => history.push('/resource/new-resource/new-physical-resource')}
+                />
               </CCol>
               <CCol sm={4}>
                 <CardResource />
@@ -291,9 +290,9 @@ const NewResource:React.FC = () => {
           <CCardBody className='m-3'>
             <CRow>
               <CCol sm={4}>
-                <Link to={'/resource/new-resource/new-virtual-resource'}>
-                  <NewCardResource />
-                </Link>
+                <NewCardResource
+                  onClick={() => history.push('/resource/new-resource/new-virtual-resource')}
+                />
               </CCol>
             </CRow>
           </CCardBody>

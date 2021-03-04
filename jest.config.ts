@@ -17,7 +17,7 @@ export default async (): Promise<Config.InitialOptions> => {
       '<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}',
       '<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}'
     ],
-    testEnvironment: 'node',
+    testEnvironment: 'jsdom',
     transform: {
       // Jest transformations -- this adds support for TypeScript
       // using ts-jest

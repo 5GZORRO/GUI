@@ -21,17 +21,8 @@ describe('Dashboard', function () {
     server.shutdown()
   })
 
-  it('shows the users from our server', async () => {
-    server.create('pagedGovernanceProposal', {
-      proposalId: '71aebee3-9ca3-44c7-92c1-28b1dc5c3dce',
-      status: 'PROPOSED',
-      actionType: 'SLA_DISPUTE',
-      statusUpdated: '2021-02-18T03:58:04.828Z',
-      actionParams: {
-        entityIdentityId: 'f8e40818-0e2b-4c29-a541-04872cde4d97',
-        evidence: 'fakeWord'
-      }
-    })
+  it('fetches the list of resources', async () => {
+    server.create('resource', 15)
 
     const tree = TestRenderer.create(
       <QueryClientProvider client={queryClient}>

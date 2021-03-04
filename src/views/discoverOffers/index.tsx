@@ -9,10 +9,6 @@ import {
   CCardTitle,
   CCol,
   CContainer,
-  CForm,
-  CFormGroup,
-  CFormText,
-  CLabel,
   CModal,
   CModalBody,
   CModalHeader,
@@ -22,26 +18,15 @@ import {
   CRow,
   CTabContent,
   CTabPane,
-  CTabs,
-  CTextarea
+  CTabs
 } from '@coreui/react'
-import { Controller, useForm } from 'react-hook-form'
 import { useHistory } from 'react-router-dom'
-
-interface Search {
-  search: string
-}
+import SearchForm from './containers/searchForm'
 
 const DiscoverOffers:React.FC = () => {
   const [modal, setModal] = useState(false)
 
   const history = useHistory()
-
-  const { handleSubmit, errors, control } = useForm<Search>()
-
-  const onSubmit = (form: Search) => {
-    console.log('search', form)
-  }
 
   return (
     <CContainer>
@@ -49,12 +34,12 @@ const DiscoverOffers:React.FC = () => {
         <CCol>
           <h1>Discover Offers</h1>
         </CCol>
-        <CCol className='d-flex justify-content-end'>
+        <CCol className={'d-flex justify-content-end align-items-center'}>
           <CButton
             block={false}
             color={'gradient'}
             className={'text-uppercase'}
-            onClick={() => history.push('/discover-offers')}
+            onClick={() => history.push('/discover-offers/new-product')}
           >
             create product offer
           </CButton>
@@ -80,45 +65,7 @@ const DiscoverOffers:React.FC = () => {
                   <CCardTitle>All Offers</CCardTitle>
                 </CCardHeader>
                 <CCardBody>
-                  <CForm onSubmit={handleSubmit(onSubmit)}>
-                    <CFormGroup>
-                    <CLabel htmlFor='search'>Insert your search</CLabel>
-                    <Controller
-                      control={control}
-                      defaultValue={''}
-                      rules={{ required: true }}
-                      name='search'
-                      render={({ onChange, onBlur, value }) => (
-                        <CTextarea
-                          rows={4}
-                          onChange={onChange}
-                          onBlur={onBlur}
-                          selected={value}
-                        />
-                      )}
-                    />
-                    {errors.search &&
-                    <CFormText className='help-block'>Please enter your email</CFormText>
-                    }
-                    <CFormText color='muted'>
-                    <p className='mb-0'>ex. SELECT;</p>
-                    <p className='mb-0'>call.*,</p>
-                    <p className='mb-0'>DATEDIFF(SECOND, call.start_time, call.end_time) AS call_duration</p>
-                    <p className='mb-0'>FROM call</p>
-                    <p className='mb-0'>ORDER BY</p>
-                    <p className='mb-0'>call.employee_id ASC,</p>
-                    <p className='mb-0'>call.start_time ASC;</p>
-                    </CFormText>
-                    </CFormGroup>
-                    <CButton
-                      block={false}
-                      variant={'outline'}
-                      color={'white'}
-                      className='text-uppercase px-5 float-right'
-                    >
-                      Search
-                    </CButton>
-                  </CForm>
+                  <SearchForm />
                 </CCardBody>
               </CCard>
             </CTabPane>
@@ -128,43 +75,7 @@ const DiscoverOffers:React.FC = () => {
                   <CCardTitle>My Offers</CCardTitle>
                 </CCardHeader>
                 <CCardBody>
-                  <CFormGroup>
-                  <CLabel htmlFor='search'>Insert your search</CLabel>
-                  <Controller
-                    control={control}
-                    defaultValue={''}
-                    rules={{ required: true }}
-                    name='search'
-                    render={({ onChange, onBlur, value }) => (
-                      <CTextarea
-                        rows={4}
-                        onChange={onChange}
-                        onBlur={onBlur}
-                        selected={value}
-                      />
-                    )}
-                  />
-                  {errors.search &&
-                  <CFormText className='help-block'>Please enter your email</CFormText>
-                  }
-                  <CFormText color='muted'>
-                  <p className='mb-0'>ex. SELECT;</p>
-                  <p className='mb-0'>call.*,</p>
-                  <p className='mb-0'>DATEDIFF(SECOND, call.start_time, call.end_time) AS call_duration</p>
-                  <p className='mb-0'>FROM call</p>
-                  <p className='mb-0'>ORDER BY</p>
-                  <p className='mb-0'>call.employee_id ASC,</p>
-                  <p className='mb-0'>call.start_time ASC;</p>
-                  </CFormText>
-                  </CFormGroup>
-                  <CButton
-                    block={false}
-                    variant={'outline'}
-                    color={'white'}
-                    className='justify-content-end text-uppercase'
-                  >
-                    Search
-                  </CButton>
+                  <SearchForm />
                 </CCardBody>
               </CCard>
             </CTabPane>

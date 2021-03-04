@@ -4,7 +4,7 @@ import './scss/style.scss'
 import { LogoVerticalWhite } from 'assets/icons/logos'
 
 const loading = (
-  <div style={{ height: '100vh' }} className='d-flex justify-content-center align-items-center'>
+  <div style={{ height: '100vh' }} className='d-flex justify-content-center align-items-center' data-testid='loading'>
     <LogoVerticalWhite />
   </div>
 )

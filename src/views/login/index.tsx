@@ -56,7 +56,6 @@ const Login:React.FC = () => {
                           name='key'
                           render={({ onChange, onBlur, value }) => (
                             <MaskedInput
-                              guide={true}
                               placeholder={'999 999 999'}
                               mask={[/[1-9]/, /[1-9]/, /[1-9]/, ' ', /[1-9]/, /[1-9]/, /[1-9]/, ' ', /[1-9]/, /[1-9]/, /[1-9]/]}
                               className='form-control'
@@ -65,7 +64,10 @@ const Login:React.FC = () => {
                               value={value}
                               data-testid='key'
                               render={(ref, props) => (
-                                <CInput innerRef={ref} {...props} />
+                                <CInput
+                                  innerRef={ref}
+                                  {...props}
+                                />
                               )}
                             />
                           )}

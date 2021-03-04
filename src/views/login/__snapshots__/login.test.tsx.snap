@@ -61,28 +61,8 @@ exports[`Login Snapshot  1`] = `
                     </div>
                   </div>
                   <input
-                    className="form-control"
-                    data-testid="key"
-                    guide={true}
-                    mask={
-                      Array [
-                        /\\[1-9\\]/,
-                        /\\[1-9\\]/,
-                        /\\[1-9\\]/,
-                        " ",
-                        /\\[1-9\\]/,
-                        /\\[1-9\\]/,
-                        /\\[1-9\\]/,
-                        " ",
-                        /\\[1-9\\]/,
-                        /\\[1-9\\]/,
-                        /\\[1-9\\]/,
-                      ]
-                    }
                     onBlur={[Function]}
                     onChange={[Function]}
-                    placeholder="999 999 999"
-                    render={[Function]}
                     type="text"
                     value=""
                   />

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Dashboard shows the users from our server 1`] = `
+exports[`Dashboard fetches the list of resources 1`] = `
 <div
   className="bg-gradient-dark-test"
 >

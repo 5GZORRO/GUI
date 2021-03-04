@@ -4,11 +4,16 @@ import React from 'react'
 
 interface NewCardProps {
   height?: number
+  onClick: () => void
 }
 
-const NewCardResource:React.FC<NewCardProps> = ({ height }) => {
+const NewCardResource:React.FC<NewCardProps> = ({ height, onClick }) => {
   return (
-    <CCard className={'card-dotted'} style={{ minHeight: height || 320, minWidth: 322 }}>
+    <CCard
+      className={'card-dotted'}
+      style={{ minHeight: height || 320, minWidth: 322 }}
+      onClick={onClick}
+    >
       <CCardBody className={'d-flex justify-content-center align-items-center flex-column'}>
         <div className={'pb-2'}>
           <PlusCircle width={20} height={20} />
