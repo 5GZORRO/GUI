@@ -33,9 +33,12 @@ const fields = [
 
 const NewProductOffer:React.FC = () => {
   const history = useHistory()
-  const [selected, setSelected] = useState(null)
+  const [selected, setSelected] = useState<number | null>(null)
   const { data, isLoading } = useResources()
 
+  const check = (e: any, id: number) => setSelected(e.target.checked ? id : null)
+
+  console.log(selected)
   return (
     <CContainer>
       <CRow className={'mb-5'}>
@@ -66,7 +69,7 @@ const NewProductOffer:React.FC = () => {
                         custom
                         id={`checkbox${item.id}`}
                         checked={item._selected}
-                        onChange={() => setSelected(item.id)}
+                        onChange={(e) => check(e, item.id)}
                       />
                       <CLabel
                         variant='custom-checkbox'
@@ -102,7 +105,7 @@ const NewProductOffer:React.FC = () => {
         <CButton
           className={'text-uppercase px-5'}
           color={'gradient'}
-          disabled={!!selected}
+          disabled={!selected}
           onClick={() => history.push(`/discover-offers/detail-product/${selected}`)}
         >
           next
