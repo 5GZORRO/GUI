@@ -30,7 +30,7 @@ const DiscoverOffers:React.FC = () => {
 
   return (
     <CContainer>
-      <CRow className={'my-5'}>
+      <CRow className={'mb-5'}>
         <CCol>
           <h2>Discover Offers</h2>
         </CCol>

@@ -407,6 +407,7 @@ exports[`New Product Offer Snapshot 1`] = `
   >
     <button
       className="text-uppercase px-5 btn btn-gradient"
+      disabled={false}
       onClick={[Function]}
       type="button"
     >
