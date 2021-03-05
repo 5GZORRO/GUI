@@ -36,7 +36,7 @@
   width: $custom-control-indicator-size;
   height: ($font-size-base * $line-height-base + $custom-control-indicator-size) / 2;
   opacity: 0;
-
+  
   &:checked ~ .custom-control-label::before {
     @include box-shadow($custom-control-indicator-checked-box-shadow);
     @include themes($custom-forms-theme-map, $create: parent) {
@@ -148,40 +148,32 @@
 
 .custom-checkbox {
   .custom-control-label::before {
-    @include border-radius($custom-checkbox-indicator-border-radius);
+    border-radius: $custom-checkbox-indicator-border-radius;
   }
 
   .custom-control-input:checked ~ .custom-control-label {
     &::after {
-      @include themes($custom-forms-theme-map, $create: parent) {
-        background-image: escape-svg(themes-get-value("custom-checkbox-indicator-icon-checked"));
-      }
+      border: 1px solid $gray-800;
+      border-radius: $custom-checkbox-indicator-border-radius; 
+      background: $gradient;
     }
   }
 
   .custom-control-input:indeterminate ~ .custom-control-label {
     &::before {
-      @include themes($custom-forms-theme-map, $create: parent) {
-        border-color: themes-get-value("custom-checkbox-indicator-indeterminate-border-color");
-      }
-      @include gradient-bg($custom-checkbox-indicator-indeterminate-bg);
-      @include box-shadow($custom-checkbox-indicator-indeterminate-box-shadow);
+      background: $gradient;
     }
     &::after {
-      background-image: escape-svg($custom-checkbox-indicator-icon-indeterminate);
+      background: $gradient;
     }
   }
 
   .custom-control-input:disabled {
     &:checked ~ .custom-control-label::before {
-      @include themes($custom-forms-theme-map, $create: parent) {
-        background-color: themes-get-value("custom-control-indicator-checked-disabled-bg");
-      }
+      background: $gradient;
     }
     &:indeterminate ~ .custom-control-label::before {
-      @include themes($custom-forms-theme-map, $create: parent) {
-        background-color: themes-get-value("custom-control-indicator-checked-disabled-bg");
-      }
+      background: $gradient;
     }
   }
 }

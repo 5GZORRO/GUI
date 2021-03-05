@@ -121,16 +121,7 @@
   .custom-select {
     @include form-validation-state-selector($state) {
       border-color: $color;
-
-      @if $enable-validation-icons {
-        @include ltr {
-          padding-right: $custom-select-feedback-icon-padding-right;
-        }
-        @include rtl {
-          padding-left: $custom-select-feedback-icon-padding-right;
-        }
-        background: $custom-select-background, escape-svg($icon) $custom-select-bg no-repeat $custom-select-feedback-icon-position / $custom-select-feedback-icon-size;
-      }
+      background: $gradient;
 
       &:focus {
         border-color: $color;
