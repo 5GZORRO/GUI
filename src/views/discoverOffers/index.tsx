@@ -30,9 +30,9 @@ const DiscoverOffers:React.FC = () => {
 
   return (
     <CContainer>
-      <CRow>
+      <CRow className={'my-5'}>
         <CCol>
-          <h1>Discover Offers</h1>
+          <h2>Discover Offers</h2>
         </CCol>
         <CCol className={'d-flex justify-content-end align-items-center'}>
           <CButton

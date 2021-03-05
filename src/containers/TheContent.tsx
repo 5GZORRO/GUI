@@ -19,7 +19,7 @@ const loading = (
 const TheContent = () => {
   return (
     <main className='c-main'>
-      <CContainer fluid={false} style={{ height: '100%' }}>
+      <CContainer className={'mt-5'} fluid={false} style={{ height: '100%' }}>
         <Suspense fallback={loading}>
           <Switch>
             {routes.map((route, idx) => {
