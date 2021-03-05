@@ -45,12 +45,13 @@ export const Table:React.FC = () => {
       key: 'show_details',
       label: '',
       _style: { width: '1%' },
-      filter: false
+      filter: false,
+      sort: false
     }
   ]
   return (
     <>
-      <CCard className="p-5">
+      <CCard className='p-5'>
         <CCardBody>
           <h1>Resources</h1>
           <CDataTable
@@ -66,14 +67,14 @@ export const Table:React.FC = () => {
               select: (item: { id: any; _selected: boolean | undefined}) => {
                 return (
                   <td>
-                    <CFormGroup variant="custom-checkbox">
+                    <CFormGroup variant='custom-checkbox'>
                       <CInputCheckbox
                         custom
                         id={`checkbox${item.id}`}
                         checked={item._selected}
                         onChange={e => check(e, item.id)} />
                       <CLabel
-                        variant="custom-checkbox"
+                        variant='custom-checkbox'
                         htmlFor={`checkbox${item.id}`} />
                     </CFormGroup>
                   </td>
@@ -81,12 +82,12 @@ export const Table:React.FC = () => {
               },
               show_details: () => {
                 return (
-                  <td className="py-2">
+                  <td className='py-2'>
                     <CButton
-                      color="primary"
-                      variant="outline"
-                      shape="square"
-                      size="sm"
+                      color='primary'
+                      className={'px-5 text-uppercase'}
+                      variant='outline'
+                      shape='square'
                       onClick={() => console.log('asda')}
                     >
                       {'Show'}

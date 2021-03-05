@@ -14,6 +14,7 @@ import {
   CCardHeader
 } from '@coreui/react'
 import { useResources } from 'hooks/api/Resources'
+import { useHistory } from 'react-router-dom'
 
 const fields = [
   { key: 'select', label: '', filter: false, sorter: false },
@@ -31,16 +32,9 @@ const fields = [
 ]
 
 const NewProductOffer:React.FC = () => {
-  const [selected, setSelected] = useState([2, 3])
+  const history = useHistory()
+  const [selected, setSelected] = useState(null)
   const { data, isLoading } = useResources()
-
-  const check = (e: React.FormEvent<any>, id: number) => {
-    if (e) {
-      setSelected([...selected, id])
-    } else {
-      setSelected(selected.filter(itemId => itemId !== id))
-    }
-  }
 
   return (
     <CContainer>
@@ -72,7 +66,7 @@ const NewProductOffer:React.FC = () => {
                         custom
                         id={`checkbox${item.id}`}
                         checked={item._selected}
-                        onChange={e => check(e, item.id)}
+                        onChange={() => setSelected(item.id)}
                       />
                       <CLabel
                         variant='custom-checkbox'
@@ -105,7 +99,14 @@ const NewProductOffer:React.FC = () => {
       </CCardBody>
     </CCard>
       <div className={'d-flex flex-row-reverse mb-5'}>
-        <CButton className={'text-uppercase px-5'} color={'gradient'}>next</CButton>
+        <CButton
+          className={'text-uppercase px-5'}
+          color={'gradient'}
+          disabled={!!selected}
+          onClick={() => history.push(`/discover-offers/detail-product/${selected}`)}
+        >
+          next
+        </CButton>
         <CButton className={'text-uppercase px-5 mr-3'} variant='outline' color={'white'}>Cancel</CButton>
       </div>
     </CContainer>
