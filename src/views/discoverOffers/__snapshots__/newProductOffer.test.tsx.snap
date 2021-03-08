@@ -406,8 +406,8 @@ exports[`New Product Offer Snapshot 1`] = `
     className="d-flex flex-row-reverse mb-5"
   >
     <button
-      className="text-uppercase px-5 btn btn-gradient"
-      disabled={false}
+      className="text-uppercase px-5 btn btn-gradient disabled"
+      disabled={true}
       onClick={[Function]}
       type="button"
     >
