@@ -22,15 +22,18 @@ import Input from 'components/input'
 
 interface InputsLogin {
   key: string
-  file: string
-  name: string
+  file: File
 }
 
 const Login:React.FC = () => {
-  const { handleSubmit, errors, control } = useForm<InputsLogin>()
+  const { handleSubmit, errors, control, reset } = useForm<InputsLogin>()
 
   const onSubmit = (data: InputsLogin) => {
     console.log(data)
+    reset({
+      key: '',
+      file: ''
+    })
   }
 
   return (
@@ -54,6 +57,7 @@ const Login:React.FC = () => {
                           defaultValue={''}
                           rules={{ required: true }}
                           name='key'
+                          data-testid={'key'}
                           render={({ onChange, onBlur, value }) => (
                             <MaskedInput
                               placeholder={'999 999 999'}
@@ -62,7 +66,6 @@ const Login:React.FC = () => {
                               onChange={onChange}
                               onBlur={onBlur}
                               value={value}
-                              data-testid='key'
                               render={(ref, props) => (
                                 <CInput
                                   innerRef={ref}
@@ -86,7 +89,28 @@ const Login:React.FC = () => {
                     }
                     </CFormGroup>
                       <CFormGroup>
-                        <Input />
+                        <Controller
+                          control={control}
+                          defaultValue={''}
+                          rules={{ required: true }}
+                          name='file'
+                          data-testid='file'
+                          render={({ onChange, onBlur, value }) => (
+                            <Input
+                              value={value}
+                              onBlur={onBlur}
+                              onChange={onChange}
+                            />
+                          )}
+                        />
+                      {errors.file &&
+                      <CFormText
+                        className='help-block'
+                        data-testid='error-message-file'
+                      >
+                        Please enter a file
+                      </CFormText>
+                      }
                       </CFormGroup>
                     <CRow>
                       <CCol xs={12} className='text-right'>

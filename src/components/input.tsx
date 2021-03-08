@@ -2,13 +2,20 @@ import React, { useState } from 'react'
 import { CCol, CInputFile, CRow, CLabel } from '@coreui/react'
 import { PDFIcon } from 'assets/icons/externalIcons'
 
-const Input:React.FC = () => {
+interface PropsInputFile {
+  value: any
+  onBlur: () => void
+  onChange: (e: any) => void
+}
+
+const Input:React.FC<PropsInputFile> = ({ onChange, onBlur, value }) => {
   const [fileName, setFileName] = useState(null)
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const fileUpload = (e: any) => {
     const files = e.target.files
-    setFileName(files[0].name)
+    setFileName(value && files[0].name)
+    onChange(e.target.files)
   }
 
   return (
@@ -39,6 +46,7 @@ const Input:React.FC = () => {
                 width: '0px'
               }}
               onChange={e => fileUpload(e)}
+              onBlur={onBlur}
             />
             <span style={{ color: '#9DA5B1', textDecorationLine: 'underline', cursor: 'pointer' }}>
               <strong>Choose File</strong>

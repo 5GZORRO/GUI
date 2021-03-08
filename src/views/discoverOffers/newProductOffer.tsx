@@ -38,7 +38,6 @@ const NewProductOffer:React.FC = () => {
 
   const check = (e: any, id: number) => setSelected(e.target.checked ? id : null)
 
-  console.log(selected)
   return (
     <CContainer>
       <CRow className={'mb-5'}>

@@ -9,7 +9,6 @@ import {
   QueryClientProvider
 } from 'react-query'
 import { makeServer } from 'server'
-import { render } from '@testing-library/react'
 
 const history = createMemoryHistory()
 

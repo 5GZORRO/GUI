@@ -61,6 +61,8 @@ exports[`Login Snapshot  1`] = `
                     </div>
                   </div>
                   <input
+                    data-testid="key"
+                    name="key"
                     onBlur={[Function]}
                     onChange={[Function]}
                     type="text"
@@ -158,6 +160,7 @@ exports[`Login Snapshot  1`] = `
                         className="custom-file-input"
                         id="file-input"
                         name="file-input"
+                        onBlur={[Function]}
                         onChange={[Function]}
                         style={
                           Object {
