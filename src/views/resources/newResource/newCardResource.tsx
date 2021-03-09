@@ -10,7 +10,7 @@ interface NewCardProps {
 const NewCardResource:React.FC<NewCardProps> = ({ height, onClick }) => {
   return (
     <CCard
-      className={'card-dotted'}
+      className={'card-dotted card-cursor'}
       style={{ minHeight: height || 320, minWidth: 322 }}
       onClick={onClick}
     >
@@ -18,7 +18,7 @@ const NewCardResource:React.FC<NewCardProps> = ({ height, onClick }) => {
         <div className={'pb-2'}>
           <PlusCircle width={20} height={20} />
         </div>
-        <p className={'text-uppercase font-weight-bold'}>
+        <p className={'text-uppercase font-weight-bold text-light'}>
           Add Resource
         </p>
       </CCardBody>

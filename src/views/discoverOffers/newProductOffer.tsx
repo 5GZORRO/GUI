@@ -42,12 +42,12 @@ const NewProductOffer:React.FC = () => {
     <CContainer>
       <CRow className={'mb-5'}>
         <CCol>
-          <h1>New Product Offer</h1>
+          <h2>New Product Offer</h2>
         </CCol>
       </CRow>
       <CCard>
         <CCardHeader>
-          Resource Candidate
+          <h5>Resource Candidate</h5>
         </CCardHeader>
         <CCardBody>
           <CDataTable

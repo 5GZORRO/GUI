@@ -8,21 +8,21 @@ interface CardResourceProps {
 
 const CardResource:React.FC<CardResourceProps> = ({ height }) => {
   return (
-    <CCard style={{ minHeight: height || 320, minWidth: 322 }}>
+    <CCard className={'card-hover'} style={{ minHeight: height || 320, minWidth: 322 }}>
       <CCardHeader>
         <div className={'d-flex justify-content-between'}>
           <div className={'d-flex align-items-center justify-content-center'}>
-            <p className={'mb-0'}>Name Resource</p>
+            <h6>Name Resource</h6>
           </div>
           <CIcon style={{ cursor: 'pointer' }} name='cilTrash' width={18} height={18} onClick={() => console.log('remove resource')} />
         </div>
       </CCardHeader>
       <CCardBody>
-        <p className={'mb-1'}><small><strong className={'text-light'}>Description</strong></small></p>
+        <p className={'mb-1 strong-bold text-light'}>Description</p>
         <p className={'mb-3'}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        <CRow className={'mb-3'}>
+        <CRow className={'mb-2'}>
           <CCol xs={12}>
-            <p className={'mb-1'} ><small><strong className={'text-light'}>Hardware Capabilities</strong></small></p>
+            <p className={'mb-1 strong-bold text-light'} >Hardware Capabilities</p>
           </CCol>
           <CCol sm={6}>
             <IconRAM fill={'#fff'} />
@@ -46,7 +46,7 @@ const CardResource:React.FC<CardResourceProps> = ({ height }) => {
         </CRow>
         <CRow>
           <CCol xs={12}>
-            <p className={'mb-1'}><small><strong className={'text-light'}>Features</strong></small></p>
+            <p className={'mb-1 strong-bold text-light'}>Features</p>
           </CCol>
           <CCol sm={4}>
             <span className={'ml-2 text-light'}>Type</span>

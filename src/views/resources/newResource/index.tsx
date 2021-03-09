@@ -64,7 +64,7 @@ const NewResource:React.FC = () => {
       <CForm onSubmit={handleSubmit(onSubmit)}>
         <CCard className={'mb-5'}>
           <CCardHeader>
-          <h2>Resource Creation</h2>
+          <h5>Resource Creation</h5>
         </CCardHeader>
           <CCardBody>
           <CRow>
@@ -229,7 +229,7 @@ const NewResource:React.FC = () => {
                   }
                 </CFormGroup>
               </CCol>
-              <CCol sm={6 }>
+              <CCol sm={6}>
                 <CFormGroup>
                   <CLabel htmlFor='owner'>Owner</CLabel>
                   <Controller
@@ -256,7 +256,7 @@ const NewResource:React.FC = () => {
         </CCard>
         <CCard className={'mb-5'}>
           <CCardHeader>
-            <h2>Resource Physical Capabilities</h2>
+            <h5>Resource Physical Capabilities</h5>
           </CCardHeader>
           <CCardBody>
             <CRow>

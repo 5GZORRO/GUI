@@ -45,6 +45,31 @@
   }
 }
 
+.card-dotted {
+  border: 1px dashed $light !important;
+  background-color: #292A33 !important;
+  background-size: 3px 1px;
+  background-repeat: repeat-x;
+  cursor: pointer;
+  &:hover {
+  background:
+   linear-gradient(#292A33,#292A33) padding-box /* Don't extend this to border */,
+   linear-gradient(90deg, #26005F 0%, #47005F 23.69%, #6F005F 55.95%, #A5005F 85.96%, #AD005F 100%) border-box; /*Border-box is not need as it's the default value*/
+  }
+}
+
+.card-hover {
+  cursor: pointer;
+  border: 1px solid transparent !important;
+  line-style: 3px;
+  &:hover {
+    background: linear-gradient(#23242D, #23242D) padding-box, linear-gradient(90deg, #26005F 0%, #47005F 23.69%, #6F005F 55.95%, #A5005F 85.96%, #AD005F 100%) border-box;
+    border-radius: 4px;
+    outline: none;
+    box-shadow: none
+  }
+}
+
 // Cards with color accent
 .card[class^="bg-"],
 .card[class*=" bg-"] {

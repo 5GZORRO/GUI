@@ -10,9 +10,9 @@ exports[`New Product Offer Snapshot 1`] = `
     <div
       className="col"
     >
-      <h1>
+      <h2>
         New Product Offer
-      </h1>
+      </h2>
     </div>
   </div>
   <div
@@ -21,7 +21,9 @@ exports[`New Product Offer Snapshot 1`] = `
     <header
       className="card-header"
     >
-      Resource Candidate
+      <h5>
+        Resource Candidate
+      </h5>
     </header>
     <div
       className="card-body"

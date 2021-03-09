@@ -62,7 +62,7 @@ const DiscoverOffers:React.FC = () => {
             <CTabPane data-tab='allOffers'>
               <CCard className={'mt-4'}>
                 <CCardHeader>
-                  <CCardTitle>All Offers</CCardTitle>
+                  <h5>Search offers</h5>
                 </CCardHeader>
                 <CCardBody>
                   <SearchForm />
@@ -72,7 +72,7 @@ const DiscoverOffers:React.FC = () => {
             <CTabPane data-tab='myOffers'>
               <CCard className={'mt-4'}>
                 <CCardHeader>
-                  <CCardTitle>My Offers</CCardTitle>
+                  <h5>Search offers</h5>
                 </CCardHeader>
                 <CCardBody>
                   <SearchForm />
