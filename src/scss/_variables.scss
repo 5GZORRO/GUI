@@ -81,8 +81,15 @@ $btn-font-size: 0.875rem;
 $close-font-size: 1.5rem;
 $close-font-weight: 400;
 
+@font-face {
+  font-family: 'SFProDisplay';
+  font-style: normal;
+  font-weight: normal;
+  src: local('SFProDisplay'), url('../fonts/SFProDisplay-Regular.ttf') format('truetype');
+}
 // font
 $font-size-base: 0.875rem;
+$font-family-base: 'SFProDisplay';
 
 // link 
 $link-theme-map: (
