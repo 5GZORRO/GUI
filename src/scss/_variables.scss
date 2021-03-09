@@ -87,6 +87,13 @@ $close-font-weight: 400;
   font-weight: normal;
   src: local('SFProDisplay'), url('../fonts/SFProDisplay-Regular.ttf') format('truetype');
 }
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Inter'), url('../fonts/Inter-VariableFont_slnt,wght.ttf') format('truetype');
+}
 // font
 $font-size-base: 0.875rem;
 $font-family-base: 'SFProDisplay';
@@ -98,14 +105,20 @@ $link-theme-map: (
 );
 
 // nav 
-$nav-link-disabled-color:            $gray-600 !default;
-$nav-tabs-border-color:              #2A2B36 !default;
-$nav-tabs-link-hover-border-color:   $light !default;
-$nav-tabs-link-active-color:         $white !default;
-$nav-tabs-link-active-bg:            $primary !default;
-$nav-tabs-link-active-border-color:  transparent !default;
+$nav-link-disabled-color: $gray-600 !default;
+$nav-tabs-border-color:#2A2B36 !default;
+$nav-tabs-link-hover-border-color: $light !default;
+$nav-tabs-link-active-color: $white !default;
+$nav-tabs-link-active-bg: $primary !default;
+$nav-tabs-link-active-border-color: transparent !default;
 
 $nav-pills-link-active-color: $white !important;
-$nav-divider-color:            $gray-200 !important;
+$nav-divider-color: $gray-200 !important;
 
 $custom-checkbox-indicator-border-radius: 8px;
+
+$header-dark-color:  rgba($gray-300, .99) !default;
+$header-dark-hover-color: rgba($gray-300, .75) !default;
+
+$header-light-toggler-icon-bg: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='#{$header-dark-color}' stroke-width='2.25' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !default;
+$header-light-toggler-hover-icon-bg: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='#{$header-dark-hover-color}' stroke-width='2.25' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !default;

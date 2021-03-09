@@ -236,12 +236,15 @@ samp {
 }
 
 pre {
+  font-family: 'Inter';
+  font-weight: 400;
+  line-height: 0.75rem;
+  font-size: 0.75rem;
   // Remove browser default top margin
   margin-top: 0;
-  // Reset browser default of `1em` to use `rem`s
-  margin-bottom: 0.75rem;
+  height:100%;
   // Don't allow content to break outside
-  overflow: auto;
+  overflow: hidden;
   // Disable auto-hiding scrollbar in IE & legacy Edge to avoid overlap,
   // making it impossible to interact with the content
   -ms-overflow-style: scrollbar;

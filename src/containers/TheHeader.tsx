@@ -30,28 +30,30 @@ const TheHeader:React.FC = () => {
   }
 
   return (
-    <CHeader withSubheader>
+    <CHeader withSubheader color={'#fff'}>
       <CToggler
+        color={'#fff'}
         inHeader
-        className="ml-md-3 d-lg-none"
+        className='ml-md-3 d-lg-none'
         onClick={toggleSidebarMobile}
       />
       <CToggler
         inHeader
-        className="ml-3 d-md-down-none"
+        color={'#fff'}
+        className='ml-3 d-md-down-none'
         onClick={toggleSidebar}
       />
-      <CHeaderBrand className="mx-auto d-lg-none" to="/">
-        {/* <CIcon name="logo" height="48" alt="Logo"/> */} lOGO
+      <CHeaderBrand className='mx-auto d-lg-none' to='/'>
+        {/* <CIcon name='logo' height='48' alt='Logo'/> */} lOGO
       </CHeaderBrand>
 
-      <CHeaderNav className="d-md-down-none mr-auto">
-        <CHeaderNavItem className="px-3" >
-          <CHeaderNavLink to="/dashboard">Dashboard</CHeaderNavLink>
+      <CHeaderNav className='d-md-down-none mr-auto'>
+        <CHeaderNavItem className='px-3' >
+          <CHeaderNavLink to='/dashboard'>Dashboard</CHeaderNavLink>
         </CHeaderNavItem>
       </CHeaderNav>
-      <CSubheader className="px-3 justify-content-between">
-        <CBreadcrumbRouter className="border-0 c-subheader-nav m-0 px-0 px-md-3" routes={routes} />
+      <CSubheader className='px-3 justify-content-between'>
+        <CBreadcrumbRouter className='border-0 c-subheader-nav m-0 px-0 px-md-3' routes={routes} />
       </CSubheader>
     </CHeader>
   )

@@ -84,8 +84,7 @@ const NewProductOffer:React.FC = () => {
                 <td className='py-2'>
                   <CButton
                     color='primary'
-                    shape='square'
-                    size='sm'
+                    className={'shadow-none text-uppercase'}
                     onClick={() => console.log('asda')}
                   >
                     {'Show'}
