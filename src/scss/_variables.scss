@@ -2,6 +2,7 @@ $body-bg: #181924;
 $body-color: rgba(255, 255, 255, 0.87);
 $white: #fff;
 $primary: #26005F;
+$body-bg-light: #2A2B36;
 
 
 // new variables
@@ -19,9 +20,7 @@ $theme-colors: (
   warning: #F7931E,
   info: #004A93,
   success: #8CC63F,
-  white: #fff,
-  transparent: transparent,
-  backgroundLight: #2A2B36
+  white: #fff
 );
 
 $gray-100:   #EBEDEF;
@@ -63,6 +62,14 @@ $input-border-color:#3C3C43;
   font-weight: 700;
   font-size: 0.875rem;
   line-height: 1.5rem;
+}
+
+.bg-dark-light {
+  background-color: $body-bg-light;
+}
+
+.text-gray {
+  color: $gray-500;
 }
   
 $enable-gradients: false;

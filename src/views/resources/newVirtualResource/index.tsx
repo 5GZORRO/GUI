@@ -174,7 +174,7 @@ const NewVirtualResource: React.FC = () => {
             </CRow>
           </CCardBody>
         </CCard>
-        <div className={'bg-backgroundLight p-4 rounded-sm'}>
+        <div className={'bg-dark-light p-4 rounded-sm'}>
           {fields.map((field, index) => (
             <CCard key={field.id}>
               <CCardHeader>
