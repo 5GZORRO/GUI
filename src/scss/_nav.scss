@@ -209,6 +209,7 @@
   }
   .nav-link.active,
   .show > .nav-link {
+    font-weight: 700;
     @include themes($nav-theme-map, $create: parent) {
       color: #fff;
       background-color: transparent !important;

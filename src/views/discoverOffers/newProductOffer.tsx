@@ -11,7 +11,16 @@ import {
   CLabel,
   CCard,
   CCardBody,
-  CCardHeader
+  CCardHeader,
+  CModal,
+  CModalBody,
+  CModalHeader,
+  CNav,
+  CNavItem,
+  CNavLink,
+  CTabContent,
+  CTabPane,
+  CTabs
 } from '@coreui/react'
 import { useResources } from 'hooks/api/Resources'
 import { useHistory } from 'react-router-dom'
@@ -35,11 +44,51 @@ const NewProductOffer:React.FC = () => {
   const history = useHistory()
   const [selected, setSelected] = useState<number | null>(null)
   const { data, isLoading } = useResources()
+  const [modal, setModal] = useState(false)
 
   const check = (e: any, id: number) => setSelected(e.target.checked ? id : null)
 
   return (
     <CContainer>
+      <CModal
+        show={modal}
+        onClose={() => setModal(false)}
+        size='lg'
+      >
+        <CModalHeader closeButton>
+          <h5>Resource Candidate Details</h5>
+        </CModalHeader>
+        <CModalBody>
+          <CTabs activeTab='resourceDetail'>
+            <CNav variant='pills'>
+              <CNavItem>
+                <CNavLink data-tab='resourceDetail' color={'#6C6E7E'}>Resource Details</CNavLink>
+              </CNavItem>
+              <CNavItem>
+                <CNavLink data-tab='physicalCap'>Resource - Physical Capabilities</CNavLink>
+              </CNavItem>
+              <CNavItem>
+                <CNavLink data-tab='virtualCap'>Resource - Virtual Capabilities</CNavLink>
+              </CNavItem>
+            </CNav>
+            <CTabContent>
+              <CTabPane data-tab='resourceDetail'>
+                <CRow className={'mt-4'}>
+                  <CCol>
+                    <p className={'font-weight-bold'}>Name Label Resource</p>
+                  </CCol>
+                </CRow>
+              </CTabPane>
+              <CTabPane data-tab='physicalCap'>
+                PROFILE
+              </CTabPane>
+              <CTabPane data-tab='virtualCap'>
+                Messages
+              </CTabPane>
+            </CTabContent>
+          </CTabs>
+        </CModalBody>
+      </CModal>
       <CRow className={'mb-5'}>
         <CCol>
           <h2>New Product Offer</h2>
@@ -85,7 +134,7 @@ const NewProductOffer:React.FC = () => {
                   <CButton
                     color='primary'
                     className={'shadow-none text-uppercase'}
-                    onClick={() => console.log('asda')}
+                    onClick={() => setModal(true)}
                   >
                     {'Show'}
                   </CButton>

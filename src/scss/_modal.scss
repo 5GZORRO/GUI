@@ -30,6 +30,7 @@
   // We deliberately don't use `-webkit-overflow-scrolling: touch;` due to a
   // gnarly iOS Safari bug: https://bugs.webkit.org/show_bug.cgi?id=158342
   // See also https://github.com/twbs/bootstrap/issues/17695
+  box-shadow: none !important;
 }
 
 // Shell div to position the modal with bottom padding
@@ -176,7 +177,7 @@
   // Enable `flex-grow: 1` so that the body take up as much space as possible
   // when there should be a fixed height on `.modal-dialog`.
   flex: 1 1 auto;
-  padding: $modal-inner-padding;
+  padding: 2rem;
 }
 
 // Footer (for actions)
