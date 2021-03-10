@@ -154,7 +154,7 @@
   },
   "hooks": {
     "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-    "pre-commit": "npx eslint src && npm run test && npm run typescript"
+    "pre-commit": "yarn lint && yarn test && yarn typescript"
   },
   "config": {
     "commitizen": {
