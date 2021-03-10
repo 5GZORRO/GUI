@@ -3,6 +3,7 @@ $body-color: rgba(255, 255, 255, 0.87);
 $white: #fff;
 $primary: #26005F;
 
+
 // new variables
 $light: #6C6E7E;
 $gradient: linear-gradient(90deg, #26005F 0%, #47005F 23.69%, #6F005F 55.95%, #A5005F 85.96%, #AD005F 100%);
@@ -18,7 +19,9 @@ $theme-colors: (
   warning: #F7931E,
   info: #004A93,
   success: #8CC63F,
-  white: #fff
+  white: #fff,
+  transparent: transparent,
+  backgroundLight: #2A2B36
 );
 
 $gray-100:   #EBEDEF;

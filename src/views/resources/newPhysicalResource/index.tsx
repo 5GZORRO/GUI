@@ -22,7 +22,7 @@ import { PlusCircle } from 'assets/icons/externalIcons'
 
 interface FormVirtualResource {
   key: string;
-  number: string;
+  value: string;
   unit: string;
   quota: string;
 }
@@ -47,7 +47,7 @@ const NewPhysicalResource: React.FC = () => {
       virtualResource: [
         {
           key: '34',
-          number: '34',
+          value: '34',
           unit: 'MB',
           quota: '2'
         }
@@ -79,7 +79,7 @@ const NewPhysicalResource: React.FC = () => {
       <CForm onSubmit={handleSubmit(onSubmit)}>
         <CCard>
           <CCardHeader>
-            <h2>Physical Capabilities Details</h2>
+            <h5>Physical Capabilities Details</h5>
           </CCardHeader>
           <CCardBody>
             <CRow>
@@ -132,137 +132,135 @@ const NewPhysicalResource: React.FC = () => {
             </CRow>
           </CCardBody>
         </CCard>
-        <CCard>
-          <CCardBody>
-            {fields.map((field, index) => (
-              <CCard key={field.id}>
-                <CCardHeader>
-                  <div className={'d-flex justify-content-between'}>
-                    <h2>Create Resource Virtual Capabilities</h2>
-                    {index > 0 && (
-                      <CButton
-                        variant={'ghost'}
-                        className="d-flex justify-content-center align-items-center"
-                        onClick={() => remove(index)}
-                      >
-                        <CIcon name="cilTrash" size={'xl'} className={'mr-2'} />
-                        <span>Delete Resource</span>
-                      </CButton>
-                    )}
-                  </div>
-                </CCardHeader>
-                <CCardBody>
-                  <CRow>
-                    <CCol sm={6}>
-                      <CFormGroup>
-                        <CLabel htmlFor="key">Hardware Cap Key</CLabel>
-                        <Controller
-                          control={control}
-                          defaultValue={field.key}
-                          rules={{ required: true }}
-                          name={`virtualResource[${index}].key`}
-                          render={({ onChange, onBlur, value }) => (
-                            <CInput
-                              onChange={onChange}
-                              onBlur={onBlur}
-                              value={value}
-                            />
-                          )}
-                        />
-                        {errors.virtualResource?.[index] &&
-                        <CFormText className='help-block'>
-                          Please enter href
-                        </CFormText>
-                        }
-                      </CFormGroup>
-                    </CCol>
-                    <CCol sm={6}>
-                      <CFormGroup>
-                        <CLabel htmlFor="number">Hardware Cap Value</CLabel>
-                        <Controller
-                          control={control}
-                          defaultValue={field.number}
-                          rules={{ required: true }}
-                          name={`virtualResource[${index}].number`}
-                          render={({ onChange, onBlur, value }) => (
-                            <CInput
-                              onChange={onChange}
-                              onBlur={onBlur}
-                              value={value}
-                            />
-                          )}
-                        />
-                        {errors?.virtualResource?.[index] &&
-                        <CFormText className='help-block'>
-                          Please enter a valid hardware cap value
-                        </CFormText>
-                        }
-                      </CFormGroup>
-                    </CCol>
-                    <CCol sm={6}>
-                      <CFormGroup>
-                        <CLabel htmlFor="unit">Hardware Cap Unit</CLabel>
-                        <Controller
-                          control={control}
-                          defaultValue={field.unit}
-                          rules={{ required: true }}
-                          name={`virtualResource[${index}].unit`}
-                          render={({ onChange, onBlur, value }) => (
-                            <CInput
-                              onChange={onChange}
-                              onBlur={onBlur}
-                              value={value}
-                            />
-                          )}
-                        />
-                      {errors?.virtualResource?.[index] &&
-                        <CFormText className='help-block'>
-                          Please enter unit
-                        </CFormText>
+        <div className={'bg-backgroundLight p-4 rounded-sm'}>
+          {fields.map((field, index) => (
+            <CCard key={field.id}>
+              <CCardHeader>
+                <div className={'d-flex justify-content-between align-items-center'}>
+                  <h5>Create Resource Virtual Capabilities</h5>
+                  {index > 0 && (
+                    <CButton
+                      variant={'ghost'}
+                      className="d-flex justify-content-center align-items-center"
+                      onClick={() => remove(index)}
+                    >
+                      <CIcon name="cilTrash" size={'lg'} className={'mr-2'} />
+                      <span className={'text-gray'}>Delete Resource</span>
+                    </CButton>
+                  )}
+                </div>
+              </CCardHeader>
+              <CCardBody>
+                <CRow>
+                  <CCol sm={6}>
+                    <CFormGroup>
+                      <CLabel htmlFor="key">Hardware Cap Key</CLabel>
+                      <Controller
+                        control={control}
+                        defaultValue={field.key}
+                        rules={{ required: true }}
+                        name={`virtualResource[${index}].key`}
+                        render={({ onChange, onBlur, value }) => (
+                          <CInput
+                            onChange={onChange}
+                            onBlur={onBlur}
+                            value={value}
+                          />
+                        )}
+                      />
+                      {errors.virtualResource?.[index] &&
+                      <CFormText className='help-block'>
+                        Please enter href
+                      </CFormText>
                       }
-                      </CFormGroup>
-                    </CCol>
-                    <CCol sm={6}>
-                      <CFormGroup>
-                        <CLabel htmlFor="quota">Hardware Cap Quota</CLabel>
-                        <Controller
-                          control={control}
-                          defaultValue={field.quota}
-                          rules={{ required: true }}
-                          name={`virtualResource[${index}].quota`}
-                          render={({ onChange, onBlur, value }) => (
-                            <CInput
-                              onChange={onChange}
-                              onBlur={onBlur}
-                              value={value}
-                            />
-                          )}
-                        />
-                        {errors?.virtualResource?.[index] &&
-                        <CFormText className='help-block'>
-                          Please enter a valid quota
-                        </CFormText>
-                        }
-                      </CFormGroup>
-                    </CCol>
-                  </CRow>
-                </CCardBody>
-              </CCard>
-            ))}
-            <div className="d-flex justify-content-center align-items-center">
-              <CButton
-                className="d-flex justify-content-center align-items-center"
-                variant={'ghost'}
-                onClick={addVirtualResource}
-              >
-                <PlusCircle className={'mr-2'} /> Add Resource Virtual Capabilities
-              </CButton>
-            </div>
-          </CCardBody>
-        </CCard>
+                    </CFormGroup>
+                  </CCol>
+                  <CCol sm={6}>
+                    <CFormGroup>
+                      <CLabel htmlFor="value">Hardware Cap Value</CLabel>
+                      <Controller
+                        control={control}
+                        defaultValue={field.value}
+                        rules={{ required: true }}
+                        name={`virtualResource[${index}].value`}
+                        render={({ onChange, onBlur, value }) => (
+                          <CInput
+                            onChange={onChange}
+                            onBlur={onBlur}
+                            value={value}
+                          />
+                        )}
+                      />
+                      {errors?.virtualResource?.[index] &&
+                      <CFormText className='help-block'>
+                        Please enter a valid hardware cap value
+                      </CFormText>
+                      }
+                    </CFormGroup>
+                  </CCol>
+                  <CCol sm={6}>
+                    <CFormGroup>
+                      <CLabel htmlFor="unit">Hardware Cap Unit</CLabel>
+                      <Controller
+                        control={control}
+                        defaultValue={field.unit}
+                        rules={{ required: true }}
+                        name={`virtualResource[${index}].unit`}
+                        render={({ onChange, onBlur, value }) => (
+                          <CInput
+                            onChange={onChange}
+                            onBlur={onBlur}
+                            value={value}
+                          />
+                        )}
+                      />
+                    {errors?.virtualResource?.[index] &&
+                      <CFormText className='help-block'>
+                        Please enter unit
+                      </CFormText>
+                    }
+                    </CFormGroup>
+                  </CCol>
+                  <CCol sm={6}>
+                    <CFormGroup>
+                      <CLabel htmlFor="quota">Hardware Cap Quota</CLabel>
+                      <Controller
+                        control={control}
+                        defaultValue={field.quota}
+                        rules={{ required: true }}
+                        name={`virtualResource[${index}].quota`}
+                        render={({ onChange, onBlur, value }) => (
+                          <CInput
+                            onChange={onChange}
+                            onBlur={onBlur}
+                            value={value}
+                          />
+                        )}
+                      />
+                      {errors?.virtualResource?.[index] &&
+                      <CFormText className='help-block'>
+                        Please enter a valid quota
+                      </CFormText>
+                      }
+                    </CFormGroup>
+                  </CCol>
+                </CRow>
+              </CCardBody>
+            </CCard>
+          ))}
+          <div className="d-flex justify-content-center align-items-center">
+            <CButton
+              className="d-flex justify-content-center align-items-center"
+              variant={'ghost'}
+              onClick={addVirtualResource}
+            >
+              <PlusCircle className={'mr-2'} /> Add Resource Virtual Capabilities
+            </CButton>
+          </div>
+        </div>
         <CCard>
           <CCardHeader>
-            <h2>Features</h2>
+            <h5>Features</h5>
           </CCardHeader>
           <CCardBody>
             <CRow>
@@ -317,7 +315,7 @@ const NewPhysicalResource: React.FC = () => {
         </CCard>
         <CRow className={'d-flex flex-row-reverse mt-5'}>
           <CCol xs={6} className={'d-flex justify-content-end'}>
-            <CButton className={'text-uppercase px-5 mr-3'} variant='outline' color={'secondary'}>Cancel</CButton>
+            <CButton className={'text-uppercase px-5 mr-3'} variant='outline' color={'white'}>Cancel</CButton>
             <CButton color={'gradient'} className='px-5 text-uppercase' type='submit'>Submit</CButton>
           </CCol>
         </CRow>

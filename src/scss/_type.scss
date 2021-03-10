@@ -43,6 +43,10 @@ h6, .h6 {
   font-weight: $lead-font-weight;
 }
 
+.text-gray {
+  color: $gray-500;
+}
+
 // Type display classes
 .display-1 {
   @include font-size($display1-size);

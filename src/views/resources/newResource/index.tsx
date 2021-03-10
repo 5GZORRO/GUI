@@ -85,7 +85,7 @@ const NewResource:React.FC = () => {
                   )}
                 />
               {errors.name &&
-                <CFormText className='help-block'>Please enter your email</CFormText>
+                <CFormText className='help-block'>Please enter a name</CFormText>
               }
               </CFormGroup>
             </CCol>
@@ -107,7 +107,7 @@ const NewResource:React.FC = () => {
                     )}
                   />
                   {errors.description &&
-                  <CFormText className='help-block'>Please enter your email</CFormText>
+                  <CFormText className='help-block'>Please enter a description</CFormText>
                   }
                 </CFormGroup>
               </CCol>
@@ -129,7 +129,7 @@ const NewResource:React.FC = () => {
                     )}
                   />
                   {errors.version &&
-                  <CFormText className='help-block'>Please enter your email</CFormText>
+                  <CFormText className='help-block'>Please enter a version</CFormText>
                   }
                 </CFormGroup>
               </CCol>
@@ -161,6 +161,9 @@ const NewResource:React.FC = () => {
                   <CFormText color='muted'>
                     ex. 01/01/1970
                   </CFormText>
+                  {errors.validFor &&
+                  <CFormText className='help-block'>Please enter a valid date</CFormText>
+                  }
               </CFormGroup>
               </CCol>
               <CCol sm={6}>
@@ -187,7 +190,7 @@ const NewResource:React.FC = () => {
                     <CInputGroupAppend>
                         <CButton
                           type='button'
-                          color='white'
+                          color='transparent'
                           onClick={() => history.push('/resource/new-resource/new-category')}
                         >
                           <PlusCircle />
@@ -195,7 +198,7 @@ const NewResource:React.FC = () => {
                     </CInputGroupAppend>
                   </CInputGroup>
                   {errors.category &&
-                    <CFormText className='help-block'>Please select a type</CFormText>
+                    <CFormText className='help-block'>Please select a category</CFormText>
                   }
                 </CFormGroup>
               </CCol>
@@ -221,7 +224,13 @@ const NewResource:React.FC = () => {
                       )}
                     />
                     <CInputGroupAppend>
-                      <CButton type='button' color='white' onClick={() => console.log('/resource/new-resource/new-category')}><PlusCircle /></CButton>
+                      <CButton
+                        type='button'
+                        color='transparent'
+                        onClick={() => console.log('/resource/new-resource/new-category')}
+                      >
+                        <PlusCircle />
+                      </CButton>
                     </CInputGroupAppend>
                   </CInputGroup>
                   {errors.category &&

@@ -34,9 +34,9 @@
   &:focus,
   &.focus {
     outline: 0;
-    box-shadow: $btn-focus-box-shadow;
+    // box-shadow: $btn-focus-box-shadow;
     &:not([class*="ghost"]):not([class*="link"]):not([class*="outline"]):not([class*="transparent"]) {
-      @include elevation(4);
+      // @include elevation(4);
     }
   }
 
