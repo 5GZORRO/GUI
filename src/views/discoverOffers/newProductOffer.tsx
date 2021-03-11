@@ -62,7 +62,7 @@ const NewProductOffer:React.FC = () => {
           <CTabs activeTab='resourceDetail'>
             <CNav variant='pills'>
               <CNavItem>
-                <CNavLink data-tab='resourceDetail' color={'#6C6E7E'}>Resource Details</CNavLink>
+                <CNavLink className={'pl-0 mb-4'} data-tab='resourceDetail' color={'#6C6E7E'}>Resource Details</CNavLink>
               </CNavItem>
               <CNavItem>
                 <CNavLink data-tab='physicalCap'>Resource - Physical Capabilities</CNavLink>
@@ -75,7 +75,27 @@ const NewProductOffer:React.FC = () => {
               <CTabPane data-tab='resourceDetail'>
                 <CRow className={'mt-4'}>
                   <CCol>
-                    <p className={'font-weight-bold'}>Name Label Resource</p>
+                    <p className={'font-weight-bold font-18 mb-4'}>Name Label Resource</p>
+                    <p className={'text-light mb-2'}>Description</p>
+                    <p className={'font-16 mb-4'}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <CRow>
+                      <CCol>
+                        <p className={'text-light mb-1'}>Type</p>
+                        <p className={'font-16 text-white'}>Type Label</p>
+                        <p className={'text-light mb-1'}>Valid For</p>
+                        <p className={'font-16 text-white'}>22-02-2010</p>
+                        <p className={'text-light mb-1'}>Resource Specification</p>
+                        <p className={'font-16 text-white'}>Resource Specification Label</p>
+                      </CCol>
+                      <CCol>
+                        <p className={'text-light mb-1'}>Version</p>
+                        <p className={'font-16 text-white'}>Version Label</p>
+                        <p className={'text-light mb-1'}>Category</p>
+                        <p className={'font-16 text-white'}>Category Label</p>
+                        <p className={'text-light mb-1'}>Owner Did</p>
+                        <p className={'font-16 text-white'}>Owner Did Label</p>
+                      </CCol>
+                    </CRow>
                   </CCol>
                 </CRow>
               </CTabPane>

@@ -71,6 +71,16 @@ $input-border-color:#3C3C43;
 .text-gray {
   color: $gray-500;
 }
+
+.font-16 {
+  font-size: 1rem;
+  line-height: 1.25rem;
+}
+
+.font-18 {
+  font-size: 1.125rem;
+  line-height: 1.125rem;
+}
   
 $enable-gradients: false;
 
