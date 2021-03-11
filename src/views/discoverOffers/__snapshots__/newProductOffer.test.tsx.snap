@@ -5,6 +5,91 @@ exports[`New Product Offer Snapshot 1`] = `
   className="container"
 >
   <div
+    onClick={[Function]}
+  >
+    <div
+      className="modal overflow-auto fade"
+      data-modal={true}
+      role="dialog"
+      tabIndex="-1"
+    >
+      <div
+        className="modal-dialog modal-lg"
+        role="document"
+      >
+        <div
+          className="modal-content"
+        >
+          <header
+            className="modal-header"
+          >
+            <h5>
+              Resource Candidate Details
+            </h5>
+            <button
+              aria-label="Close"
+              className="close"
+              onClick={[Function]}
+            >
+              ×
+            </button>
+          </header>
+          <div
+            className="modal-body"
+          >
+            <ul
+              className="nav nav-pills"
+            >
+              <li
+                className="nav-item"
+              >
+                <a
+                  className="nav-link"
+                  color="#6C6E7E"
+                  data-tab="resourceDetail"
+                  href="#"
+                  onClick={[Function]}
+                  rel={null}
+                >
+                  Resource Details
+                </a>
+              </li>
+              <li
+                className="nav-item"
+              >
+                <a
+                  className="nav-link"
+                  data-tab="physicalCap"
+                  href="#"
+                  onClick={[Function]}
+                  rel={null}
+                >
+                  Resource - Physical Capabilities
+                </a>
+              </li>
+              <li
+                className="nav-item"
+              >
+                <a
+                  className="nav-link"
+                  data-tab="virtualCap"
+                  href="#"
+                  onClick={[Function]}
+                  rel={null}
+                >
+                  Resource - Virtual Capabilities
+                </a>
+              </li>
+            </ul>
+            <div
+              className="tab-content"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
     className="mb-5 row"
   >
     <div
