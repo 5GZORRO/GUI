@@ -22,7 +22,9 @@ import {
   cilOptions,
   cilFindInPage,
   cilListRich,
-  cilArrowLeft
+  cilArrowLeft,
+  cilBell,
+  cilEnvelopeOpen
 } from '@coreui/icons/js/free'
 
 export const icons = Object.assign({}, {
@@ -50,5 +52,7 @@ export const icons = Object.assign({}, {
   cilOptions,
   cilFindInPage,
   cilListRich,
-  cilArrowLeft
+  cilArrowLeft,
+  cilBell,
+  cilEnvelopeOpen
 })

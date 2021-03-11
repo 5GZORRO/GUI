@@ -11,6 +11,11 @@ import {
   CToggler,
   CBreadcrumbRouter
 } from '@coreui/react'
+import {
+  TheHeaderDropdownNotif,
+  TheHeaderDropdown,
+  TheHeaderDropdownMssg
+} from './index'
 
 // routes config
 import routes from '../routes'
@@ -51,6 +56,11 @@ const TheHeader:React.FC = () => {
         <CHeaderNavItem className='px-3' >
           <CHeaderNavLink to='/dashboard'>Dashboard</CHeaderNavLink>
         </CHeaderNavItem>
+      </CHeaderNav>
+      <CHeaderNav className="px-3">
+        <TheHeaderDropdownNotif />
+        <TheHeaderDropdownMssg />
+        <TheHeaderDropdown />
       </CHeaderNav>
       <CSubheader className='px-3 justify-content-between'>
         <CBreadcrumbRouter className='border-0 c-subheader-nav m-0 px-0 px-md-3' routes={routes} />
