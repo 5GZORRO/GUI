@@ -1,7 +1,9 @@
 import React, { Suspense } from 'react'
-import { HashRouter, Route, Switch } from 'react-router-dom'
+import { Router, Route, Switch } from 'react-router'
+import { createBrowserHistory } from 'history'
 import './scss/style.scss'
 import { LogoVerticalWhite } from 'assets/icons/logos'
+import ProviderAuth from 'context/AuthContext'
 
 const loading = (
   <div style={{ height: '100vh' }} className='d-flex justify-content-center align-items-center' data-testid='loading'>
@@ -16,16 +18,19 @@ const Login = React.lazy(() => import('./views/login/index'))
 const Register = React.lazy(() => import('./views/register/index'))
 
 const App:React.FC = () => {
+  const history = createBrowserHistory()
   return (
-    <HashRouter>
-        <Suspense fallback={loading}>
+    <Router history={history}>
+    <ProviderAuth>
+      <Suspense fallback={loading}>
         <Switch>
           <Route exact path='/login' name='login' component={Login} />
           <Route path='/register' name='register' component={Register} />
           <Route path="/" component={TheLayout} />
         </Switch>
       </Suspense>
-    </HashRouter>
+    </ProviderAuth>
+    </Router>
   )
 }
 
