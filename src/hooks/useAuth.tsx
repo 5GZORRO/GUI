@@ -24,7 +24,7 @@ export const useAuth = () => {
 
   useEffect(() => {
     console.log(user.hasAccess)
-    user.hasAccess ? history.push('/') : history.push('/login')
+    !user.hasAccess && history.push('/login')
   }, [user])
 
   return {

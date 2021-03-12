@@ -94,7 +94,7 @@ $fonts:
     18 1.125rem 1.125rem;
 
 @each $font, $size, $line in $fonts {
-  .text-#{$font} {
+  .font-#{$font} {
     font-size: $size;
     line-height: $line;
   }

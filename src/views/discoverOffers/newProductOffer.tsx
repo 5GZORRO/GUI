@@ -24,6 +24,7 @@ import {
 } from '@coreui/react'
 import { useResources } from 'hooks/api/Resources'
 import { useHistory } from 'react-router-dom'
+import { IconRAM } from 'assets/icons/externalIcons'
 
 const fields = [
   { key: 'select', label: '', filter: false, sorter: false },
@@ -100,10 +101,107 @@ const NewProductOffer:React.FC = () => {
                 </CRow>
               </CTabPane>
               <CTabPane data-tab='physicalCap'>
-                PROFILE
+              <CRow className={'my-4'}>
+                  <CCol>
+                    <p className={'font-weight-bold font-18 mb-4'}>Name Label Resource- Physical Capabilities</p>
+                    <p className={'text-light mb-2'}>Description</p>
+                    <p className={'font-16 mb-4'}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <CRow>
+                      <CCol>
+                        <p className={'text-light mb-1'}>Cloud Id</p>
+                        <p className={'font-16 text-white'}>Cloud Id Label</p>
+                        <p className={'text-light mb-1'}>Node Id</p>
+                        <p className={'font-16 text-white'}>Node Id Label</p>
+                        <p className={'text-light mb-1'}>Resource Specification</p>
+                        <p className={'font-16 text-white'}>Resource Specification Label</p>
+                      </CCol>
+                      <CCol>
+                        <p className={'text-light mb-1'}>Data Center Id</p>
+                        <p className={'font-16 text-white'}>Data Center Id Label</p>
+                      </CCol>
+                    </CRow>
+                  </CCol>
+                </CRow>
+                <CRow className={'mb-4'}>
+                  <CCol>
+                    <p className={'font-weight-bold font-16 text-light mb-4'}>Hardware Capabilities</p>
+                    <IconRAM fill={'#fff'} />
+                    <span className={'ml-2 font-weight-bold'}>RAM</span>
+                    <div className={'mt-3'}>
+                      <CRow>
+                        <CCol xs={4} className={'text-light'}><span>Hardware Cap Value</span></CCol>
+                        <CCol xs={8}>
+                          <span className={'font-weight-bold text-gradient'}>64G</span>
+                        </CCol>
+                      </CRow>
+                      <CRow className={'mt-2'}>
+                        <CCol xs={4} className={'text-light'}><span>Hardware Cap Unit</span></CCol>
+                        <CCol xs={8}>
+                          <span className={'font-weight-bold'}>4 unit</span>
+                        </CCol>
+                      </CRow>
+                      <CRow className={'mt-2'}>
+                        <CCol xs={4} className={'text-light'}><span>Hardware Cap Quota</span></CCol>
+                        <CCol xs={8}>
+                          <span className={'font-weight-bold'}>8G</span>
+                        </CCol>
+                      </CRow>
+                    </div>
+                  </CCol>
+                </CRow>
+                <CRow>
+                  <CCol>
+                    <p className={'font-weight-bold font-16 text-light'}>Feature</p>
+                    <p className={'text-light'}>Href</p>
+                    <p className={'text-light'}>www.ubiwhere.com</p>
+                  </CCol>
+                </CRow>
               </CTabPane>
               <CTabPane data-tab='virtualCap'>
-                Messages
+              <CRow className={'my-4'}>
+                  <CCol>
+                    <p className={'font-weight-bold font-18 mb-4'}>Name Label Resource - Virtual Capabilities</p>
+                    <p className={'text-light mb-2'}>Description</p>
+                    <p className={'font-16 mb-4'}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <CRow>
+                      <CCol>
+                        <p className={'text-light mb-1'}>Cloud Id</p>
+                        <p className={'font-16 text-white'}>Cloud Id Label</p>
+                        <p className={'text-light mb-1'}>Node Id</p>
+                        <p className={'font-16 text-white'}>Node Id Label</p>
+                        <p className={'text-light mb-1'}>Type</p>
+                        <p className={'font-16 text-white'}>Type Label</p>
+                      </CCol>
+                      <CCol>
+                        <p className={'text-light mb-1'}>Data Center Id</p>
+                        <p className={'font-16 text-white'}>Data Center Id Label</p>
+                        <p className={'text-light mb-1'}>Is Master</p>
+                        <p className={'font-16 text-white'}>False</p>
+                      </CCol>
+                    </CRow>
+                  </CCol>
+                </CRow>
+                <CRow className={'mb-4'}>
+                  <CCol>
+                    <p className={'font-weight-bold font-16 text-light mb-4'}>Virtual Capabilities</p>
+                    <IconRAM fill={'#fff'} />
+                    <span className={'ml-2 font-weight-bold'}>Cloud</span>
+                    <div className={'mt-3'}>
+                      <CRow>
+                        <CCol xs={4} className={'text-light'}><span>Virtual Cap Value</span></CCol>
+                        <CCol xs={8}>
+                          <span className={'font-weight-bold text-gradient'}>64G</span>
+                        </CCol>
+                      </CRow>
+                      <CRow className={'mt-2'}>
+                        <CCol xs={4} className={'text-light'}><span>Virtual Cap Unit</span></CCol>
+                        <CCol xs={8}>
+                          <span className={'font-weight-bold'}>4 unit</span>
+                        </CCol>
+                      </CRow>
+                    </div>
+                  </CCol>
+                </CRow>
               </CTabPane>
             </CTabContent>
           </CTabs>
