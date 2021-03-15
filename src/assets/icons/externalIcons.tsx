@@ -47,3 +47,17 @@ export const PDFIcon = (props: React.SVGProps<SVGSVGElement>) => (
     />
   </svg>
 )
+
+export const ArrowLeftIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    width={24}
+    height={24}
+    viewBox='0 0 24 24'
+    {...props}
+  >
+    <path
+      d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"
+      fill={props.fill || '#6C6E7E'}
+    />
+  </svg>
+)

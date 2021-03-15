@@ -2,7 +2,8 @@ import React from 'react'
 import { CButton, CCard, CCardBody, CCardHeader, CCol, CContainer, CForm, CFormGroup, CFormText, CInput, CInputGroup, CInputGroupAppend, CInputGroupPrepend, CInputGroupText, CLabel, CRow, CSelect } from '@coreui/react'
 import { Controller, useForm } from 'react-hook-form'
 import CIcon from '@coreui/icons-react'
-import { PlusCircle } from 'assets/icons/externalIcons'
+import { PlusCircle, ArrowLeftIcon } from 'assets/icons/externalIcons'
+import { useHistory } from 'react-router'
 interface formOfferCreation {
   identifier: string
   name: string
@@ -17,6 +18,7 @@ interface formOfferCreation {
 
 const ProductDetail: React.FC = () => {
   const { control, handleSubmit, errors } = useForm<formOfferCreation>()
+  const history = useHistory()
 
   const onSubmit = (data: formOfferCreation) => {
     console.log('data FormPhysical', data)
@@ -309,8 +311,13 @@ const ProductDetail: React.FC = () => {
         </CCardBody>
       </CCard>
       <div className={'mt-5 d-flex justify-content-between mb-5'}>
-        <CButton className={'text-uppercase px-5'} color={'gradient'} variant={'ghost'}>
-          {/* <CIcon name={'cilChevronLeft'} /> */}
+        <CButton
+          className={'text-uppercase px-5 d-flex align-items-center'}
+          color={'gradient'}
+          variant={'ghost'}
+          onClick={() => history.goBack()}
+        >
+          <ArrowLeftIcon fill={'#fff'} />
           Previous
         </CButton>
         <div className={'d-flex'}>
