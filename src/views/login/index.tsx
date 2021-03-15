@@ -114,12 +114,12 @@ const Login:React.FC = () => {
                       </CFormGroup>
                     <CRow>
                       <CCol xs={12} className='text-right'>
-                        <CButton
-                          color='link'
-                          className='px-0 text-uppercase'
+                        <p
+                          className={'px-0 text-uppercase font-12 text-light cursor-pointer'}
+                          onClick={() => console.log('did something')}
                         >
-                          did you have any problem?
-                        </CButton>
+                          <u>did you have any problem?</u>
+                        </p>
                       </CCol>
                       <CCol xs={12}>
                         <CButton

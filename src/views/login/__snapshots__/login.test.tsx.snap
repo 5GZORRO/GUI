@@ -196,13 +196,14 @@ exports[`Login Snapshot  1`] = `
                 <div
                   className="text-right col-12"
                 >
-                  <button
-                    className="px-0 text-uppercase btn btn-link"
+                  <p
+                    className="px-0 text-uppercase font-12 text-light cursor-pointer"
                     onClick={[Function]}
-                    type="button"
                   >
-                    did you have any problem?
-                  </button>
+                    <u>
+                      did you have any problem?
+                    </u>
+                  </p>
                 </div>
                 <div
                   className="col-12"

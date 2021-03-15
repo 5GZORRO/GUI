@@ -88,6 +88,18 @@ $colors:(
   }
 }
 
+$cursors:(
+    pointer: pointer,
+    not-allowed: not-allowed,
+    none: none
+);
+
+@each $cursor, $cursorValue in $cursors {
+  .cursor-#{$cursor} {
+    cursor: $cursorValue;
+  }
+}
+
 $fonts:
     12 0.75rem 0.75rem,
     16 1rem 1.25rem,
