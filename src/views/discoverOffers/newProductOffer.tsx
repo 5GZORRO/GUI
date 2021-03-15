@@ -228,13 +228,14 @@ const NewProductOffer:React.FC = () => {
             itemsPerPage={5}
             scopedSlots={{
               select: (item: { id: any; _selected: boolean | undefined }) => {
+                console.log(item)
                 return (
                   <td>
                     <CFormGroup variant='custom-checkbox'>
                       <CInputCheckbox
                         custom
                         id={`checkbox${item.id}`}
-                        checked={item._selected}
+                        checked={item.id === selected}
                         onChange={(e) => check(e, item.id)}
                       />
                       <CLabel
