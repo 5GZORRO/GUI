@@ -19,7 +19,7 @@ export const useAuth = () => {
   }
 
   useEffect(() => {
-    const authToken = localStorage.getItem('vas')
+    // const authToken = localStorage.getItem('vas')
   }, [])
 
   useEffect(() => {
