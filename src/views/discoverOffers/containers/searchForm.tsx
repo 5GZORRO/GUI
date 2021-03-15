@@ -4,14 +4,18 @@ import { Controller, useForm } from 'react-hook-form'
 import { CForm, CFormGroup, CRow, CCol, CLabel, CButton, CTextarea, CFormText } from '@coreui/react'
 
 interface Search {
-  search: string
+  search: string,
 }
 
-const SearchForm = () => {
+interface SearchFormTypes {
+  onSubmit: (form:Search) => void
+}
+
+const SearchForm:React.FC<SearchFormTypes> = ({ onSubmit }) => {
   const { handleSubmit, errors, control, reset } = useForm<Search>()
 
   const submit = (form: Search) => {
-    console.log('search', form)
+    onSubmit(form)
   }
 
   const clearForm = () => {

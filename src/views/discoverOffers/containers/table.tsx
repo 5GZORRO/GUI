@@ -9,13 +9,14 @@ import {
   CButton,
   CCardBody,
   CFormGroup,
-  CButtonToolbar
+  CButtonToolbar,
+  CCardHeader
 } from '@coreui/react'
 // import dayjs from 'dayjs'
 /** Hooks */
-import { useResources } from 'hooks/api/Resources'
+import { useResource } from 'hooks/api/Resources'
 
-export const Table:React.FC = () => {
+export const OffersTable:React.FC<{search :string | null}> = ({ search }) => {
   const [selected, setSelected] = useState([2, 3])
 
   /* const params:any = {
@@ -26,7 +27,7 @@ export const Table:React.FC = () => {
     pageSize
   } */
 
-  const { data, isLoading } = useResources()
+  const { data, isLoading } = useResource(search)
 
   const check = (e: React.FormEvent<any>, id: number) => {
     if (e) {
@@ -37,10 +38,11 @@ export const Table:React.FC = () => {
   }
 
   const fields = [
-    { key: 'select', label: '', filter: false },
-    'statusUpdated',
-    'actionType',
-    'status',
+    'id',
+    'name',
+    'place',
+    'owner',
+    'price',
     {
       key: 'show_details',
       label: '',
@@ -49,15 +51,18 @@ export const Table:React.FC = () => {
       sort: false
     }
   ]
+  console.log(data)
   return (
     <>
-      <CCard className='p-5'>
+      <CCard className={'mt-4'}>
+        <CCardHeader>
+          <h5>List Offers</h5>
+        </CCardHeader>
         <CCardBody>
-          <h1>Resources</h1>
           <CDataTable
             cleaner
             loading={isLoading}
-            items={data?.content}
+            items={data}
             columnFilter
             tableFilter
             clickableRows
@@ -85,8 +90,7 @@ export const Table:React.FC = () => {
                   <td className='py-2'>
                     <CButton
                       color='primary'
-                      className={'px-5 text-uppercase'}
-                      variant='outline'
+                      className={'text-uppercase'}
                       shape='square'
                       onClick={() => console.log('asda')}
                     >
@@ -103,23 +107,23 @@ export const Table:React.FC = () => {
       </CCard>
       <CButtonToolbar justify='end' className={'mb-5'}>
         <CButton
-          className='justify-content-end px-5 mr-3'
+          className='justify-content-end px-5 mr-3 text-uppercase'
           variant={'outline'}
           block={false}
           color={'white'}
         >
-              Cancel
+          Cancel
         </CButton>
         <CButton
           block={false}
           color={'gradient'}
-          className='justify-content-end px-5'
+          className='justify-content-end px-5 text-uppercase'
         >
-            Next
+          Next
         </CButton>
       </CButtonToolbar>
     </>
   )
 }
 
-export default Table
+export default OffersTable
