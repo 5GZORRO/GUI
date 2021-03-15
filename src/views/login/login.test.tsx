@@ -53,7 +53,7 @@ describe('Login', function () {
   })
 
   it.skip('should display matching error when email is invalid', async () => {
-    const { getByRole, getByTestId, getByLabelText } = render(<Login />)
+    const { getByRole, getByTestId } = render(<Login />)
 
     fireEvent.input(getByTestId('key'), {
       target: {
