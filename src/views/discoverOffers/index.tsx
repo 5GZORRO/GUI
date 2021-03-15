@@ -6,7 +6,6 @@ import {
   CCard,
   CCardBody,
   CCardHeader,
-  CCardTitle,
   CCol,
   CContainer,
   CModal,
@@ -21,12 +20,19 @@ import {
   CTabs
 } from '@coreui/react'
 import { useHistory } from 'react-router-dom'
+import OffersTable from './containers/table'
+/** Containers */
 import SearchForm from './containers/searchForm'
 
 const DiscoverOffers:React.FC = () => {
   const [modal, setModal] = useState(false)
+  const [search, setSearch] = useState(null)
 
   const history = useHistory()
+
+  const searchOffer = (search:any) => {
+    setSearch(search)
+  }
 
   return (
     <CContainer>
@@ -65,7 +71,7 @@ const DiscoverOffers:React.FC = () => {
                   <h5>Search offers</h5>
                 </CCardHeader>
                 <CCardBody>
-                  <SearchForm />
+                  <SearchForm onSubmit={searchOffer} />
                 </CCardBody>
               </CCard>
             </CTabPane>
@@ -75,7 +81,7 @@ const DiscoverOffers:React.FC = () => {
                   <h5>Search offers</h5>
                 </CCardHeader>
                 <CCardBody>
-                  <SearchForm />
+                  <SearchForm onSubmit={searchOffer} />
                 </CCardBody>
               </CCard>
             </CTabPane>
@@ -121,6 +127,9 @@ const DiscoverOffers:React.FC = () => {
             </CTabs>
           </CModalBody>
       </CModal>
+      {search &&
+      <OffersTable search={search} />
+      }
     </CContainer>
   )
 }

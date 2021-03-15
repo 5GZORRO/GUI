@@ -9,6 +9,10 @@ export const useResources = (params?: any) => {
   return useQuery(['resources', params], () => api.resources.get(params), { keepPreviousData: true })
 }
 
+export const useResource = (params?: any) => {
+  return useQuery(['resource', params], () => api.resources.get(params), { keepPreviousData: true })
+}
+
 export const useCreateResource = () => {
   return useMutation((body: any) => api.resources.create(body))
 }
