@@ -277,6 +277,13 @@ export function makeServer ({ environment = 'development' } = {}) {
         return schema.resources.all()
       })
 
+      this.get('/resources/:id', (schema, request) => {
+        const id = request.params.id
+        console.log('id')
+        return schema.resources.find(id)
+        // new Response(400, { some: 'header' }, { errors: [ 'name cannot be blank'] });
+      })
+
       this.post('/resources', (schema, request) => {
         const attrs = JSON.parse(request.requestBody)
         console.log(attrs)

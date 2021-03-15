@@ -23,6 +23,16 @@ const get = async (params?: any): Promise<any> => {
   }
 }
 
+const getById = async (id: string): Promise<any> => {
+  try {
+    const response = await apiInstance.get(`${endpoints.RESOURCES}/${id}`)
+    return response.data.resource
+  } catch (e) {
+    console.log(e)
+    throw new Error('error')
+  }
+}
+
 const create = async (body: any): Promise<any> => {
   try {
     const response = await apiInstance.post(endpoints.RESOURCES, body)
@@ -35,5 +45,6 @@ const create = async (body: any): Promise<any> => {
 
 export default {
   get,
-  create
+  create,
+  getById
 }
