@@ -1,19 +1,19 @@
 import { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
+import { AuthObject } from 'types/hooks'
 
 // Provider hook that creates auth object and handles state
 export const useAuth = () => {
-  const [user, setUser] = useState({ hasAccess: true, name: 'fakeUser' })
+  const [user, setUser] = useState<AuthObject>({ hasAccess: true, name: 'fakeUser', role: 'Provider' })
   const history = useHistory()
 
-  // Wrap any Firebase methods we want to use making sure ...
   // ... to save the user to state.
-  const signin = (name: string) => {
-    setUser({ hasAccess: true, name })
+  const signin = (name: string, role: string) => {
+    setUser({ hasAccess: true, name, role })
   }
 
   const signout = () => {
-    setUser({ hasAccess: false, name: '' })
+    setUser({ hasAccess: false, name: null, role: null })
     // remove to localStorage
     localStorage.removeItem('vas')
   }

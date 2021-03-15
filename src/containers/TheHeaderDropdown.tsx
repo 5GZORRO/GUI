@@ -7,8 +7,10 @@ import {
   CDropdownToggle
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
+import { useAuth } from 'hooks/useAuth'
 
 const TheHeaderDropdown = () => {
+  const { user } = useAuth()
   return (
     <CDropdown
       inNav
@@ -16,8 +18,8 @@ const TheHeaderDropdown = () => {
     >
       <CDropdownToggle className='c-header-nav-link' caret={true}>
         <div className={'px-2'}>
-          <p className={'mb-0 text-gray-300'}>John User</p>
-          <p className={'mb-0 text-gray-100 font-12'}>Provider</p>
+          <p className={'mb-0 text-gray-300'}>{user.name}</p>
+          <p className={'mb-0 text-gray-100 font-12'}>{user.role}</p>
         </div>
       </CDropdownToggle>
       <CDropdownMenu className='pt-0' placement='bottom-end'>

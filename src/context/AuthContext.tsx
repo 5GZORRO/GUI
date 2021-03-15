@@ -1,7 +1,8 @@
 import React, { createContext, ReactNode } from 'react'
 import { useAuth } from 'hooks/useAuth'
+import { AuthObject } from 'types/hooks'
 
-const AuthContext = createContext<{ hasAccess: boolean, name: string | null }>({ hasAccess: false, name: null })
+const AuthContext = createContext<AuthObject>({ hasAccess: false, name: null, role: null })
 
 interface IProps {
   children: ReactNode;
@@ -9,7 +10,6 @@ interface IProps {
 
 const ProviderAuth = ({ children }:IProps) => {
   const auth = useAuth()
-  console.log(auth)
   return (
     <AuthContext.Provider value={ auth.user }>
       { children }
