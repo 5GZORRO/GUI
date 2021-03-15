@@ -9,6 +9,7 @@ import {
   QueryClient,
   QueryClientProvider
 } from 'react-query'
+import { ReactQueryDevtools } from 'react-query/devtools'
 
 import { icons } from './assets/icons'
 
@@ -39,6 +40,9 @@ ReactDOM.render(
       <Provider store={store}>
         <App/>
       </Provider>
+      {(ENV === 'fake' || ENV === 'development') &&
+        <ReactQueryDevtools initialIsOpen={false} />
+      }
     </QueryClientProvider>
   </React.StrictMode>,
   document.getElementById('root')
