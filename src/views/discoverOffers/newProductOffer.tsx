@@ -228,7 +228,6 @@ const NewProductOffer:React.FC = () => {
             itemsPerPage={5}
             scopedSlots={{
               select: (item: { id: any; _selected: boolean | undefined }) => {
-                console.log(item)
                 return (
                   <td>
                     <CFormGroup variant='custom-checkbox'>
