@@ -9,7 +9,7 @@ export function makeServer ({ environment = 'development' } = {}) {
     serializers: {
       resource: RestSerializer.extend({
         serializeIds: false,
-        include: ['resourceSpecification', 'resourcePhysicalCapabilities', 'resourceVirtualCapabilities'],
+        include: ['resourceSpecification', 'category', 'resourcePhysicalCapabilities', 'resourceVirtualCapabilities'],
         embed: true
       }),
       resourcePhysicalCapabilitie: RestSerializer.extend({
@@ -29,9 +29,12 @@ export function makeServer ({ environment = 'development' } = {}) {
       membership: Model,
       resource: Model.extend({
         resourceSpecification: belongsTo(),
+        category: belongsTo(),
         resourcePhysicalCapabilities: hasMany(),
         resourceVirtualCapabilities: hasMany()
       }),
+
+      category: Model,
 
       resourceSpecification: Model,
 
@@ -103,13 +106,18 @@ export function makeServer ({ environment = 'development' } = {}) {
         },
         ownerdid () {
           return faker.random.uuid()
+        }
+      }),
+
+      category: Factory.extend({
+        name () {
+          return faker.lorem.word()
         },
-        category () {
-          return {
-            name: faker.lorem.word(),
-            type: faker.name.jobType(),
-            version: faker.system.semver()
-          }
+        type () {
+          return faker.name.jobType()
+        },
+        version () {
+          return faker.system.semver()
         }
       }),
 
@@ -182,6 +190,7 @@ export function makeServer ({ environment = 'development' } = {}) {
       server.createList('membership', 60)
       server.createList('resource', 10, {
         resourceSpecification: server.create('resourceSpecification'),
+        category: server.create('category'),
         resourcePhysicalCapabilities: server.createList('resourcePhysicalCapabilitie', 5, {
           hardwareCapabilities: server.createList('hardwareCapabilitie', 5),
           feature: server.create('feature')
@@ -262,7 +271,9 @@ export function makeServer ({ environment = 'development' } = {}) {
         }
       })
 
-      this.get('/resources', (schema) => {
+      this.get('/resources', (schema, request) => {
+        const attrs = JSON.parse(request.requestBody)
+        console.log(attrs)
         return schema.resources.all()
       })
 
@@ -270,6 +281,13 @@ export function makeServer ({ environment = 'development' } = {}) {
         const attrs = JSON.parse(request.requestBody)
         console.log(attrs)
         return schema.resources.create(attrs)
+        // new Response(400, { some: 'header' }, { errors: [ 'name cannot be blank'] });
+      })
+
+      this.post('/resources/:id/category', (schema, request) => {
+        const attrs = JSON.parse(request.requestBody)
+        console.log(attrs)
+        return schema.category.create(attrs)
         // new Response(400, { some: 'header' }, { errors: [ 'name cannot be blank'] });
       })
     }
