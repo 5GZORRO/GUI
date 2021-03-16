@@ -275,7 +275,14 @@ const NewProductOffer:React.FC = () => {
         >
           next
         </CButton>
-        <CButton className={'text-uppercase px-5 mr-3'} variant='outline' color={'white'}>Cancel</CButton>
+        <CButton
+          className={'text-uppercase px-5 mr-3'}
+          variant='outline'
+          color={'white'}
+          onClick={() => setSelected(null)}
+        >
+          Cancel
+        </CButton>
       </div>
     </CContainer>
   )
