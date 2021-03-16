@@ -3,7 +3,8 @@ import { CButton, CCard, CCardBody, CCardHeader, CCol, CContainer, CForm, CFormG
 import { Controller, useForm } from 'react-hook-form'
 import CIcon from '@coreui/icons-react'
 import { PlusCircle, ArrowLeftIcon } from 'assets/icons/externalIcons'
-import { useHistory } from 'react-router'
+import { useHistory, useParams } from 'react-router'
+import { useResource } from 'hooks/api/Resources'
 interface formOfferCreation {
   identifier: string
   name: string
@@ -19,6 +20,8 @@ interface formOfferCreation {
 const ProductDetail: React.FC = () => {
   const { control, handleSubmit, errors } = useForm<formOfferCreation>()
   const history = useHistory()
+  const { id } = useParams<{id?: string | undefined}>()
+  const { data } = useResource(id)
 
   const onSubmit = (data: formOfferCreation) => {
     console.log('data FormPhysical', data)
@@ -36,29 +39,33 @@ const ProductDetail: React.FC = () => {
           </CButton>
         </CCardHeader>
         <CCardBody>
-          <p className={'font-18'}>Name Label Resource</p>
+          {data &&
+          <>
+          <p className={'font-18'}>{data.name}</p>
           <p className={'text-light mb-2'}>Description</p>
-          <p className={'mb-4'}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          <p className={'mb-4'}>{data.description}</p>
           <CRow>
             <CCol>
               <p className={'text-light mb-2'}>Type</p>
-              <p>Type Label</p>
+              <p>{data.category.type}</p>
               <p className={'text-light mb-2'}>Valid For</p>
-              <p>22-02-2022</p>
+              <p>{data.validFor}</p>
               <p className={'text-light mb-2'}>Resource Specification</p>
-              <p>Resource Specification Label</p>
+              <p>{data.resourceSpecification.name}</p>
             </CCol>
             <CCol>
               <p className={'text-light mb-2'}>Version</p>
-              <p>Version Label</p>
+              <p>{data.version}</p>
               <p className={'text-light mb-2'}>Category</p>
-              <p>Category Label</p>
+              <p>{data.category.name}</p>
               <p className={'text-light mb-2'}>Owner Did</p>
-              <p>Owner Did Label</p>
+              <p>{data.ownerdid}</p>
             </CCol>
           </CRow>
           <CButton className={'text-uppercase mr-3'} color={'white'} variant={'outline'} onClick={() => console.log('show physical capabilities')}>show physical capabilities</CButton>
           <CButton className={'text-uppercase'} color={'white'} variant={'outline'} onClick={() => console.log('show virtual capabilities')}>show virtual capabilities</CButton>
+          </>
+          }
         </CCardBody>
       </CCard>
       <CCard>

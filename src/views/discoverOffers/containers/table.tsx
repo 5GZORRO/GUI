@@ -14,7 +14,7 @@ import {
 } from '@coreui/react'
 // import dayjs from 'dayjs'
 /** Hooks */
-import { useResource } from 'hooks/api/Resources'
+import { useResources } from 'hooks/api/Resources'
 
 export const OffersTable:React.FC<{search :string | null}> = ({ search }) => {
   const [selected, setSelected] = useState([2, 3])
@@ -27,7 +27,7 @@ export const OffersTable:React.FC<{search :string | null}> = ({ search }) => {
     pageSize
   } */
 
-  const { data, isLoading } = useResource(search)
+  const { data, isLoading } = useResources(search)
 
   const check = (e: React.FormEvent<any>, id: number) => {
     if (e) {
