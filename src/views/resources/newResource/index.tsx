@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   CButton,
   CCard,
@@ -13,7 +13,8 @@ import { useForm, FormProvider } from 'react-hook-form'
 import { useHistory } from 'react-router-dom'
 
 /** Hooks */
-import { useCreateResource } from 'hooks/api/Resources'
+// import { useCreateResource } from 'hooks/api/Resources'
+import { useDataForm } from 'hooks/useForm'
 /** Container */
 import ResourceCreation from './ResourceCreation'
 /** Component */
@@ -23,24 +24,28 @@ import CardResource from './cardResource'
 import { ResourceCreationInter } from 'types/forms'
 
 const NewResource:React.FC = () => {
-  const resource = useCreateResource()
+  const { form, changeForm } = useDataForm()
+  // const resource = useCreateResource()
   const history = useHistory()
   const methods = useForm<ResourceCreationInter>({
-    defaultValues: { name: 'default value' },
-    shouldUnregister: false
+    defaultValues: form,
+    shouldUnregister: false,
+    mode: 'onChange'
   })
   const { handleSubmit } = methods
 
   const onSubmit = (data: ResourceCreationInter) => {
     const { name, description, version, validFor, ownerDid } = data
-
-    resource.mutate({
+    const newResource = {
       name,
       description,
       version,
       validFor,
-      ownerDid
-    })
+      owner: ownerDid
+    }
+    // resource.mutate(newResource)
+    console.log('set new Form value')
+    changeForm(newResource)
   }
 
   return (

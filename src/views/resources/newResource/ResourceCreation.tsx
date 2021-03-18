@@ -15,7 +15,7 @@ import {
   CLabel
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { TextMask, InputAdapter } from 'react-text-mask-hoc'
+import MaskedInput from 'react-text-mask'
 import { Controller, useFormContext } from 'react-hook-form'
 import { useHistory } from 'react-router'
 import { DevTool } from '@hookform/devtools'
@@ -39,6 +39,7 @@ const ResourceCreation = () => {
             name='name'
             render={({ onChange, onBlur, value }) => (
               <CInput
+                placeholder={'Insert Name'}
                 onChange={onChange}
                 onBlur={onBlur}
                 value={value}
@@ -64,7 +65,7 @@ const ResourceCreation = () => {
                   placeholder={'Insert Description'}
                   onChange={onChange}
                   onBlur={onBlur}
-                  selected={value}
+                  value={value}
                 />
               )}
             />
@@ -97,7 +98,7 @@ const ResourceCreation = () => {
         </CCol>
         <CCol sm={6}>
           <CFormGroup>
-            <CLabel>Valid For</CLabel>
+            <CLabel htmlFor='validFor'>Valid For</CLabel>
             <CInputGroup>
               <CInputGroupPrepend>
                 <CInputGroupText><CIcon name='cilCalendar' /></CInputGroupText>
@@ -108,14 +109,20 @@ const ResourceCreation = () => {
                 rules={{ required: true }}
                 name='validFor'
                 render={({ onChange, onBlur, value }) => (
-                  <TextMask
+                  <MaskedInput
+                    placeholder={'__/__/____'}
                     mask={[/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/]}
-                    Component={InputAdapter}
                     className='form-control'
                     onChange={onChange}
-
                     onBlur={onBlur}
                     value={value}
+                    guide
+                    render={(ref, props) => (
+                      <CInput
+                        innerRef={ref}
+                        {...props}
+                      />
+                    )}
                   />
                 )}
               />

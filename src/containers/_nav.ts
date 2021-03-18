@@ -27,8 +27,8 @@ export default [
   },
   {
     _tag: 'CSidebarNavItem',
-    name: 'Discover Offers',
-    to: '/discover-offers',
+    name: 'Offers',
+    to: '/offers',
     icon: 'cilTag'
   },
   {

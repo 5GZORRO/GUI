@@ -43,6 +43,7 @@
   // Disabled comes first so active can properly restyle
   &.disabled,
   &:disabled {
+    cursor: not-allowed;
     opacity: $btn-disabled-opacity;
     @include box-shadow(none);
   }

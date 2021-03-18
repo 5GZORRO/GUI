@@ -1,42 +1,36 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import apiInstance from 'api/instance'
+import instance from 'api/instance'
 import { endpoints } from 'api/endpoints'
+import { TransformDataResourceCandidate } from 'api/utils'
+/** Types */
+import { ApiResourceCandidate } from 'types/api'
 
-const get = async (params?: any): Promise<any> => {
+const getAllCandidates = async (params?: any): Promise<ApiResourceCandidate[]> => {
   try {
-    const response = await apiInstance.get(endpoints.RESOURCES, { params })
-    const newData = response.data.resources.reduce((acc: any[], item: { [x: string]: any; category: any; resourceSpecification: any; resourcePhysicalCapabilities: any; resourceVirtualCapabilities: any }) => {
-      const { category, resourceSpecification, resourcePhysicalCapabilities, resourceVirtualCapabilities, ...rest } = item
-      acc.push({
-        ...rest,
-        categoryName: category.name,
-        categoryType: category.type,
-        resourceSpecificationName: resourceSpecification.name
-      })
+    const response = await instance.apiMarketPlace.get(endpoints.RESOURCE_CANDIDATE, { params })
+    return TransformDataResourceCandidate(response.data)
+  } catch (e) {
+    console.log(e)
+    throw new Error('error')
+  }
+}
+
+const getCandidateById = async (candidateIds: string): Promise<ApiResourceCandidate[]> => {
+  try {
+    const ids = candidateIds.split(',')
+    const response = await Promise.allSettled(
+      ids.map(id => instance.apiMarketPlace.get(`${endpoints.RESOURCE_CANDIDATE}/${id}`))
+    )
+
+    const newResponse = response.reduce((acc: any, item: any) => {
+      if (item.status === 'fulfilled') {
+        acc.push(...TransformDataResourceCandidate(item.value.data))
+      }
       return acc
     }, [])
-    return newData
-  } catch (e) {
-    console.log(e)
-    throw new Error('error')
-  }
-}
 
-const getById = async (id: string): Promise<any> => {
-  try {
-    const response = await apiInstance.get(`${endpoints.RESOURCES}/${id}`)
-    return response.data.resource
-  } catch (e) {
-    console.log(e)
-    throw new Error('error')
-  }
-}
-
-const create = async (body: any): Promise<any> => {
-  try {
-    const response = await apiInstance.post(endpoints.RESOURCES, body)
-    return response.data
+    return newResponse
   } catch (e) {
     console.log(e)
     throw new Error('error')
@@ -44,7 +38,6 @@ const create = async (body: any): Promise<any> => {
 }
 
 export default {
-  get,
-  create,
-  getById
+  getAllCandidates,
+  getCandidateById
 }

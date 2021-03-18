@@ -6,8 +6,12 @@
 
 declare namespace NodeJS {
   interface ProcessEnv {
-    readonly NODE_ENV: 'development' | 'production' | 'test';
-    readonly PUBLIC_URL: string;
+    readonly NODE_ENV: 'development' | 'production' | 'fake' | 'test'
+    readonly PUBLIC_URL: string
+    BUILD_DATE: string
+    APP_ENV: 'development' | 'production' | 'fake' | 'test'
+    AUTH_TOKEN_SLUG: string
+    VERSION: string
   }
 }
 

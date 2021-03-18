@@ -15,7 +15,7 @@ import { icons } from './assets/icons'
 
 import { Provider } from 'react-redux'
 import store from './store'
-import { ENV, VERSION, BUILD_DATE } from './config'
+import { APP_ENV, VERSION, BUILD_DATE } from './config'
 import { makeServer } from 'server'
 
 React.icons = icons
@@ -23,15 +23,15 @@ React.icons = icons
 const logMessage = `
 5GZorro by @ubiwhere
 %cVersion: ${VERSION}
-%cPlatform: ${ENV}
+%cEnvironment ${APP_ENV}
 Build date: ${BUILD_DATE}\n`
 console.log(logMessage, 'color:#4d5a72; font-weight:bold', 'color:#3d3d3d; font-weight:bold')
 
 // Create a client
 const queryClient = new QueryClient()
 
-if (ENV === 'fake') {
-  makeServer({ environment: 'development' })
+if (APP_ENV === 'fake') {
+  makeServer()
 }
 
 ReactDOM.render(
@@ -40,7 +40,7 @@ ReactDOM.render(
       <Provider store={store}>
         <App/>
       </Provider>
-      {(ENV === 'fake' || ENV === 'development') &&
+      {(APP_ENV === 'fake' || APP_ENV === 'development') &&
         <ReactQueryDevtools initialIsOpen={false} />
       }
     </QueryClientProvider>

@@ -71,8 +71,8 @@ const NewPhysicalResource: React.FC = () => {
       <div
         className={'d-flex justify-content-flex-start align-items-center mb-5'}
       >
-        <Link style={{ color: 'rgba(255,255,255,0.87)' }} to="/resource/new-resource">
-          <CIcon className={'mr-3'} size={'xl'} name="cilArrowLeft" />
+        <Link style={{ color: 'rgba(255,255,255,0.87)' }} to='/resource/new-resource'>
+          <CIcon className={'mr-3'} size={'xl'} name='cilArrowLeft' />
         </Link>
         <h1 className={'m-0'}>New Resource - Physical Capabilities</h1>
       </div>
@@ -85,12 +85,12 @@ const NewPhysicalResource: React.FC = () => {
             <CRow>
               <CCol sm={6}>
                 <CFormGroup>
-                  <CLabel htmlFor="name">Name</CLabel>
+                  <CLabel htmlFor='name'>Name</CLabel>
                   <Controller
                     control={control}
                     defaultValue={''}
                     rules={{ required: true }}
-                    name="name"
+                    name='name'
                     render={({ onChange, onBlur, value }) => (
                       <CInput
                         onChange={onChange}
@@ -100,7 +100,7 @@ const NewPhysicalResource: React.FC = () => {
                     )}
                   />
                   {errors.name && (
-                    <CFormText className="help-block">
+                    <CFormText className='help-block'>
                       Please enter your email
                     </CFormText>
                   )}
@@ -108,11 +108,11 @@ const NewPhysicalResource: React.FC = () => {
               </CCol>
               <CCol xs={12}>
                 <CFormGroup>
-                  <CLabel htmlFor="description">Description</CLabel>
+                  <CLabel htmlFor='description'>Description</CLabel>
                   <Controller
                     control={control}
                     rules={{ required: true }}
-                    name="description"
+                    name='description'
                     render={({ onChange, onBlur, value }) => (
                       <CTextarea
                         rows={4}
@@ -123,7 +123,7 @@ const NewPhysicalResource: React.FC = () => {
                     )}
                   />
                   {errors.description && (
-                    <CFormText className="help-block">
+                    <CFormText className='help-block'>
                       Please enter your email
                     </CFormText>
                   )}
@@ -134,17 +134,17 @@ const NewPhysicalResource: React.FC = () => {
         </CCard>
         <div className={'bg-dark-light p-4 rounded-sm'}>
           {fields.map((field, index) => (
-            <CCard key={field.id}>
+            <CCard key={field.id} className={'mb-0'}>
               <CCardHeader>
                 <div className={'d-flex justify-content-between align-items-center'}>
                   <h5>Create Resource Virtual Capabilities</h5>
                   {index > 0 && (
                     <CButton
                       variant={'ghost'}
-                      className="d-flex justify-content-center align-items-center"
+                      className='d-flex justify-content-center align-items-center'
                       onClick={() => remove(index)}
                     >
-                      <CIcon name="cilTrash" size={'lg'} className={'mr-2'} />
+                      <CIcon name='cilTrash' size={'lg'} className={'mr-2'} />
                       <span className={'text-gray'}>Delete Resource</span>
                     </CButton>
                   )}
@@ -154,7 +154,7 @@ const NewPhysicalResource: React.FC = () => {
                 <CRow>
                   <CCol sm={6}>
                     <CFormGroup>
-                      <CLabel htmlFor="key">Hardware Cap Key</CLabel>
+                      <CLabel htmlFor='key'>Hardware Cap Key</CLabel>
                       <Controller
                         control={control}
                         defaultValue={field.key}
@@ -177,7 +177,7 @@ const NewPhysicalResource: React.FC = () => {
                   </CCol>
                   <CCol sm={6}>
                     <CFormGroup>
-                      <CLabel htmlFor="value">Hardware Cap Value</CLabel>
+                      <CLabel htmlFor='value'>Hardware Cap Value</CLabel>
                       <Controller
                         control={control}
                         defaultValue={field.value}
@@ -200,7 +200,7 @@ const NewPhysicalResource: React.FC = () => {
                   </CCol>
                   <CCol sm={6}>
                     <CFormGroup>
-                      <CLabel htmlFor="unit">Hardware Cap Unit</CLabel>
+                      <CLabel htmlFor='unit'>Hardware Cap Unit</CLabel>
                       <Controller
                         control={control}
                         defaultValue={field.unit}
@@ -223,7 +223,7 @@ const NewPhysicalResource: React.FC = () => {
                   </CCol>
                   <CCol sm={6}>
                     <CFormGroup>
-                      <CLabel htmlFor="quota">Hardware Cap Quota</CLabel>
+                      <CLabel htmlFor='quota'>Hardware Cap Quota</CLabel>
                       <Controller
                         control={control}
                         defaultValue={field.quota}
@@ -248,9 +248,9 @@ const NewPhysicalResource: React.FC = () => {
               </CCardBody>
             </CCard>
           ))}
-          <div className="d-flex justify-content-center align-items-center">
+          <div className='d-flex justify-content-center align-items-center pt-2'>
             <CButton
-              className="d-flex justify-content-center align-items-center"
+              className='d-flex justify-content-center align-items-center'
               variant={'ghost'}
               onClick={addVirtualResource}
             >
@@ -258,7 +258,7 @@ const NewPhysicalResource: React.FC = () => {
             </CButton>
           </div>
         </div>
-        <CCard>
+        <CCard className={'mt-5'}>
           <CCardHeader>
             <h5>Features</h5>
           </CCardHeader>
@@ -266,7 +266,7 @@ const NewPhysicalResource: React.FC = () => {
             <CRow>
               <CCol xs={12}>
                 <CFormGroup>
-                  <CLabel htmlFor="href">Href</CLabel>
+                  <CLabel htmlFor='href'>Href</CLabel>
                   <Controller
                     control={control}
                     defaultValue={''}
@@ -289,12 +289,12 @@ const NewPhysicalResource: React.FC = () => {
               </CCol>
               <CCol xs={6}>
                 <CFormGroup>
-                  <CLabel htmlFor="type">Type</CLabel>
+                  <CLabel htmlFor='type'>Type</CLabel>
                   <Controller
                     control={control}
                     defaultValue={''}
                     rules={{ required: true }}
-                    name="type"
+                    name='type'
                     render={({ onChange, onBlur, value }) => (
                       <CInput
                         onChange={onChange}

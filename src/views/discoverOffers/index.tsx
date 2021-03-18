@@ -45,7 +45,7 @@ const DiscoverOffers:React.FC = () => {
             block={false}
             color={'gradient'}
             className={'text-uppercase'}
-            onClick={() => history.push('/discover-offers/new-product')}
+            onClick={() => history.push('/offers/new-product')}
           >
             create product offer
           </CButton>

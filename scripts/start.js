@@ -6,9 +6,11 @@ process.env.NODE_ENV = 'development';
 
 // Variable importing
 const environment = process.env.APP_ENV || 'development'
-const exportFile = `export * from 'environments/${environment}'`
+const exportFile = `
+export * from 'environments/${environment}'
+`
 
-const configFile = `${__dirname}/../src/config.js`
+const configFile = `${__dirname}/../src/config.ts`
 fs.readFile(configFile, 'utf8', function(err, data) {
   if (err) {
     return console.log(err);

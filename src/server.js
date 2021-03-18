@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { createServer, Model, Factory, belongsTo, RestSerializer, hasMany } from 'miragejs'
+import { createServer, Model, Factory, belongsTo, hasMany, RestSerializer } from 'miragejs'
 import faker from 'faker'
 
 export function makeServer ({ environment = 'development' } = {}) {
@@ -7,7 +7,8 @@ export function makeServer ({ environment = 'development' } = {}) {
     environment,
 
     serializers: {
-      resource: RestSerializer.extend({
+      application: RestSerializer
+      /* resource: RestSerializer.extend({
         serializeIds: false,
         include: ['resourceSpecification', 'category', 'resourcePhysicalCapabilities', 'resourceVirtualCapabilities'],
         embed: true
@@ -21,18 +22,13 @@ export function makeServer ({ environment = 'development' } = {}) {
         serializeIds: false,
         include: ['virtualCapabilities'],
         embed: true
-      })
+      }) */
     },
 
     models: {
       pagedGovernanceProposal: Model,
       membership: Model,
-      resource: Model.extend({
-        resourceSpecification: belongsTo(),
-        category: belongsTo(),
-        resourcePhysicalCapabilities: hasMany(),
-        resourceVirtualCapabilities: hasMany()
-      }),
+      resourceCandidate: Model,
 
       category: Model,
 
@@ -88,6 +84,60 @@ export function makeServer ({ environment = 'development' } = {}) {
         },
         address () {
           return faker.address.streetAddress()
+        }
+      }),
+
+      resourceCandidate: Factory.extend({
+        baseType () { return 'string' },
+        schemaLocation () { return 'string' },
+        type () { return 'string' },
+        category: [
+          {
+            baseType () { return 'string' },
+            schemaLocation () { return 'string' },
+            type () { return 'string' },
+            href () { return faker.internet.url() },
+            id () { return faker.random.uuid() },
+            name () { return faker.lorem.sentence() },
+            version () { return faker.system.semver() }
+          }
+        ],
+        description () { return faker.lorem.sentences() },
+        href () { return faker.internet.url() },
+        id () { return faker.random.uuid() },
+        lastUpdate () { return faker.date.past() },
+        lifecycleStatus () {
+          return faker.random.arrayElement([
+            'pending',
+            'new',
+            'archive',
+            'delete'
+          ])
+        },
+        name () { return faker.lorem.sentence() },
+
+        resourceSpecification () {
+          return {
+            referredType () { return 'string' },
+            baseType () { return 'string' },
+            schemaLocation () { return 'string' },
+            type () { return 'string' },
+            href () { return faker.internet.url() },
+            id () { return faker.random.uuid() },
+            name () { return faker.commerce.productName() },
+            version () { return faker.system.semver() }
+          }
+        },
+
+        validFor () {
+          return {
+            endDateTime () { return faker.date.past() },
+            startDateTime () { return faker.date.future() }
+          }
+        },
+
+        version () {
+          return faker.random.uuid()
         }
       }),
 
@@ -188,22 +238,10 @@ export function makeServer ({ environment = 'development' } = {}) {
     seeds (server) {
       server.createList('pagedGovernanceProposal', 60)
       server.createList('membership', 60)
-      server.createList('resource', 10, {
-        resourceSpecification: server.create('resourceSpecification'),
-        category: server.create('category'),
-        resourcePhysicalCapabilities: server.createList('resourcePhysicalCapabilitie', 5, {
-          hardwareCapabilities: server.createList('hardwareCapabilitie', 5),
-          feature: server.create('feature')
-        }),
-        resourceVirtualCapabilities: server.createList('resourceVirtualCapabilitie', 2, {
-          virtualCapabilities: server.createList('virtualCapabilitie', 3)
-        })
-      })
+      server.create('resourceCandidate')
     },
 
     routes () {
-      this.namespace = 'api'
-
       this.get('/governance-actions', (schema) => {
         const content = schema.pagedGovernanceProposals.all()
         const items = content.models.map(({ attrs }) => ({ ...attrs }))
@@ -271,7 +309,57 @@ export function makeServer ({ environment = 'development' } = {}) {
         }
       })
 
-      this.get('/resources', (schema, request) => {
+      this.get('/tmf-api/resourceCatalogManagement/v2/resourceCandidate', (schema, serialize) => {
+        const resourceCandidates = schema.resourceCandidates.all()
+        console.log(resourceCandidates)
+        return resourceCandidates
+      })
+
+      this.get('/tmf-api/resourceCatalogManagement/v2/resourceCandidate/:id', (schema, request) => {
+        const id = request.params.id
+        console.log('id', id)
+        return [
+          {
+            '@baseType': 'string',
+            '@schemaLocation': 'string',
+            '@type': 'string',
+            category: [
+              {
+                '@baseType': 'string',
+                '@schemaLocation': 'string',
+                '@type': 'string',
+                href: 'string',
+                id: 'string',
+                name: 'string',
+                version: 'string'
+              }
+            ],
+            description: 'ubiTest new resource candidate',
+            href: 'http://localhost:8080/tmf-api/resourceCatalogManagement/v2/resourceCandidate/a0af6efd-840a-438c-b9f0-f449ba2039d4',
+            id: 'a0af6efd-840a-438c-b9f0-f449ba2039d4',
+            lastUpdate: '2021-03-17T16:17:36.918Z',
+            lifecycleStatus: 'pending',
+            name: 'ubiTest',
+            resourceSpecification: {
+              '@baseType': 'string',
+              '@referredType': 'string',
+              '@schemaLocation': 'string',
+              '@type': 'string',
+              href: 'string',
+              id: 'string',
+              name: 'string',
+              version: 'string'
+            },
+            validFor: {
+              endDateTime: '2022-03-17T16:17:36.918Z',
+              startDateTime: '2021-03-17T16:17:36.918Z'
+            },
+            version: '0.1.0'
+          }
+        ]
+      })
+
+      /*  this.get('/resources', (schema, request) => {
         const attrs = JSON.parse(request.requestBody)
         console.log(attrs)
         return schema.resources.all()
@@ -296,7 +384,7 @@ export function makeServer ({ environment = 'development' } = {}) {
         console.log(attrs)
         return schema.category.create(attrs)
         // new Response(400, { some: 'header' }, { errors: [ 'name cannot be blank'] });
-      })
+      }) */
     }
   })
 

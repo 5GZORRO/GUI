@@ -1,18 +1,15 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useMutation, useQuery } from 'react-query'
-
+import { useQuery } from 'react-query'
 import { api } from 'api'
+/** Types */
+import { ApiResourceCandidate } from 'types/api'
 
 // Define a default query function that will receive the query key
-export const useResources = (params?: any) => {
-  return useQuery(['resources', params], () => api.resources.get(params), { keepPreviousData: true })
+export const useAllCandidates = (params?: any) => {
+  return useQuery(['allCandidates', params], () => api.resources.getAllCandidates(params), { keepPreviousData: true })
 }
 
-export const useResource = (id: any) => {
-  return useQuery(['resource', id], () => api.resources.getById(id), { keepPreviousData: false })
-}
-
-export const useCreateResource = () => {
-  return useMutation((body: any) => api.resources.create(body))
+export const useCandidate = (ids: string) => {
+  return useQuery(['candidate', ids], () => api.resources.getCandidateById(ids), { keepPreviousData: true })
 }

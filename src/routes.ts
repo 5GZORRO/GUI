@@ -16,9 +16,9 @@ const NewCategory = React.lazy(() => import('./views/resources/newCategory'))
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
   { exact: true, path: '/dashboard', name: 'Dashboard', component: Dashboard },
-  { exact: true, path: '/discover-offers', name: 'Discover Offers', component: DiscoverOffers },
-  { path: '/discover-offers/new-product', name: 'New Product Offer', component: NewProduct },
-  { path: '/discover-offers/detail-product/:id', name: 'Detail Product Offer', component: ProductDetail },
+  { exact: true, path: '/offers', name: 'Offers', component: DiscoverOffers },
+  { path: '/offers/new-product', name: 'New Product Offer', component: NewProduct },
+  { path: '/offers/detail-product/:id', name: 'Detail Product Offer', component: ProductDetail },
   { path: '/orders', name: 'Orders', component: Orders },
   { exact: true, path: '/resource', name: 'Resource & Services', component: Resources },
   { exact: true, path: '/resource/new-resource', name: 'Create Resource & Service', component: NewResource },

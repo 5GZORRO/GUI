@@ -1,12 +1,16 @@
 import axios from 'axios'
 import { camelizeKeys } from 'humps'
-import { AUTH_TOKEN_SLUG, BASE_API } from 'config'
+import { AUTH_TOKEN_SLUG, API_MARKET_PLACE, API_GOVERNANCE } from 'config'
 
-const apiInstance = axios.create({
-  baseURL: BASE_API
+const apiMarketPlace = axios.create({
+  baseURL: API_MARKET_PLACE
 })
 
-apiInstance.interceptors.request.use((config) => {
+const apiGovernance = axios.create({
+  baseURL: API_GOVERNANCE
+})
+
+axios.interceptors.request.use((config) => {
   const authToken = localStorage.getItem('5gzorro')
   if (authToken) {
     config.headers.Authorization = `${AUTH_TOKEN_SLUG} ${authToken}`
@@ -17,8 +21,10 @@ apiInstance.interceptors.request.use((config) => {
 })
 
 // Converts all responses for CamelCase
-apiInstance.interceptors.response.use(
+axios.interceptors.response.use(
   (response) => {
+    // eslint-disable-next-line no-debugger
+    debugger
     response.data = camelizeKeys(response.data)
     return response
   },
@@ -28,10 +34,9 @@ apiInstance.interceptors.response.use(
 )
 
 // Converts all requests to under-cased
-apiInstance.interceptors.request.use(
+axios.interceptors.request.use(
   (config) => {
     const currentContentType = config.headers['Content-Type']
-
     /* Converts URL get params to underscored
     if (config.params) {
       config.params = decamelizeKeys(config.params)
@@ -48,4 +53,7 @@ apiInstance.interceptors.request.use(
   }
 )
 
-export default apiInstance
+export default {
+  apiMarketPlace,
+  apiGovernance
+}

@@ -69,3 +69,13 @@ export interface ApiParamsGovernanceActions extends BaseApiParams {
   statusFilter?: ProposalStatus
   actionTypeFilter?: actionTypes
 }
+
+export interface ApiResourceCandidate {
+  id: string
+  name: string
+  version: string
+  valid: string
+  categories: string[]
+  lifecycleStatus: string
+  resourceSpecification: any
+}

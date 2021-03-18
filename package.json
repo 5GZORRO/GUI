@@ -102,7 +102,6 @@
     "lint": "eslint src --ext .ts,.tsx",
     "lint:fix": "eslint --fix src --ext .ts,.tsx",
     "commit": "cz",
-    "fakeApi": "canned --cors=false -p 5000 ./mockAPI/",
     "release": "semantic-release --no-verify",
     "prepare": "husky install"
   },

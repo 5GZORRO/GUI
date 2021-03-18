@@ -24,21 +24,31 @@ interface FormCategory {
 }
 
 const NewCategory: React.FC = () => {
-  const { handleSubmit, errors, control } = useForm<FormCategory>()
+  const { handleSubmit, errors, control, reset } = useForm<FormCategory>()
 
   const onSubmit = (data: FormCategory) => {
     console.log('data new category', data)
   }
 
+  const clearForm = () => {
+    reset({
+      name: '',
+      type: '',
+      version: ''
+    })
+  }
+
   return (
     <CContainer>
       <CRow
-        className={'d-flex justify-content-flex-start align-items-center mb-5'}
+        className={'mb-5'}
       >
-        <Link to='/resource/new-resource'>
-          <CIcon className={'mr-3'} size={'xl'} name='cilArrowLeft' />
-        </Link>
-        <h1>New Category</h1>
+        <CCol className={'d-flex justify-content-flex-start align-items-center'}>
+          <Link style={{ color: 'rgba(255,255,255,0.87)' }} to="/resource/new-resource">
+            <CIcon className={'mr-3'} size={'xl'} name="cilArrowLeft" />
+          </Link>
+          <h1>New Category</h1>
+        </CCol>
       </CRow>
       <CForm onSubmit={handleSubmit(onSubmit)}>
         <CCard>
@@ -57,6 +67,7 @@ const NewCategory: React.FC = () => {
                     name='name'
                     render={({ onChange, onBlur, value }) => (
                       <CInput
+                        placeholder={'Enter Name'}
                         onChange={onChange}
                         onBlur={onBlur}
                         value={value}
@@ -80,6 +91,7 @@ const NewCategory: React.FC = () => {
                     name='type'
                     render={({ onChange, onBlur, value }) => (
                       <CInput
+                        placeholder={'Enter Type'}
                         onChange={onChange}
                         onBlur={onBlur}
                         value={value}
@@ -103,6 +115,7 @@ const NewCategory: React.FC = () => {
                     name='version'
                     render={({ onChange, onBlur, value }) => (
                       <CInput
+                        placeholder={'Enter Version'}
                         onChange={onChange}
                         onBlur={onBlur}
                         value={value}
@@ -121,8 +134,21 @@ const NewCategory: React.FC = () => {
         </CCard>
         <CRow className={'d-flex flex-row-reverse mt-5'}>
           <CCol xs={6} className={'d-flex justify-content-end'}>
-            <CButton className={'text-uppercase px-5 mr-3'} variant='outline' color={'white'}>Cancel</CButton>
-            <CButton color={'gradient'} className='px-5 text-uppercase' type='submit'>Submit</CButton>
+            <CButton
+              className={'text-uppercase px-5 mr-3'}
+              variant='outline'
+              color={'white'}
+              onClick={clearForm}
+            >
+              Cancel
+            </CButton>
+            <CButton
+              color={'gradient'}
+              className='px-5 text-uppercase'
+              type='submit'
+            >
+              Submit
+            </CButton>
           </CCol>
         </CRow>
       </CForm>

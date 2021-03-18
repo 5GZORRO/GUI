@@ -1,5 +1,21 @@
 import React from 'react'
-import { CButton, CCard, CCardBody, CCardHeader, CCol, CForm, CFormGroup, CFormText, CInput, CInputGroup, CInputGroupAppend, CInputGroupPrepend, CInputGroupText, CLabel, CRow, CSelect } from '@coreui/react'
+import {
+  CButton,
+  CCard,
+  CCardBody,
+  CCardHeader,
+  CCol,
+  CFormGroup,
+  CFormText,
+  CInput,
+  CInputGroup,
+  CInputGroupAppend,
+  CInputGroupPrepend,
+  CInputGroupText,
+  CLabel,
+  CRow,
+  CSelect
+} from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { PlusCircle } from 'assets/icons/externalIcons'
 import { Controller, useFormContext } from 'react-hook-form'
@@ -14,28 +30,6 @@ const FormCreateOffer:React.FC = () => {
       <CCardBody>
           <CRow>
             <CCol sm={6}>
-              <CFormGroup>
-                <CLabel htmlFor='identifier'>Identifier</CLabel>
-                <Controller
-                  control={control}
-                  defaultValue={''}
-                  rules={{ required: true }}
-                  name='identifier'
-                  render={({ onChange, onBlur, value }) => (
-                    <CInput
-                      onChange={onChange}
-                      placeholder={'Enter Unique Identifier'}
-                      onBlur={onBlur}
-                      value={value}
-                    />
-                  )}
-                />
-                {errors.identifier && (
-                  <CFormText className='help-block'>
-                    Please enter a identifier
-                  </CFormText>
-                )}
-              </CFormGroup>
               <CFormGroup>
                 <CLabel>Country</CLabel>
                   <Controller
@@ -90,50 +84,6 @@ const FormCreateOffer:React.FC = () => {
                   <CFormText className='help-block'>Please select a product</CFormText>
                 }
               </CFormGroup>
-              <CFormGroup>
-                <CLabel htmlFor='serviceCandidate'>Service Candidate</CLabel>
-                <Controller
-                  control={control}
-                  defaultValue={''}
-                  rules={{ required: true }}
-                  name='serviceCandidate'
-                  render={({ onChange, onBlur, value }) => (
-                    <CInput
-                      onChange={onChange}
-                      placeholder={'Enter Service Candidate'}
-                      onBlur={onBlur}
-                      value={value}
-                    />
-                  )}
-                />
-                {errors.serviceCandidate && (
-                  <CFormText className='help-block'>
-                    Please enter a Service Candidate
-                  </CFormText>
-                )}
-              </CFormGroup>
-              <CFormGroup>
-                <CLabel htmlFor='owner'>Owner</CLabel>
-                <Controller
-                  control={control}
-                  defaultValue={''}
-                  rules={{ required: true }}
-                  name='owner'
-                  render={({ onChange, onBlur, value }) => (
-                    <CInput
-                      onChange={onChange}
-                      placeholder={'Enter Owner'}
-                      onBlur={onBlur}
-                      value={value}
-                    />
-                  )}
-                />
-                {errors.owner && (
-                  <CFormText className='help-block'>
-                    Please enter a owner
-                  </CFormText>
-                )}
-              </CFormGroup>
             </CCol>
             <CCol sm={6}>
               <CFormGroup>
@@ -155,28 +105,6 @@ const FormCreateOffer:React.FC = () => {
                 {errors.name && (
                   <CFormText className='help-block'>
                     Please enter a name
-                  </CFormText>
-                )}
-              </CFormGroup>
-              <CFormGroup>
-                <CLabel htmlFor='city'>City</CLabel>
-                <Controller
-                  control={control}
-                  defaultValue={''}
-                  rules={{ required: true }}
-                  name='city'
-                  render={({ onChange, onBlur, value }) => (
-                    <CInput
-                      onChange={onChange}
-                      placeholder={'Enter City'}
-                      onBlur={onBlur}
-                      value={value}
-                    />
-                  )}
-                />
-                {errors.name && (
-                  <CFormText className='help-block'>
-                    Please enter a city
                   </CFormText>
                 )}
               </CFormGroup>

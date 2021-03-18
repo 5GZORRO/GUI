@@ -22,17 +22,24 @@ import {
   CTabPane,
   CTabs
 } from '@coreui/react'
-import { useResources } from 'hooks/api/Resources'
+import { useAllCandidates } from 'hooks/api/Resources'
 import { useHistory } from 'react-router-dom'
 import { IconRAM } from 'assets/icons/externalIcons'
 
 const fields = [
   { key: 'select', label: '', filter: false, sorter: false },
   'name',
-  { key: 'categoryType', label: 'Type' },
-  { key: 'categoryName', label: 'Category' },
-  { key: 'resourceSpecificationName', label: 'Resource Specification' },
+  'version',
+  {
+    key: 'categories',
+    label: 'Categories'
+  },
+  'lifecycleStatus',
   'validFor',
+  {
+    key: 'valid',
+    label: 'validFor'
+  },
   {
     key: 'show_details',
     label: '',
@@ -43,11 +50,24 @@ const fields = [
 
 const NewProductOffer:React.FC = () => {
   const history = useHistory()
-  const [selected, setSelected] = useState<number | null>(null)
-  const { data, isLoading } = useResources()
+  const [selected, setSelected] = useState<string[]>([])
+  const { data, isLoading } = useAllCandidates()
   const [modal, setModal] = useState(false)
+  const [modalInfo, setModalInfo] = useState<any>(null)
 
-  const check = (e: any, id: number) => setSelected(e.target.checked ? id : null)
+  const check = (e: any, id: string) => {
+    if (e.target.checked) {
+      setSelected([...selected, id])
+    } else {
+      setSelected(selected.filter(itemId => itemId !== id))
+    }
+  }
+
+  const openModal = (data: any) => {
+    console.log(data)
+    setModalInfo(data)
+    setModal(true)
+  }
 
   return (
     <CContainer>
@@ -65,34 +85,57 @@ const NewProductOffer:React.FC = () => {
               <CNavItem>
                 <CNavLink className={'pl-0 mb-4'} data-tab='resourceDetail' color={'#6C6E7E'}>Resource Details</CNavLink>
               </CNavItem>
-              <CNavItem>
+             {/*  <CNavItem>
                 <CNavLink data-tab='physicalCap'>Resource - Physical Capabilities</CNavLink>
               </CNavItem>
               <CNavItem>
                 <CNavLink data-tab='virtualCap'>Resource - Virtual Capabilities</CNavLink>
+              </CNavItem> */}
+              <CNavItem>
+                <CNavLink className={'pl-0 mb-4'} data-tab='resourceSpecification' color={'#6C6E7E'}>Resource Specification</CNavLink>
               </CNavItem>
             </CNav>
             <CTabContent>
               <CTabPane data-tab='resourceDetail'>
                 <CRow className={'mt-4'}>
                   <CCol>
-                    <p className={'font-weight-bold font-18 mb-4'}>Name Label Resource</p>
+                    <p className={'font-weight-bold font-18 mb-4'}>{modalInfo?.name}</p>
                     <p className={'text-light mb-2'}>Description</p>
-                    <p className={'font-16 mb-4'}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <p className={'font-16 mb-4'}>{modalInfo?.description}</p>
                     <CRow>
                       <CCol>
-                        <p className={'text-light mb-1'}>Type</p>
-                        <p className={'font-16 text-white'}>Type Label</p>
-                        <p className={'text-light mb-1'}>Valid For</p>
-                        <p className={'font-16 text-white'}>22-02-2010</p>
-                        <p className={'text-light mb-1'}>Resource Specification</p>
-                        <p className={'font-16 text-white'}>Resource Specification Label</p>
+                     {/*  {modalInfo.type &&
+                        <>
+                          <p className={'text-light mb-1'}>Type</p>
+                          <p className={'font-16 text-white'}>{modalInfo.type}</p>
+                        </>
+                      } */}
+                      {modalInfo?.valid &&
+                        <>
+                          <p className={'text-light mb-1'}>Valid For</p>
+                          <p className={'font-16 text-white'}>{modalInfo.valid}</p>
+                        </>
+                      }
+                      {modalInfo?.resourceSpecification &&
+                        <>
+                          <p className={'text-light mb-1'}>Resource Specification</p>
+                          <p className={'font-16 text-white'}>{modalInfo.resourceSpecification?.name}</p>
+                        </>
+                      }
                       </CCol>
                       <CCol>
-                        <p className={'text-light mb-1'}>Version</p>
-                        <p className={'font-16 text-white'}>Version Label</p>
-                        <p className={'text-light mb-1'}>Category</p>
-                        <p className={'font-16 text-white'}>Category Label</p>
+                        {modalInfo?.version &&
+                        <>
+                          <p className={'text-light mb-1'}>Version</p>
+                          <p className={'font-16 text-white'}>{modalInfo.version}</p>
+                        </>
+                        }
+                        {!!modalInfo?.categories.length &&
+                          <>
+                            <p className={'text-light mb-1'}>Categories</p>
+                            <p className={'font-16 text-white'}>{modalInfo.categories}</p>
+                          </>
+                        }
                         <p className={'text-light mb-1'}>Owner Did</p>
                         <p className={'font-16 text-white'}>Owner Did Label</p>
                       </CCol>
@@ -203,6 +246,37 @@ const NewProductOffer:React.FC = () => {
                   </CCol>
                 </CRow>
               </CTabPane>
+              <CTabPane data-tab='resourceSpecification'>
+              <CRow className={'mt-4'}>
+                  <CCol>
+                    <p className={'font-weight-bold font-18 mb-4'}>{modalInfo.resourceSpecification?.name}</p>
+                    <CRow>
+                      <CCol>
+                      {modalInfo?.resourceSpecification &&
+                        <>
+                          <p className={'text-light mb-1'}>ID</p>
+                          <p className={'font-16 text-white'}>{modalInfo.resourceSpecification?.id}</p>
+                        </>
+                      }
+                      </CCol>
+                      <CCol>
+                        {modalInfo.resourceSpecification?.version &&
+                        <>
+                          <p className={'text-light mb-1'}>Version</p>
+                          <p className={'font-16 text-white'}>{modalInfo.resourceSpecification?.version}</p>
+                        </>
+                        }
+                      </CCol>
+                    </CRow>
+                    {modalInfo.resourceSpecification?.href &&
+                    <>
+                      <p className={'text-light mb-1'}>Href</p>
+                      <p className={'font-16 text-white'}>{modalInfo.resourceSpecification?.href}</p>
+                    </>
+                    }
+                  </CCol>
+                </CRow>
+              </CTabPane>
             </CTabContent>
           </CTabs>
         </CModalBody>
@@ -234,7 +308,7 @@ const NewProductOffer:React.FC = () => {
                       <CInputCheckbox
                         custom
                         id={`checkbox${item.id}`}
-                        checked={item.id === selected}
+                        checked={item._selected}
                         onChange={(e) => check(e, item.id)}
                       />
                       <CLabel
@@ -246,13 +320,13 @@ const NewProductOffer:React.FC = () => {
                 )
               },
               show_details:
-                () => {
+                (item: any) => {
                   return (
                 <td className='py-2'>
                   <CButton
                     color='primary'
                     className={'shadow-none text-uppercase'}
-                    onClick={() => setModal(true)}
+                    onClick={() => openModal(item)}
                   >
                     {'Show'}
                   </CButton>
@@ -270,8 +344,8 @@ const NewProductOffer:React.FC = () => {
         <CButton
           className={'text-uppercase px-5'}
           color={'gradient'}
-          disabled={!selected}
-          onClick={() => history.push(`/discover-offers/detail-product/${selected}`)}
+          disabled={!selected.length}
+          onClick={() => history.push(`/offers/detail-product/${selected}`)}
         >
           next
         </CButton>
@@ -279,7 +353,7 @@ const NewProductOffer:React.FC = () => {
           className={'text-uppercase px-5 mr-3'}
           variant='outline'
           color={'white'}
-          onClick={() => setSelected(null)}
+          onClick={() => setSelected([])}
         >
           Cancel
         </CButton>
