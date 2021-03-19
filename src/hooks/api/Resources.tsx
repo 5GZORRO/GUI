@@ -3,7 +3,7 @@
 import { useQuery } from 'react-query'
 import { api } from 'api'
 /** Types */
-import { ApiResourceCandidate } from 'types/api'
+// import { ApiResourceCandidate } from 'types/api'
 
 // Define a default query function that will receive the query key
 export const useAllCandidates = (params?: any) => {

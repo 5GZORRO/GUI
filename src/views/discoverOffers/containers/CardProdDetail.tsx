@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { CCard, CCardBody, CCardHeader, CCol, CButton, CRow } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 /** Hooks */
