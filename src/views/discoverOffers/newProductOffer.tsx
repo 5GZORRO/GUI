@@ -249,29 +249,29 @@ const NewProductOffer:React.FC = () => {
               <CTabPane data-tab='resourceSpecification'>
               <CRow className={'mt-4'}>
                   <CCol>
-                    <p className={'font-weight-bold font-18 mb-4'}>{modalInfo.resourceSpecification?.name}</p>
+                    <p className={'font-weight-bold font-18 mb-4'}>{modalInfo?.resourceSpecification?.name}</p>
                     <CRow>
                       <CCol>
-                      {modalInfo?.resourceSpecification &&
+                      {modalInfo?.resourceSpecification?.id &&
                         <>
                           <p className={'text-light mb-1'}>ID</p>
-                          <p className={'font-16 text-white'}>{modalInfo.resourceSpecification?.id}</p>
+                          <p className={'font-16 text-white'}>{modalInfo.resourceSpecification.id}</p>
                         </>
                       }
                       </CCol>
                       <CCol>
-                        {modalInfo.resourceSpecification?.version &&
+                        {modalInfo?.resourceSpecification?.version &&
                         <>
                           <p className={'text-light mb-1'}>Version</p>
-                          <p className={'font-16 text-white'}>{modalInfo.resourceSpecification?.version}</p>
+                          <p className={'font-16 text-white'}>{modalInfo.resourceSpecification.version}</p>
                         </>
                         }
                       </CCol>
                     </CRow>
-                    {modalInfo.resourceSpecification?.href &&
+                    {modalInfo?.resourceSpecification?.href &&
                     <>
                       <p className={'text-light mb-1'}>Href</p>
-                      <p className={'font-16 text-white'}>{modalInfo.resourceSpecification?.href}</p>
+                      <p className={'font-16 text-white'}>{modalInfo.resourceSpecification.href}</p>
                     </>
                     }
                   </CCol>
