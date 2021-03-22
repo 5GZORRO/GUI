@@ -52,7 +52,7 @@ describe('Login', function () {
     expect(mockLogin).not.toBeCalled()
   })
 
-  it.skip('should display matching error when email is invalid', async () => {
+  it.skip('should display matching error when key is invalid', async () => {
     const { getByRole, getByTestId } = render(<Login />)
 
     fireEvent.input(getByTestId('key'), {

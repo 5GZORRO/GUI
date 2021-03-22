@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { CDataTable, CButton, CFormGroup, CInputCheckbox, CLabel } from '@coreui/react'
 
 /** Hooks */
-import { useGovernances } from 'hooks/api/GovernanceActions'
+// import { useGovernances } from 'hooks/api/GovernanceActions'
 
 const fields = [
   { key: 'select', label: '', filter: false },
@@ -20,7 +20,7 @@ const fields = [
 ]
 
 const Dashboard:React.FC = () => {
-  const { data, isLoading } = useGovernances()
+  // const { data, isLoading } = useGovernances()
   const [selected, setSelected] = useState([2, 3])
 
   const check = (e: React.FormEvent<any>, id: number) => {
@@ -35,8 +35,8 @@ const Dashboard:React.FC = () => {
     <div className={'bg-gradient-dark-test'}>
     <CDataTable
       cleaner
-      loading={isLoading}
-      items={data?.content}
+      loading={false}
+      items={[]}
       columnFilter
       tableFilter
       clickableRows

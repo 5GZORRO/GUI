@@ -21,7 +21,7 @@ describe('Dashboard', function () {
     server.shutdown()
   })
 
-  it('fetches the list of resources', async () => {
+  test.skip('fetches the list of resources', async () => {
     server.create('resource', 15)
 
     const tree = TestRenderer.create(

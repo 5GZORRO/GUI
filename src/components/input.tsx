@@ -22,18 +22,18 @@ const Input:React.FC<PropsInputFile> = ({ onChange, onBlur, value }) => {
   return (
     <>
     <CLabel htmlFor='file-input'>Certified upload</CLabel>
-      <CRow className={'m-0 p-2 d-flex align-items-center'} style={{ boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: '4px' }}>
+      <CRow className={'m-0 d-flex align-items-center'} style={{ boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: '4px' }}>
         <CCol sm={7} lg={8} className={'d-flex align-items-center'}>
         <div style={{ backgroundColor: '#181924', display: 'flex', alignItems: 'center', borderRadius: '4px', width: '36px', height: '36px' }} className={'p-2'}>
           <PDFIcon width={18} height={18} />
         </div>
-        <div>
+        <div className={'p-2'}>
           <p style={{ margin: '0 12px', width: '200px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{fileName || 'Choose File'}</p>
           <p style={{ margin: '0 12px', color: '#8A93A2' }}>Type File: <strong>PDF</strong></p>
         </div>
         </CCol>
-        <CCol sm={5} lg={4} className={'d-flex justify-content-end'}>
-          <label className='custom-file-upload'>
+        <CCol sm={5} lg={4} className={'d-flex justify-content-end align-items-center'}>
+          <label className='custom-file-upload m-0'>
             <CInputFile
               id='file-input'
               name='file-input'

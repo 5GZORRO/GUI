@@ -234,13 +234,9 @@ textarea.form-control {
 
 .form-check {
   position: relative;
-  display: block;
-  @include ltr {
-    padding-left: $form-check-input-gutter;
-  }
-  @include rtl {
-    padding-right: $form-check-input-gutter;
-  }
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.125rem;
 }
 
 .form-check-input {
@@ -264,6 +260,11 @@ textarea.form-control {
 
 .form-check-label {
   margin-bottom: 0; // Override default `<label>` bottom margin
+  font-family: 'Inter';
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+  color: #fff;
+  font-weight: 400;
 }
 
 .form-check-inline {
