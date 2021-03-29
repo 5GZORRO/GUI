@@ -78,7 +78,6 @@ build:
       - staging
       - tags
 
-
 # Promote to Staging
 promote to staging:
   stage: promote
