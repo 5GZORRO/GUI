@@ -78,21 +78,6 @@ build:
       - staging
       - tags
 
-# Promote to Master
-promote to master:
-  stage: promote
-  when: manual
-  only:
-    - staging
-  before_script:
-    - apk --no-cache add git
-    - export URL_HOST=$(git remote get-url origin | sed -e "s/https:\/\/gitlab-ci-token:.*@//g")
-    - git remote set-url origin "https://gitlab-ci-token:${GITLAB_TOKEN}@${URL_HOST}"
-  script:
-    - git checkout master
-    - git pull
-    - git pull origin staging
-    - git push
 
 # Promote to Staging
 promote to staging:
@@ -128,6 +113,22 @@ deploy:staging:
     expire_in: 1 day
   only:
     - staging
+
+# Promote to Master
+promote to master:
+  stage: promote
+  when: manual
+  only:
+    - staging
+  before_script:
+    - apk --no-cache add git
+    - export URL_HOST=$(git remote get-url origin | sed -e "s/https:\/\/gitlab-ci-token:.*@//g")
+    - git remote set-url origin "https://gitlab-ci-token:${GITLAB_TOKEN}@${URL_HOST}"
+  script:
+    - git checkout master
+    - git pull
+    - git pull origin staging
+    - git push
 
 # Release Production
 release:
