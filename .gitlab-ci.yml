@@ -98,7 +98,7 @@ promote to master:
 promote to staging:
   stage: promote
   only:
-    - development
+    - develop
   before_script:
     - apk --no-cache add git
     - export URL_HOST=$(git remote get-url origin | sed -e "s/https:\/\/gitlab-ci-token:.*@//g")
@@ -106,7 +106,7 @@ promote to staging:
   script:
     - git checkout staging
     - git pull
-    - git pull origin development
+    - git pull origin develop
     - git push
 
 # Deploy Staging
