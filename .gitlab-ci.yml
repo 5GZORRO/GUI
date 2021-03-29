@@ -94,8 +94,27 @@ promote to master:
     - git pull origin development
     - git push
 
+# Deploy Staging
+deploy:staging:
+  stage: deploy
+  script:
+    - yarn add netlify-cli
+    - yarn build
+    - mkdir ~/.netlify
+    - mkdir .netlify
+    - 'echo "{\"siteId\": \"$STAGING_SITE_ID\"}" > .netlify/state.json'
+    - yarn netlify deploy --dir public --prod
+  environment:
+    name: Staging
+    url: https://5gzorro.staging.netlify.app
+  artifacts:
+    paths:
+      - public/
+    expire_in: 1 day
+  only:
+    - staging
 
-
+# Release Production
 release:
   stage: release
   script:
@@ -108,43 +127,23 @@ release:
     variables:
       - $CI_COMMIT_MESSAGE =~ /chore\(release\)/
 
-
-  ## VPN
-  ## Inspiration from: https://torguard.net/knowledgebase.php?action=displayarticle&id=138
-  ## And http://forum.gitlab.com/t/connect-vpn-during-ci-cd/7585
-  ## Content from Variables to files: https://stackoverflow.com/a/49418265/4396362
-  ## Waiting for opnevpn connect would be better than sleeping, the closest would be https://askubuntu.com/questions/28733/how-do-i-run-a-script-after-openvpn-has-connected-successfully
-  ## Maybe this would work https://unix.stackexchange.com/questions/403202/create-bash-script-to-wait-and-then-run
-  ##
-  
-
 # Deploy production
 deploy:production:
   stage: deploy
   when: manual
   script:
-    - apk add openvpn rsync openssh # Install openvpn, ssh and rsync if not available.
-    - cat $SSH_PRIVATE > /priv_key
-    - chmod 0400 /priv_key
-    - cat $CLIENT_OVPN > /VPN.ovpn
-    - cat $VPN_CRED > /credentials.txt
-    - cat $VPN_KEY > /VPN.key
-    - cat $VPN_CRT > /VPN.crt
-    - openvpn --config /VPN.ovpn --daemon
-    - sleep 10s # Wait for some time so the vpn can connect before doing anything else.
-    - mkdir /root/.ssh
-    - ssh-keyscan -p 22 -H -t ecdsa $IP_MACHINE >> /root/.ssh/known_hosts
-    - ping -c 1 $IP_MACHINE
-    - ssh -i /priv_key ubuntu@${IP_MACHINE} whoami
+    - yarn add netlify-cli
     - yarn build
-    - rm -rf public
-    - mv build public
-    - rsync -avzhe "ssh -i /priv_key" public/ ${ARTIFACT_USER}@${IP_MACHINE}:/home/ubuntu/frontend
-
+    - mkdir ~/.netlify
+    - mkdir .netlify
+    - 'echo "{\"siteId\": \"$STAGING_SITE_ID\"}" > .netlify/state.json'
+    - yarn netlify deploy --dir public --prod
+  environment:
+    name: Staging
+    url: https://5gzorro.netlify.app
+  artifacts:
+    paths:
+      - public/
+    expire_in: 5 day
   only:
     - master
-  except:
-    refs:
-      - tags
-    variables:
-      - $CI_COMMIT_MESSAGE =~ /chore\(release\)/
