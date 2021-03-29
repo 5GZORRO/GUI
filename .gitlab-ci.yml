@@ -101,11 +101,11 @@ deploy:staging:
     - yarn build
     - mkdir ~/.netlify
     - mkdir .netlify
-    - 'echo "{\"siteId\": \"$STAGING_SITE_ID\"}" > .netlify/state.json'
-    - yarn netlify deploy --dir public --prod
+    - 'echo "{\"siteId\": \"$APP_ID_NETTLIFY\"}" > .netlify/state.json'
+    - yarn netlify deploy --dir build --prod
   environment:
     name: Staging
-    url: https://5gzorro.staging.netlify.app
+    url: https://5gzorro.netlify.app
   artifacts:
     paths:
       - public/
@@ -151,8 +151,8 @@ deploy:production:
     - yarn build
     - mkdir ~/.netlify
     - mkdir .netlify
-    - 'echo "{\"siteId\": \"$STAGING_SITE_ID\"}" > .netlify/state.json'
-    - yarn netlify deploy --dir public --prod
+    - 'echo "{\"siteId\": \"$APP_ID_NETTLIFY\"}" > .netlify/state.json'
+    - yarn netlify deploy --dir build --prod
   environment:
     name: Staging
     url: https://5gzorro.netlify.app
