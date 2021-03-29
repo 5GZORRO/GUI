@@ -18,7 +18,7 @@ import {
 } from './index'
 
 // routes config
-import routes from '../routes'
+import routes from 'routes'
 
 const TheHeader:React.FC = () => {
   const dispatch = useDispatch()

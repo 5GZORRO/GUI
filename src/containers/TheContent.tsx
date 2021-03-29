@@ -8,7 +8,7 @@ import {
 import { CContainer, CFade } from '@coreui/react'
 import { LogoVerticalWhite } from 'assets/icons/logos'
 // routes config
-import routes from '../routes'
+import routes from 'routes'
 
 const loading = (
   <div style={{ height: '100%' }} className='d-flex justify-content-center align-items-center'>
@@ -30,7 +30,7 @@ const TheContent = () => {
                   exact={route.exact}
                   children={() => (
                     <CFade>
-                      <route.component/>
+                      <route.component />
                     </CFade>
                   )}/>
               )
