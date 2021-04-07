@@ -20,6 +20,7 @@ import MaskedInput from 'react-text-mask'
 import { KeyLogin } from 'assets/icons/externalIcons'
 import { LogoVerticalWhite } from 'assets/icons/logos'
 import Input from 'components/input'
+import CIcon from '@coreui/icons-react'
 import { useHistory } from 'react-router'
 import { TheFooter } from 'containers'
 
@@ -153,9 +154,17 @@ const Login:React.FC = () => {
                 <CButton
                   color={'secondary'}
                   size='lg'
+                  className={'p-3'}
+                  block
                   onClick={() => history.push('/register')}
                 >
-                  Create new  Account
+                    <div className={'d-flex justify-content-between align-items-center'}>
+                      <div className={'d-flex align-items-center'}>
+                        <CIcon name='cilGlobeAlt' className={'m-0 mr-3'} />
+                        Create new  Account
+                      </div>
+                    <CIcon name='cilArrowRight' className={'m-0'} />
+                  </div>
                 </CButton>
               </CCol>
             </CRow>

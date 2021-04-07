@@ -1,8 +1,10 @@
+import { API_MARKET_PLACE, API_GOVERNANCE } from 'config'
+
 export const endpoints = {
-  MEMBERSHIPS: '/memberships',
-  REGISTER: '/holder/register_stakeholder',
-  RESOURCE_CANDIDATE: '/resourceCatalogManagement/v2/resourceCandidate',
-  PRODUCT_SPECIFICATION: '/productCatalogManagement/v4/productSpecification',
-  PRODUCT_OFFERING: '/productCatalogManagement/v4/productOffering'
+  MEMBERSHIPS: `${API_MARKET_PLACE}/memberships`,
+  REGISTER: `${API_GOVERNANCE}/holder/register_stakeholder`,
+  RESOURCE_CANDIDATE: `${API_MARKET_PLACE}/resourceCatalogManagement/v2/resourceCandidate`,
+  PRODUCT_SPECIFICATION: `${API_MARKET_PLACE}/productCatalogManagement/v4/productSpecification`,
+  PRODUCT_OFFERING: `${API_MARKET_PLACE}/productCatalogManagement/v4/productOffering`
 
 }

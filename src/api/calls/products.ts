@@ -1,9 +1,9 @@
-import instance from 'api/instance'
+import axios from 'api/instance'
 import { endpoints } from 'api/endpoints'
 
 const createSpecification = async (body: any): Promise<any> => {
   try {
-    const response = await instance.apiMarketPlace.post(endpoints.PRODUCT_SPECIFICATION, { body })
+    const response = await axios.post(endpoints.PRODUCT_SPECIFICATION, { body })
     const newResponse = response.data[0]
     const { id, name, version, validFor, category, lifecycleStatus, description, resourceSpecification } = newResponse
     return { id, name, version, validFor, category, lifecycleStatus, description, resourceSpecification }
@@ -15,7 +15,7 @@ const createSpecification = async (body: any): Promise<any> => {
 
 const createOffering = async (body: any): Promise<any> => {
   try {
-    const response = await instance.apiMarketPlace.post(endpoints.PRODUCT_OFFERING, { body })
+    const response = await axios.post(endpoints.PRODUCT_OFFERING, { body })
     console.log(response)
     return response.data
   } catch (e) {

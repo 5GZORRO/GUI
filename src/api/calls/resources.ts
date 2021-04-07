@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import instance from 'api/instance'
+import axios from 'api/instance'
 import { endpoints } from 'api/endpoints'
 import { TransformDataResourceCandidate } from 'api/utils'
 /** Types */
@@ -8,7 +8,7 @@ import { ApiResourceCandidate } from 'types/api'
 
 const getAllCandidates = async (params?: any): Promise<ApiResourceCandidate[]> => {
   try {
-    const response = await instance.apiMarketPlace.get(endpoints.RESOURCE_CANDIDATE, { params })
+    const response = await axios.get(endpoints.RESOURCE_CANDIDATE, { params })
     return TransformDataResourceCandidate(response.data)
   } catch (e) {
     console.log(e)
@@ -20,7 +20,7 @@ const getCandidateById = async (candidateIds: string): Promise<ApiResourceCandid
   try {
     const ids = candidateIds.split(',')
     const response = await Promise.allSettled(
-      ids.map(id => instance.apiMarketPlace.get(`${endpoints.RESOURCE_CANDIDATE}/${id}`))
+      ids.map(id => axios.get(`${endpoints.RESOURCE_CANDIDATE}/${id}`))
     )
 
     const newResponse = response.reduce((acc: any, item: any) => {

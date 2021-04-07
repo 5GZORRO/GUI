@@ -248,7 +248,9 @@ textarea.form-control {
   @include rtl {
     margin-right: -$form-check-input-gutter;
   }
-
+  &:checked {
+    background-color: yellow;
+  }
   // Use [disabled] and :disabled for workaround https://github.com/twbs/bootstrap/issues/28247
   &[disabled] ~ .form-check-label,
   &:disabled ~ .form-check-label {

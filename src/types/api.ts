@@ -79,3 +79,28 @@ export interface ApiResourceCandidate {
   lifecycleStatus: string
   resourceSpecification: any
 }
+
+interface stakeholderServicesProps {
+    type: string
+    endpoint: string
+}
+
+interface stakeholderProfileProps {
+    role: string
+    assets: string[]
+}
+
+export interface ApiRegisterBody {
+  governanceBoardDID: string
+  stakeholderServices: stakeholderServicesProps[],
+  stakeholderRoles: stakeholderProfileProps[],
+  stakeholderProfile: {
+    name: string
+    address: string
+    notificationMethod: {
+      notificationType: string
+      distributionList: string
+    }
+  }
+  handlerUrl: string
+}

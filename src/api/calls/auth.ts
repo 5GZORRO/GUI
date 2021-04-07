@@ -1,11 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import instance from 'api/instance'
 import { endpoints } from 'api/endpoints'
+import axios from 'api/instance'
+import { ApiRegisterBody } from 'types/api'
 
-const registerClient = async (body: any): Promise<any> => {
+interface DataProps {
+  key: string,
+  body: ApiRegisterBody
+}
+
+const registerClient = async ({ key, body }: DataProps) => {
   try {
-    const response = await instance.apiGovernance.post(endpoints.REGISTER, { body })
+    const response = await axios.post(endpoints.REGISTER, { ...body }, { params: { key } })
     const newResponse = response.data
     console.log(newResponse)
     return newResponse
