@@ -1,14 +1,6 @@
 import axios from 'axios'
 import { camelizeKeys } from 'humps'
-import { AUTH_TOKEN_SLUG, API_MARKET_PLACE, API_GOVERNANCE } from 'config'
-
-const apiMarketPlace = axios.create({
-  baseURL: API_MARKET_PLACE
-})
-
-const apiGovernance = axios.create({
-  baseURL: API_GOVERNANCE
-})
+import { AUTH_TOKEN_SLUG } from 'config'
 
 axios.interceptors.request.use((config) => {
   const authToken = localStorage.getItem('5gzorro')
@@ -53,7 +45,4 @@ axios.interceptors.request.use(
   }
 )
 
-export default {
-  apiMarketPlace,
-  apiGovernance
-}
+export default axios

@@ -19,16 +19,21 @@ import {
 import CIcon from '@coreui/icons-react'
 import { useForm, Controller } from 'react-hook-form'
 import { KeyLogin } from 'assets/icons/externalIcons'
-import MaskedInput from 'react-text-mask'
 import { LogoVerticalWhite } from 'assets/icons/logos'
 import { TheFooter } from 'containers/index'
+import { useHistory } from 'react-router'
+import { transformForm } from './utils'
+import RegisterSuccess from 'containers/registerSuccess'
+/** Hooks */
+import { useRegister } from 'hooks/api/Auth'
+
 interface InputRegister {
   governanceDID: string
   role: string
   assets: string[]
   name: string
   address: string
-  key: number | string
+  key: string
 }
 
 const assestsArray = ['Information Resource', 'Physical Resource', 'Spectrum Resource', 'Network Function']
@@ -36,9 +41,12 @@ const assestsArray = ['Information Resource', 'Physical Resource', 'Spectrum Res
 const Register:React.FC = () => {
   const { handleSubmit, errors, control } = useForm<InputRegister>()
   const [checkedValues, setCheckedValues] = useState<string[]>([])
+  const createRegister = useRegister()
+  const history = useHistory()
 
   const onSubmit = (form: InputRegister) => {
-    console.log(form)
+    const data = transformForm(form)
+    createRegister.mutate({ key: form.key, body: data })
   }
 
   const handleSelect = (checkedName: string) => {
@@ -54,22 +62,36 @@ const Register:React.FC = () => {
   return (
     <div className='c-app c-default-layout'>
       <div className='c-wrapper'>
+      <CRow className='justify-content-center mt-5'>
+        <CCol xs='4' className={'d-flex justify-content-center align-items-center mb-5'}>
+          <CButton
+            variant={'outline'}
+            color={'light'}
+            className={'px-5 text-uppercase'}
+            onClick={() => history.push('/login')}
+          >
+            <CIcon name='cilArrowLeft' style={{ marginRight: '10px' }} />
+            back to login
+          </CButton>
+        </CCol>
+        <CCol xs='4' className={'d-flex mb-5 justify-content-center align-items-center'}>
+          <LogoVerticalWhite />
+        </CCol>
+        <CCol xs='4' className={'d-flex mb-5 justify-content-center align-items-center'}>
+        </CCol>
+      </CRow>
         <div className='c-body flex-row align-items-center'>
           <CContainer>
-            <CRow className='justify-content-center'>
-              <CCol xs='5' className={'d-flex justify-content-center align-items-center mb-5'}>
-                <LogoVerticalWhite />
-              </CCol>
-            </CRow>
+            <RegisterSuccess />
             <CRow className='justify-content-center'>
               <CCol xs='5'>
                 <CCard className='px-4 py-5 w-100'>
-                  <CCardBody>
+                  <CCardBody className={'p-0'}>
                     <CForm onSubmit={handleSubmit(onSubmit)}>
                       <h1 className={'mb-4'}>Sign up</h1>
                       <p className='text-muted'>It´s quick and easy</p>
                       <CRow className={'mb-4'}>
-                        <CCol xs='6'>
+                        <CCol md='6'>
                           <CFormGroup>
                               <CLabel htmlFor='governanceDID'>Governance Board DID</CLabel>
                               <CInputGroup>
@@ -104,7 +126,7 @@ const Register:React.FC = () => {
                             }
                           </CFormGroup>
                         </CCol>
-                        <CCol xs='6'>
+                        <CCol md='6'>
                           <CFormGroup>
                               <CLabel>Role</CLabel>
                               <CInputGroup>
@@ -143,7 +165,7 @@ const Register:React.FC = () => {
                       <CFormGroup className={'mb-4'}>
                         <CLabel>Checkboxes</CLabel>
                         <CRow>
-                          <CCol xs='5'>
+                          <CCol md='5'>
                             {assestsArray.slice(0, Math.ceil(columns / 2)).map((item, index) =>
                               <CFormGroup key={index} variant='checkbox' className='checkbox'>
                                 <Controller
@@ -166,7 +188,7 @@ const Register:React.FC = () => {
                               </CFormGroup>
                             )}
                           </CCol>
-                          <CCol xs='5'>
+                          <CCol md='5'>
                             {assestsArray.slice(Math.ceil(columns / 2), columns).map((item, index) =>
                               <CFormGroup key={index} variant='checkbox' className='checkbox'>
                                 <Controller
@@ -274,31 +296,23 @@ const Register:React.FC = () => {
                               </CInputGroupText>
                             </CInputGroupPrepend>
                             <Controller
-                              control={control}
-                              defaultValue={''}
-                              rules={{ required: true }}
-                              name='key'
-                              data-testid={'key'}
-                              render={({ onChange, onBlur, value }) => (
-                                <MaskedInput
-                                  placeholder={'999 999 999'}
-                                  mask={[/[1-9]/, /[1-9]/, /[1-9]/, ' ', /[1-9]/, /[1-9]/, /[1-9]/, ' ', /[1-9]/, /[1-9]/, /[1-9]/, ' ', /[1-9]/, /[1-9]/, /[1-9]/]}
-                                  className='form-control'
-                                  onChange={onChange}
-                                  onBlur={onBlur}
-                                  value={value}
-                                  render={(ref, props) => (
-                                    <CInput
-                                      innerRef={ref}
-                                      {...props}
-                                    />
-                                  )}
-                                />
-                              )}
-                            />
+                            control={control}
+                            defaultValue={''}
+                            rules={{ required: true }}
+                            name='key'
+                            data-testid={'key'}
+                            render={({ onChange, onBlur, value }) => (
+                              <CInput
+                                onChange={onChange}
+                                placeholder={'Insert key'}
+                                onBlur={onBlur}
+                                value={value}
+                              />
+                            )}
+                          />
                           </CInputGroup>
                           <CFormText color='muted' className={'mt-2'}>
-                            ex. 999 999 999 999
+                            ex. 33gf9wQR3ieDSfehtj2Wj185UmTxrijog2YuVrJ2VbyY
                           </CFormText>
                         {errors.key &&
                           <CFormText

@@ -29,16 +29,13 @@
   @include ltr {
     left: 0;
   }
-  @include rtl {
-    right: 0;
-  }
   z-index: 0; // Put the input behind the label so it doesn't overlay text
   width: 13px;
   height: 13px;
   border-radius: 4px;
-  border: 1px solid red;
+  border: 1px solid #636F83;
   opacity: 1;
-  background: red;
+  background-color: rgb(62, 255, 4);
   &:checked ~ .custom-control-label::before {
     @include box-shadow($custom-control-indicator-checked-box-shadow);
     @include themes($custom-forms-theme-map, $create: parent) {
