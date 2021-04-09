@@ -21,35 +21,35 @@ import {
 import { PlusCircle } from 'assets/icons/externalIcons'
 
 interface FormVirtualResource {
-  key: string;
-  value: string;
-  unit: string;
-  quota: string;
+  key: string
+  value: string
+  unit: string
+  quota: string
 }
 
 interface FormPhysical {
-  name: string;
-  description: string;
-  version: string;
-  href: string;
-  type: string;
-  virtualResource: FormVirtualResource[];
+  name: string
+  description: string
+  version: string
+  href: string
+  type: string
+  virtualResource: FormVirtualResource[]
 }
 
 const NewPhysicalResource: React.FC = () => {
   const { control, handleSubmit, errors } = useForm<FormPhysical>({
     defaultValues: {
-      name: 'test',
+      name: '',
       description:
-        'asdkasjdkasdjsakldjasdkasjdaksdjakdasjdkasjdaskldjaskdljsadlkjaskldjaskdlasjdaskldjasdkasjdaksldjaskldjvcbxnvbcxnvmbxcvnmsdbfrnmsdvhjsdfbdhjb',
-      href: 'wwww.asdasdasad.com',
-      type: 'nice',
+        '',
+      href: '',
+      type: '',
       virtualResource: [
         {
-          key: '34',
-          value: '34',
-          unit: 'MB',
-          quota: '2'
+          key: '',
+          value: '',
+          unit: '',
+          quota: ''
         }
       ]
     }

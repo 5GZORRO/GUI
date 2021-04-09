@@ -2,15 +2,15 @@ import React from 'react'
 import { CButton, CCard, CCardBody, CCol, CRow } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { useHistory } from 'react-router'
-// import { Spline } from 'react-spline'
+/* import { Spline } from 'react-spline' */
 import 'react-spline/dist/react-spline.modern.css'
-// import { SCENE_OBJECT } from '../views/register/utils'
+/* import { SCENE_OBJECT } from '../views/register/utils' */
 
 const RegisterSuccess = () => {
   const history = useHistory()
   return (
     <CRow className='justify-content-center'>
-      {/* <Spline scene={SCENE_OBJECT} assets={SCENE_OBJECT} /> */}
+      {/* <Spline scene={SCENE_OBJECT} /> */}
       <CCol xs='5'>
         <CCard>
           <CCardBody className={'p-5'}>
