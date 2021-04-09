@@ -148,7 +148,11 @@ const ResourceCreation = () => {
                 rules={{ required: true }}
                 name='category'
                 render={({ onChange, onBlur, value }) => (
-                  <CSelect onChange={onChange} onBlur={onBlur} value={value}>
+                  <CSelect
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    value={value}
+                  >
                     <option value='0'>Please select</option>
                     <option value='1'>Option #1</option>
                     <option value='2'>Option #2</option>
