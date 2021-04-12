@@ -20,7 +20,16 @@
 <a href="https://gitlab.ubiwhere.com/5GZORRO/GUI/-/commits/develop"><img alt="pipeline status" src="https://gitlab.ubiwhere.com/5GZORRO/GUI/badges/develop/pipeline.svg" /></a>
 <a href="https://gitlab.ubiwhere.com/5GZORRO/GUI/-/commits/develop"><img alt="coverage report" src="https://gitlab.ubiwhere.com/5GZORRO/GUI/badges/develop/coverage.svg" /></a>
 
-# 5GZorro
+# 5GZORRO
+
+## Description 
+
+_5GZORRO's Governance and Marketplace Portal. _
+
+This repo is mirroring Ubiwhere's private repo. 
+A public instance of this GUI can be found at https://5gzorro.netlify.app/ . CI/CD is in place, so this instance will always reflect the `develop` branch (may be updated in the future to reflect only `master`). 
+
+---
 
 ### 🛠 Stack used
 - [React](https://pt-br.reactjs.org/)
