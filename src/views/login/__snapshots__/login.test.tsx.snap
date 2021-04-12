@@ -259,7 +259,7 @@ exports[`Login Snapshot  1`] = `
                     <label
                       className=""
                     >
-                      Enter Key
+                      Stakeholder DID
                     </label>
                     <div
                       className="input-group"
@@ -283,8 +283,7 @@ exports[`Login Snapshot  1`] = `
                         </div>
                       </div>
                       <input
-                        data-testid="key"
-                        name="key"
+                        className="form-control"
                         onBlur={[Function]}
                         onChange={[Function]}
                         type="text"
@@ -294,125 +293,8 @@ exports[`Login Snapshot  1`] = `
                     <small
                       className="form-text text-muted mt-2"
                     >
-                      ex. 999 999 999 9999
+                      ex. QxacVyyX7AvLDZyqbnZL3e
                     </small>
-                  </div>
-                  <div
-                    className="form-group"
-                  >
-                    <label
-                      className=""
-                      htmlFor="file-input"
-                    >
-                      Certified upload
-                    </label>
-                    <div
-                      className="m-0 d-flex align-items-center row"
-                      style={
-                        Object {
-                          "borderRadius": "4px",
-                          "boxShadow": "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                        }
-                      }
-                    >
-                      <div
-                        className="d-flex align-items-center col-sm-7 col-lg-8"
-                      >
-                        <div
-                          className="p-2"
-                          style={
-                            Object {
-                              "alignItems": "center",
-                              "backgroundColor": "#181924",
-                              "borderRadius": "4px",
-                              "display": "flex",
-                              "height": "36px",
-                              "width": "36px",
-                            }
-                          }
-                        >
-                          <svg
-                            height={18}
-                            viewBox="0 0 16 20"
-                            width={18}
-                          >
-                            <path
-                              d="M10 0l6 6v12a2 2 0 01-2 2H2a2 2 0 01-2-2V2a2 2 0 012-2h8zm4 18V7H9V2H2v16h12zm-7.08-7.69c-.24-.77-.77-3.23.63-3.27 1.4-.04.48 3.12.48 3.12.39 1.49 2.02 2.56 2.02 2.56.5-.15 3.35-.48 2.95 1-.43 1.48-3.5.09-3.5.09-1.95.14-3.41.66-3.41.66-1.13 2.11-2.45 3.03-2.99 2.14-.67-1.11 2.13-2.54 2.13-2.54 1.45-2.35 1.67-3.72 1.69-3.76zm.65.84c-.4 1.3-1.2 2.69-1.2 2.69.85-.34 2.71-.73 2.71-.73-1.14-1-1.49-1.95-1.51-1.96zm3.14 2.17s1.75.65 1.79.39c.07-.27-1.33-.51-1.79-.39zm-5.66 1.49c-.77.3-1.51 1.58-1.33 1.58.18.01.91-.6 1.33-1.58zm2.52-5.55c0-.05.43-1.68 0-1.73-.3-.03-.01 1.69 0 1.73z"
-                              fill="#6C6E7E"
-                            />
-                          </svg>
-                        </div>
-                        <div
-                          className="p-2"
-                        >
-                          <p
-                            style={
-                              Object {
-                                "margin": "0 12px",
-                                "overflow": "hidden",
-                                "textOverflow": "ellipsis",
-                                "whiteSpace": "nowrap",
-                                "width": "200px",
-                              }
-                            }
-                          >
-                            Choose File
-                          </p>
-                          <p
-                            style={
-                              Object {
-                                "color": "#8A93A2",
-                                "margin": "0 12px",
-                              }
-                            }
-                          >
-                            Type File: 
-                            <strong>
-                              PDF
-                            </strong>
-                          </p>
-                        </div>
-                      </div>
-                      <div
-                        className="d-flex justify-content-end align-items-center col-sm-5 col-lg-4"
-                      >
-                        <label
-                          className="custom-file-upload m-0"
-                        >
-                          <input
-                            accept=".pdf"
-                            className="custom-file-input"
-                            id="file-input"
-                            name="file-input"
-                            onBlur={[Function]}
-                            onChange={[Function]}
-                            style={
-                              Object {
-                                "border": "1px solid #ccc",
-                                "cursor": "pointer",
-                                "display": "inline-block",
-                                "padding": "6px 12px",
-                                "width": "0px",
-                              }
-                            }
-                            type="file"
-                          />
-                          <span
-                            style={
-                              Object {
-                                "color": "#9DA5B1",
-                                "cursor": "pointer",
-                                "textDecorationLine": "underline",
-                              }
-                            }
-                          >
-                            <strong>
-                              Choose File
-                            </strong>
-                          </span>
-                        </label>
-                      </div>
-                    </div>
                   </div>
                   <div
                     className="row"

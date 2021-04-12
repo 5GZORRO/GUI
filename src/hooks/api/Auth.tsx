@@ -7,6 +7,11 @@ import { AxiosError } from 'axios'
 
 // Define a default query function that will receive the query key
 export const useRegister = () =>
-  useMutation<string, AxiosError, {key: string, body: ApiRegisterBody}>(
+  useMutation<string, AxiosError, ApiRegisterBody>(
     (data) => api.auth.registerClient(data)
+  )
+
+export const useLogin = () =>
+  useMutation<string, AxiosError, string>(
+    (key) => api.auth.verifyClient(key)
   )

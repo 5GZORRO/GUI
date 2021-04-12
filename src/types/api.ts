@@ -91,9 +91,10 @@ interface stakeholderProfileProps {
 }
 
 export interface ApiRegisterBody {
+  key: string
   governanceBoardDID: string
-  stakeholderServices: stakeholderServicesProps[],
-  stakeholderRoles: stakeholderProfileProps[],
+  stakeholderServices: stakeholderServicesProps[]
+  stakeholderRoles: stakeholderProfileProps[]
   stakeholderProfile: {
     name: string
     address: string
@@ -103,4 +104,24 @@ export interface ApiRegisterBody {
     }
   }
   handlerUrl: string
+}
+
+export interface ApiLoginResponse {
+  stakeholderClaim: {
+    governanceBoardDID: string
+    stakeholderServices: stakeholderServicesProps[]
+    stakeholderRoles: stakeholderProfileProps[]
+    stakeholderProfile: {
+      name: string,
+      address: string,
+      notificationMethod: {
+        notificationType: string
+        distributionList: string
+      }
+    }
+    stakeholderDID: string
+  },
+  state: string,
+  credentialDefinitionId: string,
+  idToken: string
 }
