@@ -153,9 +153,15 @@ const Register:React.FC = () => {
                       <CRow>
                         {fields.map((field, index) =>
                           <React.Fragment key={field.id}>
-                            <CCol xs='12'>
+                            <CCol xs='12' className={'mb-4'}>
                               <CFormGroup>
                                   <CLabel>Role</CLabel>
+                                  {index > 0 &&
+                                    <div className={'float-right cursor-pointer'} onClick={() => remove(index)}>
+                                      <CIcon name='cilTrash' className={'mr-2'} />
+                                      <span className={'text-gray'}>Delete Resource</span>
+                                    </div>
+                                  }
                                   <CInputGroup>
                                     <CInputGroupPrepend>
                                       <CInputGroupText>
