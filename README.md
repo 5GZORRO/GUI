@@ -24,7 +24,7 @@
 
 ## Description 
 
-_5GZORRO's Governance and Marketplace Portal. _
+> 5GZORRO's Governance and Marketplace Portal.
 
 This repo is mirroring Ubiwhere's private repo. 
 A public instance of this GUI can be found at https://5gzorro.netlify.app/ . CI/CD is in place, so this instance will always reflect the `develop` branch (may be updated in the future to reflect only `master`). 
