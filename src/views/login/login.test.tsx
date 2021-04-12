@@ -6,6 +6,7 @@ import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import TestRenderer from 'react-test-renderer'
 import Login from './index'
+import { QueryClientProvider, QueryClient } from 'react-query'
 
 jest.mock('react-text-mask', () => (props: JSX.IntrinsicAttributes & React.ClassAttributes<HTMLInputElement> & React.InputHTMLAttributes<HTMLInputElement>) =>
   <input
@@ -18,20 +19,27 @@ jest.mock('react-text-mask', () => (props: JSX.IntrinsicAttributes & React.Class
   />
 )
 
-const mockLogin = jest.fn((key, file) => {
-  return Promise.resolve({ key, file })
+const mockLogin = jest.fn((key) => {
+  return Promise.resolve({ key })
 })
+
+const queryClient = new QueryClient()
 
 describe('Login', function () {
   it('Snapshot ', () => {
     const tree = TestRenderer.create(
+      <QueryClientProvider client={queryClient}>
         <Login />
+      </QueryClientProvider>
     ).toJSON()
     expect(tree).toMatchSnapshot()
   })
 
   it('should display correct error message key', () => {
-    const { getByTestId, findByText } = render(<Login />)
+    const { getByTestId, findByText } = render(
+    <QueryClientProvider client={queryClient}>
+      <Login />
+    </QueryClientProvider>)
 
     getByTestId('submit')
 
@@ -41,36 +49,12 @@ describe('Login', function () {
     expect(mockLogin).not.toBeCalled()
   })
 
-  it('should display correct error message file', () => {
-    const { getByTestId, findByText } = render(<Login />)
-
-    getByTestId('submit')
-
-    fireEvent.click(getByTestId('submit'))
-
-    expect(findByText('Please enter a file')).toBeTruthy()
-    expect(mockLogin).not.toBeCalled()
-  })
-
   it.skip('should display matching error when key is invalid', async () => {
-    const { getByRole, getByTestId } = render(<Login />)
+    const { getByTestId } = render(<Login />)
 
     fireEvent.input(getByTestId('key'), {
       target: {
-        value: '123 123 123'
-      }
-    })
-
-    fireEvent.input(getByRole('textbox', 'file-name'), {
-      target: {
-        value: [{
-          lastModified: 1613853259704,
-          lastModifiedDate: 'Sat Feb 20 2021 20:34:19',
-          name: 'test.pdf',
-          size: 211571,
-          type: 'application/pdf',
-          webkitRelativePath: ''
-        }]
+        value: 'asdadasdasd'
       }
     })
 

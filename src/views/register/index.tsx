@@ -71,7 +71,7 @@ const Register:React.FC = () => {
     checked.forEach((item: any) => setError(`roles[${item}].assets`, { type: 'manual', message: 'Select on asset' }))
     if (checked.length) return
     const data = transformForm(form)
-    createRegister.mutate({ key: form.key, body: data })
+    createRegister.mutate(data)
   }
 
   const addNewRole = () => append({

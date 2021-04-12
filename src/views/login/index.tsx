@@ -16,29 +16,28 @@ import {
   CRow
 } from '@coreui/react'
 import { useForm, Controller } from 'react-hook-form'
-import MaskedInput from 'react-text-mask'
+// import MaskedInput from 'react-text-mask'
+// import Input from 'components/input'
 import { KeyLogin } from 'assets/icons/externalIcons'
 import { LogoVerticalWhite } from 'assets/icons/logos'
-import Input from 'components/input'
 import CIcon from '@coreui/icons-react'
 import { useHistory } from 'react-router'
+/** Container */
 import { TheFooter } from 'containers'
+/** Hooks */
+import { useLogin } from 'hooks/api/Auth'
 
 interface InputsLogin {
   key: string
-  file: File
 }
 
 const Login:React.FC = () => {
-  const { handleSubmit, errors, control, reset } = useForm<InputsLogin>()
+  const { handleSubmit, errors, control } = useForm<InputsLogin>()
   const history = useHistory()
+  const login = useLogin()
 
   const onSubmit = (data: InputsLogin) => {
-    console.log(data)
-    reset({
-      key: '',
-      file: ''
-    })
+    login.mutate(data.key)
   }
 
   return (
@@ -59,6 +58,39 @@ const Login:React.FC = () => {
                         <h1 className={'mb-4'}>Login</h1>
                         <p className='text-muted'>Sign In to your account</p>
                         <CFormGroup className={'mb-4'}>
+                          <CLabel>Stakeholder DID</CLabel>
+                          <CInputGroup>
+                            <CInputGroupPrepend>
+                              <CInputGroupText><KeyLogin /></CInputGroupText>
+                            </CInputGroupPrepend>
+                            <Controller
+                              control={control}
+                              defaultValue={''}
+                              rules={{ required: true }}
+                              name='key'
+                              data-testid={'key'}
+                              render={({ onChange, onBlur, value }) => (
+                              <CInput
+                                onChange={onChange}
+                                onBlur={onBlur}
+                                value={value}
+                              />
+                              )}
+                            />
+                          </CInputGroup>
+                          <CFormText color='muted' className={'mt-2'}>
+                            ex. QxacVyyX7AvLDZyqbnZL3e
+                          </CFormText>
+                        {errors.key &&
+                          <CFormText
+                            className='help-block'
+                            data-testid='error-message'
+                          >
+                            Please enter a valid key
+                          </CFormText>
+                        }
+                        </CFormGroup>
+                       {/* <CFormGroup className={'mb-4'}>
                           <CLabel>Enter Key</CLabel>
                           <CInputGroup>
                             <CInputGroupPrepend>
@@ -100,7 +132,7 @@ const Login:React.FC = () => {
                           </CFormText>
                         }
                         </CFormGroup>
-                          <CFormGroup>
+                           <CFormGroup>
                             <Controller
                               control={control}
                               defaultValue={''}
@@ -123,7 +155,7 @@ const Login:React.FC = () => {
                             Please enter a file
                           </CFormText>
                           }
-                          </CFormGroup>
+                          </CFormGroup> */}
                         <CRow>
                           <CCol xs={12} className='text-right mb-4'>
                             <p

@@ -16,7 +16,8 @@ import {
   CLabel,
   CRow,
   CInputCheckbox,
-  CTextarea
+  CTextarea,
+  CSwitch
 } from '@coreui/react'
 /** Components */
 import { PlusCircle } from 'assets/icons/externalIcons'
@@ -155,19 +156,19 @@ const NewVirtualResource: React.FC = () => {
                   <CLabel htmlFor='isMaster'>isMaster</CLabel>
                   <Controller
                     control={control}
-                    defaultValue={false}
+                    defaultValue={true}
                     name='isMaster'
-                    render={({ onChange, onBlur, value }) => {
-                      console.log(value)
-                      return (
-                      <CInputCheckbox
-                        value={value}
-                        onChange={onChange}
-                        onBlur={onBlur}
-                      />
-                      )
+                    render={({ onChange, onBlur, value }) =>
+                      <>
+                        <CSwitch
+                          shape='pill'
+                          onChange={(e: any) => onChange(e.target.checked)}
+                          onBlur={onBlur}
+                          color='primary'
+                          checked={value}
+                        />
+                      </>
                     }
-                  }
                   />
                 </CFormGroup>
               </CCol>

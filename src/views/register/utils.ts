@@ -1,7 +1,8 @@
-import { InputRegister, RolesProps } from 'types/forms'
+import { InputRegister } from 'types/forms'
 
 export const transformForm = (form: InputRegister) => {
   const newData = {
+    key: form.key,
     governanceBoardDID: form.governanceDID,
     stakeholderServices: [
       {
