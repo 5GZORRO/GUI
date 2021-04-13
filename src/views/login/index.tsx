@@ -68,9 +68,9 @@ const Login:React.FC = () => {
                               defaultValue={''}
                               rules={{ required: true }}
                               name='key'
-                              data-testid={'key'}
                               render={({ onChange, onBlur, value }) => (
                               <CInput
+                                data-testid={'key-input'}
                                 onChange={onChange}
                                 onBlur={onBlur}
                                 value={value}

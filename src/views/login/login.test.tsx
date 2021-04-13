@@ -3,10 +3,11 @@
 // @ts-nocheck
 // @jest-environment jsdom
 import React from 'react'
-import { render, fireEvent } from '@testing-library/react'
+import { render, fireEvent, waitFor, cleanup, renderHook } from '@testing-library/react'
 import TestRenderer from 'react-test-renderer'
 import Login from './index'
 import { QueryClientProvider, QueryClient } from 'react-query'
+import nock from 'nock'
 
 jest.mock('react-text-mask', () => (props: JSX.IntrinsicAttributes & React.ClassAttributes<HTMLInputElement> & React.InputHTMLAttributes<HTMLInputElement>) =>
   <input
@@ -19,13 +20,11 @@ jest.mock('react-text-mask', () => (props: JSX.IntrinsicAttributes & React.Class
   />
 )
 
-const mockLogin = jest.fn((key) => {
-  return Promise.resolve({ key })
-})
-
 const queryClient = new QueryClient()
 
 describe('Login', function () {
+  afterEach(cleanup)
+
   it('Snapshot ', () => {
     const tree = TestRenderer.create(
       <QueryClientProvider client={queryClient}>
@@ -46,21 +45,55 @@ describe('Login', function () {
     fireEvent.click(getByTestId('submit'))
 
     expect(findByText('Please enter a valid key')).toBeTruthy()
-    expect(mockLogin).not.toBeCalled()
   })
 
   it.skip('should display matching error when key is invalid', async () => {
-    const { getByTestId } = render(<Login />)
+    const { getAllByText, getByTestId } = render(
+    <React.Suspense fallback='loading'>
+    <QueryClientProvider client={queryClient}>
+      <Login />
+    </QueryClientProvider>)
+    </React.Suspense>
+    )
 
-    fireEvent.input(getByTestId('key'), {
+    await waitFor(() => getAllByText('Login'))
+
+    nock('http://example.com')
+      .get('/api/data')
+      .reply(200, {
+        stakeholderClaim: {
+          governanceBoardDID: 'string',
+          stakeholderServices: [],
+          stakeholderRoles: [],
+          stakeholderProfile: {
+            name: 'string',
+            address: 'string',
+            notificationMethod: {
+              notificationType: 'string',
+              distributionList: 'string'
+            }
+          },
+          stakeholderDID: 'string'
+        },
+        state: 'string',
+        credentialDefinitionId: 'string',
+        idToken: '3432d243r'
+      })
+
+    fireEvent.input(getByTestId('key-input'), {
       target: {
         value: 'asdadasdasd'
       }
     })
 
     fireEvent.submit(getByTestId('submit'))
-    console.log(getByTestId('key').value)
-    // expect(getByTestId('key').value).toBe('')
-    // expect(getByRole('textbox', 'file-name').value).toBe('')
+
+    const { result } = renderHook(() => useLogin())
+
+    await waitFor(() => {
+      return result.current.isSuccess
+    })
+
+    expect(result.current.idToken).toEqual({ idToken: '3432d243r' })
   })
 })
