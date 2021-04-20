@@ -22,6 +22,7 @@ export interface RolesProps {
 
 export interface InputRegister {
   governanceDID: string
+  organization: string
   name: string
   address: string
   key: string

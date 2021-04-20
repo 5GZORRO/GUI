@@ -47,6 +47,7 @@ const Register:React.FC = () => {
       name: '',
       governanceDID: '',
       address: '',
+      organization: '',
       key: '',
       roles: [{
         name: '',
@@ -150,6 +151,41 @@ const Register:React.FC = () => {
                           </CFormGroup>
                         </CCol>
                       </CRow>
+                      <CRow className={'mb-4'}>
+                        <CCol xs='12'>
+                          <CFormGroup>
+                              <CLabel htmlFor='governanceDID'>Organization</CLabel>
+                              <CInputGroup>
+                                <CInputGroupPrepend>
+                                  <CInputGroupText>
+                                    <CIcon name='cilInfo' />
+                                  </CInputGroupText>
+                                </CInputGroupPrepend>
+                                <Controller
+                                  control={control}
+                                  defaultValue={''}
+                                  rules={{ required: 'Please enter a organization' }}
+                                  name='organization'
+                                  data-testid={'organization'}
+                                  render={({ onChange, onBlur, value }) => (
+                                    <CInput
+                                      onChange={onChange}
+                                      placeholder={'Insert organization'}
+                                      onBlur={onBlur}
+                                      value={value}
+                                    />
+                                  )}
+                                />
+                              </CInputGroup>
+                              <CFormText
+                                className='help-block'
+                                data-testid='error-message'
+                              >
+                                <ErrorMessage errors={errors} name='organization' />
+                              </CFormText>
+                          </CFormGroup>
+                        </CCol>
+                      </CRow>
                       <CRow>
                         {fields.map((field, index) =>
                           <React.Fragment key={field.id}>
@@ -159,7 +195,7 @@ const Register:React.FC = () => {
                                   {index > 0 &&
                                     <div className={'float-right cursor-pointer'} onClick={() => remove(index)}>
                                       <CIcon name='cilTrash' className={'mr-2'} />
-                                      <span className={'text-gray'}>Delete Resource</span>
+                                      <span className={'text-gray'}>Delete Role</span>
                                     </div>
                                   }
                                   <CInputGroup>
