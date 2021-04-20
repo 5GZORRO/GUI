@@ -18,6 +18,9 @@ import store from './store'
 import { APP_ENV, VERSION, BUILD_DATE } from './config'
 import { makeServer } from 'server'
 
+/** Components */
+import Modal from 'components/Modal'
+
 React.icons = icons
 // Version info for debugging
 const logMessage = `
@@ -38,6 +41,7 @@ ReactDOM.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
+        <Modal />
         <App/>
       </Provider>
       {(APP_ENV === 'fake' || APP_ENV === 'development') &&

@@ -6,6 +6,7 @@ export const endpoints = {
   LOGIN: `${API_GOVERNANCE}/holder/read_stakeholder_status`,
   RESOURCE_CANDIDATE: `${API_MARKET_PLACE}/resourceCatalogManagement/v2/resourceCandidate`,
   PRODUCT_SPECIFICATION: `${API_MARKET_PLACE}/productCatalogManagement/v4/productSpecification`,
-  PRODUCT_OFFERING: `${API_MARKET_PLACE}/productCatalogManagement/v4/productOffering`
+  PRODUCT_OFFERING: `${API_MARKET_PLACE}/productCatalogManagement/v4/productOffering`,
+  ORGANIZATIONS: `${API_MARKET_PLACE}/party/v4/organization`
 
 }

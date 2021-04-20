@@ -112,14 +112,14 @@
   // counteract the pointer-events: none; in the .modal-dialog
   pointer-events: auto;
   background-clip: padding-box;
-  border: $modal-content-border-width solid;
+  border: none;
   border-radius: 4px;
   box-shadow: none !important;
   // Remove focus outline from opened modal
   outline: 0;
   color: themes-get-value("modal-content-color");
   background-color: #23242D !important;
-  border-color: themes-get-value("modal-content-border-color");
+  border-color: none;
   @include elevation(24);
 }
 
@@ -186,11 +186,8 @@
   align-items: center; // vertically center
   justify-content: flex-end; // Right align buttons with flex property because text-align doesn't work on flex items
   padding: $modal-inner-padding - $modal-footer-margin-between / 2;
-  border-top: $modal-footer-border-width solid;
+  border-top: none;
   @include border-bottom-radius($modal-content-inner-border-radius);
-  @include themes($modal-theme-map) {
-    border-color: themes-get-value("modal-footer-border-color");
-  }
 
   // Place margin between footer elements
   // This solution is far from ideal because of the universal selector usage,

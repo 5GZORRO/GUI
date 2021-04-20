@@ -125,3 +125,7 @@ export interface ApiLoginResponse {
   credentialDefinitionId: string,
   idToken: string
 }
+
+export interface ApiOrganizationResponse {
+  stakeholderDID: string
+}

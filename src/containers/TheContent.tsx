@@ -9,6 +9,8 @@ import { CContainer, CFade } from '@coreui/react'
 import { LogoVerticalWhite } from 'assets/icons/logos'
 // routes config
 import routes from 'routes'
+/** Context */
+import { ProviderModal } from 'context/ModalContext'
 
 const loading = (
   <div style={{ height: '100%' }} className='d-flex justify-content-center align-items-center'>
@@ -20,24 +22,26 @@ const TheContent = () => {
   return (
     <main>
       <CContainer className={'mt-5'} fluid={false} style={{ height: '100%' }}>
-        <Suspense fallback={loading}>
-          <Switch>
-            {routes.map((route, idx) => {
-              return route.component && (
-                <Route
-                  key={idx}
-                  path={route.path}
-                  exact={route.exact}
-                  children={() => (
-                    <CFade>
-                      <route.component />
-                    </CFade>
-                  )}/>
-              )
-            })}
-            <Redirect from="/" to="/dashboard" />
-          </Switch>
-        </Suspense>
+        <ProviderModal>
+          <Suspense fallback={loading}>
+            <Switch>
+              {routes.map((route, idx) => {
+                return route.component && (
+                  <Route
+                    key={idx}
+                    path={route.path}
+                    exact={route.exact}
+                    children={() => (
+                      <CFade>
+                        <route.component />
+                      </CFade>
+                    )}/>
+                )
+              })}
+              <Redirect from="/" to="/dashboard" />
+            </Switch>
+          </Suspense>
+        </ProviderModal>
       </CContainer>
     </main>
   )

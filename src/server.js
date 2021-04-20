@@ -310,7 +310,45 @@ export function makeServer ({ environment = 'development' } = {}) {
       })
 
       this.get('/tmf-api/resourceCatalogManagement/v2/resourceCandidate', (schema, serialize) => {
-        const resourceCandidates = schema.resourceCandidates.all()
+        const resourceCandidates = [
+          {
+            '@baseType': 'string',
+            '@schemaLocation': 'string',
+            '@type': 'string',
+            category: [
+              {
+                '@baseType': 'string',
+                '@schemaLocation': 'string',
+                '@type': 'string',
+                href: 'string',
+                id: 'string',
+                name: 'string',
+                version: 'string'
+              }
+            ],
+            description: 'string',
+            href: 'string',
+            id: 'string',
+            lastUpdate: 'string',
+            lifecycleStatus: 'string',
+            name: 'string',
+            resourceSpecification: {
+              '@baseType': 'string',
+              '@referredType': 'string',
+              '@schemaLocation': 'string',
+              '@type': 'string',
+              href: 'string',
+              id: 'string',
+              name: 'string',
+              version: 'string'
+            },
+            validFor: {
+              endDateTime: 'string',
+              startDateTime: 'string'
+            },
+            version: 'string'
+          }
+        ]
         console.log(resourceCandidates)
         return resourceCandidates
       })

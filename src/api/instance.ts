@@ -15,8 +15,6 @@ axios.interceptors.request.use((config) => {
 // Converts all responses for CamelCase
 axios.interceptors.response.use(
   (response) => {
-    // eslint-disable-next-line no-debugger
-    debugger
     response.data = camelizeKeys(response.data)
     return response
   },
