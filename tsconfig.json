@@ -21,8 +21,10 @@
     "jsx": "react",
     "rootDir": "src",
     "outDir": "build",
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "typeRoots": ["./types", "./node_modules/@types"],
   },
+  "exclude": ["node_modules", "typings"],
   "include": [
     "src"
   ]
