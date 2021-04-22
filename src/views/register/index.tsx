@@ -205,7 +205,6 @@ const Register:React.FC = () => {
                             <CLabel>Assets</CLabel>
                             <CRow>
                               {assestsArray.map((item) => {
-                                console.log('col')
                                 return (
                                 <CCol key={item.id} xs={6}>
                                   <CFormGroup variant='checkbox' className='checkbox'>
