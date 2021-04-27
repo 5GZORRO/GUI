@@ -8,7 +8,7 @@ interface Inputs {
 }
 
 const FormGenerate:React.FC = () => {
-  const { handleSubmit, errors, control } = useForm<Inputs>()
+  const { handleSubmit, formState: { errors }, control } = useForm<Inputs>()
 
   const onSubmit = (data: Inputs) => console.log(data)
 
@@ -24,11 +24,9 @@ const FormGenerate:React.FC = () => {
               defaultValue={null}
               rules={{ required: true }}
               name="name"
-              render={({ onChange, onBlur, value }) => (
+              render={({ field }) => (
                 <CInput
-                  onChange={onChange}
-                  onBlur={onBlur}
-                  selected={value}
+                  {...field}
                 />
               )}
             />

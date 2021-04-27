@@ -25,10 +25,11 @@ exports[`Membership Snapshot  1`] = `
           </label>
           <input
             className="form-control"
+            name="name"
             onBlur={[Function]}
             onChange={[Function]}
-            selected={null}
             type="text"
+            value={null}
           />
         </div>
         <div

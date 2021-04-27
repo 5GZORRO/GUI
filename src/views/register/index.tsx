@@ -14,76 +14,49 @@ import {
   CLabel,
   CFormGroup,
   CFormText,
-  CInputCheckbox,
-  CSelect
+  CInputCheckbox
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { useForm, Controller, useFieldArray } from 'react-hook-form'
+import { useForm, Controller } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+
 import { ErrorMessage } from '@hookform/error-message'
 import { LogoVerticalWhite } from 'assets/icons/logos'
 import { TheFooter } from 'containers/index'
 import { useHistory } from 'react-router'
-import { transformForm } from './utils'
+import { transformForm, assestsArray, schemaRegister } from './utils'
 import { DevTool } from '@hookform/devtools'
-// import RegisterSuccess from 'containers/registerSuccess'
 /** Hooks */
 import { useRegister } from 'hooks/api/Auth'
 /** Components */
-import { PlusCircle, KeyLogin } from 'assets/icons/externalIcons'
+import { KeyLogin } from 'assets/icons/externalIcons'
 /** Type */
 import { InputRegister } from 'types/forms'
 
-const assestsArray = [
-  { label: 'Information Resource', value: false, id: 'informationResource' },
-  { label: 'Physical Resource', value: false, id: 'spectrumResource' },
-  { label: 'Spectrum Resource', value: false, id: 'physicalResource' },
-  { label: 'Network Function', value: false, id: 'networkFunction' }
-]
-
 const Register:React.FC = () => {
-  const { handleSubmit, errors, control, clearErrors, setError } = useForm<InputRegister>({
-    mode: 'onSubmit',
+  const { handleSubmit, formState: { errors }, control, watch } = useForm<InputRegister>({
     defaultValues: {
       name: '',
       governanceDID: '',
       address: '',
-      key: '',
-      roles: [{
-        name: '',
-        assets: {
-          informationResource: false,
-          spectrumResource: false,
-          physicalResource: false,
-          networkFunction: false
-        }
-      }]
-    }
+      key: ''
+    },
+    // import from utils
+    resolver: yupResolver(schemaRegister)
   })
-  const { fields, remove, append } = useFieldArray({ control, name: 'roles' })
+  const governance = watch('roles.governance.isSelect')
+  const regulator = watch('roles.regulator.isSelect')
+  const provider = watch('roles.provider.isSelect')
+  const consumer = watch('roles.consumer.isSelect')
   const createRegister = useRegister()
   const history = useHistory()
 
   const onSubmit = (form: InputRegister) => {
-    const checked = form.roles.reduce((acc: any, item, i) => {
-      !Object.values(item.assets).includes(true) && acc.push(i)
-      return acc
-    }, [])
-    checked.forEach((item: any) => setError(`roles[${item}].assets`, { type: 'manual', message: 'Select on asset' }))
-    if (checked.length) return
+    console.log(form)
     const data = transformForm(form)
     createRegister.mutate(data)
   }
-
-  const addNewRole = () => append({
-    role: '',
-    assets: {
-      informationResource: false,
-      spectrumResource: false,
-      physicalResource: false,
-      networkFunction: false
-    }
-  })
-
+  console.log('errors', errors)
   return (
     <div className='c-app c-default-layout'>
       <div className='c-wrapper'>
@@ -107,7 +80,6 @@ const Register:React.FC = () => {
       </CRow>
         <div className='c-body flex-row align-items-center'>
           <CContainer>
-            {/* <RegisterSuccess /> */}
             <CRow className='justify-content-center'>
               <CCol xs='5'>
                 <CCard className='px-4 py-5 w-100'>
@@ -131,12 +103,12 @@ const Register:React.FC = () => {
                                   rules={{ required: 'Please enter a valid DID' }}
                                   name='governanceDID'
                                   data-testid={'governanceDID'}
-                                  render={({ onChange, onBlur, value }) => (
+                                  render={({ field: { onChange, onBlur, value } }) => (
                                     <CInput
-                                      onChange={onChange}
                                       placeholder={'Insert governance'}
-                                      onBlur={onBlur}
+                                      onChange={onChange}
                                       value={value}
+                                      onBlur={onBlur}
                                     />
                                   )}
                                 />
@@ -151,81 +123,46 @@ const Register:React.FC = () => {
                         </CCol>
                       </CRow>
                       <CRow>
-                        {fields.map((field, index) =>
-                          <React.Fragment key={field.id}>
-                            <CCol xs='12' className={'mb-4'}>
-                              <CFormGroup>
-                                  <CLabel>Role</CLabel>
-                                  {index > 0 &&
-                                    <div className={'float-right cursor-pointer'} onClick={() => remove(index)}>
-                                      <CIcon name='cilTrash' className={'mr-2'} />
-                                      <span className={'text-gray'}>Delete Resource</span>
-                                    </div>
-                                  }
-                                  <CInputGroup>
-                                    <CInputGroupPrepend>
-                                      <CInputGroupText>
-                                        <CIcon name='cilFeaturedPlaylist' />
-                                      </CInputGroupText>
-                                    </CInputGroupPrepend>
-                                    <Controller
-                                      control={control}
-                                      defaultValue={''}
-                                      rules={{ required: 'Please enter a valid Role' }}
-                                      name={`roles[${index}].name`}
-                                      data-testid={'roleName'}
-                                      render={({ onChange, onBlur, value }) => (
-                                        <CSelect
-                                          onChange={onChange}
-                                          onBlur={onBlur}
-                                          value={value}
-                                        >
-                                          <option value='' disabled>Select Role</option>
-                                          <option value='Regulator'>Regulator</option>
-                                          <option value='Resource Provider'>Resource Provider</option>
-                                          <option value='Resource Consumer'>Resource Consumer</option>
-                                          <option value='Service Provider'>Service Provider</option>
-                                          <option value='Service Consumer'>Service Consumer</option>
-                                        </CSelect>
-                                      )}
-                                    />
-                                  </CInputGroup>
-                                  {errors.roles?.[index] &&
-                                  <CFormText
-                                    className='help-block'
-                                    data-testid='error-message'
-                                  >
-                                    <ErrorMessage errors={errors} name={`roles[${index}].name`} />
-                                  </CFormText>
-                                  }
-                              </CFormGroup>
-                            </CCol>
-                            <CCol xs={12}>
-                            <CFormGroup className={'mb-4'}>
-                            <CLabel>Assets</CLabel>
+                        <CCol xs='5' className={'mb-2'}>
+                          <CLabel>Role</CLabel>
+                          <div className={`${governance ? 'bg-gradient' : 'bg-primary'} p-2 mb-2 rounded-sm cursor-pointer`}>
+                            <Controller
+                              control={control}
+                              defaultValue={false}
+                              name='roles.governance.isSelect'
+                              render={({ field: { onChange, onBlur } }) => (
+                                <>
+                                  <CInputCheckbox
+                                    id={'governance'}
+                                    onBlur={onBlur}
+                                    onChange={(e:any) => onChange(e.target.checked)}
+                                  />
+                                  <CLabel className='mb-0 font-14' htmlFor={'governance'}>Governance Admin</CLabel>
+                                </>
+                              )}
+                            />
+                          </div>
+                        </CCol>
+                        {governance && (
+                        <CCol xs='10' className='ml-3'>
+                          <CLabel>Assets</CLabel>
                             <CRow>
                               {assestsArray.map((item) => {
                                 return (
                                 <CCol key={item.id} xs={6}>
-                                  <CFormGroup variant='checkbox' className='checkbox'>
+                                  <CFormGroup variant='checkbox' className='checkbox p-0'>
                                     <Controller
                                       control={control}
                                       defaultValue={false}
-                                      name={`roles[${index}].assets.${item.id}`}
-                                      data-testid={'role'}
-                                      render={({ onChange, onBlur }) => (
+                                      name={`roles.governance.${item.id}` as any}
+                                      render={({ field: { onChange, onBlur } }) => (
                                         <>
                                           <CInputCheckbox
-                                            id={`${item.id}-${index}`}
-                                            onChange={(e: any) => {
-                                              if (e.target.checked) {
-                                                clearErrors(`roles[${index}].assets`)
-                                              }
-                                              onChange(e.target.checked)
-                                            }}
+                                            id={item.id}
+                                            onChange={(e: any) => onChange(e.target.checked)}
                                             onBlur={onBlur}
                                           />
-                                          <CLabel variant='checkbox' className='form-check-label' htmlFor={`${item.id}-${index}`}>{item.label}</CLabel>
+                                          <CLabel variant='checkbox' className='form-check-label' htmlFor={item.id}>{item.label}</CLabel>
                                         </>
                                       )}
                                     />
@@ -238,26 +175,237 @@ const Register:React.FC = () => {
                                 <CFormText
                                   className='help-block'
                                   data-testid='error-message'
-                                  >
-                                    <ErrorMessage errors={errors} name={`roles[${index}].assets`} />
+                                >
+                                  <ErrorMessage errors={errors} name={'roles.governance'} />
                                 </CFormText>
                               </CCol>
                             </CRow>
-                            </CFormGroup>
-                            </CCol>
-                          </React.Fragment>
+                        </CCol>
                         )}
-                        <div className='d-flex justify-content-center align-items-center pt-2 w-100'>
-                          <CButton
-                            className='d-flex justify-content-center align-items-center'
-                            variant={'ghost'}
-                            onClick={addNewRole}
-                          >
-                            <PlusCircle className={'mr-2'} /> Add new Role
-                          </CButton>
-                        </div>
                       </CRow>
-                      <CFormGroup className={'mb-4'}>
+                      <CRow>
+                        <CCol xs='5' className={'mb-2'}>
+                          <div className={`${regulator ? 'bg-gradient' : 'bg-primary'} p-2 mb-2 rounded-sm cursor-pointer`}>
+                            <Controller
+                              control={control}
+                              defaultValue={false}
+                              name='roles.regulator.isSelect'
+                              render={({ field: { onChange, onBlur } }) => (
+                                <>
+                                 <CInputCheckbox
+                                    id={'regulator'}
+                                    onBlur={onBlur}
+                                    onChange={(e:any) => onChange(e.target.checked)}
+                                  />
+                                  <CLabel className='mb-0 font-14' htmlFor={'regulator'}>Regulator</CLabel>
+                                </>
+                              )}
+                            />
+                          </div>
+                        </CCol>
+                        {regulator && (
+                        <CCol xs='10' className='ml-3'>
+                          <CLabel>Assets</CLabel>
+                            <CRow>
+                              {assestsArray.map((item) => (
+                                <CCol key={item.id} xs={6}>
+                                  <CFormGroup variant='checkbox' className='checkbox p-0'>
+                                    <Controller
+                                      control={control}
+                                      defaultValue={false}
+                                      name={`roles.regulator.${item.id}` as any}
+                                      render={({ field: { onChange, onBlur } }) => (
+                                        <>
+                                          <CInputCheckbox
+                                            id={`regulator_${item.id}`}
+                                            onChange={(e: any) => onChange(e.target.checked)}
+                                            onBlur={onBlur}
+                                          />
+                                          <CLabel variant='checkbox' className='form-check-label' htmlFor={`regulator_${item.id}`}>{item.label}</CLabel>
+                                        </>
+                                      )}
+                                    />
+                                  </CFormGroup>
+                                </CCol>
+                              ))}
+                              <CCol>
+                                <CFormText
+                                  className='help-block'
+                                  data-testid='error-message'
+                                  >
+                                    <ErrorMessage errors={errors} name={'roles.regulator'} />
+                                </CFormText>
+                              </CCol>
+                            </CRow>
+                        </CCol>
+                        )}
+                      </CRow>
+                      <CRow>
+                        <CCol xs='5' className={'mb-2'}>
+                        <div className={`${provider ? 'bg-gradient' : 'bg-primary'} p-2 mb-2 rounded-sm cursor-pointer`}>
+                        <Controller
+                          control={control}
+                          defaultValue={false}
+                          name={'roles.provider.isSelect'}
+                          data-testid={'role'}
+                          render={({ field: { onChange, onBlur } }) => (
+                            <>
+                              <CInputCheckbox
+                                id={'provider'}
+                                onBlur={onBlur}
+                                onChange={(e:any) => onChange(e.target.checked)}
+                              />
+                              <CLabel className='mb-0 font-14' htmlFor={'provider'}>Provider</CLabel>
+                            </>
+                          )}
+                        />
+                        </div>
+                        </CCol>
+                        {provider && (
+                        <CCol xs='10' className='ml-3'>
+                          <CLabel>Assets</CLabel>
+                            <CRow>
+                              {assestsArray.map((item) => {
+                                return (
+                                <CCol key={item.id} xs={6}>
+                                  <CFormGroup variant='checkbox' className='checkbox p-0'>
+                                    <Controller
+                                      control={control}
+                                      defaultValue={false}
+                                      name={`roles.provider.${item.id}` as any}
+                                      data-testid={'role'}
+                                      render={({ field: { onChange, onBlur } }) => (
+                                        <>
+                                          <CInputCheckbox
+                                            id={`provider_${item.id}`}
+                                            onChange={(e: any) => onChange(e.target.checked)}
+                                            onBlur={onBlur}
+                                          />
+                                          <CLabel variant='checkbox' className='form-check-label' htmlFor={`provider_${item.id}`}>{item.label}</CLabel>
+                                        </>
+                                      )}
+                                    />
+                                  </CFormGroup>
+                                </CCol>
+                                )
+                              }
+                              )}
+                              <CCol>
+                                <CFormText
+                                  className='help-block'
+                                  data-testid='error-message'
+                                >
+                                  <ErrorMessage errors={errors} name={'roles.provider'} />
+                                </CFormText>
+                              </CCol>
+                            </CRow>
+                        </CCol>
+                        )}
+                      </CRow>
+                      <CRow className={'mb-4'}>
+                        <CCol xs='5' className={'mb-2'}>
+                        <div className={`${consumer ? 'bg-gradient' : 'bg-primary'} p-2 mb-2 rounded-sm cursor-pointer`}>
+                        <Controller
+                          control={control}
+                          defaultValue={false}
+                          name={'roles.consumer.isSelect'}
+                          data-testid={'role'}
+                          render={({ field: { onChange, onBlur, value, name, ref } }) => (
+                            <>
+                               <CInputCheckbox
+                                id={'consumer'}
+                                onBlur={onBlur}
+                                onChange={(e:any) => onChange(e.target.checked)}
+                              />
+                              <CLabel className='mb-0 font-14' htmlFor={'consumer'}>Consumer</CLabel>
+                            </>
+                          )}
+                        />
+                        </div>
+                        </CCol>
+                        {consumer && (
+                        <CCol xs='10' className='ml-3'>
+                          <CLabel>Assets</CLabel>
+                            <CRow>
+                              {assestsArray.map((item) => {
+                                return (
+                                <CCol key={item.id} xs={6}>
+                                  <CFormGroup variant='checkbox' className='checkbox p-0'>
+                                    <Controller
+                                      control={control}
+                                      defaultValue={false}
+                                      name={`roles.consumer.${item.id}` as any}
+                                      data-testid={'role'}
+                                      render={({ field: { onChange, onBlur } }) => (
+                                        <>
+                                          <CInputCheckbox
+                                            id={`consumer_${item.id}`}
+                                            onBlur={onBlur}
+                                            onChange={(e:any) => onChange(e.target.checked)}
+                                          />
+                                          <CLabel variant='checkbox' className='form-check-label' htmlFor={`consumer_${item.id}`}>{item.label}</CLabel>
+                                        </>
+                                      )}
+                                    />
+                                  </CFormGroup>
+                                </CCol>
+                                )
+                              }
+                              )}
+                              <CCol>
+                                <CFormText
+                                  className='help-block'
+                                  data-testid='error-message'
+                                >
+                                  <ErrorMessage errors={errors} name={'roles.consumer'} />
+                                </CFormText>
+                              </CCol>
+                            </CRow>
+                        </CCol>
+                        )}
+                        <CCol xs='12'>
+                          <CFormText
+                            className='help-block'
+                            data-testid='error-message'
+                          >
+                            <ErrorMessage errors={errors} name='roles' />
+                          </CFormText>
+                        </CCol>
+                      </CRow>
+                      <CFormGroup className={'mb-2'}>
+                        <CLabel>Company</CLabel>
+                        <CInputGroup>
+                          <CInputGroupPrepend>
+                            <CInputGroupText>
+                              <CIcon name='cilInstitution' />
+                            </CInputGroupText>
+                          </CInputGroupPrepend>
+                          <Controller
+                            control={control}
+                            defaultValue={''}
+                            rules={{ required: true }}
+                            name='company'
+                            data-testid={'company'}
+                            render={({ field: { onChange, onBlur, value } }) => (
+                              <CInput
+                                placeholder={'Insert company'}
+                                onChange={onChange}
+                                onBlur={onBlur}
+                                value={value}
+                              />
+                            )}
+                          />
+                        </CInputGroup>
+                        {errors.key &&
+                          <CFormText
+                            className='help-block'
+                            data-testid='error-message'
+                          >
+                            Please enter a valid company
+                          </CFormText>
+                        }
+                      </CFormGroup>
+                      <CFormGroup className={'mb-2'}>
                         <CLabel>Name</CLabel>
                         <CInputGroup>
                           <CInputGroupPrepend>
@@ -271,12 +419,12 @@ const Register:React.FC = () => {
                             rules={{ required: true }}
                             name='name'
                             data-testid={'name'}
-                            render={({ onChange, onBlur, value }) => (
+                            render={({ field: { value, onChange, onBlur } }) => (
                               <CInput
-                                onChange={onChange}
                                 placeholder={'Insert name'}
-                                onBlur={onBlur}
+                                onChange={onChange}
                                 value={value}
+                                onBlur={onBlur}
                               />
                             )}
                           />
@@ -304,12 +452,12 @@ const Register:React.FC = () => {
                             rules={{ required: true }}
                             name='address'
                             data-testid={'address'}
-                            render={({ onChange, onBlur, value }) => (
+                            render={({ field: { onChange, value, onBlur } }) => (
                               <CInput
                                 onChange={onChange}
-                                placeholder={'Insert address'}
-                                onBlur={onBlur}
                                 value={value}
+                                onBlur={onBlur}
+                                placeholder={'Insert address'}
                               />
                             )}
                           />
@@ -337,12 +485,12 @@ const Register:React.FC = () => {
                             rules={{ required: true }}
                             name='key'
                             data-testid={'key'}
-                            render={({ onChange, onBlur, value }) => (
+                            render={({ field: { onBlur, onChange, value } }) => (
                               <CInput
-                                onChange={onChange}
-                                placeholder={'Insert key'}
                                 onBlur={onBlur}
+                                onChange={onChange}
                                 value={value}
+                                placeholder={'Insert key'}
                               />
                             )}
                           />

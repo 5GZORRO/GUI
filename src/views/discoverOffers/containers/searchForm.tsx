@@ -12,7 +12,7 @@ interface SearchFormTypes {
 }
 
 const SearchForm:React.FC<SearchFormTypes> = ({ onSubmit }) => {
-  const { handleSubmit, errors, control, reset } = useForm<Search>()
+  const { handleSubmit, formState: { errors }, control, reset } = useForm<Search>()
 
   const submit = (form: Search) => {
     onSubmit(form)
@@ -45,12 +45,10 @@ const SearchForm:React.FC<SearchFormTypes> = ({ onSubmit }) => {
         defaultValue={''}
         rules={{ required: true }}
         name='search'
-        render={({ onChange, onBlur, value }) => (
+        render={({ field }) => (
           <CTextarea
             rows={8}
-            onChange={onChange}
-            onBlur={onBlur}
-            value={value}
+            {...field}
           />
         )}
       />

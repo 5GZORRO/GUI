@@ -32,7 +32,7 @@ interface InputsLogin {
 }
 
 const Login:React.FC = () => {
-  const { handleSubmit, errors, control } = useForm<InputsLogin>()
+  const { handleSubmit, formState: { errors }, control } = useForm<InputsLogin>()
   const history = useHistory()
   const login = useLogin()
 
@@ -68,12 +68,10 @@ const Login:React.FC = () => {
                               defaultValue={''}
                               rules={{ required: true }}
                               name='key'
-                              render={({ onChange, onBlur, value }) => (
+                              render={({ field }) => (
                               <CInput
                                 data-testid={'key-input'}
-                                onChange={onChange}
-                                onBlur={onBlur}
-                                value={value}
+                                {...field}
                               />
                               )}
                             />

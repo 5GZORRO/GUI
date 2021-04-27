@@ -9,6 +9,7 @@
     "@coreui/icons-react": "^1.0.2",
     "@coreui/react": "^3.4.5",
     "@hookform/error-message": "^0.0.5",
+    "@hookform/resolvers": "^2.4.0",
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
     "@svgr/webpack": "5.5.0",
     "@testing-library/jest-dom": "^5.11.9",
@@ -70,7 +71,7 @@
     "react-app-polyfill": "^2.0.0",
     "react-dev-utils": "^11.0.2",
     "react-dom": "~16.13.1",
-    "react-hook-form": "^6.15.1",
+    "react-hook-form": "^7.3.4",
     "react-query": "^3.9.6",
     "react-redux": "~7.2.1",
     "react-refresh": "^0.8.3",
@@ -91,7 +92,8 @@
     "webpack": "4.44.2",
     "webpack-dev-server": "3.11.0",
     "webpack-manifest-plugin": "2.2.0",
-    "workbox-webpack-plugin": "5.1.4"
+    "workbox-webpack-plugin": "5.1.4",
+    "yup": "^0.32.9"
   },
   "scripts": {
     "start": "cross-env APP_ENV=development node scripts/start.js",
@@ -129,7 +131,7 @@
     "@babel/preset-typescript": "^7.12.16",
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-angular": "^11.0.0",
-    "@hookform/devtools": "^2.2.1",
+    "@hookform/devtools": "^3.0.2",
     "@testing-library/react-hooks": "^5.0.3",
     "@types/react-dev-utils": "^9.0.4",
     "@types/react-text-mask": "^5.4.6",

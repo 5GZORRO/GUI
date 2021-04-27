@@ -285,6 +285,7 @@ exports[`Login Snapshot  1`] = `
                       <input
                         className="form-control"
                         data-testid="key-input"
+                        name="key"
                         onBlur={[Function]}
                         onChange={[Function]}
                         type="text"
