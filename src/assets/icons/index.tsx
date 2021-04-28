@@ -42,7 +42,8 @@ import {
   cilFeaturedPlaylist,
   cilGlobeAlt,
   cilArrowRight,
-  cilInstitution
+  cilInstitution,
+  cilCopy
 } from '@coreui/icons/js/free'
 
 export const icons = Object.assign({}, {
@@ -90,5 +91,6 @@ export const icons = Object.assign({}, {
   cilFeaturedPlaylist,
   cilGlobeAlt,
   cilArrowRight,
-  cilInstitution
+  cilInstitution,
+  cilCopy
 })

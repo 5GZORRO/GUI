@@ -14,8 +14,9 @@ const loading = (
 // Containers
 const TheLayout = React.lazy(() => import('./containers/TheLayout'))
 // Pages
-const Login = React.lazy(() => import('./views/login/index'))
-const Register = React.lazy(() => import('./views/register/index'))
+const Login = React.lazy(() => import('./views/login'))
+const Register = React.lazy(() => import('./views/register'))
+const RegisterSuccess = React.lazy(() => import('./views/registerSuccess'))
 
 const App:React.FC = () => {
   const history = createBrowserHistory()
@@ -26,6 +27,7 @@ const App:React.FC = () => {
         <Switch>
           <Route exact path='/login' name='login' component={Login} />
           <Route path='/register' name='register' component={Register} />
+          <Route path='/success' name='registerSuccess' component={RegisterSuccess} />
           <Route path='/' component={TheLayout} />
         </Switch>
       </Suspense>

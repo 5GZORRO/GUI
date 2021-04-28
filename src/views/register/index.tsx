@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import {
   CButton,
   CCard,
@@ -48,15 +48,22 @@ const Register:React.FC = () => {
   const regulator = watch('roles.regulator.isSelect')
   const provider = watch('roles.provider.isSelect')
   const consumer = watch('roles.consumer.isSelect')
-  const createRegister = useRegister()
+  const { mutate, isError, isSuccess } = useRegister()
   const history = useHistory()
 
   const onSubmit = (form: InputRegister) => {
-    console.log(form)
     const data = transformForm(form)
-    createRegister.mutate(data)
+    mutate(data)
+    history.push('/success')
   }
-  console.log('errors', errors)
+
+  useEffect(() => {
+    if (isSuccess) {
+      history.push('/success')
+    }
+  }, [isSuccess])
+
+  console.log('Create Register', isError)
   return (
     <div className='c-app c-default-layout'>
       <div className='c-wrapper'>
