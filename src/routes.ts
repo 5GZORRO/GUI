@@ -12,6 +12,7 @@ const NewResource = React.lazy(() => import('./views/resources/newResource/index
 const NewPhysicalResource = React.lazy(() => import('./views/resources/newPhysicalResource'))
 const NewVirtualResource = React.lazy(() => import('./views/resources/newVirtualResource'))
 const NewCategory = React.lazy(() => import('./views/resources/newCategory'))
+const SLA = React.lazy(() => import('./views/slas'))
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -26,7 +27,8 @@ const routes = [
   { path: '/resource/new-resource/new-physical-resource', name: 'New Resource - Physical Capabilities', component: NewPhysicalResource },
   { path: '/resource/new-resource/new-virtual-resource', name: 'New Resource - Virtual Capabilities', component: NewVirtualResource },
   { path: '/membership', name: 'Membership', component: Membership },
-  { path: '/proposals', name: 'Proposals', component: Proposals }
+  { path: '/proposals', name: 'Proposals', component: Proposals },
+  { path: '/sla', name: 'SLAs', component: SLA }
 ]
 
 export default routes

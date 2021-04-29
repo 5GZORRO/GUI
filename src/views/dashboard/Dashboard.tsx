@@ -28,7 +28,7 @@ const Dashboard:React.FC<{}> = () => {
     const slate = getContractSlateVal()
     return slate.document.children
   })
-  const templateUrl = 'https://templates.accordproject.org/archives/acceptance-of-delivery@0.14.1.cta'
+  const templateUrl = 'https://templates.accordproject.org/archives/acceptance-of-delivery@0.15.0.cta'
 
   useEffect(() => {
     if (editor && templateUrl) {
