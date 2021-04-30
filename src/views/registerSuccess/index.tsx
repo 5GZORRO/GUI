@@ -11,6 +11,7 @@ import {
 import { TheFooter } from 'containers/index'
 import { useHistory } from 'react-router'
 import CIcon from '@coreui/icons-react'
+import { CopyBoard } from 'components/copyboard'
 
 const RegisterSuccess:React.FC = () => {
   const history = useHistory()
@@ -29,17 +30,14 @@ const RegisterSuccess:React.FC = () => {
                   <p className={'mb-4 text-gray-500'}>Request submitted and will be processed manually. To check the status of this request, <b className='text-white'>please Log-in with this new DID.</b></p>
                     <CRow>
                       <CCol xs='12'>
-                        <CInput
-                          readOnly
-                          value={'asdkasdkasd mkasdjmfaskjnfd'}
-                        />
+                        <CopyBoard value={'3mxXg:p-nD_>=`JF'} />
                       </CCol>
                     </CRow>
                     <CRow className={'mt-4'}>
                       <CCol xs='12' className={'d-flex justify-content-center'}>
                         <CButton
                           variant={'outline'}
-                          color={'light'}
+                          color={'white'}
                           className={'px-5 text-uppercase'}
                           onClick={() => history.push('/login')}
                         >

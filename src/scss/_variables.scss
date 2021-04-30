@@ -231,8 +231,8 @@ $header-light-toggler-hover-icon-bg: url("data:image/svg+xml;charset=utf8,%3Csvg
 [type="checkbox"]:checked + label:after {
   content: '✔';
   position: absolute;
-  top: 6px;
-  left: 1px;
+  top: 7px;
+  left: 2px;
   font-size: 1em;
   color: #fff;
   line-height: 0;
