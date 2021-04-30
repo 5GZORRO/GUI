@@ -5,12 +5,14 @@ import {
   CCardBody,
   CCol,
   CContainer,
-  CInput,
   CRow
 } from '@coreui/react'
 import { TheFooter } from 'containers/index'
 import { useHistory } from 'react-router'
 import CIcon from '@coreui/icons-react'
+/* import { Spline } from 'react-spline'
+import { SPLINE_EXPORTED_SCENE } from './utils' */
+/** Components */
 import { CopyBoard } from 'components/copyboard'
 
 const RegisterSuccess:React.FC = () => {
@@ -21,6 +23,7 @@ const RegisterSuccess:React.FC = () => {
       <div className='c-wrapper'>
         <div className='c-body flex-row align-items-center'>
           <CContainer>
+            {/* <Spline scene={SPLINE_EXPORTED_SCENE} /> */}
             <CRow className='justify-content-center'>
             <CCol xs='5'>
               <CCard>
