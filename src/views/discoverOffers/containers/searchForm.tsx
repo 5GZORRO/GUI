@@ -45,10 +45,12 @@ const SearchForm:React.FC<SearchFormTypes> = ({ onSubmit }) => {
         defaultValue={''}
         rules={{ required: true }}
         name='search'
-        render={({ field }) => (
+        render={({ field: { onChange, onBlur, value } }) => (
           <CTextarea
             rows={8}
-            {...field}
+            onChange={onChange}
+            onBlur={onBlur}
+            value={value}
           />
         )}
       />
