@@ -39,7 +39,7 @@ const Register:React.FC = () => {
       name: '',
       governanceDID: '',
       address: '',
-      key: ''
+      key: '6mrzT9MPq6dfCqA6aXXzo4yyX7ppfqGq2cWzV9sR2dBg'
     },
     // import from utils
     resolver: yupResolver(schemaRegister)
@@ -478,7 +478,7 @@ const Register:React.FC = () => {
                           </CFormText>
                         }
                       </CFormGroup>
-                      <CFormGroup className={'mb-5'}>
+                      {/* <CFormGroup className={'mb-5'}>
                           <CLabel>Enter Key</CLabel>
                           <CInputGroup>
                             <CInputGroupPrepend>
@@ -513,7 +513,7 @@ const Register:React.FC = () => {
                             Please enter a valid key
                           </CFormText>
                         }
-                        </CFormGroup>
+                        </CFormGroup> */}
                       <CButton color='gradient' type='submit' className={'px-5 text-uppercase'}>Register</CButton>
                     </CForm>
                   </CCardBody>

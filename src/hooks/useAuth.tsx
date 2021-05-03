@@ -4,7 +4,7 @@ import { AuthObject } from 'types/hooks'
 
 // Provider hook that creates auth object and handles state
 export const useAuth = () => {
-  const [user, setUser] = useState<AuthObject>({ hasAccess: true, name: 'fakeUser', role: 'Provider' })
+  const [user, setUser] = useState<AuthObject>({ hasAccess: true, name: null, role: null })
   const history = useHistory()
 
   // ... to save the user to state.
@@ -23,8 +23,9 @@ export const useAuth = () => {
   }, [])
 
   useEffect(() => {
-    console.log(user.hasAccess)
-    !user.hasAccess && history.push('/login')
+    if (!user?.hasAccess) {
+      history.push('/login')
+    }
   }, [user])
 
   return {

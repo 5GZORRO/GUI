@@ -10,8 +10,8 @@ import {
 import { TheFooter } from 'containers/index'
 import { useHistory } from 'react-router'
 import CIcon from '@coreui/icons-react'
-/* import { Spline } from 'react-spline'
-import { SPLINE_EXPORTED_SCENE } from './utils' */
+import { Spline } from 'react-spline'
+import { SPLINE_EXPORTED_SCENE } from './utils'
 /** Components */
 import { CopyBoard } from 'components/copyboard'
 
@@ -21,9 +21,9 @@ const RegisterSuccess:React.FC = () => {
   return (
     <div className='c-app c-default-layout'>
       <div className='c-wrapper'>
-        <div className='c-body flex-row align-items-center'>
+        <div className='c-body flex-row align-items-center position-relative'>
           <CContainer>
-            {/* <Spline scene={SPLINE_EXPORTED_SCENE} /> */}
+            <Spline className='register-success__background' scene={SPLINE_EXPORTED_SCENE} />
             <CRow className='justify-content-center'>
             <CCol xs='5'>
               <CCard>

@@ -8,18 +8,17 @@ const registerClient = async (body: ApiRegisterBody) => {
   try {
     const response = await axios.post(endpoints.REGISTER, { ...body })
     const newResponse = response.data
-    console.log(newResponse)
     return newResponse
   } catch (e) {
-    console.log(e)
+    console.log({ e })
     throw new Error('error')
   }
 }
 
-const verifyClient = async (key: string):Promise<any> => {
+const verifyClient = async (key: string): Promise<any> => {
   try {
     const response = await axios.post(endpoints.LOGIN, { key })
-    if (response.data.idToken) {
+    if (response?.data?.idToken) {
       throw new Error('cannot access')
     }
   } catch (e) {
