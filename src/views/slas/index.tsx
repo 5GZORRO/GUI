@@ -1,5 +1,5 @@
-import { CContainer, CRow, CCol, CButton, CCard, CCardBody, CCardHeader, CNav, CNavItem, CNavLink, CTabContent, CTabPane, CTabs } from '@coreui/react'
 import React from 'react'
+import { CContainer, CRow, CCol, CButton, CCard, CCardBody, CCardHeader, CNav, CNavItem, CNavLink, CTabContent, CTabPane, CTabs } from '@coreui/react'
 import AllTemplates from './tables/AllTemplates'
 
 const SLA = () => {
