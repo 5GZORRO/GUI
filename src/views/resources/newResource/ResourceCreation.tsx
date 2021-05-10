@@ -23,7 +23,7 @@ import { DevTool } from '@hookform/devtools'
 import { PlusCircle } from 'assets/icons/externalIcons'
 
 const ResourceCreation = () => {
-  const { control, errors } = useFormContext()
+  const { control, formState: { errors } } = useFormContext()
   const history = useHistory()
 
   return (
@@ -37,7 +37,7 @@ const ResourceCreation = () => {
             rules={{ required: true }}
             aria-invalid={errors.name ? 'true' : 'false'}
             name='name'
-            render={({ onChange, onBlur, value }) => (
+            render={({ field: { onChange, onBlur, value } }) => (
               <CInput
                 placeholder={'Insert Name'}
                 onChange={onChange}
@@ -59,7 +59,7 @@ const ResourceCreation = () => {
               defaultValue={''}
               rules={{ required: true }}
               name='description'
-              render={({ onChange, onBlur, value }) => (
+              render={({ field: { onChange, onBlur, value } }) => (
                 <CTextarea
                   rows={4}
                   placeholder={'Insert Description'}
@@ -82,7 +82,7 @@ const ResourceCreation = () => {
               defaultValue={''}
               rules={{ required: true }}
               name='version'
-              render={({ onChange, onBlur, value }) => (
+              render={({ field: { onChange, onBlur, value } }) => (
                 <CInput
                   onChange={onChange}
                   onBlur={onBlur}
@@ -108,7 +108,7 @@ const ResourceCreation = () => {
                 defaultValue={''}
                 rules={{ required: true }}
                 name='validFor'
-                render={({ onChange, onBlur, value }) => (
+                render={({ field: { onChange, onBlur, value } }) => (
                   <MaskedInput
                     placeholder={'__/__/____'}
                     mask={[/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/]}
@@ -147,7 +147,7 @@ const ResourceCreation = () => {
                 defaultValue={''}
                 rules={{ required: true }}
                 name='category'
-                render={({ onChange, onBlur, value }) => (
+                render={({ field: { onChange, onBlur, value } }) => (
                   <CSelect
                     onChange={onChange}
                     onBlur={onBlur}
@@ -187,7 +187,7 @@ const ResourceCreation = () => {
                 defaultValue={''}
                 rules={{ required: true }}
                 name='resourceSpecification'
-                render={({ onChange, onBlur, value }) => (
+                render={({ field: { onChange, onBlur, value } }) => (
                   <CSelect onChange={onChange} onBlur={onBlur} value={value}>
                     <option value='0'>Please select</option>
                     <option value='1'>Option #1</option>
@@ -219,7 +219,7 @@ const ResourceCreation = () => {
               defaultValue={''}
               rules={{ required: true }}
               name='owner'
-              render={({ onChange, onBlur, value }) => (
+              render={({ field: { onChange, onBlur, value } }) => (
                 <CInput
                   value={value}
                   onChange={onChange}

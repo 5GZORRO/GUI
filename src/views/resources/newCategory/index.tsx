@@ -24,7 +24,7 @@ interface FormCategory {
 }
 
 const NewCategory: React.FC = () => {
-  const { handleSubmit, errors, control, reset } = useForm<FormCategory>()
+  const { handleSubmit, formState: { errors }, control, reset } = useForm<FormCategory>()
 
   const onSubmit = (data: FormCategory) => {
     console.log('data new category', data)
@@ -65,12 +65,10 @@ const NewCategory: React.FC = () => {
                     defaultValue={''}
                     rules={{ required: true }}
                     name='name'
-                    render={({ onChange, onBlur, value }) => (
+                    render={({ field }) => (
                       <CInput
                         placeholder={'Enter Name'}
-                        onChange={onChange}
-                        onBlur={onBlur}
-                        value={value}
+                        {...field}
                       />
                     )}
                   />
@@ -89,12 +87,10 @@ const NewCategory: React.FC = () => {
                     defaultValue={''}
                     rules={{ required: true }}
                     name='type'
-                    render={({ onChange, onBlur, value }) => (
+                    render={({ field }) => (
                       <CInput
                         placeholder={'Enter Type'}
-                        onChange={onChange}
-                        onBlur={onBlur}
-                        value={value}
+                        {...field}
                       />
                     )}
                   />
@@ -113,12 +109,10 @@ const NewCategory: React.FC = () => {
                     defaultValue={''}
                     rules={{ required: true }}
                     name='version'
-                    render={({ onChange, onBlur, value }) => (
+                    render={({ field }) => (
                       <CInput
                         placeholder={'Enter Version'}
-                        onChange={onChange}
-                        onBlur={onBlur}
-                        value={value}
+                        {...field}
                       />
                     )}
                   />
