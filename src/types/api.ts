@@ -52,7 +52,9 @@ interface GovernanceActionsResponse {
 }
 
 export interface StackeholderResponse {
+  /* eslint-disable camelcase */
   'handler_url': string
+  /* eslint-disable camelcase */
   'id_token': string
   stakeholderClaim: {
     governanceBoardDID: string

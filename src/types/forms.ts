@@ -29,6 +29,7 @@ export interface InputRegister {
   name: string
   email: string
   adminGovernance: boolean
+  /* eslint-disable camelcase */
   'handler_url': string
   company: string
   address: string
