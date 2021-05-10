@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { endpoints } from 'api/endpoints'
 import axios from 'api/instance'
-import { ApiRegisterBody } from 'types/api'
+import { ApiRegisterBody, ApiLoginBody } from 'types/api'
 
 const registerClient = async (body: ApiRegisterBody) => {
   try {
@@ -15,14 +15,13 @@ const registerClient = async (body: ApiRegisterBody) => {
   }
 }
 
-const verifyClient = async (key: string): Promise<any> => {
+const verifyClient = async (body: ApiLoginBody) => {
   try {
-    const response = await axios.post(endpoints.LOGIN, { key })
-    if (response?.data?.idToken) {
-      throw new Error('cannot access')
-    }
+    const response = await axios.post(endpoints.LOGIN, { ...body })
+    const newResponse = response.data
+    return newResponse
   } catch (e) {
-    console.log(e)
+    console.log({ e })
     throw new Error('error')
   }
 }

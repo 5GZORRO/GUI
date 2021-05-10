@@ -1,10 +1,6 @@
-export interface AuthObject {
-  name: string | null
-  hasAccess: boolean
-  role: string | null
-}
+import { StackeholderResponse } from './api'
 export interface Auth {
-  user: AuthObject
+  user: StackeholderResponse
   signin: (name: string) => void
   signout: () => void
 }

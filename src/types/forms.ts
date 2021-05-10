@@ -20,40 +20,54 @@ export interface RolesProps {
   assets: AssetsProps
 }
 
+export interface InputLogin {
+  stakeholderDID: string
+}
+
 export interface InputRegister {
   governanceDID: string
   name: string
+  email: string
   adminGovernance: boolean
+  'handler_url': string
   company: string
   address: string
-  key: string,
-  governanceRole: boolean,
-  regulatorRole: boolean,
-  providerRole: boolean,
-  consumerRole: boolean,
+  key: string
+  regulatorRole: boolean
+  resourceProviderRole: boolean
+  resourceConsumerRole: boolean
+  serviceProviderRole: boolean
+  serviceConsumerRole: boolean
   roles: {
-    governance: {
-      isSelect: boolean
-      informationResource: boolean
-      networkFunction: boolean
-      physicalResource: boolean
-      spectrumResource: boolean
-    },
     regulator: {
       isSelect: boolean
       informationResource: boolean
       networkFunction: boolean
       physicalResource: boolean
       spectrumResource: boolean
-    },
-    provider: {
+    }
+    resourceProvider: {
       isSelect: boolean
       informationResource: boolean
       networkFunction: boolean
       physicalResource: boolean
       spectrumResource: boolean
-    },
-    consumer: {
+    }
+    resourceConsumer: {
+      isSelect: boolean
+      informationResource: boolean
+      networkFunction: boolean
+      physicalResource: boolean
+      spectrumResource: boolean
+    }
+    serviceProvider: {
+      isSelect: boolean
+      informationResource: boolean
+      networkFunction: boolean
+      physicalResource: boolean
+      spectrumResource: boolean
+    }
+    serviceConsumer: {
       isSelect: boolean
       informationResource: boolean
       networkFunction: boolean

@@ -1,17 +1,18 @@
 import React, { ReactNode } from 'react'
 import { Redirect, Route } from 'react-router-dom'
-import { useAuth } from 'hooks/useAuth'
+import { useAuthContext } from 'context/AuthContext'
 
 interface IProps {
   children: ReactNode
 }
 const PrivateRoute = ({ children, ...rest }: IProps) => {
-  const { user } = useAuth()
+  const { user } = useAuthContext()
+  console.log(user)
   return (
     <Route
       {...rest}
       render={({ location }) =>
-        user?.hasAccess
+        user != null
           ? children
           : <Redirect
             to={{
