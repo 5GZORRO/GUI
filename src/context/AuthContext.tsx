@@ -15,6 +15,8 @@ interface IProps {
 
 const AuthContext = createContext<AuthState>({} as AuthState)
 
+const allowedPaths = ['/login', '/register', '/register/success', '/not-found']
+
 const ProviderAuth = ({ children }: IProps) => {
   const [user, setUser] = useState<StackeholderResponse | null>(null)
   const history = useHistory()
@@ -28,6 +30,7 @@ const ProviderAuth = ({ children }: IProps) => {
   }, [])
 
   const signin = (user: StackeholderResponse) => {
+    console.log(user)
     setUser(() => user)
     window.sessionStorage.setItem(SESSION_USER, JSON.stringify(user))
   }
@@ -40,7 +43,7 @@ const ProviderAuth = ({ children }: IProps) => {
   }
 
   useEffect(() => {
-    if (user == null && location?.pathname !== '/login') {
+    if (user == null && !allowedPaths.includes(location?.pathname)) {
       history.push('/login')
     }
   }, [location?.pathname])
