@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { camelizeKeys } from 'humps'
+// import { camelizeKeys } from 'humps'
 import { AUTH_TOKEN_SLUG } from 'config'
 
 axios.interceptors.request.use((config) => {
@@ -15,9 +15,7 @@ axios.interceptors.request.use((config) => {
 // Converts all responses for CamelCase
 axios.interceptors.response.use(
   (response) => {
-    // eslint-disable-next-line no-debugger
-    debugger
-    response.data = camelizeKeys(response.data)
+    // response.data = camelizeKeys(response.data)
     return response
   },
   (error) => {

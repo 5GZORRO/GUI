@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-interface BaseApiResponse <T> {
+interface BaseApiResponse<T> {
   totalPages: number
   totalElements: number
   size: number
@@ -8,16 +8,16 @@ interface BaseApiResponse <T> {
     sorted: boolean
     unsorted: boolean
     empty: boolean
-  },
+  }
   content: T[]
   pageable: {
     page: number
     size: number
     sort: string[]
-  },
+  }
   numberOfElements: number
-  first: boolean,
-  last: boolean,
+  first: boolean
+  last: boolean
   empty: boolean
 }
 
@@ -43,12 +43,36 @@ enum actionTypes {
 interface GovernanceActionsResponse {
   proposalId: string
   status: ProposalStatus
-  actionType: actionTypes,
+  actionType: actionTypes
   actionParams: {
     entityIdentityId: string
     evidence: string
   }
   statusUpdated: string
+}
+
+export interface StackeholderResponse {
+  /* eslint-disable camelcase */
+  'handler_url': string
+  /* eslint-disable camelcase */
+  'id_token': string
+  stakeholderClaim: {
+    governanceBoardDID: string
+    stakeholderDID: string
+    stakeholderProfile: {
+      address: string
+      name: string
+      notificationMethod: {
+        distributionList: string
+        notificationType: string
+      }
+    }
+  }
+
+  stakeholderRoles: [{ role: string; assets: [string] }]
+  stakeholderServices: [{ type: string; endpoint: string }]
+  state: string
+  timestamp: string
 }
 
 export type MemberbershipAPIResponse = BaseApiResponse<MembershipsResponse>
@@ -81,13 +105,13 @@ export interface ApiResourceCandidate {
 }
 
 interface stakeholderServicesProps {
-    type: string
-    endpoint: string
+  type: string
+  endpoint: string
 }
 
 interface stakeholderProfileProps {
-    role: string
-    assets: string[]
+  role: string
+  assets: string[]
 }
 
 export interface ApiRegisterBody {
@@ -103,7 +127,11 @@ export interface ApiRegisterBody {
       distributionList: string
     }
   }
-  handlerUrl: string
+  handler_url: string
+}
+
+export interface ApiLoginBody {
+  stakeholderDID: string
 }
 
 export interface ApiLoginResponse {
@@ -112,16 +140,16 @@ export interface ApiLoginResponse {
     stakeholderServices: stakeholderServicesProps[]
     stakeholderRoles: stakeholderProfileProps[]
     stakeholderProfile: {
-      name: string,
-      address: string,
+      name: string
+      address: string
       notificationMethod: {
         notificationType: string
         distributionList: string
       }
     }
     stakeholderDID: string
-  },
-  state: string,
-  credentialDefinitionId: string,
+  }
+  state: string
+  credentialDefinitionId: string
   idToken: string
 }

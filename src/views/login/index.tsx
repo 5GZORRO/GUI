@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   CButton,
   CCard,
@@ -26,176 +26,127 @@ import { useHistory } from 'react-router'
 import { TheFooter } from 'containers'
 /** Hooks */
 import { useLogin } from 'hooks/api/Auth'
+import { useAuthContext } from 'context/AuthContext'
 
-interface InputsLogin {
-  key: string
-}
+import { InputLogin } from 'types/forms'
 
-const Login:React.FC = () => {
-  const { handleSubmit, errors, control } = useForm<InputsLogin>()
+const Login: React.FC = () => {
+  const {
+    handleSubmit,
+    formState: { errors },
+    control
+  } = useForm<InputLogin>()
   const history = useHistory()
-  const login = useLogin()
+  const { data, mutate, isSuccess } = useLogin()
+  const { user, signin } = useAuthContext()
 
-  const onSubmit = (data: InputsLogin) => {
-    login.mutate(data.key)
+  const onSubmit = (data: InputLogin) => {
+    mutate(data)
   }
 
+  useEffect(() => {
+    if (user != null) {
+      history.push('/')
+    }
+  }, [user])
+
+  useEffect(() => {
+    if (isSuccess && data?.stakeholderClaim) {
+      signin(data)
+      history.push('/')
+    }
+    // SET ERROR
+  }, [isSuccess])
+
   return (
-    <div className='c-app c-default-layout'>
-       <div className='c-wrapper'>
-        <div className='c-body flex-row align-items-center'>
+    <div className="c-app c-default-layout">
+      <div className="c-wrapper">
+        <div className="c-body flex-row align-items-center">
           <CContainer>
             <CForm onSubmit={handleSubmit(onSubmit)}>
-              <CRow className='justify-content-center'>
-                <CCol xs='5' className={'d-flex justify-content-center align-items-center mb-5'}>
+              <CRow className="justify-content-center">
+                <CCol xs="5" className={'d-flex justify-content-center align-items-center mb-5'}>
                   <LogoVerticalWhite />
                 </CCol>
               </CRow>
-              <CRow className='justify-content-center'>
-                <CCol xs='5' className={'d-flex justify-content-center align-items-center'}>
-                  <CCard className='p-5 w-100' accentColor='#0403'>
+              <CRow className="justify-content-center">
+                <CCol xs="5" className={'d-flex justify-content-center align-items-center'}>
+                  <CCard className="p-5 w-100" accentColor="#0403">
                     <CCardBody className={'p-0'}>
-                        <h1 className={'mb-4'}>Login</h1>
-                        <p className='text-muted'>Sign In to your account</p>
-                        <CFormGroup className={'mb-4'}>
-                          <CLabel>Stakeholder DID</CLabel>
-                          <CInputGroup>
-                            <CInputGroupPrepend>
-                              <CInputGroupText><KeyLogin /></CInputGroupText>
-                            </CInputGroupPrepend>
-                            <Controller
-                              control={control}
-                              defaultValue={''}
-                              rules={{ required: true }}
-                              name='key'
-                              render={({ onChange, onBlur, value }) => (
+                      <h1 className={'mb-4'}>Login</h1>
+                      <p className="text-muted">Sign In to your account</p>
+                      <CFormGroup className={'mb-4'}>
+                        <CLabel>Stakeholder DID</CLabel>
+                        <CInputGroup>
+                          <CInputGroupPrepend>
+                            <CInputGroupText>
+                              <KeyLogin />
+                            </CInputGroupText>
+                          </CInputGroupPrepend>
+                          <Controller
+                            control={control}
+                            defaultValue={''}
+                            rules={{ required: true }}
+                            name="stakeholderDID"
+                            render={({ field: { onChange, onBlur, value } }) => (
                               <CInput
-                                data-testid={'key-input'}
+                                data-testid={'stakeholderDID-input'}
                                 onChange={onChange}
                                 onBlur={onBlur}
                                 value={value}
                               />
-                              )}
-                            />
-                          </CInputGroup>
-                          <CFormText color='muted' className={'mt-2'}>
-                            ex. QxacVyyX7AvLDZyqbnZL3e
-                          </CFormText>
-                        {errors.key &&
-                          <CFormText
-                            className='help-block'
-                            data-testid='error-message'
-                          >
+                            )}
+                          />
+                        </CInputGroup>
+                        <CFormText color="muted" className={'mt-2'}>
+                          ex. QxacVyyX7AvLDZyqbnZL3e
+                        </CFormText>
+                        {errors.stakeholderDID && (
+                          <CFormText className="help-block" data-testid="error-message">
                             Please enter a valid key
                           </CFormText>
-                        }
-                        </CFormGroup>
-                       {/* <CFormGroup className={'mb-4'}>
-                          <CLabel>Enter Key</CLabel>
-                          <CInputGroup>
-                            <CInputGroupPrepend>
-                              <CInputGroupText><KeyLogin /></CInputGroupText>
-                            </CInputGroupPrepend>
-                            <Controller
-                              control={control}
-                              defaultValue={''}
-                              rules={{ required: true }}
-                              name='key'
-                              data-testid={'key'}
-                              render={({ onChange, onBlur, value }) => (
-                                <MaskedInput
-                                  placeholder={'999 999 999 9999'}
-                                  mask={[/[1-9]/, /[1-9]/, /[1-9]/, ' ', /[1-9]/, /[1-9]/, /[1-9]/, ' ', /[1-9]/, /[1-9]/, /[1-9]/, ' ', /[1-9]/, /[1-9]/, /[1-9]/]}
-                                  className='form-control'
-                                  onChange={onChange}
-                                  onBlur={onBlur}
-                                  value={value}
-                                  render={(ref, props) => (
-                                    <CInput
-                                      innerRef={ref}
-                                      {...props}
-                                    />
-                                  )}
-                                />
-                              )}
-                            />
-                          </CInputGroup>
-                          <CFormText color='muted' className={'mt-2'}>
-                            ex. 999 999 999 9999
-                          </CFormText>
-                        {errors.key &&
-                          <CFormText
-                            className='help-block'
-                            data-testid='error-message'
+                        )}
+                      </CFormGroup>
+                      <CRow>
+                        <CCol xs={12} className="text-right mb-4">
+                          <p
+                            className={'px-0 text-uppercase font-12 text-light cursor-pointer'}
+                            onClick={() => console.log('did something')}
                           >
-                            Please enter a valid key
-                          </CFormText>
-                        }
-                        </CFormGroup>
-                           <CFormGroup>
-                            <Controller
-                              control={control}
-                              defaultValue={''}
-                              rules={{ required: true }}
-                              name='file'
-                              data-testid='file'
-                              render={({ onChange, onBlur, value }) => (
-                                <Input
-                                  value={value}
-                                  onBlur={onBlur}
-                                  onChange={onChange}
-                                />
-                              )}
-                            />
-                          {errors.file &&
-                          <CFormText
-                            className='help-block'
-                            data-testid='error-message-file'
+                            <u>did you have any problem?</u>
+                          </p>
+                        </CCol>
+                        <CCol xs={12}>
+                          <CButton
+                            color={'gradient'}
+                            className="px-5 text-uppercase"
+                            data-testid="submit"
+                            type="submit"
                           >
-                            Please enter a file
-                          </CFormText>
-                          }
-                          </CFormGroup> */}
-                        <CRow>
-                          <CCol xs={12} className='text-right mb-4'>
-                            <p
-                              className={'px-0 text-uppercase font-12 text-light cursor-pointer'}
-                              onClick={() => console.log('did something')}
-                            >
-                              <u>did you have any problem?</u>
-                            </p>
-                          </CCol>
-                          <CCol xs={12}>
-                            <CButton
-                              color={'gradient'}
-                              className='px-5 text-uppercase'
-                              data-testid='submit'
-                              type='submit'
-                            >
-                              submit
-                            </CButton>
-                          </CCol>
-                        </CRow>
+                            submit
+                          </CButton>
+                        </CCol>
+                      </CRow>
                     </CCardBody>
                   </CCard>
                 </CCol>
               </CRow>
             </CForm>
-            <CRow className='justify-content-center'>
-              <CCol xs='5' className={'d-flex justify-content-center align-items-center w-63'}>
+            <CRow className="justify-content-center">
+              <CCol xs="5" className={'d-flex justify-content-center align-items-center w-63'}>
                 <CButton
                   color={'secondary'}
-                  size='lg'
+                  size="lg"
                   className={'p-3'}
                   block
                   onClick={() => history.push('/register')}
                 >
-                    <div className={'d-flex justify-content-between align-items-center'}>
-                      <div className={'d-flex align-items-center'}>
-                        <CIcon name='cilGlobeAlt' className={'m-0 mr-3'} />
-                        Create new  Account
-                      </div>
-                    <CIcon name='cilArrowRight' className={'m-0'} />
+                  <div className={'d-flex justify-content-between align-items-center'}>
+                    <div className={'d-flex align-items-center'}>
+                      <CIcon name="cilGlobeAlt" className={'m-0 mr-3'} />
+                      Create new Account
+                    </div>
+                    <CIcon name="cilArrowRight" className={'m-0'} />
                   </div>
                 </CButton>
               </CCol>

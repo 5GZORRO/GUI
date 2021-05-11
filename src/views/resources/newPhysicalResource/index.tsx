@@ -37,7 +37,7 @@ interface FormPhysical {
 }
 
 const NewPhysicalResource: React.FC = () => {
-  const { control, handleSubmit, errors } = useForm<FormPhysical>({
+  const { control, handleSubmit, formState: { errors } } = useForm<FormPhysical>({
     defaultValues: {
       name: '',
       description:
@@ -91,11 +91,9 @@ const NewPhysicalResource: React.FC = () => {
                     defaultValue={''}
                     rules={{ required: true }}
                     name='name'
-                    render={({ onChange, onBlur, value }) => (
+                    render={({ field }) => (
                       <CInput
-                        onChange={onChange}
-                        onBlur={onBlur}
-                        value={value}
+                        {...field}
                       />
                     )}
                   />
@@ -113,12 +111,10 @@ const NewPhysicalResource: React.FC = () => {
                     control={control}
                     rules={{ required: true }}
                     name='description'
-                    render={({ onChange, onBlur, value }) => (
+                    render={({ field }) => (
                       <CTextarea
                         rows={4}
-                        onChange={onChange}
-                        onBlur={onBlur}
-                        value={value}
+                        {...field}
                       />
                     )}
                   />
@@ -159,8 +155,8 @@ const NewPhysicalResource: React.FC = () => {
                         control={control}
                         defaultValue={field.key}
                         rules={{ required: true }}
-                        name={`virtualResource[${index}].key`}
-                        render={({ onChange, onBlur, value }) => (
+                        name={`virtualResource[${index}].key` as any}
+                        render={({ field: { onChange, onBlur, value } }) => (
                           <CInput
                             onChange={onChange}
                             onBlur={onBlur}
@@ -182,8 +178,8 @@ const NewPhysicalResource: React.FC = () => {
                         control={control}
                         defaultValue={field.value}
                         rules={{ required: true }}
-                        name={`virtualResource[${index}].value`}
-                        render={({ onChange, onBlur, value }) => (
+                        name={`virtualResource[${index}].value` as any}
+                        render={({ field: { onChange, onBlur, value } }) => (
                           <CInput
                             onChange={onChange}
                             onBlur={onBlur}
@@ -205,8 +201,8 @@ const NewPhysicalResource: React.FC = () => {
                         control={control}
                         defaultValue={field.unit}
                         rules={{ required: true }}
-                        name={`virtualResource[${index}].unit`}
-                        render={({ onChange, onBlur, value }) => (
+                        name={`virtualResource[${index}].unit` as any}
+                        render={({ field: { onChange, onBlur, value } }) => (
                           <CInput
                             onChange={onChange}
                             onBlur={onBlur}
@@ -228,8 +224,8 @@ const NewPhysicalResource: React.FC = () => {
                         control={control}
                         defaultValue={field.quota}
                         rules={{ required: true }}
-                        name={`virtualResource[${index}].quota`}
-                        render={({ onChange, onBlur, value }) => (
+                        name={`virtualResource[${index}].quota` as any}
+                        render={({ field: { onChange, onBlur, value } }) => (
                           <CInput
                             onChange={onChange}
                             onBlur={onBlur}
@@ -272,7 +268,7 @@ const NewPhysicalResource: React.FC = () => {
                     defaultValue={''}
                     rules={{ required: true }}
                     name='href'
-                    render={({ onChange, onBlur, value }) => (
+                    render={({ field: { onChange, onBlur, value } }) => (
                       <CInput
                         onChange={onChange}
                         onBlur={onBlur}
@@ -295,7 +291,7 @@ const NewPhysicalResource: React.FC = () => {
                     defaultValue={''}
                     rules={{ required: true }}
                     name='type'
-                    render={({ onChange, onBlur, value }) => (
+                    render={({ field: { onChange, onBlur, value } }) => (
                       <CInput
                         onChange={onChange}
                         onBlur={onBlur}

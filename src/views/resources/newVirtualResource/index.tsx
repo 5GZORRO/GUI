@@ -15,7 +15,6 @@ import {
   CInput,
   CLabel,
   CRow,
-  CInputCheckbox,
   CTextarea,
   CSwitch
 } from '@coreui/react'
@@ -37,7 +36,7 @@ interface FormPhysical {
 }
 
 const NewVirtualResource: React.FC = () => {
-  const { control, handleSubmit, errors } = useForm<FormPhysical>({
+  const { control, handleSubmit, formState: { errors } } = useForm<FormPhysical>({
     defaultValues: {
       name: 'test',
       description:
@@ -89,7 +88,7 @@ const NewVirtualResource: React.FC = () => {
                     defaultValue={''}
                     rules={{ required: true }}
                     name='name'
-                    render={({ onChange, onBlur, value }) => (
+                    render={({ field: { onChange, onBlur, value } }) => (
                       <CInput
                         onChange={onChange}
                         onBlur={onBlur}
@@ -112,7 +111,7 @@ const NewVirtualResource: React.FC = () => {
                     rules={{ required: true }}
                     defaultValue={''}
                     name='description'
-                    render={({ onChange, onBlur, value }) => (
+                    render={({ field: { onChange, onBlur, value } }) => (
                       <CTextarea
                         rows={4}
                         onChange={onChange}
@@ -136,7 +135,7 @@ const NewVirtualResource: React.FC = () => {
                     defaultValue={''}
                     rules={{ required: true }}
                     name='type'
-                    render={({ onChange, onBlur, value }) => (
+                    render={({ field: { onChange, onBlur, value } }) => (
                       <CInput
                         onChange={onChange}
                         onBlur={onBlur}
@@ -158,7 +157,7 @@ const NewVirtualResource: React.FC = () => {
                     control={control}
                     defaultValue={true}
                     name='isMaster'
-                    render={({ onChange, onBlur, value }) =>
+                    render={({ field: { onChange, onBlur, value } }) =>
                       <>
                         <CSwitch
                           shape='pill'
@@ -202,8 +201,8 @@ const NewVirtualResource: React.FC = () => {
                         control={control}
                         defaultValue={field.key}
                         rules={{ required: true }}
-                        name={`virtualResource[${index}].key`}
-                        render={({ onChange, onBlur, value }) => (
+                        name={`virtualResource[${index}].key` as any}
+                        render={({ field: { onChange, onBlur, value } }) => (
                           <CInput
                             onChange={onChange}
                             onBlur={onBlur}
@@ -225,8 +224,8 @@ const NewVirtualResource: React.FC = () => {
                         control={control}
                         defaultValue={field.value}
                         rules={{ required: true }}
-                        name={`virtualResource[${index}].value`}
-                        render={({ onChange, onBlur, value }) => (
+                        name={`virtualResource[${index}].value` as any}
+                        render={({ field: { onChange, onBlur, value } }) => (
                           <CInput
                             onChange={onChange}
                             onBlur={onBlur}
@@ -248,8 +247,8 @@ const NewVirtualResource: React.FC = () => {
                         control={control}
                         defaultValue={field.unit}
                         rules={{ required: true }}
-                        name={`virtualResource[${index}].unit`}
-                        render={({ onChange, onBlur, value }) => (
+                        name={`virtualResource[${index}].unit` as any}
+                        render={({ field: { onChange, onBlur, value } }) => (
                           <CInput
                             onChange={onChange}
                             onBlur={onBlur}

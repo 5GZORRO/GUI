@@ -1,20 +1,62 @@
-import React, { createContext, ReactNode } from 'react'
-import { useAuth } from 'hooks/useAuth'
-import { AuthObject } from 'types/hooks'
+import React, { createContext, ReactNode, useContext, useState, useEffect } from 'react'
+import { StackeholderResponse } from 'types/api'
+import { SESSION_USER } from 'config'
+import { useHistory, useLocation } from 'react-router-dom'
 
-const AuthContext = createContext<AuthObject>({ hasAccess: false, name: null, role: null })
-
-interface IProps {
-  children: ReactNode;
+interface AuthState {
+  user: StackeholderResponse | null
+  signin: (user: StackeholderResponse) => void
+  signout: () => void
 }
 
-const ProviderAuth = ({ children }:IProps) => {
-  const auth = useAuth()
-  return (
-    <AuthContext.Provider value={ auth.user }>
-      { children }
-    </AuthContext.Provider>
-  )
+interface IProps {
+  children: ReactNode
+}
+
+const AuthContext = createContext<AuthState>({} as AuthState)
+
+const allowedPaths = ['/login', '/register', '/register/success', '/not-found']
+
+const ProviderAuth = ({ children }: IProps) => {
+  const [user, setUser] = useState<StackeholderResponse | null>(null)
+  const history = useHistory()
+  const location = useLocation()
+
+  useEffect(() => {
+    const previousState = window.sessionStorage.getItem(SESSION_USER)
+    if (previousState != null) {
+      setUser(() => JSON.parse(previousState))
+    }
+  }, [])
+
+  const signin = (user: StackeholderResponse) => {
+    console.log(user)
+    setUser(() => user)
+    window.sessionStorage.setItem(SESSION_USER, JSON.stringify(user))
+  }
+
+  const signout = () => {
+    setUser(() => null)
+    // remove to localStorage
+    window.sessionStorage.removeItem(SESSION_USER)
+    history.push('/login')
+  }
+
+  useEffect(() => {
+    if (user == null && !allowedPaths.includes(location?.pathname)) {
+      history.push('/login')
+    }
+  }, [location?.pathname])
+
+  return <AuthContext.Provider value={{ user, signin, signout }}>{children}</AuthContext.Provider>
 }
 
 export default ProviderAuth
+
+export const useAuthContext = () => {
+  const context = useContext(AuthContext)
+  if (!context) {
+    throw new Error('useAuthContext must be used within a AuthContext')
+  }
+  return context
+}

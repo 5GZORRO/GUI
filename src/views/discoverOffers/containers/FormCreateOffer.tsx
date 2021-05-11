@@ -21,7 +21,7 @@ import { PlusCircle } from 'assets/icons/externalIcons'
 import { Controller, useFormContext } from 'react-hook-form'
 
 const FormCreateOffer:React.FC = () => {
-  const { errors, control } = useFormContext()
+  const { formState: { errors }, control } = useFormContext()
   return (
     <CCard>
       <CCardHeader>
@@ -37,8 +37,8 @@ const FormCreateOffer:React.FC = () => {
                     defaultValue={''}
                     rules={{ required: true }}
                     name='country'
-                    render={({ onChange, onBlur, value }) => (
-                      <CSelect onChange={onChange} onBlur={onBlur} value={value}>
+                    render={({ field }) => (
+                      <CSelect {...field}>
                         <option value='0'>Please select</option>
                         <option value='1'>Option #1</option>
                         <option value='2'>Option #2</option>
@@ -61,8 +61,8 @@ const FormCreateOffer:React.FC = () => {
                     defaultValue={''}
                     rules={{ required: true }}
                     name='productOfferTerms'
-                    render={({ onChange, onBlur, value }) => (
-                      <CSelect onChange={onChange} onBlur={onBlur} value={value}>
+                    render={({ field }) => (
+                      <CSelect {...field}>
                         <option value='0'>Please select</option>
                         <option value='1'>Option #1</option>
                         <option value='2'>Option #2</option>
@@ -93,12 +93,10 @@ const FormCreateOffer:React.FC = () => {
                   defaultValue={''}
                   rules={{ required: true }}
                   name='name'
-                  render={({ onChange, onBlur, value }) => (
+                  render={({ field }) => (
                     <CInput
-                      onChange={onChange}
                       placeholder={'Enter Product Offer'}
-                      onBlur={onBlur}
-                      value={value}
+                      {...field}
                     />
                   )}
                 />
@@ -119,8 +117,8 @@ const FormCreateOffer:React.FC = () => {
                     defaultValue={''}
                     rules={{ required: true }}
                     name='price'
-                    render={({ onChange, onBlur, value }) => (
-                      <CSelect onChange={onChange} onBlur={onBlur} value={value}>
+                    render={({ field }) => (
+                      <CSelect {...field}>
                         <option value='0'>Please select</option>
                         <option value='1'>Option #1</option>
                         <option value='2'>Option #2</option>
@@ -155,8 +153,8 @@ const FormCreateOffer:React.FC = () => {
                     defaultValue={''}
                     rules={{ required: true }}
                     name='serviceLevelAgreements'
-                    render={({ onChange, onBlur, value }) => (
-                      <CSelect onChange={onChange} onBlur={onBlur} value={value}>
+                    render={({ field }) => (
+                      <CSelect {...field}>
                         <option value='0'>Please select</option>
                         <option value='1'>Option #1</option>
                         <option value='2'>Option #2</option>
