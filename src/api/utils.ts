@@ -34,3 +34,7 @@ export const TransformDataResourceCandidate = (data: any) => {
     }
   })
 }
+
+export const TransformDataTemplates = (data:any) => {
+  return []
+}

@@ -22,6 +22,12 @@ export default [
     icon: 'cilDescription'
   },
   {
+    _tag: 'CSidebarNavItem',
+    name: 'SLAs',
+    to: '/sla',
+    icon: 'cilFlagAlt'
+  },
+  {
     _tag: 'CSidebarNavTitle',
     _children: ['Marketplace']
   },
