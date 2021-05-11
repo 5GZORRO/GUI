@@ -30,7 +30,6 @@ const ProviderAuth = ({ children }: IProps) => {
   }, [])
 
   const signin = (user: StackeholderResponse) => {
-    console.log(user)
     setUser(() => user)
     window.sessionStorage.setItem(SESSION_USER, JSON.stringify(user))
   }

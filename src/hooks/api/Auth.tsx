@@ -9,4 +9,5 @@ import { AxiosError } from 'axios'
 export const useRegister = () =>
   useMutation<StackeholderResponse, AxiosError, ApiRegisterBody>((data) => api.auth.registerClient(data))
 
-export const useLogin = () => useMutation<StackeholderResponse, AxiosError, ApiLoginBody>((key) => api.auth.verifyClient(key))
+export const useLogin = () =>
+  useMutation<StackeholderResponse, AxiosError, ApiLoginBody>((key) => api.auth.verifyClient(key))
