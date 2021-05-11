@@ -33,7 +33,7 @@ import { useRegister } from 'hooks/api/Auth'
 // import { KeyLogin } from 'assets/icons/externalIcons'
 /** Type */
 import { InputRegister } from 'types/forms'
-import LoadingWithBackdrop from 'components/LoadingWithFade'
+import LoadingWithFade from 'components/LoadingWithFade'
 
 const Register: React.FC = () => {
   const {
@@ -75,7 +75,7 @@ const Register: React.FC = () => {
 
   return (
     <>
-      {isLoading && <LoadingWithBackdrop />}
+      {isLoading && <LoadingWithFade />}
       <div className="c-app c-default-layout">
         <div className="c-wrapper">
           <CRow className="justify-content-center mt-5">

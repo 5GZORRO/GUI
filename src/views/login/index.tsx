@@ -30,6 +30,8 @@ import { useAuthContext } from 'context/AuthContext'
 
 import { InputLogin } from 'types/forms'
 
+import LoadingWithFade from 'components/LoadingWithFade'
+
 const Login: React.FC = () => {
   const {
     handleSubmit,
@@ -37,7 +39,7 @@ const Login: React.FC = () => {
     control
   } = useForm<InputLogin>()
   const history = useHistory()
-  const { data, mutate, isSuccess } = useLogin()
+  const { data, mutate, isSuccess, isLoading } = useLogin()
   const { user, signin } = useAuthContext()
 
   const onSubmit = (data: InputLogin) => {
@@ -59,6 +61,8 @@ const Login: React.FC = () => {
   }, [isSuccess])
 
   return (
+    <>
+    {isLoading && <LoadingWithFade />}
     <div className="c-app c-default-layout">
       <div className="c-wrapper">
         <div className="c-body flex-row align-items-center">
@@ -156,6 +160,7 @@ const Login: React.FC = () => {
         <TheFooter />
       </div>
     </div>
+    </>
   )
 }
 
