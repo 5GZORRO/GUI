@@ -51,6 +51,12 @@ interface GovernanceActionsResponse {
   statusUpdated: string
 }
 
+export interface ApiOrganizationBody {
+    organizationCreate: {}
+    stakeholderDID: string,
+    token: string
+}
+
 export interface StackeholderResponse {
   /* eslint-disable camelcase */
   'handler_url': string
