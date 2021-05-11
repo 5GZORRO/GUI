@@ -87,6 +87,7 @@ promote to staging:
     - apk --no-cache add git
     - export URL_HOST=$(git remote get-url origin | sed -e "s/https:\/\/gitlab-ci-token:.*@//g")
     - git remote set-url origin "https://gitlab-ci-token:${GITLAB_TOKEN}@${URL_HOST}"
+    - git fetch
   script:
     - git checkout staging
     - git pull
