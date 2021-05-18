@@ -18,8 +18,8 @@ const SLA = React.lazy(() => import('./views/slas'))
 const routes = [
   { exact: true, path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { exact: true, path: '/offers', name: 'Offers', component: DiscoverOffers },
-  { path: '/offers/new-product', name: 'New Product Offer', component: NewProduct },
-  { path: '/offers/detail-product/:id', name: 'Detail Product Offer', component: ProductDetail },
+  { path: '/offers/new-offer/:id', name: 'Detail Product Offer', component: ProductDetail },
+  { path: '/offers/new-offer', name: 'New Product Offer', component: NewProduct },
   { path: '/orders', name: 'Orders', component: Orders },
   { exact: true, path: '/resource', name: 'Resource & Services', component: Resources },
   { exact: true, path: '/resource/new-resource', name: 'Create Resource & Service', component: NewResource },

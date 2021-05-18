@@ -52,16 +52,16 @@ interface GovernanceActionsResponse {
 }
 
 export interface ApiOrganizationBody {
-    organizationCreate: {}
-    stakeholderDID: string,
-    token: string
+  organizationCreate: {}
+  stakeholderDID: string
+  token: string
 }
 
 export interface StackeholderResponse {
   /* eslint-disable camelcase */
-  'handler_url': string
+  handler_url: string
   /* eslint-disable camelcase */
-  'id_token': string
+  id_token: string
   stakeholderClaim: {
     governanceBoardDID: string
     stakeholderDID: string
@@ -158,4 +158,120 @@ export interface ApiLoginResponse {
   state: string
   credentialDefinitionId: string
   idToken: string
+}
+
+export interface ApiProductSpecification {
+  brand: string
+  bundledProductSpecification: [
+    {
+      description: string
+      id: string
+      lastUpdate: string
+      name: string
+      validFor: {
+        endDateTime: string
+        startDateTime: string
+      }
+      version: string
+    }
+  ]
+  description: string
+  id: string
+  isBundle: boolean
+  lastUpdate: string
+  name: string
+  productNumber: string
+  productSpecCharacteristic: [
+    {
+      configurable: boolean
+      description: string
+      extensible: boolean
+      href: string
+      isUnique: true
+      lastUpdate: string
+      lifecycleStatus: string
+      lifecycleStatusEnum: string
+      maxCardinality: number
+      minCardinality: number
+      name: string
+      productSpecCharRelationship: [
+        description: string,
+        href: string,
+        id: string,
+        lastUpdate: string,
+        lifecycleStatus: string,
+        lifecycleStatusEnum: string,
+        name: string,
+        relationshipType: string,
+        validFor: {
+          endDateTime: string
+          startDateTime: string
+        },
+        version: string
+      ]
+      productSpecCharacteristicValue: [
+        {
+          isDefault: true
+          rangeInterval: string
+          unitOfMeasure: string
+          validFor: {
+            endDateTime: string
+            startDateTime: string
+          }
+          value: {
+            alias: string
+            value: string
+          }
+          valueFrom: string
+          valueTo: string
+          valueType: string
+        }
+      ]
+      regex: string
+      validFor: {
+        endDateTime: string
+        startDateTime: string
+      }
+      valueType: string
+      version: string
+    }
+  ]
+  productSpecificationRelationship: [
+    {
+      id: string
+      relationshipType: string
+      validFor: {
+        endDateTime: string
+        startDateTime: string
+      }
+    }
+  ]
+  relatedParty: [
+    {
+      extendedInfo: string
+      href: string
+      id: string
+      name: string
+      role: string
+    }
+  ]
+  resourceSpecification: [
+    {
+      id: string
+      name: string
+      version: string
+    }
+  ]
+  serviceSpecification: [
+    {
+      id: string
+      name: string
+      version: string
+    }
+  ]
+  validFor: {
+    endDateTime: string
+    startDateTime: string
+  }
+  version: string
 }

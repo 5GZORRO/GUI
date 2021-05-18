@@ -3,8 +3,8 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 dayjs.extend(relativeTime)
 
 export const TransformDataResourceCandidate = (data: any) => {
-  return data.map((item: {id: string, name: any; version: any; validFor: any; category: any; lifecycleStatus: any, resourceSpecification: any }) => {
-    const { id, name, version, validFor, category, lifecycleStatus, resourceSpecification } = item
+  return data.map((item: any) => {
+    const { id, name, version, validFor, category, lifecycleStatus, resourceSpecification, serviceSpecification } = item
 
     const valid = validFor?.endDateTime &&
     dayjs(validFor.endDateTime).isValid()
@@ -25,12 +25,9 @@ export const TransformDataResourceCandidate = (data: any) => {
       valid,
       categories,
       lifecycleStatus,
-      resourceSpecification: {
-        id: resourceSpecification.id,
-        name: resourceSpecification.name,
-        href: resourceSpecification.href,
-        version: resourceSpecification.version
-      }
+      resourceSpecification,
+      serviceSpecification
+
     }
   })
 }

@@ -13,3 +13,15 @@ export const useAllCandidates = (params?: any) => {
 export const useCandidate = (ids: string) => {
   return useQuery(['candidate', ids], () => api.resources.getCandidateById(ids), { keepPreviousData: true })
 }
+
+export const useAllProductSpecification = (params?: any) => {
+  return useQuery(['allProductSpecification', params], () => api.resources.useAllProductSpecification(params), {
+    keepPreviousData: true
+  })
+}
+
+export const useProductSpecification = (id: string) => {
+  return useQuery(['productSpecification', id], () => api.resources.getProductSpecificationById(id), {
+    keepPreviousData: true
+  })
+}

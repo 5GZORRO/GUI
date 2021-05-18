@@ -6,9 +6,6 @@ import {
   CRow,
   CDataTable,
   CButton,
-  CFormGroup,
-  CInputCheckbox,
-  CLabel,
   CCard,
   CCardBody,
   CCardHeader,
@@ -22,24 +19,19 @@ import {
   CTabPane,
   CTabs
 } from '@coreui/react'
-import { useAllCandidates } from 'hooks/api/Resources'
-import { useHistory } from 'react-router-dom'
+import dayjs from 'dayjs'
+
+import { useAllProductSpecification } from 'hooks/api/Resources'
+import { useHistory, Link } from 'react-router-dom'
 import { IconRAM } from 'assets/icons/externalIcons'
 
 const fields = [
   { key: 'select', label: '', filter: false, sorter: false },
+  'productNumber',
   'name',
   'version',
-  {
-    key: 'categories',
-    label: 'Categories'
-  },
-  'lifecycleStatus',
-  'validFor',
-  {
-    key: 'valid',
-    label: 'validFor'
-  },
+  'isBundle',
+  'lastUpdate',
   {
     key: 'show_details',
     label: '',
@@ -48,107 +40,114 @@ const fields = [
   }
 ]
 
-const NewProductOffer:React.FC = () => {
+const NewProductOffer: React.FC = () => {
   const history = useHistory()
   const [selected, setSelected] = useState<string[]>([])
-  const { data, isLoading } = useAllCandidates()
+  const { data, isLoading } = useAllProductSpecification()
   const [modal, setModal] = useState(false)
   const [modalInfo, setModalInfo] = useState<any>(null)
 
-  const check = (e: any, id: string) => {
-    if (e.target.checked) {
-      setSelected([...selected, id])
-    } else {
-      setSelected(selected.filter(itemId => itemId !== id))
+  const check = (id: string) => {
+    const found = selected.find((itemId) => itemId === id)
+
+    if (!found) {
+      setSelected((previous) => [id])
     }
   }
 
   const openModal = (data: any) => {
-    console.log(data)
     setModalInfo(data)
     setModal(true)
   }
 
+  const arrayToStringsData = (item: any, property: string) => <td>{item?.map((el: any) => el[property]).join(', ')}</td>
+
   return (
     <CContainer>
-      <CModal
-        show={modal}
-        onClose={() => setModal(false)}
-        size='lg'
-      >
+      <CModal show={modal} onClose={() => setModal(false)} size="lg">
         <CModalHeader closeButton>
-          <h5>Resource Candidate Details</h5>
+          <h5>Resource Details</h5>
         </CModalHeader>
         <CModalBody>
-          <CTabs activeTab='resourceDetail'>
-            <CNav variant='pills'>
+          <CTabs activeTab="resourceSpecification">
+            <CNav variant="pills">
               <CNavItem>
-                <CNavLink className={'pl-0 mb-4'} data-tab='resourceDetail' color={'#6C6E7E'}>Resource Details</CNavLink>
+                <CNavLink className={'pl-0 mb-4'} data-tab="resourceSpecification" color={'#6C6E7E'}>
+                  Resource Specification
+                </CNavLink>
               </CNavItem>
-             {/*  <CNavItem>
-                <CNavLink data-tab='physicalCap'>Resource - Physical Capabilities</CNavLink>
+              <CNavItem>
+                <CNavLink className={'pl-0 mb-4'} data-tab="physicalCap" color={'#6C6E7E'}>
+                  Resource - Physical Capabilities
+                </CNavLink>
               </CNavItem>
               <CNavItem>
-                <CNavLink data-tab='virtualCap'>Resource - Virtual Capabilities</CNavLink>
-              </CNavItem> */}
+                <CNavLink className={'pl-0 mb-4'} data-tab="virtualCap" color={'#6C6E7E'}>
+                  Resource - Virtual Capabilities
+                </CNavLink>
+              </CNavItem>
               <CNavItem>
-                <CNavLink className={'pl-0 mb-4'} data-tab='resourceSpecification' color={'#6C6E7E'}>Resource Specification</CNavLink>
+                <CNavLink className={'pl-0 mb-4'} data-tab="resourceCharacteristics" color={'#6C6E7E'}>
+                  Resource Characteristics
+                </CNavLink>
               </CNavItem>
             </CNav>
             <CTabContent>
-              <CTabPane data-tab='resourceDetail'>
+              <CTabPane data-tab="resourceSpecification">
                 <CRow className={'mt-4'}>
                   <CCol>
                     <p className={'font-weight-bold font-18 mb-4'}>{modalInfo?.name}</p>
                     <p className={'text-light mb-2'}>Description</p>
                     <p className={'font-16 mb-4'}>{modalInfo?.description}</p>
+                    {modalInfo?.valideFor && (
+                      <CRow>
+                        <CCol xs="6">
+                          <p className={'text-light mb-2'}>From:</p>{' '}
+                          <p>
+                            {dayjs(modalInfo?.validFor?.startDateTime).isValid()
+                              ? dayjs(modalInfo?.validFor?.startDateTime).format('YYYY-MM-DD HH:mm:ss')
+                              : '-'}
+                          </p>
+                        </CCol>
+                        <CCol xs="6">
+                          <p className={'text-light mb-2'}>To:</p>{' '}
+                          <p>
+                            {dayjs(modalInfo?.validFor?.endDateTime).isValid()
+                              ? dayjs(modalInfo?.validFor?.endDateTime).format('YYYY-MM-DD HH:mm:ss')
+                              : '-'}
+                          </p>
+                        </CCol>
+                      </CRow>
+                    )}
                     <CRow>
                       <CCol>
-                     {/*  {modalInfo.type &&
-                        <>
-                          <p className={'text-light mb-1'}>Type</p>
-                          <p className={'font-16 text-white'}>{modalInfo.type}</p>
-                        </>
-                      } */}
-                      {modalInfo?.valid &&
-                        <>
-                          <p className={'text-light mb-1'}>Valid For</p>
-                          <p className={'font-16 text-white'}>{modalInfo.valid}</p>
-                        </>
-                      }
-                      {modalInfo?.resourceSpecification &&
-                        <>
-                          <p className={'text-light mb-1'}>Resource Specification</p>
-                          <p className={'font-16 text-white'}>{modalInfo.resourceSpecification?.name}</p>
-                        </>
-                      }
-                      </CCol>
-                      <CCol>
-                        {modalInfo?.version &&
-                        <>
-                          <p className={'text-light mb-1'}>Version</p>
-                          <p className={'font-16 text-white'}>{modalInfo.version}</p>
-                        </>
-                        }
-                        {!!modalInfo?.categories.length &&
+                        {modalInfo?.version && (
                           <>
-                            <p className={'text-light mb-1'}>Categories</p>
-                            <p className={'font-16 text-white'}>{modalInfo.categories}</p>
+                            <p className={'text-light mb-1'}>Version</p>
+                            <p className={'font-16 text-white'}>{modalInfo?.version}</p>
                           </>
-                        }
-                        <p className={'text-light mb-1'}>Owner Did</p>
-                        <p className={'font-16 text-white'}>Owner Did Label</p>
+                        )}
+                        {modalInfo?.category &&
+                          modalInfo?.category?.map((el: any) => (
+                            <CRow key={`resourceDetail-category-${el?.id}`}>
+                              <p className={'text-light mb-1'}>Name</p>
+                              <p className={'font-16 text-white'}>{el?.name}</p>
+                            </CRow>
+                          ))}
                       </CCol>
                     </CRow>
                   </CCol>
                 </CRow>
               </CTabPane>
-              <CTabPane data-tab='physicalCap'>
-              <CRow className={'my-4'}>
+              <CTabPane data-tab="physicalCap">
+                <CRow className={'my-4'}>
                   <CCol>
                     <p className={'font-weight-bold font-18 mb-4'}>Name Label Resource- Physical Capabilities</p>
                     <p className={'text-light mb-2'}>Description</p>
-                    <p className={'font-16 mb-4'}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <p className={'font-16 mb-4'}>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                      labore et dolore magna aliqua.
+                    </p>
                     <CRow>
                       <CCol>
                         <p className={'text-light mb-1'}>Cloud Id</p>
@@ -172,19 +171,25 @@ const NewProductOffer:React.FC = () => {
                     <span className={'ml-2 font-weight-bold'}>RAM</span>
                     <div className={'mt-3'}>
                       <CRow>
-                        <CCol xs={4} className={'text-light'}><span>Hardware Cap Value</span></CCol>
+                        <CCol xs={4} className={'text-light'}>
+                          <span>Hardware Cap Value</span>
+                        </CCol>
                         <CCol xs={8}>
                           <span className={'font-weight-bold text-gradient'}>64G</span>
                         </CCol>
                       </CRow>
                       <CRow className={'mt-2'}>
-                        <CCol xs={4} className={'text-light'}><span>Hardware Cap Unit</span></CCol>
+                        <CCol xs={4} className={'text-light'}>
+                          <span>Hardware Cap Unit</span>
+                        </CCol>
                         <CCol xs={8}>
                           <span className={'font-weight-bold'}>4 unit</span>
                         </CCol>
                       </CRow>
                       <CRow className={'mt-2'}>
-                        <CCol xs={4} className={'text-light'}><span>Hardware Cap Quota</span></CCol>
+                        <CCol xs={4} className={'text-light'}>
+                          <span>Hardware Cap Quota</span>
+                        </CCol>
                         <CCol xs={8}>
                           <span className={'font-weight-bold'}>8G</span>
                         </CCol>
@@ -200,12 +205,15 @@ const NewProductOffer:React.FC = () => {
                   </CCol>
                 </CRow>
               </CTabPane>
-              <CTabPane data-tab='virtualCap'>
-              <CRow className={'my-4'}>
+              <CTabPane data-tab="virtualCap">
+                <CRow className={'my-4'}>
                   <CCol>
                     <p className={'font-weight-bold font-18 mb-4'}>Name Label Resource - Virtual Capabilities</p>
                     <p className={'text-light mb-2'}>Description</p>
-                    <p className={'font-16 mb-4'}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <p className={'font-16 mb-4'}>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                      labore et dolore magna aliqua.
+                    </p>
                     <CRow>
                       <CCol>
                         <p className={'text-light mb-1'}>Cloud Id</p>
@@ -231,13 +239,17 @@ const NewProductOffer:React.FC = () => {
                     <span className={'ml-2 font-weight-bold'}>Cloud</span>
                     <div className={'mt-3'}>
                       <CRow>
-                        <CCol xs={4} className={'text-light'}><span>Virtual Cap Value</span></CCol>
+                        <CCol xs={4} className={'text-light'}>
+                          <span>Virtual Cap Value</span>
+                        </CCol>
                         <CCol xs={8}>
                           <span className={'font-weight-bold text-gradient'}>64G</span>
                         </CCol>
                       </CRow>
                       <CRow className={'mt-2'}>
-                        <CCol xs={4} className={'text-light'}><span>Virtual Cap Unit</span></CCol>
+                        <CCol xs={4} className={'text-light'}>
+                          <span>Virtual Cap Unit</span>
+                        </CCol>
                         <CCol xs={8}>
                           <span className={'font-weight-bold'}>4 unit</span>
                         </CCol>
@@ -246,34 +258,33 @@ const NewProductOffer:React.FC = () => {
                   </CCol>
                 </CRow>
               </CTabPane>
-              <CTabPane data-tab='resourceSpecification'>
-              <CRow className={'mt-4'}>
+              <CTabPane data-tab="resourceCharacteristics">
+                <CRow className={'mt-4'}>
                   <CCol>
-                    <p className={'font-weight-bold font-18 mb-4'}>{modalInfo?.resourceSpecification?.name}</p>
                     <CRow>
                       <CCol>
-                      {modalInfo?.resourceSpecification?.id &&
-                        <>
-                          <p className={'text-light mb-1'}>ID</p>
-                          <p className={'font-16 text-white'}>{modalInfo.resourceSpecification.id}</p>
-                        </>
-                      }
-                      </CCol>
-                      <CCol>
-                        {modalInfo?.resourceSpecification?.version &&
-                        <>
-                          <p className={'text-light mb-1'}>Version</p>
-                          <p className={'font-16 text-white'}>{modalInfo.resourceSpecification.version}</p>
-                        </>
-                        }
+                        <p className={'text-light mb-1'}>Name</p>
+                        <p className={'font-weight-bold font-18 mb-4'}>{modalInfo?.resourceSpecification?.name}</p>
                       </CCol>
                     </CRow>
-                    {modalInfo?.resourceSpecification?.href &&
-                    <>
-                      <p className={'text-light mb-1'}>Href</p>
-                      <p className={'font-16 text-white'}>{modalInfo.resourceSpecification.href}</p>
-                    </>
-                    }
+                    <CRow>
+                      <CCol>
+                        {modalInfo?.resourceSpecification?.id && (
+                          <>
+                            <p className={'text-light mb-1'}>ID</p>
+                            <p className={'font-16 text-white'}>{modalInfo?.resourceSpecification?.id}</p>
+                          </>
+                        )}
+                      </CCol>
+                      <CCol>
+                        {modalInfo?.resourceSpecification?.version && (
+                          <>
+                            <p className={'text-light mb-1'}>Version</p>
+                            <p className={'font-16 text-white'}>{modalInfo?.resourceSpecification?.version}</p>
+                          </>
+                        )}
+                      </CCol>
+                    </CRow>
                   </CCol>
                 </CRow>
               </CTabPane>
@@ -288,7 +299,7 @@ const NewProductOffer:React.FC = () => {
       </CRow>
       <CCard>
         <CCardHeader>
-          <h5>Resource Candidate</h5>
+          <h5>Resource</h5>
         </CCardHeader>
         <CCardBody>
           <CDataTable
@@ -304,59 +315,55 @@ const NewProductOffer:React.FC = () => {
               select: (item: { id: any; _selected: boolean | undefined }) => {
                 return (
                   <td>
-                    <CFormGroup variant='custom-checkbox'>
-                      <CInputCheckbox
-                        custom
-                        id={`checkbox${item.id}`}
-                        checked={item._selected}
-                        onChange={(e) => check(e, item.id)}
-                      />
-                      <CLabel
-                        variant='custom-checkbox'
-                        htmlFor={`checkbox${item.id}`}
-                      />
-                    </CFormGroup>
+                    <input
+                      className={'product-offer--checkbox'}
+                      type="radio"
+                      checked={selected?.find((el) => item?.id === el) != null}
+                      onChange={() => check(item?.id)}
+                    />
                   </td>
                 )
               },
-              show_details:
-                (item: any) => {
-                  return (
-                <td className='py-2'>
-                  <CButton
-                    color='primary'
-                    className={'shadow-none text-uppercase'}
-                    onClick={() => openModal(item)}
-                  >
-                    {'Show'}
-                  </CButton>
-                </td>
-                  )
-                }
+              version: (item: any) => {
+                return <td className="py-2">{item?.version ? item?.version : '-'}</td>
+              },
+              lifecycleStatus: (item: any) => {
+                return <td className="py-2">{item?.lifecycleStatus ? item?.lifecycleStatus : '-'}</td>
+              },
+              validFor: (item: any) => {
+                return <td className="py-2">{item?.validFor ? item?.validFor : '-'}</td>
+              },
+              category: (item: any) => arrayToStringsData(item?.category, 'name'),
+              show_details: (item: any) => {
+                return (
+                  <td className="py-2">
+                    <CButton color="primary" className={'shadow-none text-uppercase'} onClick={() => openModal(item)}>
+                      {'Show'}
+                    </CButton>
+                  </td>
+                )
+              }
             }}
             sorter
             hover
             pagination
           />
-      </CCardBody>
-    </CCard>
+        </CCardBody>
+      </CCard>
       <div className={'d-flex flex-row-reverse mb-5'}>
         <CButton
           className={'text-uppercase px-5'}
           color={'gradient'}
-          disabled={!selected.length}
-          onClick={() => history.push(`/offers/detail-product/${selected}`)}
+          disabled={!selected?.length}
+          onClick={() => history.push(`/offers/new-offer/${selected}`)}
         >
           next
         </CButton>
-        <CButton
-          className={'text-uppercase px-5 mr-3'}
-          variant='outline'
-          color={'white'}
-          onClick={() => setSelected([])}
-        >
-          Cancel
-        </CButton>
+        <Link to={'/offers/'}>
+          <CButton className={'text-uppercase px-5 mr-3'} variant="outline" color={'white'}>
+            Cancel
+          </CButton>
+        </Link>
       </div>
     </CContainer>
   )

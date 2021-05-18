@@ -8,5 +8,6 @@ export const endpoints = {
   RESOURCE_CANDIDATE: `${API_MARKET_PLACE}/resourceCatalogManagement/v2/resourceCandidate`,
   PRODUCT_SPECIFICATION: `${API_MARKET_PLACE}/productCatalogManagement/v4/productSpecification`,
   PRODUCT_OFFERING: `${API_MARKET_PLACE}/productCatalogManagement/v4/productOffering`,
-  SMART_CONTRACT_MANAGEMENT: `${API_SMART_CONTRACT}/service-level-agreement`
+  SMART_CONTRACT_MANAGEMENT: `${API_SMART_CONTRACT}/service-level-agreement`,
+  SERVICE_CANDIDATE: `${API_MARKET_PLACE}/serviceCatalogManagement/v4/serviceCandidate`
 }

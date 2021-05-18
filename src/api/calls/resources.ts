@@ -4,14 +4,14 @@ import axios from 'api/instance'
 import { endpoints } from 'api/endpoints'
 import { TransformDataResourceCandidate } from 'api/utils'
 /** Types */
-import { ApiResourceCandidate } from 'types/api'
+import { ApiResourceCandidate, ApiProductSpecification } from 'types/api'
 
 const getAllCandidates = async (params?: any): Promise<ApiResourceCandidate[]> => {
   try {
     const response = await axios.get(endpoints.RESOURCE_CANDIDATE, { params })
     return TransformDataResourceCandidate(response.data)
   } catch (e) {
-    console.log(e)
+    console.log({ e })
     throw new Error('error')
   }
 }
@@ -19,9 +19,7 @@ const getAllCandidates = async (params?: any): Promise<ApiResourceCandidate[]> =
 const getCandidateById = async (candidateIds: string): Promise<ApiResourceCandidate[]> => {
   try {
     const ids = candidateIds.split(',')
-    const response = await Promise.allSettled(
-      ids.map(id => axios.get(`${endpoints.RESOURCE_CANDIDATE}/${id}`))
-    )
+    const response = await Promise.allSettled(ids.map((id) => axios.get(`${endpoints.RESOURCE_CANDIDATE}/${id}`)))
 
     const newResponse = response.reduce((acc: any, item: any) => {
       if (item.status === 'fulfilled') {
@@ -32,12 +30,34 @@ const getCandidateById = async (candidateIds: string): Promise<ApiResourceCandid
 
     return newResponse
   } catch (e) {
-    console.log(e)
+    console.log({ e })
+    throw new Error('error')
+  }
+}
+
+const useAllProductSpecification = async (params?: any): Promise<ApiProductSpecification[]> => {
+  try {
+    const response = await axios.get(endpoints.PRODUCT_SPECIFICATION, { params })
+    return response.data
+  } catch (e) {
+    console.log({ e })
+    throw new Error('error')
+  }
+}
+
+const getProductSpecificationById = async (id: string): Promise<ApiProductSpecification> => {
+  try {
+    const response = await axios.get(`${endpoints.PRODUCT_SPECIFICATION}/${id}`)
+    return response.data
+  } catch (e) {
+    console.log({ e })
     throw new Error('error')
   }
 }
 
 export default {
   getAllCandidates,
-  getCandidateById
+  getCandidateById,
+  useAllProductSpecification,
+  getProductSpecificationById
 }

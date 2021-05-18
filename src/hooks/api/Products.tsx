@@ -9,6 +9,9 @@ export const useCreateSpecification = (body: any) => {
   return useMutation(['allCandidates', body], () => api.products.createSpecification(body))
 }
 
-export const useCreateOffering = (body: string) => {
-  return useMutation(['candidate', body], () => api.products.createOffering(body))
+export const useCreateOffering = () => {
+  return useMutation(['candidate'], (body: any) => api.products.createOffering(body))
 }
+
+// change later
+export const useSearchOffers = () => useMutation<any, any, any>((params: any) => api.products.getProductOffers(params))
