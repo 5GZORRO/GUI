@@ -389,7 +389,7 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                       <CRow>
                         <p className={'text-light mb-2'}>Valid for: </p>
                       </CRow>
-                      {el?.valideFor && (
+                      {el?.validFor && (
                         <CRow>
                           <CCol xs="6">
                             <p className={'text-light mb-2'}>From:</p>{' '}

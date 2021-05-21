@@ -15,6 +15,7 @@ const createSpecification = async (body: any): Promise<any> => {
 
 const createOffering = async (body: any): Promise<any> => {
   try {
+    // CREATE PRODUCT SPECIFICATION WITH RESOURCE SPECIFICATION
     const response = await axios.post(endpoints.PRODUCT_OFFERING, body)
     return response.data
   } catch (e) {

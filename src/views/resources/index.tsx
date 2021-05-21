@@ -19,20 +19,19 @@ import {
   CTabPane,
   CTabs
 } from '@coreui/react'
-import { IconRAM } from 'assets/icons/externalIcons'
 import { DATETIME_FORMAT } from 'config'
 
 import { useHistory } from 'react-router-dom'
 import dayjs from 'dayjs'
 
-import { useAllProductSpecification } from 'hooks/api/Resources'
+import { useAllResourceSpecifications } from 'hooks/api/Resources'
 
 const fields = [
   'name',
   'version',
   {
     key: 'category',
-    label: 'Categories'
+    label: 'Category'
   },
   'lifecycleStatus',
   {
@@ -45,7 +44,7 @@ const fields = [
 
 const Resources: React.FC = () => {
   const history = useHistory()
-  const { data, isLoading } = useAllProductSpecification()
+  const { data, isLoading } = useAllResourceSpecifications()
 
   const [modal, setModal] = useState<any | null>(null)
 
@@ -53,11 +52,11 @@ const Resources: React.FC = () => {
     setModal(() => data)
   }
 
-  const arrayToStringsData = (item: any, property: string) => <td>{item?.map((el: any) => el[property]).join(', ')}</td>
+  console.log(modal)
 
   return (
     <CContainer>
-      <CModal show={modal != null} onClose={() => setModal(false)} size="lg">
+      <CModal show={modal != null} onClose={() => setModal(null)} size="lg">
         <CModalHeader closeButton>
           <h5>Resource Details</h5>
         </CModalHeader>
@@ -70,16 +69,6 @@ const Resources: React.FC = () => {
                 </CNavLink>
               </CNavItem>
               <CNavItem>
-                <CNavLink className={'pl-0 mb-4'} data-tab="physicalCap" color={'#6C6E7E'}>
-                  Resource - Physical Capabilities
-                </CNavLink>
-              </CNavItem>
-              <CNavItem>
-                <CNavLink className={'pl-0 mb-4'} data-tab="virtualCap" color={'#6C6E7E'}>
-                  Resource - Virtual Capabilities
-                </CNavLink>
-              </CNavItem>
-              <CNavItem>
                 <CNavLink className={'pl-0 mb-4'} data-tab="resourceCharacteristics" color={'#6C6E7E'}>
                   Resource Characteristics
                 </CNavLink>
@@ -89,197 +78,137 @@ const Resources: React.FC = () => {
               <CTabPane data-tab="resourceSpecification">
                 <CRow className={'mt-4'}>
                   <CCol>
+                    <p className={'text-light mb-2'}>Name</p>
                     <p className={'font-weight-bold font-18 mb-4'}>{modal?.name}</p>
+                  </CCol>
+                  <CCol>
+                    <p className={'text-light mb-2'}>Category</p>
+                    <p className={'font-16 mb-4'}>{modal?.category}</p>
+                  </CCol>
+                </CRow>
+                <CRow className={'mt-2'}>
+                  <CCol>
                     <p className={'text-light mb-2'}>Description</p>
                     <p className={'font-16 mb-4'}>{modal?.description}</p>
-                    {modal?.valideFor && (
+                  </CCol>
+                </CRow>
+                <CRow>
+                  <CCol>
+                    <p className={'text-light mb-2'}>Bundle</p>
+                    <p className={'font-16 mb-4'}>{modal?.isBundle ? 'True' : 'False'}</p>
+                  </CCol>
+                  <CCol>
+                    {modal?.version && (
+                      <>
+                        <p className={'text-light mb-1'}>Version</p>
+                        <p className={'font-16 text-white'}>{modal?.version}</p>
+                      </>
+                    )}
+                  </CCol>
+                </CRow>
+                {modal?.validFor && (
+                  <CRow>
+                    <CCol xs="6">
+                      <p className={'text-light mb-2'}>From:</p>{' '}
+                      <p>
+                        {dayjs(modal?.validFor?.startDateTime).isValid()
+                          ? dayjs(modal?.validFor?.startDateTime).format(DATETIME_FORMAT)
+                          : '-'}
+                      </p>
+                    </CCol>
+                    <CCol xs="6">
+                      <p className={'text-light mb-2'}>To:</p>{' '}
+                      <p>
+                        {dayjs(modal?.validFor?.endDateTime).isValid()
+                          ? dayjs(modal?.validFor?.endDateTime).format(DATETIME_FORMAT)
+                          : '-'}
+                      </p>
+                    </CCol>
+                  </CRow>
+                )}
+              </CTabPane>
+              <CTabPane
+                data-tab="resourceCharacteristics"
+                style={{
+                  maxHeight: '24rem',
+                  overflowY: 'scroll'
+                }}
+              >
+                {modal?.resourceSpecCharacteristic?.map((el: any, index: number) => (
+                  <CContainer
+                    key={`resourceCharacteristics-${index}`}
+                    style={{ borderBottom: '1px solid #6C6E7E', marginBottom: '1rem' }}
+                  >
+                    <CRow className={'mt-4'}>
+                      <CCol>
+                        <p className={'text-light mb-2'}>Name</p>
+                        <p className={'font-16 mb-4'}>{el?.name}</p>
+                      </CCol>
+                    </CRow>
+                    <CRow className={'mt-4'}>
+                      <CCol>
+                        <p className={'text-light mb-2'}>Description</p>
+                        <p className={'font-16 mb-4'}>{el?.description}</p>
+                      </CCol>
+                    </CRow>
+                    <CRow className={'mt-4'}>
+                      <CCol>
+                        <p className={'text-light mb-2'}>Unique</p>
+                        <p className={'font-16 mb-4'}>{el?.isUnique ? 'True' : 'False'}</p>
+                      </CCol>
+                      <CCol>
+                        <p className={'text-light mb-2'}>Extensible</p>
+                        <p className={'font-16 mb-4'}>{el?.extensible ? 'True' : 'False'}</p>
+                      </CCol>
+                      <CCol>
+                        <p className={'text-light mb-2'}>Configurable</p>
+                        <p className={'font-16 mb-4'}>{el?.configurable ? 'True' : 'False'}</p>
+                      </CCol>
+                    </CRow>
+                    {el?.minCardinality != null && el?.maxCardinality != null && (
+                      <CRow className={'mt-4'}>
+                        <CCol>
+                          <p className={'text-light mb-2'}>Cardinality</p>
+                        </CCol>
+
+                        <CCol>
+                          <p className={'text-light mb-2'}>From</p>
+
+                          <p className={'font-16 mb-4'}>{el?.minCardinality}</p>
+                        </CCol>
+                        <CCol>
+                          <p className={'text-light mb-2'}>To</p>
+
+                          <p className={'font-16 mb-4'}>{el?.maxCardinality}</p>
+                        </CCol>
+                      </CRow>
+                    )}
+                    {el?.validFor && (
                       <CRow>
-                        <CCol xs="6">
+                        <CCol>
+                          <p className={'text-light mb-2'}>Valid</p>
+                        </CCol>
+
+                        <CCol>
                           <p className={'text-light mb-2'}>From:</p>{' '}
                           <p>
-                            {dayjs(modal?.validFor?.startDateTime).isValid()
-                              ? dayjs(modal?.validFor?.startDateTime).format(DATETIME_FORMAT)
+                            {dayjs(el?.validFor?.startDateTime).isValid()
+                              ? dayjs(el?.validFor?.startDateTime).format(DATETIME_FORMAT)
                               : '-'}
                           </p>
                         </CCol>
-                        <CCol xs="6">
+                        <CCol>
                           <p className={'text-light mb-2'}>To:</p>{' '}
                           <p>
-                            {dayjs(modal?.validFor?.endDateTime).isValid()
-                              ? dayjs(modal?.validFor?.endDateTime).format(DATETIME_FORMAT)
+                            {dayjs(el?.validFor?.endDateTime).isValid()
+                              ? dayjs(el?.validFor?.endDateTime).format(DATETIME_FORMAT)
                               : '-'}
                           </p>
                         </CCol>
                       </CRow>
                     )}
-                    <CRow>
-                      <CCol>
-                        {modal?.version && (
-                          <>
-                            <p className={'text-light mb-1'}>Version</p>
-                            <p className={'font-16 text-white'}>{modal?.version}</p>
-                          </>
-                        )}
-                        {modal?.category &&
-                          modal?.category?.map((el: any) => (
-                            <CRow key={`resourceDetail-category-${el?.id}`}>
-                              <p className={'text-light mb-1'}>Name</p>
-                              <p className={'font-16 text-white'}>{el?.name}</p>
-                            </CRow>
-                          ))}
-                      </CCol>
-                    </CRow>
-                  </CCol>
-                </CRow>
-              </CTabPane>
-              <CTabPane data-tab="physicalCap">
-                <CRow className={'my-4'}>
-                  <CCol>
-                    <p className={'font-weight-bold font-18 mb-4'}>Name Label Resource- Physical Capabilities</p>
-                    <p className={'text-light mb-2'}>Description</p>
-                    <p className={'font-16 mb-4'}>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                      labore et dolore magna aliqua.
-                    </p>
-                    <CRow>
-                      <CCol>
-                        <p className={'text-light mb-1'}>Cloud Id</p>
-                        <p className={'font-16 text-white'}>Cloud Id Label</p>
-                        <p className={'text-light mb-1'}>Node Id</p>
-                        <p className={'font-16 text-white'}>Node Id Label</p>
-                        <p className={'text-light mb-1'}>Resource Specification</p>
-                        <p className={'font-16 text-white'}>Resource Specification Label</p>
-                      </CCol>
-                      <CCol>
-                        <p className={'text-light mb-1'}>Data Center Id</p>
-                        <p className={'font-16 text-white'}>Data Center Id Label</p>
-                      </CCol>
-                    </CRow>
-                  </CCol>
-                </CRow>
-                <CRow className={'mb-4'}>
-                  <CCol>
-                    <p className={'font-weight-bold font-16 text-light mb-4'}>Hardware Capabilities</p>
-                    <IconRAM fill={'#fff'} />
-                    <span className={'ml-2 font-weight-bold'}>RAM</span>
-                    <div className={'mt-3'}>
-                      <CRow>
-                        <CCol xs={4} className={'text-light'}>
-                          <span>Hardware Cap Value</span>
-                        </CCol>
-                        <CCol xs={8}>
-                          <span className={'font-weight-bold text-gradient'}>64G</span>
-                        </CCol>
-                      </CRow>
-                      <CRow className={'mt-2'}>
-                        <CCol xs={4} className={'text-light'}>
-                          <span>Hardware Cap Unit</span>
-                        </CCol>
-                        <CCol xs={8}>
-                          <span className={'font-weight-bold'}>4 unit</span>
-                        </CCol>
-                      </CRow>
-                      <CRow className={'mt-2'}>
-                        <CCol xs={4} className={'text-light'}>
-                          <span>Hardware Cap Quota</span>
-                        </CCol>
-                        <CCol xs={8}>
-                          <span className={'font-weight-bold'}>8G</span>
-                        </CCol>
-                      </CRow>
-                    </div>
-                  </CCol>
-                </CRow>
-                <CRow>
-                  <CCol>
-                    <p className={'font-weight-bold font-16 text-light'}>Feature</p>
-                    <p className={'text-light'}>Href</p>
-                    <p className={'text-light'}>www.ubiwhere.com</p>
-                  </CCol>
-                </CRow>
-              </CTabPane>
-              <CTabPane data-tab="virtualCap">
-                <CRow className={'my-4'}>
-                  <CCol>
-                    <p className={'font-weight-bold font-18 mb-4'}>Name Label Resource - Virtual Capabilities</p>
-                    <p className={'text-light mb-2'}>Description</p>
-                    <p className={'font-16 mb-4'}>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                      labore et dolore magna aliqua.
-                    </p>
-                    <CRow>
-                      <CCol>
-                        <p className={'text-light mb-1'}>Cloud Id</p>
-                        <p className={'font-16 text-white'}>Cloud Id Label</p>
-                        <p className={'text-light mb-1'}>Node Id</p>
-                        <p className={'font-16 text-white'}>Node Id Label</p>
-                        <p className={'text-light mb-1'}>Type</p>
-                        <p className={'font-16 text-white'}>Type Label</p>
-                      </CCol>
-                      <CCol>
-                        <p className={'text-light mb-1'}>Data Center Id</p>
-                        <p className={'font-16 text-white'}>Data Center Id Label</p>
-                        <p className={'text-light mb-1'}>Is Master</p>
-                        <p className={'font-16 text-white'}>False</p>
-                      </CCol>
-                    </CRow>
-                  </CCol>
-                </CRow>
-                <CRow className={'mb-4'}>
-                  <CCol>
-                    <p className={'font-weight-bold font-16 text-light mb-4'}>Virtual Capabilities</p>
-                    <IconRAM fill={'#fff'} />
-                    <span className={'ml-2 font-weight-bold'}>Cloud</span>
-                    <div className={'mt-3'}>
-                      <CRow>
-                        <CCol xs={4} className={'text-light'}>
-                          <span>Virtual Cap Value</span>
-                        </CCol>
-                        <CCol xs={8}>
-                          <span className={'font-weight-bold text-gradient'}>64G</span>
-                        </CCol>
-                      </CRow>
-                      <CRow className={'mt-2'}>
-                        <CCol xs={4} className={'text-light'}>
-                          <span>Virtual Cap Unit</span>
-                        </CCol>
-                        <CCol xs={8}>
-                          <span className={'font-weight-bold'}>4 unit</span>
-                        </CCol>
-                      </CRow>
-                    </div>
-                  </CCol>
-                </CRow>
-              </CTabPane>
-              <CTabPane data-tab="resourceCharacteristics">
-                <CRow className={'mt-4'}>
-                  <CCol>
-                    <CRow>
-                      <CCol>
-                        <p className={'text-light mb-1'}>Name</p>
-                        <p className={'font-weight-bold font-18 mb-4'}>{modal?.resourceSpecification?.name}</p>
-                      </CCol>
-                    </CRow>
-                    <CRow>
-                      <CCol>
-                        {modal?.resourceSpecification?.id && (
-                          <>
-                            <p className={'text-light mb-1'}>ID</p>
-                            <p className={'font-16 text-white'}>{modal?.resourceSpecification?.id}</p>
-                          </>
-                        )}
-                      </CCol>
-                      <CCol>
-                        {modal?.resourceSpecification?.version && (
-                          <>
-                            <p className={'text-light mb-1'}>Version</p>
-                            <p className={'font-16 text-white'}>{modal?.resourceSpecification?.version}</p>
-                          </>
-                        )}
-                      </CCol>
-                    </CRow>
-                  </CCol>
-                </CRow>
+                  </CContainer>
+                ))}
               </CTabPane>
             </CTabContent>
           </CTabs>
@@ -302,7 +231,7 @@ const Resources: React.FC = () => {
       </CRow>
       <CCard>
         <CCardHeader>
-          <h5>Resource Candidate</h5>
+          <h5>Resource Specification</h5>
         </CCardHeader>
         <CCardBody>
           <CDataTable
@@ -321,7 +250,7 @@ const Resources: React.FC = () => {
               lifecycleStatus: (item: any) => {
                 return <td className="py-2">{item?.lifecycleStatus ? item?.lifecycleStatus : '-'}</td>
               },
-              category: (item: any) => arrayToStringsData(item?.category, 'name'),
+              category: (item: any) => <td>{item?.category ?? '-'}</td>,
               show_details: (item: any) => {
                 return (
                   <td className="py-2">

@@ -28,6 +28,12 @@ export default [
     icon: 'cilFlagAlt'
   },
   {
+    _tag: 'CSidebarNavItem',
+    name: 'Licences',
+    to: '/licences',
+    icon: 'cilFlagAlt'
+  },
+  {
     _tag: 'CSidebarNavTitle',
     _children: ['Marketplace']
   },

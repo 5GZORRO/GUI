@@ -35,7 +35,7 @@ const ProductDetail: React.FC = () => {
   const history = useHistory()
   const { id } = useParams<{ id?: string | undefined }>()
 
-  const { data, mutate, isSuccess, isLoading } = useCreateOffering()
+  const { mutate, isSuccess } = useCreateOffering()
 
   useEffect(() => {
     if (isSuccess) {
@@ -50,10 +50,11 @@ const ProductDetail: React.FC = () => {
   return (
     <CContainer>
       <h1 className={'mb-5'}>New Product Offer</h1>
-      {id && <CardProdDetail id={id} methods={methods} />}
       <FormProvider {...methods}>
         <CForm onSubmit={methods.handleSubmit(onSubmit)}>
           <FormCreateOffer />
+          {id && <CardProdDetail id={id} />}
+
           <div className={'mt-5 d-flex justify-content-between mb-5'}>
             <CButton
               className={'text-uppercase px-5 d-flex align-items-center'}

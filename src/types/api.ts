@@ -275,3 +275,280 @@ export interface ApiProductSpecification {
   }
   version: string
 }
+
+export interface ApiResourceSpecification {
+  id: string
+  attachment: [
+    {
+      description: string
+      id: string
+      name: string
+      url: string
+    }
+  ]
+  category: string
+  description: string
+  feature: [
+    {
+      id: string
+      isBundle: true
+      isEnabled: true
+      name: string
+      validFor: {
+        endDateTime: string
+        startDateTime: string
+      }
+      version: string
+    }
+  ]
+  isBundle: boolean
+  lastUpdate: string
+  lifecycleStatus: string
+  name: string
+  relatedParty: [
+    {
+      extendedInfo: string
+      id: string
+      name: string
+      role: string
+    }
+  ]
+  resourceSpecCharacteristic: [
+    {
+      configurable: true
+      description: string
+      extensible: true
+      isUnique: boolean
+      maxCardinality: number
+      minCardinality: number
+      name: string
+      regex: string
+      resourceSpecCharRelationship: [
+        {
+          id: string
+          name: string
+          relationshipType: string
+          validFor: {
+            endDateTime: string
+            startDateTime: string
+          }
+        }
+      ]
+      resourceSpecCharacteristicValue: [
+        {
+          isDefault: boolean
+          rangeInterval: string
+          regex: string
+          unitOfMeasure: string
+          validFor: {
+            endDateTime: string
+            startDateTime: string
+          }
+          value: {
+            alias: string
+            value: string
+          }
+          valueFrom: number
+          valueTo: number
+          valueType: string
+        }
+      ]
+      validFor: {
+        endDateTime: string
+        startDateTime: string
+      }
+      valueType: string
+    }
+  ]
+  resourceSpecRelationship: [
+    {
+      id: string
+      name: string
+      relationshipType: string
+      role: string
+      validFor: {
+        endDateTime: string
+        startDateTime: string
+      }
+    }
+  ]
+  targetResourceSchema: {
+    href: string
+  }
+  validFor: {
+    endDateTime: string
+    startDateTime: string
+  }
+  version: string
+}
+
+export interface ApiProductOfferPrice {
+  bundledPopRelationship: [
+    {
+      description: string
+      id: string
+      lastUpdate: string
+      lifecycleStatus: string
+      lifecycleStatusEnum: string
+      name: string
+      validFor: {
+        endDateTime: string
+        startDateTime: string
+      }
+      version: string
+    }
+  ]
+  constraint: [
+    {
+      description: string
+      id: string
+      lastUpdate: string
+      lifecycleStatus: string
+      lifecycleStatusEnum: string
+      name: string
+      validFor: {
+        endDateTime: string
+        startDateTime: string
+      }
+      version: string
+    }
+  ]
+  description: string
+  isBundle: boolean
+  lastUpdate: string
+  lifecycleStatus: string
+  name: string
+  percentage: number
+  place: [
+    {
+      id: string
+      name: string
+      role: string
+    }
+  ]
+  popRelationship: [
+    {
+      description: string
+      id: string
+      lastUpdate: string
+      lifecycleStatus: string
+      lifecycleStatusEnum: string
+      name: string
+      relationshipType: string
+      validFor: {
+        endDateTime: string
+        startDateTime: string
+      }
+      version: string
+    }
+  ]
+  price: {
+    unit: string
+    value: number
+  }
+  priceType: string
+  pricingLogicAlgorithm: [
+    {
+      description: string
+      id: string
+      lastUpdate: string
+      lifecycleStatus: string
+      lifecycleStatusEnum: string
+      name: string
+      plaSpecId: string
+      validFor: {
+        endDateTime: string
+        startDateTime: string
+      }
+      version: string
+    }
+  ]
+  prodSpecCharValueUse: [
+    {
+      description: string
+      lastUpdate: string
+      lifecycleStatus: string
+      lifecycleStatusEnum: string
+      maxCardinality: number
+      minCardinality: number
+      name: string
+      productSpecCharacteristicValue: [
+        {
+          isDefault: boolean
+          rangeInterval: string
+          regex: string
+          unitOfMeasure: string
+          validFor: {
+            endDateTime: string
+            startDateTime: string
+          }
+          value: {
+            alias: string
+            value: string
+          }
+          valueFrom: string
+          valueTo: string
+          valueType: string
+        }
+      ]
+      productSpecification: {
+        description: string
+        id: string
+        lastUpdate: string
+        lifecycleStatus: string
+        lifecycleStatusEnum: string
+        name: string
+        validFor: {
+          endDateTime: string
+          startDateTime: string
+        }
+        version: string
+      }
+      validFor: {
+        endDateTime: string
+        startDateTime: string
+      }
+      valueType: string
+      version: string
+    }
+  ]
+  productOfferingTerm: [
+    {
+      description: string
+      duration: {
+        amount: number
+        units: string
+      }
+      lastUpdate: string
+      lifecycleStatus: string
+      lifecycleStatusEnum: string
+      name: string
+      validFor: {
+        endDateTime: string
+        startDateTime: string
+      }
+      version: string
+    }
+  ]
+  recurringChargePeriodLength: number
+  recurringChargePeriodType: string
+  tax: [
+    {
+      taxAmount: {
+        unit: string
+        value: number
+      }
+      taxCategory: string
+      taxRate: number
+    }
+  ]
+  unitOfMeasure: {
+    amount: number
+    units: string
+  }
+  validFor: {
+    endDateTime: string
+    startDateTime: string
+  }
+  version: string
+}

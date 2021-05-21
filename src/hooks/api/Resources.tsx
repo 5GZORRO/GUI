@@ -23,3 +23,21 @@ export const useGetMembers = (params?: any) => {
     keepPreviousData: true
   })
 }
+
+export const useAllResourceSpecifications = (params?: any) => {
+  return useQuery(['allResourceSpecifications', params], () => api.resources.useAllResourceSpecifications(params), {
+    keepPreviousData: true
+  })
+}
+
+export const useResourceSpecifications = (id: string) => {
+  return useQuery(['resourceSpecifications', id], () => api.resources.getResourceSpecificationsById(id), {
+    keepPreviousData: true
+  })
+}
+
+export const useAllProductPrice = (params?: any) => {
+  return useQuery(['allProductPrices', params], () => api.resources.getProductPrices(params), {
+    keepPreviousData: true
+  })
+}

@@ -13,6 +13,7 @@ const NewPhysicalResource = React.lazy(() => import('./views/resources/newPhysic
 const NewVirtualResource = React.lazy(() => import('./views/resources/newVirtualResource'))
 const NewCategory = React.lazy(() => import('./views/resources/newCategory'))
 const SLA = React.lazy(() => import('./views/slas'))
+const Licences = React.lazy(() => import('./views/licences'))
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -24,11 +25,20 @@ const routes = [
   { exact: true, path: '/resource', name: 'Resource & Services', component: Resources },
   { exact: true, path: '/resource/new-resource', name: 'Create Resource & Service', component: NewResource },
   { path: '/resource/new-resource/new-category', name: 'New Category', component: NewCategory },
-  { path: '/resource/new-resource/new-physical-resource', name: 'New Resource - Physical Capabilities', component: NewPhysicalResource },
-  { path: '/resource/new-resource/new-virtual-resource', name: 'New Resource - Virtual Capabilities', component: NewVirtualResource },
+  {
+    path: '/resource/new-resource/new-physical-resource',
+    name: 'New Resource - Physical Capabilities',
+    component: NewPhysicalResource
+  },
+  {
+    path: '/resource/new-resource/new-virtual-resource',
+    name: 'New Resource - Virtual Capabilities',
+    component: NewVirtualResource
+  },
   { path: '/membership', name: 'Membership', component: Membership },
   { path: '/proposals', name: 'Proposals', component: Proposals },
-  { path: '/sla', name: 'SLAs', component: SLA }
+  { path: '/sla', name: 'SLAs', component: SLA },
+  { path: '/licences', name: 'Licences', component: Licences }
 ]
 
 export default routes

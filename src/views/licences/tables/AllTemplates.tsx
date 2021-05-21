@@ -5,7 +5,7 @@ import { CDataTable, CButton } from '@coreui/react'
 // import dayjs from 'dayjs'
 /** Hooks */
 import { DATETIME_FORMAT } from 'config'
-import { useAllTemplates } from 'hooks/api/SLA'
+import { useAllTemplates } from 'hooks/api/Licences'
 import dayjs from 'dayjs'
 
 export const AllTemplates: React.FC = () => {
