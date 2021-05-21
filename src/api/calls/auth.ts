@@ -36,8 +36,7 @@ const registerOrganization = async (body: ApiOrganizationBody) => {
 const verifyClient = async (body: ApiLoginBody) => {
   try {
     const response = await axios.post(endpoints.LOGIN, { ...body })
-    const newResponse = response.data
-    return newResponse
+    return response.data
   } catch (e) {
     console.log({ e })
     throw new Error('error')

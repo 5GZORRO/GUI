@@ -1,4 +1,4 @@
-import { VERIFICATION_KEY } from 'config'
+import { VERIFICATION_KEY, LEDGER_IDENTITY } from 'config'
 import { InputRegister } from 'types/forms'
 import lowerCase from 'lodash.lowercase'
 import startCase from 'lodash.startcase'
@@ -38,7 +38,8 @@ export const transformForm = (form: InputRegister) => {
         distributionList: form.email
       }
     },
-    handler_url: form.handler_url
+    handler_url: form.handler_url,
+    ledgerIdentity: LEDGER_IDENTITY
   }
   return newData
 }
@@ -51,7 +52,7 @@ interface AssetsProps {
 export const schemaRegister = yup.object().shape({
   name: yup.string().required(),
   email: yup.string().required(),
-  handler_url: yup.string().url().required(),
+  // handler_url: yup.string().url().required(),
   governanceDID: yup.string().required(),
   address: yup.string().required(),
   roles: yup.object().shape({

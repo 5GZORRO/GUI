@@ -110,8 +110,10 @@
   },
   "scripts": {
     "start": "cross-env APP_ENV=development node scripts/start.js",
-    "start:fake": "cross-env APP_ENV=fake node scripts/start.js",
-    "build": "cross-env APP_ENV=production node scripts/build.js",
+    "start:operatorB": "cross-env APP_ENV=operatorB node scripts/start.js",
+    "start:operatorC": "cross-env APP_ENV=operatorC node scripts/start.js",
+    "build:operatorB": "cross-env APP_ENV=operatorB node scripts/build.js",
+    "build:operatorC": "cross-env APP_ENV=operatorC node scripts/build.js",
     "test": "node scripts/test.js --coverage",
     "test:watch": "node scripts/test.js",
     "eject": "react-scripts eject",

@@ -553,7 +553,7 @@ const Register: React.FC = () => {
                           )}
                         </CFormGroup>
                         <CFormGroup className={'mb-2'}>
-                          <CLabel>Email</CLabel>
+                          <CLabel>Email(s)</CLabel>
                           <CInputGroup>
                             <CInputGroupPrepend>
                               <CInputGroupText>
@@ -582,7 +582,7 @@ const Register: React.FC = () => {
                             </CFormText>
                           )}
                         </CFormGroup>
-                        <CFormGroup className={'mb-2'}>
+                        {/* <CFormGroup className={'mb-2'}>
                           <CLabel>DID Status handler</CLabel>
                           <CInputGroup>
                             <CInputGroupPrepend>
@@ -611,7 +611,7 @@ const Register: React.FC = () => {
                               Please enter a url
                             </CFormText>
                           )}
-                        </CFormGroup>
+                        </CFormGroup> */}
                         <CFormGroup className={'mb-4'}>
                           <CLabel>Address</CLabel>
                           <CInputGroup>
