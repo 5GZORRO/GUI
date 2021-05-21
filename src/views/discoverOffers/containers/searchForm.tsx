@@ -4,6 +4,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { ArrowDownIcon } from 'assets/icons/externalIcons'
 import { useSearchOffers } from 'hooks/api/Products'
 import CIcon from '@coreui/icons-react'
+import { DATETIME_FORMAT } from 'config'
 import dayjs from 'dayjs'
 
 import {
@@ -314,11 +315,7 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                   </CCol>
                   <CCol xs="6">
                     <p className={'text-light mb-2'}>Last Update:</p>{' '}
-                    <p>
-                      {dayjs(modal?.lastUpdate).isValid()
-                        ? dayjs(modal?.lastUpdate).format('YYYY-MM-DD HH:mm:ss')
-                        : '-'}
-                    </p>
+                    <p>{dayjs(modal?.lastUpdate).isValid() ? dayjs(modal?.lastUpdate).format(DATETIME_FORMAT) : '-'}</p>
                   </CCol>
                 </CRow>
                 <CRow>
@@ -386,11 +383,7 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                         </CCol>
                         <CCol xs="6">
                           <p className={'text-light mb-2'}>Last Update:</p>
-                          <p>
-                            {dayjs(el?.lastUpdate).isValid()
-                              ? dayjs(el?.lastUpdate).format('YYYY-MM-DD HH:mm:ss')
-                              : '-'}
-                          </p>
+                          <p>{dayjs(el?.lastUpdate).isValid() ? dayjs(el?.lastUpdate).format(DATETIME_FORMAT) : '-'}</p>
                         </CCol>
                       </CRow>
                       <CRow>
@@ -402,7 +395,7 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                             <p className={'text-light mb-2'}>From:</p>{' '}
                             <p>
                               {dayjs(el?.validFor?.startDateTime).isValid()
-                                ? dayjs(el?.validFor?.startDateTime).format('YYYY-MM-DD HH:mm:ss')
+                                ? dayjs(el?.validFor?.startDateTime).format(DATETIME_FORMAT)
                                 : '-'}
                             </p>
                           </CCol>
@@ -410,7 +403,7 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                             <p className={'text-light mb-2'}>To:</p>{' '}
                             <p>
                               {dayjs(el?.validFor?.endDateTime).isValid()
-                                ? dayjs(el?.validFor?.endDateTime).format('YYYY-MM-DD HH:mm:ss')
+                                ? dayjs(el?.validFor?.endDateTime).format(DATETIME_FORMAT)
                                 : '-'}
                             </p>
                           </CCol>

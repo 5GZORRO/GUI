@@ -1,36 +1,21 @@
 /* eslint-disable react/display-name */
 /* eslint-disable no-undef */
 import React, { useState } from 'react'
-import {
-  CDataTable,
-  CInputCheckbox,
-  CLabel,
-  CButton,
-  CFormGroup
-} from '@coreui/react'
+import { CDataTable, CButton } from '@coreui/react'
 // import dayjs from 'dayjs'
 /** Hooks */
+import { DATETIME_FORMAT } from 'config'
 import { useAllTemplates } from 'hooks/api/SLA'
+import dayjs from 'dayjs'
 
-export const AllTemplates:React.FC = () => {
-  const [selected, setSelected] = useState([2, 3])
-
-  /* const params:any = {
-    page,
-    // columnFilterValue: JSON.stringify(columnFilterValue),
-    // tableFilterValue,
-    // sorterValue: JSON.stringify(sorterValue),
-    pageSize
-  } */
-
+export const AllTemplates: React.FC = () => {
   const { data, isLoading } = useAllTemplates()
 
   const fields = [
+    'id',
     'name',
-    'publisher',
     'status',
-    'version',
-    'DID',
+    'created',
     {
       key: 'show_details',
       label: '',
@@ -42,33 +27,35 @@ export const AllTemplates:React.FC = () => {
   console.log(data)
   return (
     <CDataTable
-        cleaner
-        loading={isLoading}
-        items={data}
-        columnFilter
-        tableFilter
-        clickableRows
-        fields={fields}
-        itemsPerPage={5}
-        scopedSlots={{
-          show_details: () => {
-            return (
-            <td className='py-2'>
-                <CButton
-                color='primary'
-                className={'text-uppercase'}
-                shape='square'
-                onClick={() => console.log('asda')}
-                >
-                {'Show'}
-                </CButton>
+      cleaner
+      loading={isLoading}
+      items={data}
+      columnFilter
+      tableFilter
+      clickableRows
+      fields={fields}
+      itemsPerPage={5}
+      scopedSlots={{
+        created: (item: any) => {
+          return (
+            <td className="py-2">
+              {dayjs(item?.created).isValid() ? dayjs(item?.created).format(DATETIME_FORMAT) : '-'}
             </td>
-            )
-          }
-        }}
-        sorter
-        hover
-        pagination
+          )
+        },
+        show_details: () => {
+          return (
+            <td className="py-2">
+              <CButton color="primary" className={'text-uppercase'} shape="square" onClick={() => console.log('asda')}>
+                {'Show'}
+              </CButton>
+            </td>
+          )
+        }
+      }}
+      sorter
+      hover
+      pagination
     />
   )
 }

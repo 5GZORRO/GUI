@@ -24,6 +24,7 @@ import dayjs from 'dayjs'
 import { useAllProductSpecification } from 'hooks/api/Resources'
 import { useHistory, Link } from 'react-router-dom'
 import { IconRAM } from 'assets/icons/externalIcons'
+import { DATETIME_FORMAT } from 'config'
 
 const fields = [
   { key: 'select', label: '', filter: false, sorter: false },
@@ -105,7 +106,7 @@ const NewProductOffer: React.FC = () => {
                           <p className={'text-light mb-2'}>From:</p>{' '}
                           <p>
                             {dayjs(modalInfo?.validFor?.startDateTime).isValid()
-                              ? dayjs(modalInfo?.validFor?.startDateTime).format('YYYY-MM-DD HH:mm:ss')
+                              ? dayjs(modalInfo?.validFor?.startDateTime).format(DATETIME_FORMAT)
                               : '-'}
                           </p>
                         </CCol>
@@ -113,7 +114,7 @@ const NewProductOffer: React.FC = () => {
                           <p className={'text-light mb-2'}>To:</p>{' '}
                           <p>
                             {dayjs(modalInfo?.validFor?.endDateTime).isValid()
-                              ? dayjs(modalInfo?.validFor?.endDateTime).format('YYYY-MM-DD HH:mm:ss')
+                              ? dayjs(modalInfo?.validFor?.endDateTime).format(DATETIME_FORMAT)
                               : '-'}
                           </p>
                         </CCol>

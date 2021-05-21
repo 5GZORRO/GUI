@@ -1,17 +1,13 @@
 /* eslint-disable react/no-children-prop */
 import React, { Suspense } from 'react'
-import {
-  Redirect,
-  Route,
-  Switch
-} from 'react-router-dom'
+import { Redirect, Route, Switch } from 'react-router-dom'
 import { CContainer, CFade } from '@coreui/react'
 import { LogoVerticalWhite } from 'assets/icons/logos'
 // routes config
 import routes from 'routes'
 
 const loading = (
-  <div style={{ height: '100%' }} className='d-flex justify-content-center align-items-center'>
+  <div style={{ height: '100%' }} className="d-flex justify-content-center align-items-center">
     <LogoVerticalWhite />
   </div>
 )
@@ -23,16 +19,19 @@ const TheContent = () => {
         <Suspense fallback={loading}>
           <Switch>
             {routes.map((route, idx) => {
-              return route.component && (
-                <Route
-                  key={idx}
-                  path={route.path}
-                  exact={route.exact}
-                  children={() => (
-                    <CFade>
-                      <route.component />
-                    </CFade>
-                  )}/>
+              return (
+                route.component && (
+                  <Route
+                    key={idx}
+                    path={route.path}
+                    exact={route.exact}
+                    children={() => (
+                      <CFade>
+                        <route.component />
+                      </CFade>
+                    )}
+                  />
+                )
               )
             })}
             <Redirect from="/" to="/dashboard" />

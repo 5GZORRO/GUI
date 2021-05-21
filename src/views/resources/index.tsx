@@ -20,6 +20,7 @@ import {
   CTabs
 } from '@coreui/react'
 import { IconRAM } from 'assets/icons/externalIcons'
+import { DATETIME_FORMAT } from 'config'
 
 import { useHistory } from 'react-router-dom'
 import dayjs from 'dayjs'
@@ -97,7 +98,7 @@ const Resources: React.FC = () => {
                           <p className={'text-light mb-2'}>From:</p>{' '}
                           <p>
                             {dayjs(modal?.validFor?.startDateTime).isValid()
-                              ? dayjs(modal?.validFor?.startDateTime).format('YYYY-MM-DD HH:mm:ss')
+                              ? dayjs(modal?.validFor?.startDateTime).format(DATETIME_FORMAT)
                               : '-'}
                           </p>
                         </CCol>
@@ -105,7 +106,7 @@ const Resources: React.FC = () => {
                           <p className={'text-light mb-2'}>To:</p>{' '}
                           <p>
                             {dayjs(modal?.validFor?.endDateTime).isValid()
-                              ? dayjs(modal?.validFor?.endDateTime).format('YYYY-MM-DD HH:mm:ss')
+                              ? dayjs(modal?.validFor?.endDateTime).format(DATETIME_FORMAT)
                               : '-'}
                           </p>
                         </CCol>

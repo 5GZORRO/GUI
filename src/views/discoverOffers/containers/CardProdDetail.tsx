@@ -5,6 +5,8 @@ import CIcon from '@coreui/icons-react'
 import { useProductSpecification } from 'hooks/api/Resources'
 import dayjs from 'dayjs'
 
+import { DATETIME_FORMAT } from 'config'
+
 interface CardProps {
   id: string
   methods: any
@@ -42,7 +44,7 @@ const CardProdDetail: React.FC<CardProps> = ({ id, methods }) => {
                     <p className={'text-light mb-2'}>From:</p>{' '}
                     <p>
                       {dayjs(item?.validFor?.startDateTime).isValid()
-                        ? dayjs(item?.validFor?.startDateTime).format('YYYY-MM-DD HH:mm:ss')
+                        ? dayjs(item?.validFor?.startDateTime).format(DATETIME_FORMAT)
                         : '-'}
                     </p>
                   </CCol>
@@ -50,7 +52,7 @@ const CardProdDetail: React.FC<CardProps> = ({ id, methods }) => {
                     <p className={'text-light mb-2'}>To:</p>{' '}
                     <p>
                       {dayjs(item?.validFor?.endDateTime).isValid()
-                        ? dayjs(item?.validFor?.endDateTime).format('YYYY-MM-DD HH:mm:ss')
+                        ? dayjs(item?.validFor?.endDateTime).format(DATETIME_FORMAT)
                         : '-'}
                     </p>
                   </CCol>
