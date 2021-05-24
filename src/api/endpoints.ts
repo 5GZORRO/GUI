@@ -6,7 +6,7 @@ export const endpoints = {
   REGISTER_ORGANIZATION: `${API_MARKET_PLACE}/party/v4/organization`,
   LOGIN: `${API_IPM}/holder/read_stakeholder_status`,
   PRODUCT_SPECIFICATION: `${API_MARKET_PLACE}/productCatalogManagement/v4/productSpecification`,
-  PRODUCT_OFFERING: `${API_MARKET_PLACE}/productCatalogManagement/v4/productOffering`,
+  PRODUCT_OFFERING: `${API_MARKET_PLACE}/productCatalogManagement/v4/productOffering/filtered`,
   SMART_CONTRACT_MANAGEMENT: `${API_SMART_CONTRACT}/service-level-agreement`,
   LEGAL_PROSE_TEMPLATES: `${API_LPT}/api/v1/legal-prose-templates`,
   RESOURCE_SPECIFICATION: `${API_MARKET_PLACE}/resourceCatalogManagement/v2/resourceSpecification`,

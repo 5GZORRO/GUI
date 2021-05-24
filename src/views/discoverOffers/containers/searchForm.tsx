@@ -36,8 +36,10 @@ interface Search {
   search: string
   category: string
   location: string
-  price: string
-  provider: string
+  maxPrice: number
+  minPrice: number
+  currency: string
+  stakeholder: string
 }
 
 // /tmf-api/productCatalogManagement/v4/productOffering
@@ -54,11 +56,12 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
     reset
   } = useForm<Search>({
     defaultValues: {
-      search: '',
       category: '',
       location: '',
-      price: '',
-      provider: ''
+      maxPrice: 0.0,
+      minPrice: 0.0,
+      currency: '',
+      stakeholder: ''
     }
   })
 
@@ -69,13 +72,16 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
     'name',
     'category',
     {
-      key: 'place',
-      label: 'location'
+      key: 'location',
+      label: 'Location'
     },
-    'owner',
+    {
+      key: 'owner',
+      label: 'Stakeholder'
+    },
     {
       key: 'productOfferingPrice',
-      label: 'price'
+      label: 'Price'
     },
     {
       key: 'show_details',
@@ -91,8 +97,10 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
       search: '',
       category: '',
       location: '',
-      price: '',
-      provider: ''
+      maxPrice: 0.0,
+      minPrice: 0.0,
+      currency: '',
+      stakeholder: ''
     })
     mutationReset()
   }
@@ -146,23 +154,65 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
               )}
             </CFormGroup>
             <CFormGroup>
-              <CLabel>Price</CLabel>
-              <CInputGroup>
-                <Controller
-                  control={control}
-                  defaultValue={''}
-                  name="price"
-                  data-testid={'price'}
-                  render={({ field: { onChange, onBlur, value } }) => (
-                    <CInput placeholder={'- - - - , - -'} onChange={onChange} onBlur={onBlur} value={value} />
+              <CRow>
+                <CCol>
+                  <CLabel>Currency</CLabel>
+                  <CInputGroup>
+                    <Controller
+                      control={control}
+                      defaultValue={''}
+                      name="currency"
+                      data-testid={'currency'}
+                      render={({ field: { onChange, onBlur, value } }) => (
+                        <CInput placeholder={'Euro'} onChange={onChange} onBlur={onBlur} value={value} />
+                      )}
+                    />
+                  </CInputGroup>
+                  {errors.currency && (
+                    <CFormText className="help-block" data-testid="error-message">
+                      Please enter a valid currency
+                    </CFormText>
                   )}
-                />
-              </CInputGroup>
-              {errors.price && (
-                <CFormText className="help-block" data-testid="error-message">
-                  Please enter a valid price
-                </CFormText>
-              )}
+                </CCol>
+                <CCol>
+                  <CLabel>Min Price</CLabel>
+                  <CInputGroup>
+                    <Controller
+                      control={control}
+                      defaultValue={''}
+                      name="minPrice"
+                      data-testid={'minPrice'}
+                      render={({ field: { onChange, onBlur, value } }) => (
+                        <CInput placeholder={'000'} onChange={onChange} onBlur={onBlur} value={value} type={'number'} />
+                      )}
+                    />
+                  </CInputGroup>
+                  {errors.minPrice && (
+                    <CFormText className="help-block" data-testid="error-message">
+                      Please enter a valid number
+                    </CFormText>
+                  )}
+                </CCol>
+                <CCol>
+                  <CLabel>Max Price</CLabel>
+                  <CInputGroup>
+                    <Controller
+                      control={control}
+                      defaultValue={''}
+                      name="maxPrice"
+                      data-testid={'maxPrice'}
+                      render={({ field: { onChange, onBlur, value } }) => (
+                        <CInput placeholder={'000'} onChange={onChange} onBlur={onBlur} value={value} type={'number'} />
+                      )}
+                    />
+                  </CInputGroup>
+                  {errors.maxPrice && (
+                    <CFormText className="help-block" data-testid="error-message">
+                      Please enter a valid number
+                    </CFormText>
+                  )}
+                </CCol>
+              </CRow>
             </CFormGroup>
           </CCol>
           <CCol xs="6">
@@ -191,11 +241,11 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                 <Controller
                   control={control}
                   defaultValue={''}
-                  name="provider"
-                  data-testid={'provider'}
+                  name="stakeholder"
+                  data-testid={'stakeholder'}
                   render={({ field: { onChange, onBlur, value } }) => (
                     <CInput
-                      placeholder={'Enter provider preference'}
+                      placeholder={'Enter stakeholder preference'}
                       onChange={onChange}
                       onBlur={onBlur}
                       value={value}
@@ -203,9 +253,9 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                   )}
                 />
               </CInputGroup>
-              {errors.provider && (
+              {errors.stakeholder && (
                 <CFormText className="help-block" data-testid="error-message">
-                  Please enter a valid prodiver
+                  Please enter a valid stakeholder
                 </CFormText>
               )}
             </CFormGroup>
@@ -268,7 +318,7 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
             pagination
             scopedSlots={{
               category: (item: any) => arrayToStringsData(item?.category, 'name'),
-              place: (item: any) => arrayToStringsData(item?.place, 'name'),
+              location: (item: any) => arrayToStringsData(item?.place, 'name'),
               owner: (item: any) => arrayToStringsData(item?.owner, 'name'),
               productOfferingPrice: (item: any) => arrayToStringsData(item?.productOfferingPrice, 'name'),
               show_details: (item: any) => showButton(item)
@@ -282,9 +332,6 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
           <h5>{`Product Offer ${modal?.id}`}</h5>
         </CModalHeader>
         <CModalBody>
-          <p>
-            <b>TODO - DEFINE WHICH INFO TO SHOW</b>
-          </p>
           <CTabs activeTab="description">
             <CNav variant="pills">
               <CNavItem>
@@ -292,14 +339,21 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                   Description
                 </CNavLink>
               </CNavItem>
-              {modal?.category && (
+              {modal?.category?.length > 0 && (
                 <CNavItem>
                   <CNavLink className={'pl-0 mb-4'} data-tab="category" color={'#6C6E7E'}>
                     Categories
                   </CNavLink>
                 </CNavItem>
               )}
-              {modal?.isBundle && modal?.bundledProductOffering && (
+              {modal?.productOfferingPrice?.length > 0 && (
+                <CNavItem>
+                  <CNavLink className={'pl-0 mb-4'} data-tab="price" color={'#6C6E7E'}>
+                    Price
+                  </CNavLink>
+                </CNavItem>
+              )}
+              {modal?.isBundle && modal?.bundledProductOffering?.length && (
                 <CNavItem>
                   <CNavLink className={'pl-0 mb-4'} data-tab="bundle" color={'#6C6E7E'}>
                     Bundle
@@ -338,7 +392,7 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                 </CRow>
                 <CRow></CRow>
               </CTabPane>
-              {modal?.category && (
+              {modal?.category?.length > 0 && (
                 <CTabPane data-tab="category">
                   {modal?.category?.map((el: any) => (
                     <CContainer key={`category-${el?.id}`}>
@@ -362,10 +416,10 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                   ))}
                 </CTabPane>
               )}
-              {modal?.bundledProductOffering && (
+              {modal?.isBundle && modal?.bundledProductOffering?.length && (
                 <CTabPane data-tab="bundle">
                   {modal?.bundledProductOffering?.map((el: any) => (
-                    <CContainer key={`bundle-${el?.id}`}>
+                    <CContainer key={`bundle-${el?.id}`} style={{ borderBottom: '1px solid #6C6E7E', marginBottom: '1rem' }}>
                       <CRow>
                         <CCol xs="6">
                           <p className={'text-light mb-2'}>Id:</p>
@@ -388,6 +442,50 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                       </CRow>
                       <CRow>
                         <p className={'text-light mb-2'}>Valid for: </p>
+                      </CRow>
+                      {el?.validFor && (
+                        <CRow>
+                          <CCol xs="6">
+                            <p className={'text-light mb-2'}>From:</p>{' '}
+                            <p>
+                              {dayjs(el?.validFor?.startDateTime).isValid()
+                                ? dayjs(el?.validFor?.startDateTime).format(DATETIME_FORMAT)
+                                : '-'}
+                            </p>
+                          </CCol>
+                          <CCol xs="6">
+                            <p className={'text-light mb-2'}>To:</p>{' '}
+                            <p>
+                              {dayjs(el?.validFor?.endDateTime).isValid()
+                                ? dayjs(el?.validFor?.endDateTime).format(DATETIME_FORMAT)
+                                : '-'}
+                            </p>
+                          </CCol>
+                        </CRow>
+                      )}
+                    </CContainer>
+                  ))}
+                </CTabPane>
+              )}
+              {modal?.productOfferingPrice?.length > 0 && (
+                <CTabPane data-tab="price">
+                  {modal?.productOfferingPrice?.map((el: any) => (
+                    <CContainer key={`priceOffer-${el?.id}`} style={{ borderBottom: '1px solid #6C6E7E', marginBottom: '1rem' }}>
+                      <CRow>
+                        <CCol xs="6">
+                          <p className={'text-light mb-2'}>Id:</p>
+                          <p>{el?.id}</p>
+                        </CCol>
+                        <CCol xs="6">
+                          <p className={'text-light mb-2'}>Name:</p>
+                          <p>{el?.name}</p>
+                        </CCol>
+                      </CRow>
+                      <CRow>
+                        <CCol xs="6">
+                          <p className={'text-light mb-2'}>Description:</p>
+                          <p>{el?.description}</p>
+                        </CCol>
                       </CRow>
                       {el?.validFor && (
                         <CRow>
