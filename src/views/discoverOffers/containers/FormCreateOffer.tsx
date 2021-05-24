@@ -12,11 +12,19 @@ import {
   CLabel,
   CRow,
   CDataTable,
-  CTextarea
+  CTextarea,
+  CInputGroupPrepend,
+  CInputGroupText
 } from '@coreui/react'
+import CIcon from '@coreui/icons-react'
+
 import { Controller, useFormContext } from 'react-hook-form'
 import { useAllTemplates } from 'hooks/api/SLA'
 import { useAllProductOfferingPrices } from 'hooks/api/Resources'
+
+import DateRangePicker from 'components/DateRangePicker'
+import moment from 'moment'
+import { DATETIME_FORMAT } from 'config'
 
 const FormCreateOffer: React.FC = () => {
   const {
@@ -195,10 +203,51 @@ const FormCreateOffer: React.FC = () => {
             </CFormGroup>
           </CCol>
         </CRow>
+        <CRow>
+          <CCol sm={6}>
+            <CFormGroup>
+              <CLabel htmlFor="validFor">Valid For</CLabel>
+              <CInputGroup>
+                <CInputGroupPrepend>
+                  <CInputGroupText>
+                    <CIcon name="cilCalendar" />
+                  </CInputGroupText>
+                </CInputGroupPrepend>
+                <Controller
+                  control={control}
+                  defaultValue={''}
+                  rules={{ required: true }}
+                  name="validFor"
+                  render={({ field }) => {
+                    const { value, onChange, ref } = field
+                    return (
+                      <DateRangePicker
+                        startDate={
+                          moment(value?.startDateTime, DATETIME_FORMAT).isValid() ? moment(value?.startDateTime) : null
+                        }
+                        endDate={
+                          moment(value?.endDateTime, DATETIME_FORMAT).isValid() ? moment(value?.endDateTime) : null
+                        }
+                        onDatesChange={({ startDate, endDate }) =>
+                          onChange({
+                            startDateTime: moment(startDate).format(DATETIME_FORMAT),
+                            endDateTime: moment(endDate).format(DATETIME_FORMAT)
+                          })
+                        }
+                        ref={ref}
+                      />
+                    )
+                  }}
+                />
+              </CInputGroup>
+              {errors.description && <CFormText className="help-block">Please enter a date range</CFormText>}
+            </CFormGroup>
+          </CCol>
+        </CRow>
         <CRow className={'mt-4'}>
           <CCol>
             <CFormGroup>
-              <CLabel>Price</CLabel>
+              <CLabel>Product Offering Price</CLabel>
               <CInputGroup>
                 <CCard className={'p-4'} style={{ width: '100%' }}>
                   <CDataTable

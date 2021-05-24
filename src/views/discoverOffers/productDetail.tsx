@@ -17,24 +17,41 @@ import { useCreateOffering } from 'hooks/api/Products'
 import { useGetResourceSpecificationsBundle } from 'hooks/api/Resources'
 import { ApiResourceSpecification } from 'types/api'
 import LoadingWithFade from 'components/LoadingWithFade'
+import { useAuthContext } from 'context/AuthContext'
 
 interface formOfferCreation {
   name: string
   description: string
   country: string
-  price: number
-  serviceLevelAgreements: []
+  serviceLevelAgreement: []
   productOfferPrice: []
   owner: string
   resourceSpecifications: ApiResourceSpecification[]
+  validFor: {
+    startDateTime: string | null
+    endDateTime: string | null
+  }
 }
 
 const ProductDetail: React.FC = () => {
   const methods = useForm<formOfferCreation>({
+    defaultValues: {
+      name: '',
+      description: '',
+      country: '',
+      serviceLevelAgreement: [],
+      productOfferPrice: [],
+      validFor: {
+        startDateTime: null,
+        endDateTime: null
+      }
+    },
     resolver: yupResolver(schemaRegister)
   })
   const history = useHistory()
   const { id } = useParams<{ id: string }>()
+
+  const { user } = useAuthContext()
 
   const { mutate, isSuccess, isLoading } = useCreateOffering()
   const { data: resourcesData, isLoading: resourceLoading } = useGetResourceSpecificationsBundle(id)
@@ -47,7 +64,7 @@ const ProductDetail: React.FC = () => {
 
   const onSubmit = (data: formOfferCreation) => {
     const formData = transformForm(data, resourcesData)
-    mutate({ ...formData, resourceSpecifications: resourcesData })
+    mutate({ ...formData, resourceSpecifications: resourcesData, currentUser: user })
   }
   return (
     <>

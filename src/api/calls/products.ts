@@ -13,10 +13,10 @@ const createSpecification = async (body: any): Promise<any> => {
 }
 
 const createOffering = async (body: any): Promise<any> => {
-  const { resourceSpecifications, ...remain } = body
+  const { resourceSpecifications, currentUser, ...remain } = body
 
   try {
-    const productSpecification = TransformResourcesToProduct(resourceSpecifications, remain)
+    const productSpecification = TransformResourcesToProduct(resourceSpecifications, remain, currentUser)
     const newProductSpecification = await createSpecification(productSpecification)
     if (newProductSpecification != null) {
       try {
@@ -40,7 +40,7 @@ const createOffering = async (body: any): Promise<any> => {
 
 const getProductOffers = async (params: any): Promise<any> => {
   try {
-    const response = await axios.get(endpoints.PRODUCT_OFFERING, { params: { ...params } })
+    const response = await axios.get(endpoints.PRODUCT_OFFERING_FILTERED, { params: { ...params } })
     return response.data
   } catch (e) {
     console.log({ e })

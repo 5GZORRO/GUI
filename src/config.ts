@@ -10,7 +10,7 @@ export const APP_ENV = process.env.APP_ENV
 export const BUILD_DATE = process.env.BUILD_DATE
 export const SESSION_TOKEN = 'stakeholderDID'
 export const SESSION_USER = 'stakeholder'
-
+export const DATETIME_FORMAT = 'YYYY-MM-DDTHH:mm:ssZZ'
 // Field Constants
 
 // Other Contants

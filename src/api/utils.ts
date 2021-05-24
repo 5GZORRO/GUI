@@ -34,7 +34,7 @@ export const TransformDataTemplates = (data: any) => {
   return []
 }
 
-export const TransformResourcesToProduct = (resources: any, offer: any): any => {
+export const TransformResourcesToProduct = (resources: any, offer: any, user: any): any => {
   const newData = {
     name: `productOfferProductSpecification-${offer?.name}`,
     description: '',
@@ -49,9 +49,12 @@ export const TransformResourcesToProduct = (resources: any, offer: any): any => 
     version: null,
     resourceSpecification: resources,
     serviceSpecification: [],
-    relatedParty: resources?.reduce((acc: any, resource: any) => {
-      return [...acc, ...resource?.relatedParty]
-    }, [])
+    relatedParty: [
+      {
+        id: user?.id_token,
+        name: user?.stakeholderClaim?.stakeholderProfile?.name
+      }
+    ]
   }
 
   return newData

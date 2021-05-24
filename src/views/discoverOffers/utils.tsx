@@ -47,7 +47,7 @@ export const transformForm = (form: any, resourcesData: any) => {
     serviceLevelAgreement: form?.serviceLevelAgreement?.[0],
     statusReason: null,
     version: null,
-    validFor: resourcesData?.find((el: any) => el?.validFor != null)?.validFor
+    validFor: form?.validFor
   }
   return newData
 }

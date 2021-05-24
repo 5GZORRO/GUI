@@ -236,7 +236,7 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
               )}
             </CFormGroup>
             <CFormGroup>
-              <CLabel>Provider Preference</CLabel>
+              <CLabel>Stakeholder Preference</CLabel>
               <CInputGroup>
                 <Controller
                   control={control}
