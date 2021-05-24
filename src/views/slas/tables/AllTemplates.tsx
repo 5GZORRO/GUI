@@ -24,7 +24,6 @@ export const AllTemplates: React.FC = () => {
       sort: false
     }
   ]
-  console.log(data)
   return (
     <CDataTable
       cleaner

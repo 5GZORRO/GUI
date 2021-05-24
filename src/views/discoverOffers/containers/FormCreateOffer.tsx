@@ -9,19 +9,14 @@ import {
   CFormText,
   CInput,
   CInputGroup,
-  CInputGroupAppend,
-  CInputGroupPrepend,
-  CInputGroupText,
   CLabel,
   CRow,
   CDataTable,
   CTextarea
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { PlusCircle } from 'assets/icons/externalIcons'
 import { Controller, useFormContext } from 'react-hook-form'
 import { useAllTemplates } from 'hooks/api/SLA'
-import { useAllProductPrice } from 'hooks/api/Resources'
+import { useAllProductOfferingPrices } from 'hooks/api/Resources'
 
 const FormCreateOffer: React.FC = () => {
   const {
@@ -30,38 +25,36 @@ const FormCreateOffer: React.FC = () => {
     setValue
   } = useFormContext()
   const [selected, setSelected] = useState<any>([])
-  const [selectedPO, setSelectedPO] = useState<any>([])
+  const [selectedPOP, setSelectedPOP] = useState<any>([])
 
   useEffect(() => {
-    setValue('serviceLevelAgreements', selected)
+    setValue('serviceLevelAgreement', selected)
   }, [selected])
 
   useEffect(() => {
-    setValue('productOfferPrice', selectedPO)
-  }, [selectedPO])
+    setValue('productOfferPrice', selectedPOP)
+  }, [selectedPOP])
 
   const check = (item: any) => {
     const found = selected.find((sla: any) => sla?.id === item?.id)
 
     if (!found) {
-      setSelected((previous: any) => [...previous, item])
-    } else {
-      setSelected((previous: any) => previous.filter((sla: any) => sla?.id !== item?.id))
+      setSelected(() => [item])
     }
   }
 
   const checkPO = (item: any) => {
-    const found = selectedPO.find((po: any) => po?.id === item?.id)
+    const found = selectedPOP.find((pop: any) => pop?.id === item?.id)
 
     if (!found) {
-      setSelectedPO((previous: any) => [...previous, item])
+      setSelectedPOP((previous: any) => [...previous, item])
     } else {
-      setSelectedPO((previous: any) => previous.filter((po: any) => po?.id !== item?.id))
+      setSelectedPOP((previous: any) => previous.filter((pop: any) => pop?.id !== item?.id))
     }
   }
 
   const { data: slas, isLoading: isLoadingSlas } = useAllTemplates()
-  const { data: productOfferPrice, isLoading: isLoadingProductOfferPrice } = useAllProductPrice()
+  const { data: productOfferPrice, isLoading: isLoadingProductOfferPrice } = useAllProductOfferingPrices()
 
   const slaFields = [
     { key: 'select', label: '', filter: false, sorter: false },
@@ -126,7 +119,7 @@ const FormCreateOffer: React.FC = () => {
       <td>
         <input
           className={'product-offer--checkbox'}
-          type={'checkbox'}
+          type={'radio'}
           name={`serviceLevelAgreements[${item?.id}]`}
           defaultValue={JSON.stringify(item)}
           checked={selected.find((sla: any) => sla?.id === item?.id)}
@@ -143,7 +136,7 @@ const FormCreateOffer: React.FC = () => {
         type={'checkbox'}
         name={`productOfferPrice[${item?.id}]`}
         defaultValue={JSON.stringify(item)}
-        checked={selectedPO.find((sla: any) => sla?.id === item?.id)}
+        checked={selectedPOP.find((pop: any) => pop?.id === item?.id)}
         onChange={() => checkPO(item)}
       />
     </td>
@@ -230,9 +223,7 @@ const FormCreateOffer: React.FC = () => {
                   />
                 </CCard>
               </CInputGroup>
-              {errors.serviceLevelAgreements && (
-                <CFormText className="help-block">Please select an agreement</CFormText>
-              )}
+              {errors.productOfferPrice && <CFormText className="help-block">Please select a price offer</CFormText>}
             </CFormGroup>
           </CCol>
         </CRow>

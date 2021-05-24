@@ -48,11 +48,13 @@ const NewProductOffer: React.FC = () => {
   const { data, isLoading } = useAllResourceSpecifications()
   const [modal, setModal] = useState<any | null>(null)
 
-  const check = (id: string) => {
-    const found = selected.find((itemId) => itemId === id)
+  const check = (item: any) => {
+    const found = selected.find((rs: any) => rs === item?.id)
 
     if (!found) {
-      setSelected((previous) => [id])
+      setSelected((previous: any) => [...previous, item?.id])
+    } else {
+      setSelected((previous: any) => previous.filter((rs: any) => rs !== item?.id))
     }
   }
 
@@ -245,9 +247,9 @@ const NewProductOffer: React.FC = () => {
                   <td>
                     <input
                       className={'product-offer--checkbox'}
-                      type="radio"
+                      type="checkbox"
                       checked={selected?.find((el) => item?.id === el) != null}
-                      onChange={() => check(item?.id)}
+                      onChange={() => check(item)}
                     />
                   </td>
                 )

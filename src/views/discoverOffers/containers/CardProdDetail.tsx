@@ -1,17 +1,16 @@
 import React, { useState } from 'react'
 import { CCard, CCardBody, CCardHeader, CCol, CButton, CRow, CContainer, CModal, CModalHeader } from '@coreui/react'
 /** Hooks */
-import { useResourceSpecifications } from 'hooks/api/Resources'
 import dayjs from 'dayjs'
 
 import { DATETIME_FORMAT } from 'config'
+import { ApiResourceSpecification } from 'types/api'
 
 interface CardProps {
-  id: string
+  item: ApiResourceSpecification
 }
 
-const CardProdDetail: React.FC<CardProps> = ({ id }) => {
-  const { data: item } = useResourceSpecifications(id)
+const CardProdDetail: React.FC<CardProps> = ({ item }) => {
   const [modal, setModal] = useState<any | null>(null)
 
   const showResourceCharacteristics = (item: any) => {

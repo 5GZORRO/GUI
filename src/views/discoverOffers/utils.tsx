@@ -1,56 +1,53 @@
 import * as yup from 'yup'
 
 export const schemaRegister = yup.object().shape({
-  productSpecification: yup.object().required(),
   name: yup.string().required(),
-  country: yup.string().required(),
-  price: yup.string().required(),
   description: yup.string().required(),
-  serviceLevelAgreements: yup.array()
-  // serviceLevelAgreements: yup
-  //   .array()
-  //   .of(
-  //     yup.object().shape({
-  //       id: yup.number(),
-  //       name: yup.string()
-  //     })
-  //   )
-  //   .default([])
-  //   .test({
-  //     message: 'Must choose at least one',
-  //     test: (arr: any) => {
-  //       console.log(arr, arr?.filter((el: any) => el != null)?.length > 0)
-  //       return arr?.length > 0
-  //     }
-  //   })
+  country: yup.string().required(),
+  productOfferPrice: yup
+    .array()
+    .of(
+      yup.object().shape({
+        id: yup.string(),
+        name: yup.string()
+      })
+    )
+    .default([])
+    .test({
+      message: 'Must choose at least one',
+      test: (arr: any) => {
+        return arr?.length > 0
+      }
+    }),
+  serviceLevelAgreement: yup.mixed().required()
 })
 
-export const transformForm = (form: any) => {
+export const transformForm = (form: any, resourcesData: any) => {
   const newData = {
     agreement: [],
     attachment: [],
     bundledProductOffering: [],
+    // category: resourcesData?.map((resource: any) => resource?.category),
     category: [],
     channel: [],
     description: form?.description,
     isBundle: null,
     isSellable: null,
-    lifecycleStatus: null,
+    lifecycleStatus: resourcesData?.find((el: any) => el?.lifecycleStatus != null)?.lifecycleStatus,
     marketSegment: [],
     name: form?.name,
     // place: [...form?.country],
     place: [],
     prodSpecCharValueUse: [],
-    // productOfferingPrice: [...form?.price],
-    productOfferingPrice: [],
+    productOfferingPrice: form?.productOfferPrice,
     productOfferingTerm: [],
-    productSpecification: form?.productSpecification,
+    productSpecification: null,
     resourceCandidate: null,
     serviceCandidate: null,
-    // serviceLevelAgreement: [...form?.serviceLevelAgreements],
-    serviceLevelAgreement: null,
+    serviceLevelAgreement: form?.serviceLevelAgreement?.[0],
     statusReason: null,
-    version: null
+    version: null,
+    validFor: resourcesData?.find((el: any) => el?.validFor != null)?.validFor
   }
   return newData
 }

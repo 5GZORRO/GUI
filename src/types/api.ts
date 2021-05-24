@@ -161,26 +161,28 @@ export interface ApiLoginResponse {
 }
 
 export interface ApiProductSpecification {
-  brand: string
-  bundledProductSpecification: [
-    {
-      description: string
-      id: string
-      lastUpdate: string
-      name: string
-      validFor: {
-        endDateTime: string
-        startDateTime: string
-      }
-      version: string
-    }
-  ]
+  brand: string | null
+  bundledProductSpecification:
+    | [
+        {
+          description: string
+          id: string
+          lastUpdate: string
+          name: string
+          validFor: {
+            endDateTime: string
+            startDateTime: string
+          }
+          version: string
+        }
+      ]
+    | null
   description: string
-  id: string
-  isBundle: boolean
-  lastUpdate: string
+  id?: string
+  isBundle: boolean | null
+  lastUpdate: string | null
   name: string
-  productNumber: string
+  productNumber: string | null
   productSpecCharacteristic: [
     {
       configurable: boolean
@@ -235,7 +237,7 @@ export interface ApiProductSpecification {
       valueType: string
       version: string
     }
-  ]
+  ] | null
   productSpecificationRelationship: [
     {
       id: string
@@ -245,11 +247,10 @@ export interface ApiProductSpecification {
         startDateTime: string
       }
     }
-  ]
+  ] | null
   relatedParty: [
     {
       extendedInfo: string
-      href: string
       id: string
       name: string
       role: string
@@ -268,12 +269,12 @@ export interface ApiProductSpecification {
       name: string
       version: string
     }
-  ]
+  ] | []
   validFor: {
     endDateTime: string
     startDateTime: string
-  }
-  version: string
+  } | null
+  version: string | null
 }
 
 export interface ApiResourceSpecification {
@@ -383,6 +384,7 @@ export interface ApiResourceSpecification {
 }
 
 export interface ApiProductOfferPrice {
+  id: string
   bundledPopRelationship: [
     {
       description: string

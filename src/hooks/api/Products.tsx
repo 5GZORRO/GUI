@@ -10,7 +10,7 @@ export const useCreateSpecification = (body: any) => {
 }
 
 export const useCreateOffering = () => {
-  return useMutation(['candidate'], (body: any) => api.products.createOffering(body))
+  return useMutation(['createOffer'], (body: any) => api.products.createOffering(body))
 }
 
 // change later

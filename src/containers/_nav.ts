@@ -31,7 +31,7 @@ export default [
     _tag: 'CSidebarNavItem',
     name: 'Licences',
     to: '/licences',
-    icon: 'cilFlagAlt'
+    icon: 'cilLockLocked'
   },
   {
     _tag: 'CSidebarNavTitle',
@@ -54,5 +54,11 @@ export default [
     name: 'Resource & Services',
     to: '/resource',
     icon: 'cilLayers'
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Product Offering Prices',
+    to: '/prices',
+    icon: 'cilDollar'
   }
 ]

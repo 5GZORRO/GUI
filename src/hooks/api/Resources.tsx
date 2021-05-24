@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useQuery } from 'react-query'
+import { useQuery, useMutation } from 'react-query'
 import { api } from 'api'
 /** Types */
 // import { ApiResourceCandidate } from 'types/api'
@@ -36,8 +36,16 @@ export const useResourceSpecifications = (id: string) => {
   })
 }
 
-export const useAllProductPrice = (params?: any) => {
+export const useAllProductOfferingPrices = (params?: any) => {
   return useQuery(['allProductPrices', params], () => api.resources.getProductPrices(params), {
     keepPreviousData: true
   })
 }
+
+export const useCreateProductOfferingPrice = (params?: any) =>
+  useMutation<any, any, any>((params: any) => api.resources.createProductOfferingPrice(params))
+
+export const useGetResourceSpecificationsBundle = (ids: string) =>
+  useQuery(['resourceSpecifications', ids], () => api.resources.getResourceSpecificationsBatch(ids), {
+    keepPreviousData: true
+  })

@@ -1,72 +1,66 @@
-/* eslint-disable react/display-name */
 import React from 'react'
+import { Link } from 'react-router-dom'
 import {
+  CContainer,
+  CRow,
+  CCol,
   CButton,
   CCard,
   CCardBody,
   CCardHeader,
-  CCol,
-  CContainer,
   CNav,
   CNavItem,
   CNavLink,
-  CRow,
   CTabContent,
   CTabPane,
   CTabs
 } from '@coreui/react'
-import { useHistory } from 'react-router-dom'
-/** Containers */
-import SearchForm from './containers/searchForm'
 
-const DiscoverOffers: React.FC = () => {
-  const history = useHistory()
+import AllTemplates from './tables/AllTemplates'
 
+const ProductOfferingPrices = () => {
   return (
     <CContainer>
       <CRow className={'mb-5'}>
         <CCol>
-          <h2>Discover Offers</h2>
+          <h2>Product Offering Prices</h2>
         </CCol>
         <CCol className={'d-flex justify-content-end align-items-center'}>
-          <CButton
-            block={false}
-            color={'gradient'}
-            className={'text-uppercase'}
-            onClick={() => history.push('/offers/new-offer')}
-          >
-            create product offer
-          </CButton>
+          <Link to={'/prices/new/'}>
+            <CButton block={false} color={'gradient'} className={'text-uppercase px-4'}>
+              add Product Offering Prices
+            </CButton>
+          </Link>
         </CCol>
       </CRow>
-      <CTabs activeTab="allOffers">
+      <CTabs activeTab="allTemplates">
         <CNav variant="tabs">
           <CNavItem>
-            <CNavLink data-tab="allOffers" className={'text-uppercase'}>
-              All offers
+            <CNavLink data-tab="allTemplates" className={'text-uppercase'}>
+              all Product Offering Prices
             </CNavLink>
           </CNavItem>
           <CNavItem>
-            <CNavLink data-tab="myOffers" className={'text-uppercase'}>
-              My offers
+            <CNavLink data-tab="myTemplates" className={'text-uppercase'}>
+              my Product Offering Prices
             </CNavLink>
           </CNavItem>
         </CNav>
         <CTabContent>
-          <CTabPane data-tab="allOffers">
+          <CTabPane data-tab="allTemplates">
             <CCard className={'mt-4'}>
               <CCardHeader>
-                <h5>Search offers</h5>
+                <h5 className={'font-18'}>All Product Offering Prices</h5>
               </CCardHeader>
               <CCardBody>
-                <SearchForm />
+                <AllTemplates />
               </CCardBody>
             </CCard>
           </CTabPane>
-          <CTabPane data-tab="myOffers">
+          <CTabPane data-tab="myTemplates">
             <CCard className={'mt-4'}>
               <CCardHeader>
-                <h5>My offers</h5>
+                <h5>My Product Offering Prices</h5>
               </CCardHeader>
               <CCardBody></CCardBody>
             </CCard>
@@ -77,4 +71,4 @@ const DiscoverOffers: React.FC = () => {
   )
 }
 
-export default DiscoverOffers
+export default ProductOfferingPrices

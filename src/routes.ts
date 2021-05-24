@@ -14,6 +14,8 @@ const NewVirtualResource = React.lazy(() => import('./views/resources/newVirtual
 const NewCategory = React.lazy(() => import('./views/resources/newCategory'))
 const SLA = React.lazy(() => import('./views/slas'))
 const Licences = React.lazy(() => import('./views/licences'))
+const ProductOfferingPrices = React.lazy(() => import('./views/productOfferingPrices'))
+const NewProductOfferingPrice = React.lazy(() => import('./views/productOfferingPrices/newProductOfferingPrice'))
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -24,6 +26,8 @@ const routes = [
   { path: '/orders', name: 'Orders', component: Orders },
   { exact: true, path: '/resource', name: 'Resource & Services', component: Resources },
   { exact: true, path: '/resource/new-resource', name: 'Create Resource & Service', component: NewResource },
+  { exact: true, path: '/prices/new', name: 'New Product Offering Prices', component: NewProductOfferingPrice },
+
   { path: '/resource/new-resource/new-category', name: 'New Category', component: NewCategory },
   {
     path: '/resource/new-resource/new-physical-resource',
@@ -38,7 +42,8 @@ const routes = [
   { path: '/membership', name: 'Membership', component: Membership },
   { path: '/proposals', name: 'Proposals', component: Proposals },
   { path: '/sla', name: 'SLAs', component: SLA },
-  { path: '/licences', name: 'Licences', component: Licences }
+  { path: '/licences', name: 'Licences', component: Licences },
+  { path: '/prices', name: 'Product Offering Prices', component: ProductOfferingPrices }
 ]
 
 export default routes
