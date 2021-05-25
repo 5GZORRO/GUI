@@ -59,3 +59,12 @@ export const TransformResourcesToProduct = (resources: any, offer: any, user: an
 
   return newData
 }
+
+export const cleanEmptyparams = (obj: any) => {
+  for (const propName in obj) {
+    if (obj[propName] === null || obj[propName] === undefined || obj[propName] === '') {
+      delete obj[propName]
+    }
+  }
+  return obj
+}

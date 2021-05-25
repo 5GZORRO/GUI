@@ -183,71 +183,75 @@ export interface ApiProductSpecification {
   lastUpdate: string | null
   name: string
   productNumber: string | null
-  productSpecCharacteristic: [
-    {
-      configurable: boolean
-      description: string
-      extensible: boolean
-      href: string
-      isUnique: true
-      lastUpdate: string
-      lifecycleStatus: string
-      lifecycleStatusEnum: string
-      maxCardinality: number
-      minCardinality: number
-      name: string
-      productSpecCharRelationship: [
-        description: string,
-        href: string,
-        id: string,
-        lastUpdate: string,
-        lifecycleStatus: string,
-        lifecycleStatusEnum: string,
-        name: string,
-        relationshipType: string,
-        validFor: {
-          endDateTime: string
-          startDateTime: string
-        },
-        version: string
-      ]
-      productSpecCharacteristicValue: [
+  productSpecCharacteristic:
+    | [
         {
-          isDefault: true
-          rangeInterval: string
-          unitOfMeasure: string
+          configurable: boolean
+          description: string
+          extensible: boolean
+          href: string
+          isUnique: true
+          lastUpdate: string
+          lifecycleStatus: string
+          lifecycleStatusEnum: string
+          maxCardinality: number
+          minCardinality: number
+          name: string
+          productSpecCharRelationship: [
+            description: string,
+            href: string,
+            id: string,
+            lastUpdate: string,
+            lifecycleStatus: string,
+            lifecycleStatusEnum: string,
+            name: string,
+            relationshipType: string,
+            validFor: {
+              endDateTime: string
+              startDateTime: string
+            },
+            version: string
+          ]
+          productSpecCharacteristicValue: [
+            {
+              isDefault: true
+              rangeInterval: string
+              unitOfMeasure: string
+              validFor: {
+                endDateTime: string
+                startDateTime: string
+              }
+              value: {
+                alias: string
+                value: string
+              }
+              valueFrom: string
+              valueTo: string
+              valueType: string
+            }
+          ]
+          regex: string
           validFor: {
             endDateTime: string
             startDateTime: string
           }
-          value: {
-            alias: string
-            value: string
-          }
-          valueFrom: string
-          valueTo: string
           valueType: string
+          version: string
         }
       ]
-      regex: string
-      validFor: {
-        endDateTime: string
-        startDateTime: string
-      }
-      valueType: string
-      version: string
-    }
-  ] | null
-  productSpecificationRelationship: [
-    {
-      id: string
-      relationshipType: string
-      validFor: {
-        endDateTime: string
-        startDateTime: string
-      }
-    }
-  ] | null
+    | null
+  productSpecificationRelationship:
+    | [
+        {
+          id: string
+          relationshipType: string
+          validFor: {
+            endDateTime: string
+            startDateTime: string
+          }
+        }
+      ]
+    | null
   relatedParty: [
     {
       extendedInfo: string
@@ -263,13 +267,15 @@ export interface ApiProductSpecification {
       version: string
     }
   ]
-  serviceSpecification: [
-    {
-      id: string
-      name: string
-      version: string
-    }
-  ] | []
+  serviceSpecification:
+    | [
+        {
+          id: string
+          name: string
+          version: string
+        }
+      ]
+    | []
   validFor: {
     endDateTime: string
     startDateTime: string
@@ -548,6 +554,34 @@ export interface ApiProductOfferPrice {
     amount: number
     units: string
   }
+  validFor: {
+    endDateTime: string
+    startDateTime: string
+  }
+  version: string
+}
+
+export interface ApiCategory {
+  description: string
+  id: string
+  isRoot: true
+  lastUpdate: string
+  lifecycleStatus: string
+  name: string
+  parentId: string
+  productOffering: [
+    {
+      id: string
+      name: string
+    }
+  ]
+  subCategory: [
+    {
+      id: string
+      name: string
+      version: string
+    }
+  ]
   validFor: {
     endDateTime: string
     startDateTime: string

@@ -18,19 +18,64 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 
+import Select from 'react-select'
+
 import { Controller, useFormContext } from 'react-hook-form'
 import { useAllTemplates } from 'hooks/api/SLA'
-import { useAllProductOfferingPrices } from 'hooks/api/Resources'
+import { useAllProductOfferingPrices, useAllCategories } from 'hooks/api/Resources'
 
 import DateRangePicker from 'components/DateRangePicker'
 import moment from 'moment'
 import { DATETIME_FORMAT } from 'config'
 
+const colourStyles = {
+  control: (styles: any) => ({ ...styles, backgroundColor: '#3C3C43', borderColor: '#3C3C43' }),
+  option: (styles: any, { data, isDisabled, isFocused, isSelected }) => {
+    return {
+      ...styles,
+      color: '#3C3C43',
+      backgroundColor: 'white',
+      cursor: isDisabled ? 'not-allowed' : 'default',
+
+      ':hover': {
+        backgroundColor: '#3C3C43',
+        color: 'white'
+      },
+
+      ':active': {
+        ...styles[':active'],
+        backgroundColor: '#3C3C43'
+      }
+    }
+  },
+  multiValue: (styles: any, { data }) => {
+    return {
+      ...styles,
+      backgroundColor: '#32333A'
+    }
+  },
+  multiValueLabel: (styles, { data }) => ({
+    ...styles,
+    color: data.color
+  }),
+  multiValueRemove: (styles, { data }) => ({
+    ...styles,
+    color: data.color,
+    backgroundColor: data.color,
+    ':hover': {
+      backgroundColor: data.color,
+      color: 'white'
+    }
+  })
+}
+
 const FormCreateOffer: React.FC = () => {
   const {
     formState: { errors },
     control,
-    setValue
+    setValue,
+    register,
+    getValues
   } = useFormContext()
   const [selected, setSelected] = useState<any>([])
   const [selectedPOP, setSelectedPOP] = useState<any>([])
@@ -63,6 +108,7 @@ const FormCreateOffer: React.FC = () => {
 
   const { data: slas, isLoading: isLoadingSlas } = useAllTemplates()
   const { data: productOfferPrice, isLoading: isLoadingProductOfferPrice } = useAllProductOfferingPrices()
+  const { data: categories, isLoading: isLoadingCategories } = useAllCategories()
 
   const slaFields = [
     { key: 'select', label: '', filter: false, sorter: false },
@@ -187,7 +233,7 @@ const FormCreateOffer: React.FC = () => {
           </CCol>
         </CRow>
         <CRow>
-          <CCol sm={6}>
+          <CCol sm={12}>
             <CFormGroup>
               <CLabel>Description</CLabel>
               <CInputGroup>
@@ -196,7 +242,9 @@ const FormCreateOffer: React.FC = () => {
                   defaultValue={''}
                   rules={{ required: true }}
                   name="description"
-                  render={({ field }) => <CTextarea placeholder={'Enter Description'} {...field} />}
+                  render={({ field }) => (
+                    <CTextarea placeholder={'Enter Description'} {...field} rows={4} style={{ resize: 'none' }} />
+                  )}
                 />
               </CInputGroup>
               {errors.description && <CFormText className="help-block">Please insert a description</CFormText>}
@@ -221,26 +269,63 @@ const FormCreateOffer: React.FC = () => {
                   render={({ field }) => {
                     const { value, onChange, ref } = field
                     return (
-                      <DateRangePicker
-                        startDate={
-                          moment(value?.startDateTime, DATETIME_FORMAT).isValid() ? moment(value?.startDateTime) : null
-                        }
-                        endDate={
-                          moment(value?.endDateTime, DATETIME_FORMAT).isValid() ? moment(value?.endDateTime) : null
-                        }
-                        onDatesChange={({ startDate, endDate }) =>
-                          onChange({
-                            startDateTime: moment(startDate).format(DATETIME_FORMAT),
-                            endDateTime: moment(endDate).format(DATETIME_FORMAT)
-                          })
-                        }
-                        ref={ref}
-                      />
+                      <div className={'datepicker'}>
+                        <DateRangePicker
+                          startDate={
+                            moment(value?.startDateTime, DATETIME_FORMAT).isValid()
+                              ? moment(value?.startDateTime)
+                              : null
+                          }
+                          endDate={
+                            moment(value?.endDateTime, DATETIME_FORMAT).isValid() ? moment(value?.endDateTime) : null
+                          }
+                          onDatesChange={({ startDate, endDate }) =>
+                            onChange({
+                              startDateTime: moment(startDate).format(DATETIME_FORMAT),
+                              endDateTime: moment(endDate).format(DATETIME_FORMAT)
+                            })
+                          }
+                          ref={ref}
+                        />
+                      </div>
                     )
                   }}
                 />
               </CInputGroup>
-              {errors.description && <CFormText className="help-block">Please enter a date range</CFormText>}
+              {errors.validFor && <CFormText className="help-block">Please enter a date range</CFormText>}
+            </CFormGroup>
+          </CCol>
+
+          <CCol sm={6}>
+            <CFormGroup>
+              <CLabel htmlFor="category">Category</CLabel>
+              <CInputGroup>
+                {!isLoadingCategories && (
+                  <Controller
+                    control={control}
+                    defaultValue={''}
+                    rules={{ required: true }}
+                    name="category"
+                    render={({ field: { onChange, onBlur, value, ref } }) => (
+                      <Select
+                        onChange={(e: any) => {
+                          onChange(e)
+                        }}
+                        name={'category'}
+                        onBlur={onBlur}
+                        value={value}
+                        isMulti
+                        closeMenuOnSelect={false}
+                        ref={ref}
+                        options={categories?.map((el) => ({ value: el, label: el?.name }))}
+                        className={'select'}
+                        styles={colourStyles}
+                      ></Select>
+                    )}
+                  />
+                )}
+              </CInputGroup>
+              {errors.category && <CFormText className="help-block">Please select at least a category</CFormText>}
             </CFormGroup>
           </CCol>
         </CRow>
@@ -301,9 +386,7 @@ const FormCreateOffer: React.FC = () => {
                   />
                 </CCard>
               </CInputGroup>
-              {errors.serviceLevelAgreements && (
-                <CFormText className="help-block">Please select an agreement</CFormText>
-              )}
+              {errors.serviceLevelAgreement && <CFormText className="help-block">Please select an agreement</CFormText>}
             </CFormGroup>
           </CCol>
         </CRow>

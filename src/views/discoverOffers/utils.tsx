@@ -19,7 +19,22 @@ export const schemaRegister = yup.object().shape({
         return arr?.length > 0
       }
     }),
-  serviceLevelAgreement: yup.mixed().required()
+  serviceLevelAgreement: yup.mixed().required(),
+  category: yup
+    .array()
+    .of(
+      yup.object().shape({
+        label: yup.string(),
+        value: yup.object()
+      })
+    )
+    .default([])
+    .test({
+      message: 'Must choose at least one',
+      test: (arr: any) => {
+        return arr?.length > 0
+      }
+    })
 })
 
 export const transformForm = (form: any, resourcesData: any) => {
@@ -27,13 +42,12 @@ export const transformForm = (form: any, resourcesData: any) => {
     agreement: [],
     attachment: [],
     bundledProductOffering: [],
-    // category: resourcesData?.map((resource: any) => resource?.category),
-    category: [],
+    category: form?.category?.map((el: any) => el?.value),
     channel: [],
     description: form?.description,
     isBundle: null,
     isSellable: null,
-    lifecycleStatus: resourcesData?.find((el: any) => el?.lifecycleStatus != null)?.lifecycleStatus,
+    lifecycleStatus: 'active',
     marketSegment: [],
     name: form?.name,
     // place: [...form?.country],

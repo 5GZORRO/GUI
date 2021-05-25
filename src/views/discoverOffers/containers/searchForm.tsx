@@ -36,8 +36,8 @@ interface Search {
   search: string
   category: string
   location: string
-  maxPrice: number
-  minPrice: number
+  maxPrice: number | ''
+  minPrice: number | ''
   currency: string
   stakeholder: string
 }
@@ -58,8 +58,8 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
     defaultValues: {
       category: '',
       location: '',
-      maxPrice: 0.0,
-      minPrice: 0.0,
+      maxPrice: '',
+      minPrice: '',
       currency: '',
       stakeholder: ''
     }
@@ -97,8 +97,8 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
       search: '',
       category: '',
       location: '',
-      maxPrice: 0.0,
-      minPrice: 0.0,
+      maxPrice: null,
+      minPrice: null,
       currency: '',
       stakeholder: ''
     })

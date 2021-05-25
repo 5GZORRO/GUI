@@ -30,7 +30,8 @@ interface formOfferCreation {
   validFor: {
     startDateTime: string | null
     endDateTime: string | null
-  }
+  },
+  category: []
 }
 
 const ProductDetail: React.FC = () => {
@@ -44,7 +45,8 @@ const ProductDetail: React.FC = () => {
       validFor: {
         startDateTime: null,
         endDateTime: null
-      }
+      },
+      category: []
     },
     resolver: yupResolver(schemaRegister)
   })

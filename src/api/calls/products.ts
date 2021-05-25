@@ -1,6 +1,6 @@
 import axios from 'api/instance'
 import { endpoints } from 'api/endpoints'
-import { TransformResourcesToProduct } from '../utils'
+import { TransformResourcesToProduct, cleanEmptyparams } from '../utils'
 
 const createSpecification = async (body: any): Promise<any> => {
   try {
@@ -40,7 +40,8 @@ const createOffering = async (body: any): Promise<any> => {
 
 const getProductOffers = async (params: any): Promise<any> => {
   try {
-    const response = await axios.get(endpoints.PRODUCT_OFFERING_FILTERED, { params: { ...params } })
+    const newParams = cleanEmptyparams(params)
+    const response = await axios.get(endpoints.PRODUCT_OFFERING_FILTERED, { params: { ...newParams } })
     return response.data
   } catch (e) {
     console.log({ e })

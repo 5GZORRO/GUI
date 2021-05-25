@@ -3,7 +3,7 @@
 import axios from 'api/instance'
 import { endpoints } from 'api/endpoints'
 /** Types */
-import { ApiProductSpecification, ApiResourceSpecification, ApiProductOfferPrice } from 'types/api'
+import { ApiProductSpecification, ApiResourceSpecification, ApiProductOfferPrice, ApiCategory } from 'types/api'
 
 const useAllProductSpecification = async (params?: any): Promise<ApiProductSpecification[]> => {
   try {
@@ -84,6 +84,16 @@ const createProductOfferingPrice = async (body: any): Promise<ApiProductOfferPri
   }
 }
 
+const useAllCategories = async (params?: any): Promise<ApiCategory[]> => {
+  try {
+    const response = await axios.get(endpoints.CATEGORIES, { params })
+    return response.data
+  } catch (e) {
+    console.log({ e })
+    throw new Error('error')
+  }
+}
+
 export default {
   useAllProductSpecification,
   getProductSpecificationById,
@@ -91,5 +101,6 @@ export default {
   getResourceSpecificationsById,
   getProductPrices,
   createProductOfferingPrice,
-  getResourceSpecificationsBatch
+  getResourceSpecificationsBatch,
+  useAllCategories
 }

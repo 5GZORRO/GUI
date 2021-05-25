@@ -49,3 +49,8 @@ export const useGetResourceSpecificationsBundle = (ids: string) =>
   useQuery(['resourceSpecifications', ids], () => api.resources.getResourceSpecificationsBatch(ids), {
     keepPreviousData: true
   })
+
+export const useAllCategories = (params?: any) =>
+  useQuery(['allCategories', params], () => api.resources.useAllCategories(params), {
+    keepPreviousData: true
+  })

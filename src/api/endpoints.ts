@@ -11,5 +11,6 @@ export const endpoints = {
   SMART_CONTRACT_MANAGEMENT: `${API_SMART_CONTRACT}/service-level-agreement`,
   LEGAL_PROSE_TEMPLATES: `${API_LPT}/api/v1/legal-prose-templates`,
   RESOURCE_SPECIFICATION: `${API_MARKET_PLACE}/resourceCatalogManagement/v2/resourceSpecification`,
-  PRODUCT_OFFER_PRICE: `${API_MARKET_PLACE}/productCatalogManagement/v4/productOfferingPrice`
+  PRODUCT_OFFER_PRICE: `${API_MARKET_PLACE}/productCatalogManagement/v4/productOfferingPrice`,
+  CATEGORIES: `${API_MARKET_PLACE}/productCatalogManagement/v4/category`
 }
