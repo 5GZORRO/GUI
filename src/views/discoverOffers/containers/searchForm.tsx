@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 
 import { Controller, useForm } from 'react-hook-form'
 import { ArrowDownIcon } from 'assets/icons/externalIcons'
-import { useSearchOffers } from 'hooks/api/Products'
 import CIcon from '@coreui/icons-react'
 import { DATETIME_FORMAT } from 'config'
 import dayjs from 'dayjs'
@@ -31,6 +30,9 @@ import {
   CTabContent,
   CTabPane
 } from '@coreui/react'
+import { useAllCategories, useGetMembers } from 'hooks/api/Resources'
+import { useSearchOffers } from 'hooks/api/Products'
+import Autosuggest from 'react-autosuggest'
 
 interface Search {
   search: string
@@ -44,6 +46,10 @@ interface Search {
 
 // /tmf-api/productCatalogManagement/v4/productOffering
 interface SearchFormTypes {}
+
+const escapeRegexCharacters = (str: any) => {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
 
 const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
   const [advancedSearch, setAdvancedSearch] = useState(false)
@@ -65,7 +71,12 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
     }
   })
 
+  const [suggestions, setSuggestions] = useState<any>([])
+  const [suggestionsMembers, setSuggestionsMembers] = useState<any>([])
+
   const { data, mutate, isLoading, reset: mutationReset } = useSearchOffers()
+  const { data: categories, isLoading: isLoadingCategories } = useAllCategories()
+  const { data: members, isLoading: isLoadingMembers } = useGetMembers()
 
   const fields = [
     'id',
@@ -97,8 +108,8 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
       search: '',
       category: '',
       location: '',
-      maxPrice: null,
-      minPrice: null,
+      maxPrice: '',
+      minPrice: '',
       currency: '',
       stakeholder: ''
     })
@@ -107,6 +118,46 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
 
   const submit = (form: Search) => {
     mutate(form)
+  }
+
+  const getSuggestions = (value: any) => {
+    const escapedValue = escapeRegexCharacters(value?.trim())
+
+    if (escapedValue === '') {
+      return []
+    }
+
+    const regex = new RegExp('^' + escapedValue, 'i')
+
+    return !isLoadingCategories ? categories?.filter((category) => regex.test(category?.name)) : []
+  }
+
+  const getSuggestionsMembers = (value: any) => {
+    const escapedValue = escapeRegexCharacters(value?.trim())
+
+    if (escapedValue === '') {
+      return []
+    }
+
+    const regex = new RegExp('^' + escapedValue, 'i')
+
+    return !isLoadingMembers ? members?.filter((member) => regex.test(member?.legalName)) : []
+  }
+
+  const onSuggestionsFetchRequestedMembers = ({ value }) => {
+    setSuggestionsMembers(getSuggestionsMembers(value))
+  }
+
+  const onSuggestionsClearRequestedMembers = () => {
+    setSuggestionsMembers([])
+  }
+
+  const onSuggestionsFetchRequested = ({ value }) => {
+    setSuggestions(getSuggestions(value))
+  }
+
+  const onSuggestionsClearRequested = () => {
+    setSuggestions([])
   }
 
   const arrayToStringsData = (item: any, property: string) => <td>{item?.map((el: any) => el[property]).join(', ')}</td>
@@ -143,7 +194,20 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                   name="category"
                   data-testid={'category'}
                   render={({ field: { onChange, onBlur, value } }) => (
-                    <CInput placeholder={'Selection category'} onChange={onChange} onBlur={onBlur} value={value} />
+                    <Autosuggest
+                      suggestions={suggestions}
+                      onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+                      onSuggestionsClearRequested={onSuggestionsClearRequested}
+                      getSuggestionValue={(selected: any) => selected?.name}
+                      renderSuggestion={(sugg: any) => <span>{sugg?.name}</span>}
+                      id={'category-autosuggestion'}
+                      inputProps={{
+                        placeholder: 'Selection category',
+                        onChange: (event, { newValue }) => onChange(newValue),
+                        onBlur: onBlur,
+                        value: value
+                      }}
+                    />
                   )}
                 />
               </CInputGroup>
@@ -244,11 +308,19 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                   name="stakeholder"
                   data-testid={'stakeholder'}
                   render={({ field: { onChange, onBlur, value } }) => (
-                    <CInput
-                      placeholder={'Enter stakeholder preference'}
-                      onChange={onChange}
-                      onBlur={onBlur}
-                      value={value}
+                    <Autosuggest
+                      suggestions={suggestionsMembers}
+                      onSuggestionsFetchRequested={onSuggestionsFetchRequestedMembers}
+                      onSuggestionsClearRequested={onSuggestionsClearRequestedMembers}
+                      getSuggestionValue={(selected: any) => selected?.legalName}
+                      renderSuggestion={(sugg: any) => <span>{sugg?.legalName}</span>}
+                      id={'stakeholder-autosuggestion'}
+                      inputProps={{
+                        placeholder: 'Selection stakeholder',
+                        onChange: (event, { newValue }) => onChange(newValue),
+                        onBlur: onBlur,
+                        value: value
+                      }}
                     />
                   )}
                 />
@@ -419,7 +491,10 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
               {modal?.isBundle && modal?.bundledProductOffering?.length && (
                 <CTabPane data-tab="bundle">
                   {modal?.bundledProductOffering?.map((el: any) => (
-                    <CContainer key={`bundle-${el?.id}`} style={{ borderBottom: '1px solid #6C6E7E', marginBottom: '1rem' }}>
+                    <CContainer
+                      key={`bundle-${el?.id}`}
+                      style={{ borderBottom: '1px solid #6C6E7E', marginBottom: '1rem' }}
+                    >
                       <CRow>
                         <CCol xs="6">
                           <p className={'text-light mb-2'}>Id:</p>
@@ -470,7 +545,10 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
               {modal?.productOfferingPrice?.length > 0 && (
                 <CTabPane data-tab="price">
                   {modal?.productOfferingPrice?.map((el: any) => (
-                    <CContainer key={`priceOffer-${el?.id}`} style={{ borderBottom: '1px solid #6C6E7E', marginBottom: '1rem' }}>
+                    <CContainer
+                      key={`priceOffer-${el?.id}`}
+                      style={{ borderBottom: '1px solid #6C6E7E', marginBottom: '1rem' }}
+                    >
                       <CRow>
                         <CCol xs="6">
                           <p className={'text-light mb-2'}>Id:</p>
