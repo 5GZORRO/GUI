@@ -18,6 +18,7 @@ import {
 import { useHistory } from 'react-router-dom'
 /** Containers */
 import SearchForm from './containers/searchForm'
+import MyOffers from './MyOffers'
 
 const DiscoverOffers: React.FC = () => {
   const history = useHistory()
@@ -68,7 +69,9 @@ const DiscoverOffers: React.FC = () => {
               <CCardHeader>
                 <h5>My offers</h5>
               </CCardHeader>
-              <CCardBody></CCardBody>
+              <CCardBody>
+                <MyOffers />
+              </CCardBody>
             </CCard>
           </CTabPane>
         </CTabContent>
