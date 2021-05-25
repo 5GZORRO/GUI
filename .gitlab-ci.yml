@@ -28,7 +28,7 @@ before_script:
 # Eslint check
 lint:
   stage: checks
-  allow_failure: false
+  allow_failure: true
   script:
     - yarn lint
   except:
@@ -40,7 +40,7 @@ lint:
 # Typescript
 type:
   stage: checks
-  allow_failure: false
+  allow_failure: true
   script:
     - yarn typescript
   except:
@@ -70,6 +70,7 @@ test:
 # Build
 build:
   stage: checks
+  allow_failure: false
   script:
     - yarn build
   except:
