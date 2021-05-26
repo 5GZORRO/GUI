@@ -1,6 +1,6 @@
 // ! Do not remove the env comments they are used for building the correct environemnt
 // env
-export * from 'environments/staging'
+export * from 'environments/development'
 // env
 
 // Core Constants
@@ -11,6 +11,8 @@ export const BUILD_DATE = process.env.BUILD_DATE
 export const SESSION_TOKEN = 'stakeholderDID'
 export const SESSION_USER = 'stakeholder'
 export const DATETIME_FORMAT = 'YYYY-MM-DDTHH:mm:ssZZ'
+export const DATETIME_FORMAT_SHOW = 'DD-MM-YYYY HH:mm'
+
 // Field Constants
 
 // Other Contants

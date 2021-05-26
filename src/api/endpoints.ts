@@ -8,9 +8,11 @@ export const endpoints = {
   PRODUCT_SPECIFICATION: `${API_MARKET_PLACE}/productCatalogManagement/v4/productSpecification`,
   PRODUCT_OFFERING: `${API_MARKET_PLACE}/productCatalogManagement/v4/productOffering`,
   PRODUCT_OFFERING_FILTERED: `${API_MARKET_PLACE}/productCatalogManagement/v4/productOffering/filtered`,
-  SMART_CONTRACT_MANAGEMENT: `${API_SMART_CONTRACT}/service-level-agreement`,
   LEGAL_PROSE_TEMPLATES: `${API_LPT}/api/v1/legal-prose-templates`,
   RESOURCE_SPECIFICATION: `${API_MARKET_PLACE}/resourceCatalogManagement/v2/resourceSpecification`,
   PRODUCT_OFFER_PRICE: `${API_MARKET_PLACE}/productCatalogManagement/v4/productOfferingPrice`,
-  CATEGORIES: `${API_MARKET_PLACE}/productCatalogManagement/v4/category`
+  CATEGORIES: `${API_MARKET_PLACE}/productCatalogManagement/v4/category`,
+  SERVICE_LEGAL_AGREEMENT: `${API_SMART_CONTRACT}/api/v1/service-level-agreement`,
+  LICENCES: `${API_SMART_CONTRACT}/api/v1/licences`
+
 }

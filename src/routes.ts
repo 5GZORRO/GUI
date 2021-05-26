@@ -12,10 +12,10 @@ const NewResource = React.lazy(() => import('./views/resources/newResource/index
 const NewPhysicalResource = React.lazy(() => import('./views/resources/newPhysicalResource'))
 const NewVirtualResource = React.lazy(() => import('./views/resources/newVirtualResource'))
 const NewCategory = React.lazy(() => import('./views/resources/newCategory'))
-const SLA = React.lazy(() => import('./views/slas'))
-const Licences = React.lazy(() => import('./views/licences'))
+const LegalProseTemplates = React.lazy(() => import('./views/lpts'))
 const ProductOfferingPrices = React.lazy(() => import('./views/productOfferingPrices'))
 const NewProductOfferingPrice = React.lazy(() => import('./views/productOfferingPrices/newProductOfferingPrice'))
+const NewLegalProseTemplate = React.lazy(() => import('./views/lpts/NewTemplate'))
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -41,8 +41,9 @@ const routes = [
   },
   { path: '/membership', name: 'Membership', component: Membership },
   { path: '/proposals', name: 'Proposals', component: Proposals },
-  { path: '/sla', name: 'SLAs', component: SLA },
-  { path: '/licences', name: 'Licences', component: Licences },
+  { path: '/templates/new/', name: 'New Legal Prose Template', component: NewLegalProseTemplate },
+
+  { path: '/templates', name: 'Legal Prose Templates', component: LegalProseTemplates },
   { path: '/prices', name: 'Product Offering Prices', component: ProductOfferingPrices }
 ]
 

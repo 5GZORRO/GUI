@@ -54,3 +54,9 @@ export const useAllCategories = (params?: any) =>
   useQuery(['allCategories', params], () => api.resources.useAllCategories(params), {
     keepPreviousData: true
   })
+
+export const useGetLegalTemplate = (id: string) => {
+  return useQuery(['getTemplate', id], () => api.resources.getLegalTemplate(id), {
+    keepPreviousData: true
+  })
+}

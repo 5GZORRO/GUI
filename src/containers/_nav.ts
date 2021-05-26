@@ -23,15 +23,9 @@ export default [
   },
   {
     _tag: 'CSidebarNavItem',
-    name: 'SLAs',
-    to: '/sla',
+    name: 'Legal Prose Templates',
+    to: '/templates/',
     icon: 'cilFlagAlt'
-  },
-  {
-    _tag: 'CSidebarNavItem',
-    name: 'Licences',
-    to: '/licences',
-    icon: 'cilLockLocked'
   },
   {
     _tag: 'CSidebarNavTitle',

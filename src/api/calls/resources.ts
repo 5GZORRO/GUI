@@ -94,6 +94,16 @@ const useAllCategories = async (params?: any): Promise<ApiCategory[]> => {
   }
 }
 
+const getLegalTemplate = async (id: string): Promise<any> => {
+  try {
+    const response = await axios.get(`${endpoints.LEGAL_PROSE_TEMPLATES}/${id}`)
+    return response.data
+  } catch (e) {
+    console.log({ e })
+    throw new Error('error')
+  }
+}
+
 export default {
   useAllProductSpecification,
   getProductSpecificationById,
@@ -102,5 +112,6 @@ export default {
   getProductPrices,
   createProductOfferingPrice,
   getResourceSpecificationsBatch,
-  useAllCategories
+  useAllCategories,
+  getLegalTemplate
 }
