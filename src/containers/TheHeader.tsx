@@ -61,8 +61,8 @@ const TheHeader: React.FC = () => {
         </CHeaderNav>
       )}
       <CHeaderNav className="px-3">
-        <TheHeaderDropdownNotif />
-        <TheHeaderDropdownMssg />
+        {/* <TheHeaderDropdownNotif />
+        <TheHeaderDropdownMssg /> */}
         <TheHeaderDropdown />
       </CHeaderNav>
       {!simpleSidebar && (

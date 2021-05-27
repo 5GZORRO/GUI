@@ -104,6 +104,16 @@ const getLegalTemplate = async (id: string): Promise<any> => {
   }
 }
 
+const createCategory = async (body: any): Promise<any> => {
+  try {
+    const response = await axios.post(endpoints.CATEGORIES, body)
+    return response.data
+  } catch (err) {
+    console.log({ err })
+    throw new Error('error')
+  }
+}
+
 export default {
   useAllProductSpecification,
   getProductSpecificationById,
@@ -113,5 +123,6 @@ export default {
   createProductOfferingPrice,
   getResourceSpecificationsBatch,
   useAllCategories,
-  getLegalTemplate
+  getLegalTemplate,
+  createCategory
 }

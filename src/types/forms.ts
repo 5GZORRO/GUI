@@ -21,7 +21,7 @@ export interface RolesProps {
 }
 
 export interface InputLogin {
-  stakeholderDID: string
+  // stakeholderDID: string
 }
 
 export interface InputRegister {

@@ -6,6 +6,7 @@ import { TransformDataTemplates } from 'api/utils'
 
 const getAllTemplates = async (params?: any): Promise<any[]> => {
   try {
+    console.log('params ', { params })
     const response = await axios.get(endpoints.LEGAL_PROSE_TEMPLATES, { params })
     if (response?.data?.pagedTemplates?.content) {
       return response?.data?.pagedTemplates?.content
@@ -73,8 +74,34 @@ const getMyTemplates = async (params?: any): Promise<any[]> => {
 
 const getAllLicences = async (params?: any): Promise<any[]> => {
   try {
-    const response = await axios.get(endpoints.SERVICE_LEGAL_AGREEMENT, { params })
-    return TransformDataTemplates(response.data)
+    const response = await axios.get(endpoints.LEGAL_PROSE_TEMPLATES, {
+      params: {
+        categoryFilter: 'LICENSE'
+      }
+    })
+    if (response?.data?.pagedTemplates?.content) {
+      return response?.data?.pagedTemplates?.content
+    } else {
+      throw new Error('error')
+    }
+  } catch (e) {
+    console.log(e)
+    throw new Error('error')
+  }
+}
+
+const getAllSLATemplates = async (params?: any): Promise<any[]> => {
+  try {
+    const response = await axios.get(endpoints.LEGAL_PROSE_TEMPLATES, {
+      params: {
+        categoryFilter: 'SLA'
+      }
+    })
+    if (response?.data?.pagedTemplates?.content) {
+      return response?.data?.pagedTemplates?.content
+    } else {
+      throw new Error('error')
+    }
   } catch (e) {
     console.log(e)
     throw new Error('error')
@@ -86,5 +113,6 @@ export default {
   getMyTemplates,
   getAllSLAs,
   createTemplate,
-  getAllLicences
+  getAllLicences,
+  getAllSLATemplates
 }

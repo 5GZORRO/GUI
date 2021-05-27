@@ -22,7 +22,7 @@ import { useAuthContext } from 'context/AuthContext'
 interface formOfferCreation {
   name: string
   description: string
-  country: string
+  location: string
   serviceLevelAgreement: []
   productOfferPrice: []
   owner: string
@@ -39,7 +39,7 @@ const ProductDetail: React.FC = () => {
     defaultValues: {
       name: '',
       description: '',
-      country: '',
+      location: '',
       serviceLevelAgreement: [],
       productOfferPrice: [],
       validFor: {

@@ -32,7 +32,7 @@ interface templateForm {
   templateFile: any
 }
 
-const NewTemplate = () => {
+const NewLicence = () => {
   const {
     formState: { errors, ...remain },
     control,
@@ -43,7 +43,7 @@ const NewTemplate = () => {
       proposeTemplateRequest: {
         name: '',
         description: '',
-        category: 'SLA'
+        category: 'LICENSE'
       },
       templateFile: ''
     }
@@ -87,7 +87,7 @@ const NewTemplate = () => {
       {isLoading && <LoadingWithFade />}
 
       <CContainer>
-        <h1 className={'mb-5'}>New Legal Prose Template</h1>
+        <h1 className={'mb-5'}>New Licence</h1>
         <FormProvider {...methods} {...{ formState: { errors, ...remain }, control, handleSubmit }}>
           <CForm onSubmit={handleSubmit(onSubmit)}>
             <CCard>
@@ -117,7 +117,7 @@ const NewTemplate = () => {
                         rules={{ required: true }}
                         name="proposeTemplateRequest.category"
                         render={({ field }) => (
-                          <CSelect {...field}>
+                          <CSelect {...field} disabled>
                             <option value="SLA">SLA</option>
                             <option value="LICENSE">Licence</option>
                             {/* <option value='AGREEMENT'>Agreement</option> */}
@@ -209,4 +209,4 @@ const NewTemplate = () => {
   )
 }
 
-export default NewTemplate
+export default NewLicence

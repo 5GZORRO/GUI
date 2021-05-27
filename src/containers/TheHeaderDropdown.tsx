@@ -18,7 +18,7 @@ const TheHeaderDropdown = () => {
           <CIcon name="cil-user" className="mfe-2"/>
           Sign Out
         </CDropdownItem>
-        <CDropdownItem>
+        {/* <CDropdownItem>
           <CIcon name="cil-settings" className="mfe-2" />
           Settings
         </CDropdownItem>
@@ -40,7 +40,7 @@ const TheHeaderDropdown = () => {
         <CDropdownItem>
           <CIcon name="cil-lock-locked" className="mfe-2" />
           Lock Account
-        </CDropdownItem>
+        </CDropdownItem> */}
       </CDropdownMenu>
     </CDropdown>
   )

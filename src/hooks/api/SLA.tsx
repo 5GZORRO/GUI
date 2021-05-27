@@ -20,5 +20,9 @@ export const useAllSLAs = (params?: any) => {
 
 export const useCreateTemplate = () => useMutation<any, any, any>((params: any) => api.sla.createTemplate(params))
 
-export const useAllLicences = (params?: any) =>
-  useQuery(['allLicences', params], () => api.sla.getAllLicences(params), { keepPreviousData: true })
+export const useAllLicences = (params?: any) => {
+  return useQuery(['allLicences', params], () => api.sla.getAllLicences(params), { keepPreviousData: true })
+}
+
+export const useAllSLATemplates = (params?: any) =>
+  useQuery(['AllSLATemplates', params], () => api.sla.getAllSLATemplates(params), { keepPreviousData: true })

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   CContainer,
   CRow,
@@ -17,8 +17,10 @@ import {
 import { Link } from 'react-router-dom'
 import AllTemplates from './tables/AllTemplates'
 import MySLAs from './tables/MySLAs'
+import MyLicences from './tables/MyLicences'
 
 const SLA = () => {
+  const [activeTab, setActiveTab] = useState('allTemplates')
   return (
     <CContainer>
       <CRow className={'mb-5'}>
@@ -26,14 +28,31 @@ const SLA = () => {
           <h2>Legal Prose Templates</h2>
         </CCol>
         <CCol className={'d-flex justify-content-end align-items-center'}>
-          <Link to={'/templates/new/'}>
-            <CButton block={false} color={'gradient'} className={'text-uppercase px-4'}>
-              add lpt template
-            </CButton>
-          </Link>
+          {activeTab === 'allTemplates' && (
+            <Link to={'/templates/new/'}>
+              <CButton block={false} color={'gradient'} className={'text-uppercase px-4'}>
+                add lpt template
+              </CButton>
+            </Link>
+          )}
+          {activeTab === 'mySLAs' && (
+            <Link to={'/templates/new/sla'}>
+              <CButton block={false} color={'gradient'} className={'text-uppercase px-4 mr-2'}>
+                add SLA
+              </CButton>
+            </Link>
+          )}
+
+          {activeTab === 'myLicences' && (
+            <Link to={'/templates/new/licence'}>
+              <CButton block={false} color={'gradient'} className={'text-uppercase px-4 mr-2'}>
+                add Licence
+              </CButton>
+            </Link>
+          )}
         </CCol>
       </CRow>
-      <CTabs activeTab="allTemplates">
+      <CTabs activeTab={activeTab} onActiveTabChange={(tab: string) => setActiveTab(tab)}>
         <CNav variant="tabs">
           <CNavItem>
             <CNavLink data-tab="allTemplates" className={'text-uppercase'}>
@@ -67,11 +86,6 @@ const SLA = () => {
               <CCardHeader>
                 <CRow style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <h5 className={'m-0'}>{'My Service Level Agreements'}</h5>
-                  <Link to={'/templates/new/sla'}>
-                    <CButton block={false} color={'gradient'} className={'text-uppercase px-4 mr-2'}>
-                      add SLA
-                    </CButton>
-                  </Link>
                 </CRow>
               </CCardHeader>
               <CCardBody>
@@ -82,9 +96,13 @@ const SLA = () => {
           <CTabPane data-tab="myLicences">
             <CCard className={'mt-4'}>
               <CCardHeader>
-                <h5 className={'m-0'}>{'My Licences'}</h5>
+                <CRow style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <h5 className={'m-0'}>{'My Licences'}</h5>
+                </CRow>
               </CCardHeader>
-              <CCardBody></CCardBody>
+              <CCardBody>
+                <MyLicences />
+              </CCardBody>
             </CCard>
           </CTabPane>
         </CTabContent>

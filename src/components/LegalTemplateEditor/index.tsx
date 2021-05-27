@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 
 import { SlateTransformer } from '@accordproject/markdown-slate'
 import ContractEditor, { getChildren } from '@accordproject/ui-contract-editor'
 import { Template, Clause } from '@accordproject/cicero-core'
-import { Base64 } from 'js-base64'
 
 import 'semantic-ui-css/semantic.min.css'
 
@@ -21,7 +20,7 @@ const clausePropsObject = {
 
 const LegalTemplateEditor = ({ templateString, readOnly }) => {
   const [editor, setEditor] = useState<any>(null)
-  const [template, setTemplate] = useState<any>(null)
+  const templateState = useRef<any>(null)
 
   const [slateValue, setSlateValue] = useState(() => {
     const slate = getContractSlateVal()
@@ -47,7 +46,7 @@ const LegalTemplateEditor = ({ templateString, readOnly }) => {
           ]
           // Transforms.insertNodes(editor, slateClause, { at: Editor.end(editor, []) })
           setSlateValue(slateClause)
-          setTemplate(template)
+          templateState.current = template
         })
         .catch((err: any) => {
           console.log('error', err)
@@ -81,7 +80,7 @@ const LegalTemplateEditor = ({ templateString, readOnly }) => {
           }
         }
         const text = slateTransformer.toMarkdownCicero(value)
-        const ciceroClause = new Clause(template)
+        const ciceroClause = new Clause(templateState.current)
         ciceroClause.parse(text)
 
         const hasFormulas = getChildren(clauseNode, (n: any) => n.type === 'formula')

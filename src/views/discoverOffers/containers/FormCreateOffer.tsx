@@ -17,17 +17,21 @@ import {
   CInputGroupText,
   CModal,
   CModalBody,
-  CModalHeader
+  CModalHeader,
+  CInputGroupAppend
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 
 import Select from 'react-select'
+
+import { PlusCircle } from 'assets/icons/externalIcons'
 
 import { Controller, useFormContext } from 'react-hook-form'
 import { useAllSLAs } from 'hooks/api/SLA'
 import { useAllProductOfferingPrices, useAllCategories } from 'hooks/api/Resources'
 
 import DateRangePicker from 'components/DateRangePicker'
+import AddNewCategoryModal from 'containers/AddNewCategoryModal'
 import moment from 'moment'
 import { DATETIME_FORMAT } from 'config'
 import dayjs from 'dayjs'
@@ -82,6 +86,7 @@ const FormCreateOffer: React.FC = () => {
   const [selected, setSelected] = useState<any>([])
   const [selectedPOP, setSelectedPOP] = useState<any>([])
 
+  const [addCategoryModal, setAddCategoryModal] = useState<any>(false)
   const [modalProductOfferingPrice, setModalProductOfferingPrice] = useState<any | null>(null)
   const [modalSLA, setModalSLA] = useState<any | null>(null)
 
@@ -226,15 +231,15 @@ const FormCreateOffer: React.FC = () => {
             </CCol>
             <CCol sm={6}>
               <CFormGroup>
-                <CLabel>Country</CLabel>
+                <CLabel>location</CLabel>
                 <Controller
                   control={control}
                   defaultValue={''}
                   rules={{ required: true }}
-                  name="country"
-                  render={({ field }) => <CInput placeholder={'Enter Country'} {...field} />}
+                  name="location"
+                  render={({ field }) => <CInput placeholder={'Enter location'} {...field} />}
                 />
-                {errors.country && <CFormText className="help-block">Please select a country</CFormText>}
+                {errors.location && <CFormText className="help-block">Please select a location</CFormText>}
               </CFormGroup>
             </CCol>
           </CRow>
@@ -305,7 +310,7 @@ const FormCreateOffer: React.FC = () => {
             <CCol sm={6}>
               <CFormGroup>
                 <CLabel htmlFor="category">Category</CLabel>
-                <CInputGroup>
+                <CInputGroup style={{ display: 'grid', gridTemplateColumns: '1fr 2.5rem', columnGap: '0.5rem' }}>
                   {!isLoadingCategories && (
                     <Controller
                       control={control}
@@ -330,6 +335,11 @@ const FormCreateOffer: React.FC = () => {
                       )}
                     />
                   )}
+                  <CInputGroupAppend>
+                    <CButton type="button" color="transparent" onClick={() => setAddCategoryModal(true)}>
+                      <PlusCircle />
+                    </CButton>
+                  </CInputGroupAppend>
                 </CInputGroup>
                 {errors.category && <CFormText className="help-block">Please select at least a category</CFormText>}
               </CFormGroup>
@@ -433,6 +443,7 @@ const FormCreateOffer: React.FC = () => {
           </CRow>
         </CModalBody>
       </CModal>
+      {addCategoryModal && <AddNewCategoryModal handleClose={() => setAddCategoryModal(false)}></AddNewCategoryModal>}
     </>
   )
 }

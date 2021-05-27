@@ -22,13 +22,13 @@ const ProviderAuth = ({ children }: IProps) => {
   const [user, setUser] = useState<StackeholderResponse | null>(null)
   const history = useHistory()
   const location = useLocation()
-  const { data, mutate } = useLogin()
+  const { data, refetch } = useLogin()
 
   useEffect(() => {
     const getUser = async (prevUser: string) => {
       const parsed = JSON.parse(prevUser)
       if (parsed?.stakeholderClaim?.stakeholderDID) {
-        await mutate({ stakeholderDID: parsed?.stakeholderClaim?.stakeholderDID })
+        await refetch()
       }
     }
     const previousState = window.sessionStorage.getItem(SESSION_USER)

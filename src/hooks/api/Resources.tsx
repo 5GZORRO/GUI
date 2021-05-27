@@ -60,3 +60,6 @@ export const useGetLegalTemplate = (id: string) => {
     keepPreviousData: true
   })
 }
+
+export const useCreateCategory = (body?: any) =>
+  useMutation<any, any, any>((params: any) => api.resources.createCategory(params))
