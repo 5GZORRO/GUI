@@ -29,7 +29,7 @@ const routes = [
   { path: '/orders', name: 'Orders', component: Orders },
   { exact: true, path: '/resource', name: 'Resource & Services', component: Resources },
   { exact: true, path: '/resource/new-resource', name: 'Create Resource & Service', component: NewResource },
-  { exact: true, path: '/prices/new', name: 'New Product Offering Prices', component: NewProductOfferingPrice },
+  { exact: true, path: '/prices/new', name: 'New Product Offering Price', component: NewProductOfferingPrice },
 
   { path: '/resource/new-resource/new-category', name: 'New Category', component: NewCategory },
   {

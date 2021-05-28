@@ -13,7 +13,6 @@ import {
   CTextarea,
   CContainer,
   CForm,
-  CInputFile,
   CSelect
 } from '@coreui/react'
 import { FormProvider, Controller, useForm } from 'react-hook-form'

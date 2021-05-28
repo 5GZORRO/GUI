@@ -7,16 +7,14 @@ const AllTemplates = () => {
   const { data, isLoading } = useAllProductOfferingPrices()
   const fields = [
     'name',
-    'percentage',
     {
-      key: 'price',
+      key: 'value',
       label: 'Price'
     },
     {
       key: 'unit',
       label: 'Unit'
     },
-    'version',
     {
       key: 'show_details',
       label: '',
@@ -34,6 +32,10 @@ const AllTemplates = () => {
     </td>
   )
 
+  const renderValue = (item: any) => <td className="py-2">{item?.price?.value}</td>
+
+  const renderUnit = (item: any) => <td className="py-2">{item?.price?.unit}</td>
+
   return (
     <CDataTable
       cleaner
@@ -45,7 +47,9 @@ const AllTemplates = () => {
       fields={fields}
       itemsPerPage={5}
       scopedSlots={{
-        show_details: (item: any) => showDetails(item)
+        show_details: (item: any) => showDetails(item),
+        value: (item: any) => renderValue(item),
+        unit: (item: any) => renderUnit(item)
       }}
       sorter
       hover

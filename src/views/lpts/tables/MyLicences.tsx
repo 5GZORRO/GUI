@@ -95,7 +95,7 @@ export const AllTemplates: React.FC = () => {
               </CCol>
             </CRow>
             <CRow>
-              <SLATemplateAccordViewer id={modal?.id}></SLATemplateAccordViewer>
+              <SLATemplateAccordViewer id={modal?.id} readOnly={true}></SLATemplateAccordViewer>
             </CRow>
           </CModalBody>
         </CModal>

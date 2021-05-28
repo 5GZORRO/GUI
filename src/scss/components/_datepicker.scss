@@ -33,4 +33,8 @@
   & .DateRangePickerInput_arrow_svg {
     fill: white;
   }
+
+  & .DateRangePicker_picker{
+    z-index: 100;
+  }
 }

@@ -3,7 +3,7 @@ import * as yup from 'yup'
 export const schemaRegister = yup.object().shape({
   name: yup.string().required(),
   description: yup.string().required(),
-  location: yup.string().required(),
+  location: yup.string(),
   productOfferPrice: yup
     .array()
     .of(

@@ -235,7 +235,6 @@ const FormCreateOffer: React.FC = () => {
                 <Controller
                   control={control}
                   defaultValue={''}
-                  rules={{ required: true }}
                   name="location"
                   render={({ field }) => <CInput placeholder={'Enter location'} {...field} />}
                 />
