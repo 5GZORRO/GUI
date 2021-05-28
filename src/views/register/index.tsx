@@ -58,7 +58,7 @@ const Register: React.FC = () => {
   const serviceProvider = watch('roles.serviceProvider.isSelect')
   const serviceConsumer = watch('roles.serviceConsumer.isSelect')
 
-  const { data, mutate, isSuccess, isLoading } = useRegister()
+  const { data, mutate, isSuccess, isLoading, isError } = useRegister()
   const history = useHistory()
 
   const onSubmit = (form: InputRegister) => {
@@ -102,8 +102,14 @@ const Register: React.FC = () => {
                   <CCard className="px-4 py-5 w-100">
                     <CCardBody className={'p-0'}>
                       <CForm onSubmit={handleSubmit(onSubmit)}>
+                        {isError && (
+                          <p style={{ color: 'red', padding: '0.5rem', background: 'rgba(255, 0, 0, 0.1)' }}>
+                            An error has occurred
+                          </p>
+                        )}
                         <h1 className={'mb-4'}>Sign up</h1>
                         <p className="text-muted">It´s quick and easy</p>
+
                         <CRow className={'mb-4'}>
                           <CCol xs="12">
                             <CFormGroup>

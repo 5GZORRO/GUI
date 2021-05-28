@@ -39,11 +39,11 @@ const Login: React.FC = () => {
     control
   } = useForm<InputLogin>()
   const history = useHistory()
-  const { data, refetch, isSuccess, isLoading } = useLogin()
+  const { data, mutate, isSuccess, isLoading } = useLogin()
   const { user, signin } = useAuthContext()
 
   const onSubmit = (data: InputLogin) => {
-    refetch()
+    mutate()
   }
 
   useEffect(() => {
@@ -127,7 +127,7 @@ const Login: React.FC = () => {
                               data-testid="submit"
                               type="submit"
                             >
-                              submit
+                              Login
                             </CButton>
                           </CCol>
                         </CRow>

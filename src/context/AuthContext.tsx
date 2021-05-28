@@ -38,7 +38,7 @@ const ProviderAuth = ({ children }: IProps) => {
   }, [])
 
   useEffect(() => {
-    if (data) {
+    if (data != null) {
       setUser(() => data ?? null)
     }
   }, [data])
@@ -51,7 +51,7 @@ const ProviderAuth = ({ children }: IProps) => {
   const signout = () => {
     setUser(() => null)
     // remove to localStorage
-    window.sessionStorage.removeItem(SESSION_USER)
+    window.sessionStorage.clear()
     history.push('/login')
   }
 

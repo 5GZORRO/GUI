@@ -115,8 +115,10 @@
   "scripts": {
     "start": "cross-env APP_ENV=development node scripts/start.js",
     "build": "cross-env APP_ENV=staging node scripts/build.js",
+    "start:operatorA": "cross-env APP_ENV=operatorA node scripts/start.js",
     "start:operatorB": "cross-env APP_ENV=operatorB node scripts/start.js",
     "start:operatorC": "cross-env APP_ENV=operatorC node scripts/start.js",
+    "build:operatorA": "cross-env APP_ENV=operatorA node scripts/build.js",
     "build:operatorB": "cross-env APP_ENV=operatorB node scripts/build.js",
     "build:operatorC": "cross-env APP_ENV=operatorC node scripts/build.js",
     "test": "node scripts/test.js --coverage",
