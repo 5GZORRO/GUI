@@ -105,7 +105,64 @@ interface formProductOfferingPriceCreation {
     value: number
   }
   pricingLogicAlgorithm: []
-  prodSpecCharValueUse: any[]
+  prodSpecCharValueUse: [
+    {
+      name: string
+      description: string
+      valueType: string
+      configurable: boolean
+      isUnique: boolean
+      productSpecCharacteristicValue: [
+        {
+          isDefault: boolean
+          valueType: string
+          value: string
+        }
+      ]
+    },
+    {
+      name: string
+      description: string
+      valueType: string
+      configurable: boolean
+      isUnique: boolean
+      productSpecCharacteristicValue: [
+        {
+          isDefault: boolean
+          valueType: string
+          value: string
+        }
+      ]
+    },
+    {
+      name: string
+      description: string
+      valueType: string
+      configurable: boolean
+      isUnique: boolean
+      productSpecCharacteristicValue: [
+        {
+          isDefault: boolean
+          valueType: string
+          value: string
+        }
+      ]
+    },
+    {
+      name: string
+      description: string
+      valueType: string
+      configurable: boolean
+      isUnique: boolean
+      productSpecCharacteristicValue: [
+        {
+          isDefault: boolean
+          valueType: string
+          value: string
+        }
+      ]
+    }
+  ]
 }
 
 const NewProductOfferingPrice = () => {
@@ -119,7 +176,8 @@ const NewProductOfferingPrice = () => {
     formState: { errors },
     control,
     watch,
-    setValue
+    setValue,
+    register
   } = useForm<formProductOfferingPriceCreation>({
     defaultValues: {
       name: '',
@@ -143,11 +201,6 @@ const NewProductOfferingPrice = () => {
       pricingLogicAlgorithm: [],
       prodSpecCharValueUse: [
         {
-          name: 'FunctionDescriptorName',
-          description: 'Descriptor name which links this specification to an actual Virtual Network Function',
-          valueType: 'string',
-          configurable: true,
-          isUnique: false,
           productSpecCharacteristicValue: [
             {
               isDefault: true,
@@ -157,12 +210,6 @@ const NewProductOfferingPrice = () => {
           ]
         },
         {
-          name: 'FunctionDescriptorType',
-          description:
-            'Type of component that correspond to the FunctionDescriptorName values in a POP. This PSC affects to the entire POP, therefore each type of FunctionDescriptorName would require a new POP.',
-          valueType: 'string',
-          configurable: true,
-          isUnique: true,
           productSpecCharacteristicValue: [
             {
               isDefault: true,
@@ -172,9 +219,6 @@ const NewProductOfferingPrice = () => {
           ]
         },
         {
-          name: 'PriceLogic',
-          description: 'Charged by the number of instances deployed over a month',
-          valueType: 'string',
           productSpecCharacteristicValue: [
             {
               isDefault: true,
@@ -184,9 +228,6 @@ const NewProductOfferingPrice = () => {
           ]
         },
         {
-          name: 'UnitOfMeasureAggregation',
-          description: 'Additional logic required to correctly measure the PriceType',
-          valueType: 'string',
           productSpecCharacteristicValue: []
         }
       ]
@@ -215,6 +256,7 @@ const NewProductOfferingPrice = () => {
   ]
 
   const onSubmit = (data: formProductOfferingPriceCreation) => {
+    console.log(data)
     const newData = TransformFormData(data)
     mutate(newData)
   }
@@ -262,7 +304,7 @@ const NewProductOfferingPrice = () => {
     )
   }
 
-  const [selectedMeasures, setSelectedMeasures] = useState([])
+  const [selectedMeasures, setSelectedMeasures] = useState<any>([])
 
   useEffect(() => {
     setValue('prodSpecCharValueUse.3.productSpecCharacteristicValue', selectedMeasures)
@@ -448,7 +490,9 @@ const NewProductOfferingPrice = () => {
                       name="priceType"
                       render={({ field }) => (
                         <CSelect {...field} id="priceType">
-                          <option value="" disabled>Select one</option>
+                          <option value="" disabled>
+                            Select one
+                          </option>
 
                           <option value="oneTime">One Time</option>
                           <option value="recurring">Recurring</option>
