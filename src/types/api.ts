@@ -601,7 +601,7 @@ export interface SLABody {
   }
   name: string
   description: string
-  relatedParty: [
+  relatedPartyRefs: [
         {
           role: string
           name: string
