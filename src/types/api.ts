@@ -588,3 +588,40 @@ export interface ApiCategory {
   }
   version: string
 }
+
+export interface SLABody {
+  templateRef: {
+    name: string
+    description: string
+    href: string
+  }
+  validFor: {
+    startDateTime: string
+    endDateTime: string
+  }
+  name: string
+  description: string
+  relatedParty: [
+        {
+          role: string
+          name: string
+          href: string
+          validFor: {
+            starDateTime: string | null
+            endDateTime: string | null
+          }
+        }
+      ]
+    | []
+  rules: [
+    {
+      unit: string
+      consequence: string
+      metric: string
+      id: string
+      operator: string
+      tolerance: string
+      referenceValue: string
+    }
+  ]
+}

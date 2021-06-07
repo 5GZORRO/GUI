@@ -6,7 +6,6 @@ import { TransformDataTemplates } from 'api/utils'
 
 const getAllTemplates = async (params?: any): Promise<any[]> => {
   try {
-    console.log('params ', { params })
     const response = await axios.get(endpoints.LEGAL_PROSE_TEMPLATES, { params })
     if (response?.data?.pagedTemplates?.content) {
       return response?.data?.pagedTemplates?.content
@@ -47,6 +46,16 @@ const createTemplate = async (body: any): Promise<any> => {
   }
 }
 
+const createSLA = async (body: any): Promise<any> => {
+  try {
+    const response = await axios.post(endpoints.SERVICE_LEGAL_AGREEMENT, body)
+    return response.data
+  } catch (err) {
+    console.log({ err })
+    throw new Error('error')
+  }
+}
+
 const getAllSLAs = async (params?: any): Promise<any[]> => {
   try {
     const response = await axios.get(endpoints.SERVICE_LEGAL_AGREEMENT, { params })
@@ -55,7 +64,6 @@ const getAllSLAs = async (params?: any): Promise<any[]> => {
     } else {
       throw new Error('error')
     }
-    // return response.data
   } catch (e) {
     console.log({ e })
     throw new Error('error')
@@ -114,5 +122,6 @@ export default {
   getAllSLAs,
   createTemplate,
   getAllLicences,
-  getAllSLATemplates
+  getAllSLATemplates,
+  createSLA
 }

@@ -6,19 +6,11 @@ import {
   CCol,
   CContainer,
   CForm,
-  CFormGroup,
-  CFormText,
-  CInput,
-  CInputGroup,
-  CInputGroupPrepend,
-  CInputGroupText,
-  CLabel,
   CRow
 } from '@coreui/react'
-import { useForm, Controller } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 // import MaskedInput from 'react-text-mask'
 // import Input from 'components/input'
-import { KeyLogin } from 'assets/icons/externalIcons'
 import { LogoVerticalWhite } from 'assets/icons/logos'
 import CIcon from '@coreui/icons-react'
 import { useHistory } from 'react-router'

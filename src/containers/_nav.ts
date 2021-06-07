@@ -9,18 +9,18 @@ export default [
     _tag: 'CSidebarNavTitle',
     _children: ['Administration']
   },
-  {
-    _tag: 'CSidebarNavItem',
-    name: 'Membership',
-    to: '/membership',
-    icon: 'cilLibraryBuilding'
-  },
-  {
-    _tag: 'CSidebarNavItem',
-    name: 'Proposals',
-    to: '/proposals',
-    icon: 'cilDescription'
-  },
+  // {
+  //   _tag: 'CSidebarNavItem',
+  //   name: 'Membership',
+  //   to: '/membership',
+  //   icon: 'cilLibraryBuilding'
+  // },
+  // {
+  //   _tag: 'CSidebarNavItem',
+  //   name: 'Proposals',
+  //   to: '/proposals',
+  //   icon: 'cilDescription'
+  // },
   {
     _tag: 'CSidebarNavItem',
     name: 'Legal Prose Templates',

@@ -461,7 +461,7 @@ const NewProductOfferingPrice = () => {
                         }}
                       />
                     </CInputGroup>
-                    {errors.description && <CFormText className="help-block">Please enter a date range</CFormText>}
+                    {errors.validFor && <CFormText className="help-block">Please enter a date range</CFormText>}
                   </CFormGroup>
                 </CCol>
                 <CCol sm={6}>

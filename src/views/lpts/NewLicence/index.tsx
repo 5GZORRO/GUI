@@ -84,9 +84,8 @@ const NewLicence = () => {
 
   return (
     <>
-      {isLoading && <LoadingWithFade />}
-
       <CContainer>
+        {isLoading && <LoadingWithFade />}
         <h1 className={'mb-5'}>New Licence</h1>
         <FormProvider {...methods} {...{ formState: { errors, ...remain }, control, handleSubmit }}>
           <CForm onSubmit={handleSubmit(onSubmit)}>
@@ -110,7 +109,7 @@ const NewLicence = () => {
                   </CCol>
                   <CCol sm={6}>
                     <CFormGroup>
-                      <CLabel htmlFor="name">Name</CLabel>
+                      <CLabel htmlFor="proposeTemplateRequest.category">Category</CLabel>
                       <Controller
                         control={control}
                         defaultValue={''}

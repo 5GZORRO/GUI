@@ -18,9 +18,12 @@ const clausePropsObject = {
   CLAUSE_TEST_FUNCTION: (e: Event) => console.log('Clause -> Test', { e })
 }
 
-const LegalTemplateEditor = ({ templateString, readOnly }) => {
+const LegalTemplateEditor = (props: any) => {
   const [editor, setEditor] = useState<any>(null)
   const templateState = useRef<any>(null)
+  const currentClause = useRef<any>(null)
+
+  const { getDataCallback, triggerCallback, prefilledData, templateString, readOnly } = props
 
   const [slateValue, setSlateValue] = useState(() => {
     const slate = getContractSlateVal()
@@ -33,6 +36,7 @@ const LegalTemplateEditor = ({ templateString, readOnly }) => {
         .then(async (template: any) => {
           const clause = new Clause(template)
           clause.parse(template.getMetadata().getSample())
+          clause.setData({ ...clause.getData(), ...prefilledData })
           const slateValueNew = await clause.draft({ format: 'slate' })
           const slateClause = [
             {
@@ -46,6 +50,7 @@ const LegalTemplateEditor = ({ templateString, readOnly }) => {
           ]
           // Transforms.insertNodes(editor, slateClause, { at: Editor.end(editor, []) })
           setSlateValue(slateClause)
+          currentClause.current = clause
           templateState.current = template
         })
         .catch((err: any) => {
@@ -53,6 +58,13 @@ const LegalTemplateEditor = ({ templateString, readOnly }) => {
         })
     }
   }, [templateString, editor])
+
+  useEffect(() => {
+    if (triggerCallback && getDataCallback) {
+      const data = currentClause?.current?.getData()
+      getDataCallback(data)
+    }
+  }, [triggerCallback])
 
   const onContractChange = useCallback(
     (value) => {
@@ -91,6 +103,8 @@ const LegalTemplateEditor = ({ templateString, readOnly }) => {
           draftedSlateNode = JSON.parse(JSON.stringify(clauseNode))
           draftedSlateNode.children = slateDom.document.children
         }
+
+        currentClause.current = ciceroClause
 
         return Promise.resolve({
           node: hasFormulas ? draftedSlateNode : null,
