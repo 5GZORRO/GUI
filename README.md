@@ -62,6 +62,37 @@ Run `build` to build the project. The build artifacts will be stored in the `bui
 $ yarn build
 ```
 
+### Deploy to Kubernetes instance
+
+This deploy consists of two separate nginx images, each one with the files for one specific deploy (operator-a or operator-b). These images are pushed to Ubiwhere's docker hub repo and they are used by the k8s repo.
+
+In order to deploy to the existing Kubernetes instance, you'll need to connect to the project's VPN.
+
+After that, you will need to:
+
+* Setup kubectl: 
+
+    * Install kubectl (client version should be at least 21.1)
+    * Move/copy the platcmpk8sconfig file to the kubectl config (usually the ~/.kube/config file).
+    * After this, you should be able to access the cluster. You can test this by running something like `kubectl get pods`, which should return the list of pods running in the cluster.
+ 
+* Generate the nginx image containing the frontend files:
+
+    * Build the image: `docker build -f Dockerfile . --build-arg DEPLOY_DIR=/operator-a/ --build-arg SRC_DIR=fe-files/ --tag=ubiwhere/5gzorro-operator-a-dashboard`. The DEPLOY_DIR should be either `/operator-a/` or `/operator-b/`, and is the destination folder where the frontend files will be placed in the nginx image. The `SRC_DIR` defaults to `src/` and is the local directory containing the frontend files. The image name (`tag`) should be either `ubiwhere/5gzorro-operator-a-dashboard` or `ubiwhere/5gzorro-operator-b-dashboard`
+
+    * Login to docker hub with an account with privileges to push images under the Ubiwhere organization: `docker login https://index.docker.io/v1/ --username <username>`
+
+    * Push the image: `docker push ubiwhere/5gzorro-operator-a-dashboard`
+
+* Deploy in the cluster (there probably is a better way of doing this but it works since deleting the existing deployment isn't a problem in this case) using deployment-a or deployment-b:
+
+    * Delete the previous deploy: `kubectl delete -f deployment-a.yml` or `kubectl delete -f deployment-b.yml`
+    * Create a new deploy: `kubectl create -f deployment-a.yml` or `kubectl create -f deployment-b.yml`
+    * Check if everything is ok. A pod, service and deployment should have been created, which you can test by running:
+        * `kubectl get pods` (should have a pod like `operator-dashboard-a-<random_string>`)
+        * `kubectl get services` (should have a service `operator-service-a` or `operator-service-b`)
+        * `kubectl get deployments` (should have a deployment `operator-dashboard-a` or `operator-dashboard-b`)
+
 ## What's included
 
 Within the download you'll find the following directories and files, logically grouping common assets and providing both compiled and minified variations. You'll see something like this:
