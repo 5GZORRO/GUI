@@ -43,6 +43,7 @@ import moment from 'moment'
 import { DATETIME_FORMAT, DATETIME_FORMAT_SHOW } from 'config'
 import dayjs from 'dayjs'
 import AddNewPOP from 'containers/AddNewPOP'
+import AddNewSLA from 'containers/AddNewSLA'
 
 const colourStyles = {
   control: (styles: any) => ({ ...styles, backgroundColor: '#3C3C43', borderColor: '#3C3C43' }),
@@ -96,6 +97,7 @@ const FormCreateOffer: React.FC = () => {
 
   const [addCategoryModal, setAddCategoryModal] = useState<any>(false)
   const [addPOP, setAddPOP] = useState<any>(false)
+  const [addSLA, setAddSLA] = useState<any>(false)
 
   const [modalProductOfferingPrice, setModalProductOfferingPrice] = useState<any | null>(null)
   const [modalSLA, setModalSLA] = useState<any | null>(null)
@@ -403,7 +405,21 @@ const FormCreateOffer: React.FC = () => {
           <CRow className={'mt-4'}>
             <CCol>
               <CFormGroup>
-                <CLabel>Service Level Agreements</CLabel>
+                <CRow
+                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+                  className={'pl-3 pr-3'}
+                >
+                  <CLabel>Service Level Agreements</CLabel>
+                  <div
+                    style={{ display: 'flex', alignItems: 'center', marginLeft: 'auto', cursor: 'pointer' }}
+                    onClick={() => setAddSLA(true)}
+                  >
+                    <CButton type="button" color="transparent">
+                      <PlusCircle />
+                    </CButton>
+                    <p className={'m-0'}>NEW SERVICE LEVEL AGREEMENT</p>
+                  </div>
+                </CRow>
                 <CInputGroup>
                   <CCard className={'p-4'} style={{ width: '100%' }}>
                     <CDataTable
@@ -606,6 +622,7 @@ const FormCreateOffer: React.FC = () => {
         </CModal>
       )}
       {addPOP && <AddNewPOP handleClose={() => setAddPOP(false)}></AddNewPOP>}
+      {addSLA && <AddNewSLA handleClose={() => setAddSLA(false)}></AddNewSLA>}
     </>
   )
 }
