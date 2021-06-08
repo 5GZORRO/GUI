@@ -19,6 +19,16 @@ const getAllTemplates = async (params?: any): Promise<any[]> => {
   }
 }
 
+const getLegalTemplate = async (id: string): Promise<any> => {
+  try {
+    const response = await axios.get(`${endpoints.LEGAL_PROSE_TEMPLATES}/${id}`)
+    return response.data
+  } catch (e) {
+    console.log({ e })
+    throw new Error('error')
+  }
+}
+
 const createTemplate = async (body: any): Promise<any> => {
   const formData = new FormData()
 
@@ -52,6 +62,25 @@ const createSLA = async (body: any): Promise<any> => {
     return response.data
   } catch (err) {
     console.log({ err })
+    throw new Error('error')
+  }
+}
+
+const getSLA = async (id: string): Promise<any> => {
+  try {
+    const response = await axios.get(`${endpoints.SERVICE_LEGAL_AGREEMENT}/${id}`)
+
+    if (response?.data?.templateRef?.href) {
+      try {
+        const template = await axios.get(response?.data?.templateRef?.href)
+        return { ...response.data, template }
+      } catch (error) {
+        throw new Error('error')
+      }
+    }
+    return response.data
+  } catch (e) {
+    console.log({ e })
     throw new Error('error')
   }
 }
@@ -123,5 +152,7 @@ export default {
   createTemplate,
   getAllLicences,
   getAllSLATemplates,
-  createSLA
+  createSLA,
+  getLegalTemplate,
+  getSLA
 }

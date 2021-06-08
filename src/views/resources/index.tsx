@@ -52,8 +52,6 @@ const Resources: React.FC = () => {
     setModal(() => data)
   }
 
-  console.log(modal)
-
   return (
     <CContainer>
       <CModal show={modal != null} onClose={() => setModal(null)} size="lg">
@@ -237,7 +235,7 @@ const Resources: React.FC = () => {
           <CDataTable
             cleaner
             loading={isLoading}
-            items={data}
+            items={data?.filter((el) => el != null) ?? []}
             columnFilter
             tableFilter
             clickableRows

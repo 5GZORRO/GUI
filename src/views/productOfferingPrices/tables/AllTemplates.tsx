@@ -60,7 +60,7 @@ const AllTemplates = () => {
       <CDataTable
         cleaner
         loading={isLoading}
-        items={data}
+        items={data?.filter((el) => el != null) ?? []}
         columnFilter
         tableFilter
         clickableRows

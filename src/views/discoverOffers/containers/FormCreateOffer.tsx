@@ -360,7 +360,7 @@ const FormCreateOffer: React.FC = () => {
                     <CDataTable
                       cleaner
                       loading={isLoadingProductOfferPrice}
-                      items={productOfferPrice}
+                      items={productOfferPrice?.filter((el) => el != null) ?? []}
                       columnFilter
                       tableFilter
                       clickableRows
@@ -392,7 +392,7 @@ const FormCreateOffer: React.FC = () => {
                     <CDataTable
                       cleaner
                       loading={isLoadingSlas}
-                      items={slas}
+                      items={slas?.filter((el) => el != null) ?? []}
                       columnFilter
                       tableFilter
                       clickableRows

@@ -31,7 +31,7 @@ export const AllTemplates: React.FC = () => {
       <CDataTable
         cleaner
         loading={isLoading}
-        items={data}
+        items={data?.filter((el) => el != null) ?? []}
         columnFilter
         tableFilter
         clickableRows
@@ -94,7 +94,7 @@ export const AllTemplates: React.FC = () => {
                 <p>{modal?.status}</p>
               </CCol>
             </CRow>
-            <CRow>
+            <CRow className={'p-3'}>
               <SLATemplateAccordViewer id={modal?.id} readOnly={true}></SLATemplateAccordViewer>
             </CRow>
           </CModalBody>

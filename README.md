@@ -74,6 +74,8 @@ After that, you will need to:
 
     * Install kubectl (client version should be at least 21.1)
     * Move/copy the platcmpk8sconfig file to the kubectl config (usually the ~/.kube/config file).
+        - cp ./deployment/platcmpk8sconfig ~/.kube
+        - kubectl config use-context platcmp-platcmp-k8s-ctrl1
     * After this, you should be able to access the cluster. You can test this by running something like `kubectl get pods`, which should return the list of pods running in the cluster.
  
 * Generate the nginx image containing the frontend files:

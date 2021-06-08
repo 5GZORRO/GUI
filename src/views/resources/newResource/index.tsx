@@ -44,7 +44,6 @@ const NewResource:React.FC = () => {
       owner: ownerDid
     }
     // resource.mutate(newResource)
-    console.log('set new Form value')
     changeForm(newResource)
   }
 

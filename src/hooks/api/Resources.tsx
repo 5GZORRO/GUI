@@ -56,10 +56,15 @@ export const useAllCategories = (params?: any) =>
   })
 
 export const useGetLegalTemplate = (id: string) => {
-  return useQuery(['getTemplate', id], () => api.resources.getLegalTemplate(id), {
+  return useQuery(['getTemplate', id], () => api.sla.getLegalTemplate(id), {
     keepPreviousData: true
   })
 }
 
 export const useCreateCategory = (body?: any) =>
   useMutation<any, any, any>((params: any) => api.resources.createCategory(params))
+
+export const useGetSLA = (id: string) =>
+  useQuery(['getSLA', id], () => api.sla.getSLA(id), {
+    keepPreviousData: true
+  })

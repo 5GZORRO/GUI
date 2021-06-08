@@ -69,7 +69,6 @@ const NewLicence = () => {
     const file = e.target.files[0]
 
     reader.onloadend = () => {
-      console.log(file)
       onChange({
         target: {
           value: file

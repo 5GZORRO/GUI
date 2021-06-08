@@ -256,7 +256,6 @@ const NewProductOfferingPrice = () => {
   ]
 
   const onSubmit = (data: formProductOfferingPriceCreation) => {
-    console.log(data)
     const newData = TransformFormData(data)
     mutate(newData)
   }
@@ -764,7 +763,7 @@ const NewProductOfferingPrice = () => {
                           <CDataTable
                             cleaner
                             loading={isLoadingLicences}
-                            items={licences}
+                            items={licences?.filter((el) => el != null) ?? []}
                             columnFilter
                             tableFilter
                             clickableRows

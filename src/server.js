@@ -311,13 +311,11 @@ export function makeServer ({ environment = 'development' } = {}) {
 
       this.get('/tmf-api/resourceCatalogManagement/v2/resourceCandidate', (schema, serialize) => {
         const resourceCandidates = schema.resourceCandidates.all()
-        console.log(resourceCandidates)
         return resourceCandidates
       })
 
       this.get('/tmf-api/resourceCatalogManagement/v2/resourceCandidate/:id', (schema, request) => {
         const id = request.params.id
-        console.log('id', id)
         return [
           {
             '@baseType': 'string',

@@ -7,7 +7,7 @@ import { CDataTable, CButton, CCol, CRow, CModal, CModalBody, CModalHeader } fro
 import { DATETIME_FORMAT_SHOW } from 'config'
 import { useAllSLAs } from 'hooks/api/SLA'
 import dayjs from 'dayjs'
-import SLATemplateAccordViewer from 'components/SLATemplateAccordViewer'
+import SLAAccordViewer from 'components/SLAAccordViewer'
 
 export const AllTemplates: React.FC = () => {
   const { data, isLoading } = useAllSLAs()
@@ -31,7 +31,7 @@ export const AllTemplates: React.FC = () => {
       <CDataTable
         cleaner
         loading={isLoading}
-        items={data}
+        items={data?.filter((el) => el != null) ?? []}
         columnFilter
         tableFilter
         clickableRows
@@ -94,8 +94,8 @@ export const AllTemplates: React.FC = () => {
                 <p>{modal?.status}</p>
               </CCol>
             </CRow>
-            <CRow>
-              <SLATemplateAccordViewer id={modal?.id}></SLATemplateAccordViewer>
+            <CRow className={'p-3'}>
+              <SLAAccordViewer id={modal?.id} readOnly={true}></SLAAccordViewer>
             </CRow>
           </CModalBody>
         </CModal>

@@ -18,12 +18,10 @@ const clausePropsObject = {
   CLAUSE_TEST_FUNCTION: (e: Event) => console.log('Clause -> Test', { e })
 }
 
-const LegalTemplateEditor = (props: any) => {
+const LegalTemplateEditor = ({ getDataCallback, triggerCallback, prefilledData, templateString, readOnly }) => {
   const [editor, setEditor] = useState<any>(null)
   const templateState = useRef<any>(null)
   const currentClause = useRef<any>(null)
-
-  const { getDataCallback, triggerCallback, prefilledData, templateString, readOnly } = props
 
   const [slateValue, setSlateValue] = useState(() => {
     const slate = getContractSlateVal()

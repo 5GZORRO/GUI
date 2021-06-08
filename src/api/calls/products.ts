@@ -41,7 +41,6 @@ const createOffering = async (body: any): Promise<any> => {
 const getProductOffers = async (params: any): Promise<any> => {
   try {
     const newParams = cleanEmptyparams(params)
-    console.log(newParams)
     const response = await axios.get(endpoints.PRODUCT_OFFERING_FILTERED, { params: { ...newParams } })
     return response.data
   } catch (e) {
