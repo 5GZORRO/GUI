@@ -42,6 +42,7 @@ import AddNewCategoryModal from 'containers/AddNewCategoryModal'
 import moment from 'moment'
 import { DATETIME_FORMAT, DATETIME_FORMAT_SHOW } from 'config'
 import dayjs from 'dayjs'
+import AddNewPOP from 'containers/AddNewPOP'
 
 const colourStyles = {
   control: (styles: any) => ({ ...styles, backgroundColor: '#3C3C43', borderColor: '#3C3C43' }),
@@ -94,6 +95,8 @@ const FormCreateOffer: React.FC = () => {
   const [selectedPOP, setSelectedPOP] = useState<any>([])
 
   const [addCategoryModal, setAddCategoryModal] = useState<any>(false)
+  const [addPOP, setAddPOP] = useState<any>(false)
+
   const [modalProductOfferingPrice, setModalProductOfferingPrice] = useState<any | null>(null)
   const [modalSLA, setModalSLA] = useState<any | null>(null)
 
@@ -354,7 +357,21 @@ const FormCreateOffer: React.FC = () => {
           <CRow className={'mt-4'}>
             <CCol>
               <CFormGroup>
-                <CLabel>Product Offering Price</CLabel>
+                <CRow
+                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+                  className={'pl-3 pr-3'}
+                >
+                  <CLabel>Product Offering Price</CLabel>
+                  <div
+                    style={{ display: 'flex', alignItems: 'center', marginLeft: 'auto', cursor: 'pointer' }}
+                    onClick={() => setAddPOP(true)}
+                  >
+                    <CButton type="button" color="transparent">
+                      <PlusCircle />
+                    </CButton>
+                    <p className={'m-0'}>NEW PRODUCT OFFERING PRICE</p>
+                  </div>
+                </CRow>
                 <CInputGroup>
                   <CCard className={'p-4'} style={{ width: '100%' }}>
                     <CDataTable
@@ -588,6 +605,7 @@ const FormCreateOffer: React.FC = () => {
           </CModalBody>
         </CModal>
       )}
+      {addPOP && <AddNewPOP handleClose={() => setAddPOP(false)}></AddNewPOP>}
     </>
   )
 }

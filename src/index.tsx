@@ -38,7 +38,6 @@ ReactDOM.render(
       <Provider store={store}>
         <App />
       </Provider>
-      {(APP_ENV === 'fake' || APP_ENV === 'development') && <ReactQueryDevtools initialIsOpen={false} />}
     </QueryClientProvider>
   </React.StrictMode>,
   document.getElementById('root')

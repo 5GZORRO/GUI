@@ -46,13 +46,14 @@ const NewSLAForm = () => {
   }
 
   const mutateData = (templateData: any) => {
+    const { template, ...remain } = templateData
     mutate({
       templateRef: {
         name: data?.name,
         description: data.description,
         href
       },
-      ...templateData
+      ...remain
     })
   }
 
@@ -77,16 +78,16 @@ const NewSLAForm = () => {
                       }}
                       triggerCallback={trigger}
                       prefilledData={{
-                        relatedPartyRefs: [
-                          {
-                            role: 'SLAProvider',
-                            name: user?.stakeholderClaim?.stakeholderProfile?.name,
-                            href: user?.stakeholderClaim?.stakeholderDID,
-                            validFor: {
-                              startDateTime: dayjs().format(DATETIME_FORMAT),
-                              endDateTime: null
-                            }
-                          }
+                        relatedParty: [
+                          // {
+                          //   role: 'SLAProvider',
+                          //   name: user?.stakeholderClaim?.stakeholderProfile?.name,
+                          //   href: user?.stakeholderClaim?.stakeholderDID,
+                          //   validFor: {
+                          //     startDateTime: dayjs().format('DD/MM/YYYY'),
+                          //     endDateTime: dayjs().format('DD/MM/YYYY')
+                          //   }
+                          // }
                         ]
                       }}
                     />
