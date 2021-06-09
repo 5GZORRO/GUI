@@ -68,3 +68,6 @@ export const useGetSLA = (id: string) =>
   useQuery(['getSLA', id], () => api.sla.getSLA(id), {
     keepPreviousData: true
   })
+
+export const useAllLocations = (params?: any) =>
+  useQuery(['allLocations', params], () => api.resources.useAllLocations(params), { keepPreviousData: true })

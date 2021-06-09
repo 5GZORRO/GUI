@@ -94,6 +94,20 @@ const useAllCategories = async (params?: any): Promise<ApiCategory[]> => {
   }
 }
 
+const useAllLocations = async (params?: any): Promise<any[]> => {
+  try {
+    const response = await axios.get(endpoints.LOCATIONS, {
+      params: {
+        fields: 'city,country,id,href,locality'
+      }
+    })
+    return response.data
+  } catch (e) {
+    console.log({ e })
+    throw new Error('error')
+  }
+}
+
 const createCategory = async (body: any): Promise<any> => {
   try {
     const response = await axios.post(endpoints.CATEGORIES, body)
@@ -113,5 +127,6 @@ export default {
   createProductOfferingPrice,
   getResourceSpecificationsBatch,
   useAllCategories,
-  createCategory
+  createCategory,
+  useAllLocations
 }

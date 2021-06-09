@@ -149,62 +149,20 @@ const Resources: React.FC = () => {
                         <p className={'font-16 mb-4'}>{el?.description}</p>
                       </CCol>
                     </CRow>
-                    <CRow className={'mt-4'}>
-                      <CCol>
-                        <p className={'text-light mb-2'}>Unique</p>
-                        <p className={'font-16 mb-4'}>{el?.isUnique ? 'True' : 'False'}</p>
-                      </CCol>
-                      <CCol>
-                        <p className={'text-light mb-2'}>Extensible</p>
-                        <p className={'font-16 mb-4'}>{el?.extensible ? 'True' : 'False'}</p>
-                      </CCol>
-                      <CCol>
-                        <p className={'text-light mb-2'}>Configurable</p>
-                        <p className={'font-16 mb-4'}>{el?.configurable ? 'True' : 'False'}</p>
-                      </CCol>
-                    </CRow>
-                    {el?.minCardinality != null && el?.maxCardinality != null && (
-                      <CRow className={'mt-4'}>
+                    {el?.resourceSpecCharacteristicValue?.map((resource, index) => (
+                      <CRow className={'mt-4'} key={`resourceSpecCharacteristicValue-${index}`}>
+                        {resource?.value?.alias && (
+                          <CCol>
+                            <p className={'text-light mb-2'}>{resource?.value?.alias}</p>
+                            <p className={'font-16 mb-4'}>{resource?.value?.value}</p>
+                          </CCol>
+                        )}
                         <CCol>
-                          <p className={'text-light mb-2'}>Cardinality</p>
-                        </CCol>
-
-                        <CCol>
-                          <p className={'text-light mb-2'}>From</p>
-
-                          <p className={'font-16 mb-4'}>{el?.minCardinality}</p>
-                        </CCol>
-                        <CCol>
-                          <p className={'text-light mb-2'}>To</p>
-
-                          <p className={'font-16 mb-4'}>{el?.maxCardinality}</p>
+                          <p className={'text-light mb-2'}>Unit Of Measure</p>
+                          <p className={'font-16 mb-4'}>{resource?.unitOfMeasure?.unitOfMeasure}</p>
                         </CCol>
                       </CRow>
-                    )}
-                    {el?.validFor && (
-                      <CRow>
-                        <CCol>
-                          <p className={'text-light mb-2'}>Valid</p>
-                        </CCol>
-
-                        <CCol>
-                          <p className={'text-light mb-2'}>From:</p>{' '}
-                          <p>
-                            {dayjs(el?.validFor?.startDateTime).isValid()
-                              ? dayjs(el?.validFor?.startDateTime).format(DATETIME_FORMAT)
-                              : '-'}
-                          </p>
-                        </CCol>
-                        <CCol>
-                          <p className={'text-light mb-2'}>To:</p>{' '}
-                          <p>
-                            {dayjs(el?.validFor?.endDateTime).isValid()
-                              ? dayjs(el?.validFor?.endDateTime).format(DATETIME_FORMAT)
-                              : '-'}
-                          </p>
-                        </CCol>
-                      </CRow>
-                    )}
+                    ))}
                   </CContainer>
                 ))}
               </CTabPane>

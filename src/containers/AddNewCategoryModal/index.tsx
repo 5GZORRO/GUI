@@ -35,10 +35,10 @@ import LoadingWithFade from 'components/LoadingWithFade'
 interface templateForm {
   name: string
   description: string
-  validFor: {
-    startDateTime: string | null
-    endDateTime: string | null
-  }
+  // validFor: {
+  //   startDateTime: string | null
+  //   endDateTime: string | null
+  // }
 }
 const AddNewCategoryModal = (props: any) => {
   const { handleClose } = props
@@ -50,11 +50,11 @@ const AddNewCategoryModal = (props: any) => {
   } = useForm<templateForm>({
     defaultValues: {
       name: '',
-      description: '',
-      validFor: {
-        startDateTime: null,
-        endDateTime: null
-      }
+      description: ''
+      // validFor: {
+      //   startDateTime: null,
+      //   endDateTime: null
+      // }
     }
   })
   const { mutate, isSuccess, isLoading } = useCreateCategory()
@@ -88,13 +88,13 @@ const AddNewCategoryModal = (props: any) => {
                       defaultValue={''}
                       rules={{ required: true }}
                       name="name"
-                      render={({ field }) => <CInput placeholder={'Enter Product Offer'} {...field} />}
+                      render={({ field }) => <CInput placeholder={'Enter name'} {...field} />}
                     />
                     {errors.name && <CFormText className="help-block">Please enter a name</CFormText>}
                   </CFormGroup>
                 </CCol>
               </CRow>
-              <CRow>
+              {/* <CRow>
                 <CCol sm={12}>
                   <CFormGroup>
                     <CLabel htmlFor="validFor">Valid For</CLabel>
@@ -140,7 +140,7 @@ const AddNewCategoryModal = (props: any) => {
                     {errors.validFor && <CFormText className="help-block">Please enter a date range</CFormText>}
                   </CFormGroup>
                 </CCol>
-              </CRow>
+              </CRow> */}
               <CRow>
                 <CCol sm={12}>
                   <CFormGroup>

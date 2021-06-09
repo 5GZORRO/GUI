@@ -10,7 +10,7 @@ import dayjs from 'dayjs'
 import SLATemplateAccordViewer from 'components/SLATemplateAccordViewer'
 
 export const AllTemplates: React.FC = () => {
-  const { data, isLoading } = useAllTemplates()
+  const { data, isLoading } = useAllTemplates({ size: 9999 })
   const [modal, setModal] = useState<any>(null)
   const fields = [
     'id',

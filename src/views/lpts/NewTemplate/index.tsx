@@ -99,7 +99,7 @@ const NewTemplate = () => {
                         defaultValue={''}
                         rules={{ required: true }}
                         name="proposeTemplateRequest.name"
-                        render={({ field }) => <CInput placeholder={'Enter Product Offer'} {...field} />}
+                        render={({ field }) => <CInput placeholder={'Enter name'} {...field} />}
                       />
                       {errors?.proposeTemplateRequest?.name && (
                         <CFormText className="help-block">Please enter a name</CFormText>

@@ -25,7 +25,8 @@ import {
   CNav,
   CTabContent,
   CTabPane,
-  CContainer
+  CContainer,
+  CSelect
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 
@@ -35,7 +36,7 @@ import { PlusCircle } from 'assets/icons/externalIcons'
 
 import { Controller, useFormContext } from 'react-hook-form'
 import { useAllSLAs } from 'hooks/api/SLA'
-import { useAllProductOfferingPrices, useAllCategories } from 'hooks/api/Resources'
+import { useAllProductOfferingPrices, useAllCategories, useAllLocations } from 'hooks/api/Resources'
 
 import DateRangePicker from 'components/DateRangePicker'
 import AddNewCategoryModal from 'containers/AddNewCategoryModal'
@@ -96,8 +97,8 @@ const FormCreateOffer: React.FC = () => {
   const [selectedPOP, setSelectedPOP] = useState<any>([])
 
   const [addCategoryModal, setAddCategoryModal] = useState<any>(false)
-  const [addPOP, setAddPOP] = useState<any>(false)
-  const [addSLA, setAddSLA] = useState<any>(false)
+  // const [addPOP, setAddPOP] = useState<any>(false)
+  // const [addSLA, setAddSLA] = useState<any>(false)
 
   const [modalProductOfferingPrice, setModalProductOfferingPrice] = useState<any | null>(null)
   const [modalSLA, setModalSLA] = useState<any | null>(null)
@@ -130,7 +131,8 @@ const FormCreateOffer: React.FC = () => {
 
   const { data: slas, isLoading: isLoadingSlas } = useAllSLAs()
   const { data: productOfferPrice, isLoading: isLoadingProductOfferPrice } = useAllProductOfferingPrices()
-  const { data: categories, isLoading: isLoadingCategories } = useAllCategories()
+  const { data: categories, isLoading: isLoadingCategories, refetch: refetchCategory } = useAllCategories()
+  const { data: locations, isLoading: isLoadingLocations } = useAllLocations()
 
   const slaFields = [
     { key: 'select', label: '', filter: false, sorter: false },
@@ -236,19 +238,31 @@ const FormCreateOffer: React.FC = () => {
                   defaultValue={''}
                   rules={{ required: true }}
                   name="name"
-                  render={({ field }) => <CInput placeholder={'Enter Product Offer'} {...field} />}
+                  render={({ field }) => <CInput placeholder={'Enter a name'} {...field} />}
                 />
                 {errors.name && <CFormText className="help-block">Please enter a name</CFormText>}
               </CFormGroup>
             </CCol>
             <CCol sm={6}>
               <CFormGroup>
-                <CLabel>location</CLabel>
+                <CLabel>Location</CLabel>
                 <Controller
                   control={control}
                   defaultValue={''}
                   name="location"
-                  render={({ field }) => <CInput placeholder={'Enter location'} {...field} />}
+                  render={({ field }) => (
+                    <CSelect {...field} id="location">
+                      <option value="" disabled>
+                        Select one
+                      </option>
+
+                      {locations?.map((el, index) => (
+                        <option value={JSON.stringify(el)} key={el?.id}>
+                          {[el?.locality, el?.city, el?.country].join(', ')}
+                        </option>
+                      ))}
+                    </CSelect>
+                  )}
                 />
                 {errors.location && <CFormText className="help-block">Please select a location</CFormText>}
               </CFormGroup>
@@ -265,7 +279,7 @@ const FormCreateOffer: React.FC = () => {
                     rules={{ required: true }}
                     name="description"
                     render={({ field }) => (
-                      <CTextarea placeholder={'Enter Description'} {...field} rows={4} style={{ resize: 'none' }} />
+                      <CTextarea placeholder={'Enter description'} {...field} rows={4} style={{ resize: 'none' }} />
                     )}
                   />
                 </CInputGroup>
@@ -359,7 +373,7 @@ const FormCreateOffer: React.FC = () => {
           <CRow className={'mt-4'}>
             <CCol>
               <CFormGroup>
-                <CRow
+                {/* <CRow
                   style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
                   className={'pl-3 pr-3'}
                 >
@@ -373,7 +387,7 @@ const FormCreateOffer: React.FC = () => {
                     </CButton>
                     <p className={'m-0'}>NEW PRODUCT OFFERING PRICE</p>
                   </div>
-                </CRow>
+                </CRow> */}
                 <CInputGroup>
                   <CCard className={'p-4'} style={{ width: '100%' }}>
                     <CDataTable
@@ -405,7 +419,7 @@ const FormCreateOffer: React.FC = () => {
           <CRow className={'mt-4'}>
             <CCol>
               <CFormGroup>
-                <CRow
+                {/* <CRow
                   style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
                   className={'pl-3 pr-3'}
                 >
@@ -419,7 +433,7 @@ const FormCreateOffer: React.FC = () => {
                     </CButton>
                     <p className={'m-0'}>NEW SERVICE LEVEL AGREEMENT</p>
                   </div>
-                </CRow>
+                </CRow> */}
                 <CInputGroup>
                   <CCard className={'p-4'} style={{ width: '100%' }}>
                     <CDataTable
@@ -482,7 +496,14 @@ const FormCreateOffer: React.FC = () => {
           </CRow>
         </CModalBody>
       </CModal>
-      {addCategoryModal && <AddNewCategoryModal handleClose={() => setAddCategoryModal(false)}></AddNewCategoryModal>}
+      {addCategoryModal && (
+        <AddNewCategoryModal
+          handleClose={() => {
+            setAddCategoryModal(false)
+            refetchCategory()
+          }}
+        ></AddNewCategoryModal>
+      )}
       {modalProductOfferingPrice && (
         <CModal show={modalProductOfferingPrice != null} onClose={() => setModalProductOfferingPrice(null)} size="lg">
           <CModalHeader closeButton>
@@ -621,8 +642,8 @@ const FormCreateOffer: React.FC = () => {
           </CModalBody>
         </CModal>
       )}
-      {addPOP && <AddNewPOP handleClose={() => setAddPOP(false)}></AddNewPOP>}
-      {addSLA && <AddNewSLA handleClose={() => setAddSLA(false)}></AddNewSLA>}
+      {/* {addPOP && <AddNewPOP handleClose={() => setAddPOP(false)}></AddNewPOP>}
+      {addSLA && <AddNewSLA handleClose={() => setAddSLA(false)}></AddNewSLA>} */}
     </>
   )
 }

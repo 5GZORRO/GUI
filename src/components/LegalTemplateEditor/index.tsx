@@ -7,6 +7,7 @@ import { Template, Clause } from '@accordproject/cicero-core'
 import 'semantic-ui-css/semantic.min.css'
 import { SLA_DATETIME_FORMAT, SLA_OUTPUT_DATETIME_FORMAT } from 'config'
 import moment from 'moment'
+import { Editor, Node, Transforms } from 'slate'
 
 const slateTransformer = new SlateTransformer()
 const getContractSlateVal = () => {
@@ -37,9 +38,9 @@ const LegalTemplateEditor = ({ getDataCallback, triggerCallback, prefilledData, 
           const clause = new Clause(template)
           clause.parse(template.getMetadata().getSample())
           const sampleData = clause.getData()
-          const keysToMaintain = ['$class', '$identifier', 'contractId', 'approvalDate', 'clauseId', 'receiver', 'shipper']
+          const keysToClean: [string] | [] = []
           const emptyData = Object.keys(sampleData)?.reduce((acum, el) => {
-            if (!keysToMaintain.includes(el)) {
+            if (keysToClean.includes(el)) {
               if (typeof sampleData[el] === 'string' || sampleData[el] instanceof String) {
                 return { ...acum, [el]: '' }
               }
@@ -59,7 +60,7 @@ const LegalTemplateEditor = ({ getDataCallback, triggerCallback, prefilledData, 
               type: 'clause'
             }
           ]
-          // Transforms.insertNodes(editor, slateClause, { at: Editor.end(editor, []) })
+          // Transforms.insertNodes(editor, slateClause, { at: Editor.start(editor, []) })
           setSlateValue(slateClause)
           currentClause.current = clause
           templateState.current = template

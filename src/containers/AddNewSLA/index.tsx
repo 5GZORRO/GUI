@@ -203,7 +203,7 @@ const AddNewCategoryModal = (props: any) => {
                       <h5>{'Template'}</h5>
                       <CContainer>
                         <CRow className={'mt-2'}>
-                          <SLATemplateAccordViewer id={modal?.id}></SLATemplateAccordViewer>
+                          <SLATemplateAccordViewer id={modal?.id} readOnly={true}></SLATemplateAccordViewer>
                         </CRow>
                       </CContainer>
                     </CRow>
