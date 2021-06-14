@@ -4,7 +4,7 @@ export const API_GOVERNANCE = 'http://172.28.3.111/operatora/governance'
 export const API_IPM = 'http://172.28.3.153:6800'
 export const API_SMART_CONTRACT = 'http://172.28.3.111/operatorb/smart-contract-lifecycle-manager/'
 
-export const APP_ENV = 'production'
+export const APP_ENV = 'development'
 
-export const VERIFICATION_KEY = 'ECBkoZd4J9VtbNhNL7FVr5ACnq6XGQKksXHRAYCN1ZB1'
+export const VERIFICATION_KEY = '7yu5BB68y17zkn3iZ5jGTBorNe7wNkffW9eBNNkDyf7T'
 export const LEDGER_IDENTITY = 'O=OperatorB,OU=Zurich,L=Zurich,C=CH'

@@ -21,7 +21,7 @@ import {
 } from '@coreui/react'
 import dayjs from 'dayjs'
 
-import { useAllResourceSpecifications } from 'hooks/api/Resources'
+import { useAllResourceAndServiceSpecifications } from 'hooks/api/Resources'
 import { useHistory, Link } from 'react-router-dom'
 import { DATETIME_FORMAT } from 'config'
 
@@ -45,7 +45,7 @@ const fields = [
 const NewProductOffer: React.FC = () => {
   const history = useHistory()
   const [selected, setSelected] = useState<string[]>([])
-  const { data, isLoading } = useAllResourceSpecifications()
+  const { data, isLoading } = useAllResourceAndServiceSpecifications()
   const [modal, setModal] = useState<any | null>(null)
 
   const check = (item: any) => {
@@ -282,7 +282,15 @@ const NewProductOffer: React.FC = () => {
           className={'text-uppercase px-5'}
           color={'gradient'}
           disabled={!selected?.length}
-          onClick={() => history.push(`/offers/new-offer/${selected}`)}
+          onClick={() =>
+            history.push(
+              `/offers/new-offer/${selected}?services=[${selected
+                ?.map((el, index) =>
+                  data?.find((resourceOrService) => resourceOrService.id === el).isService ? index : null
+                )
+                .filter((el) => el != null)}]`
+            )
+          }
         >
           next
         </CButton>

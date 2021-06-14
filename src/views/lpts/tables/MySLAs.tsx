@@ -10,7 +10,7 @@ import dayjs from 'dayjs'
 import SLAAccordViewer from 'components/SLAAccordViewer'
 
 export const AllTemplates: React.FC = () => {
-  const { data, isLoading } = useAllSLAs()
+  const { data, isLoading } = useAllSLAs({ size: 9999 })
   const [modal, setModal] = useState<any>(null)
   const fields = [
     'id',

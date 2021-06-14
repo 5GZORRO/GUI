@@ -23,11 +23,11 @@ const Orders: React.FC = () => {
         <CCol>
           <h2>Discover Orders</h2>
         </CCol>
-        <CCol className={'d-flex justify-content-end align-items-center'}>
+        {/* <CCol className={'d-flex justify-content-end align-items-center'}>
           <CButton block={false} color={'gradient'} className={'text-uppercase px-4'}>
             add sla template
           </CButton>
-        </CCol>
+        </CCol> */}
       </CRow>
       <CTabs activeTab="allTemplates">
         <CNav variant="tabs">

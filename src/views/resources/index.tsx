@@ -24,7 +24,7 @@ import { DATETIME_FORMAT } from 'config'
 import { useHistory } from 'react-router-dom'
 import dayjs from 'dayjs'
 
-import { useAllResourceSpecifications } from 'hooks/api/Resources'
+import { useAllResourceAndServiceSpecifications } from 'hooks/api/Resources'
 
 const fields = [
   'name',
@@ -44,7 +44,7 @@ const fields = [
 
 const Resources: React.FC = () => {
   const history = useHistory()
-  const { data, isLoading } = useAllResourceSpecifications()
+  const { data, isLoading } = useAllResourceAndServiceSpecifications()
 
   const [modal, setModal] = useState<any | null>(null)
 
@@ -174,7 +174,7 @@ const Resources: React.FC = () => {
         <CCol>
           <h2>Resources & Services</h2>
         </CCol>
-        <CCol className={'d-flex justify-content-end align-items-center'}>
+        {/* <CCol className={'d-flex justify-content-end align-items-center'}>
           <CButton
             block={false}
             color={'gradient'}
@@ -183,11 +183,11 @@ const Resources: React.FC = () => {
           >
             New Resource
           </CButton>
-        </CCol>
+        </CCol> */}
       </CRow>
       <CCard>
         <CCardHeader>
-          <h5>Resource Specification</h5>
+          <h5>All Resources & Services</h5>
         </CCardHeader>
         <CCardBody>
           <CDataTable

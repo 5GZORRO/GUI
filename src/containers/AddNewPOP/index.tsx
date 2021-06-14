@@ -5,7 +5,6 @@ import {
   CForm,
   CCard,
   CCardBody,
-  CCardHeader,
   CCol,
   CFormGroup,
   CFormText,
@@ -23,7 +22,6 @@ import {
   CModalBody,
   CModalHeader,
   CDataTable,
-  CInputCheckbox
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { ArrowLeftIcon, PlusCircle, MinusCircle, ArrowDownIcon } from 'assets/icons/externalIcons'

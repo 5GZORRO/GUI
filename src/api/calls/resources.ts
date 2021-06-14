@@ -25,14 +25,29 @@ const getProductSpecificationById = async (id: string): Promise<ApiProductSpecif
   }
 }
 
-const getResourceSpecificationsBatch = async (resourceIds: string): Promise<ApiResourceSpecification[]> => {
+const getResourceSpecificationsBatch = async (
+  resourceIds: string,
+  servicesIndex: any
+): Promise<ApiResourceSpecification[]> => {
   try {
+    console.log(servicesIndex)
     const ids = resourceIds.split(',')
-    const response = await Promise.allSettled(ids.map((id) => axios.get(`${endpoints.RESOURCE_SPECIFICATION}/${id}`)))
+    const response = await Promise.allSettled(
+      ids.map((id, index) => {
+        if (servicesIndex.includes(index)) {
+          return axios.get(`${endpoints.SERVICE_SPECIFICATION}/${id}`)
+        }
+        return axios.get(`${endpoints.RESOURCE_SPECIFICATION}/${id}`)
+      })
+    )
 
     const newResponse = response.reduce((acc: any, item: any) => {
       if (item?.status === 'fulfilled') {
-        return [...acc, ...item?.value?.data]
+        if (Array.isArray(item?.value?.data)) {
+          return [...acc, ...item?.value?.data]
+        } else {
+          return [...acc, { isService: true, ...item?.value?.data }]
+        }
       }
       return acc
     }, [])
@@ -54,6 +69,28 @@ const useAllResourceSpecifications = async (params?: any): Promise<ApiResourceSp
   }
 }
 
+const useAllResourceAndServiceSpecifications = async (params?: any): Promise<any[]> => {
+  try {
+    const resourceRequest = axios.get(endpoints.RESOURCE_SPECIFICATION, { params })
+    const serviceRequest = axios.get(endpoints.SERVICE_SPECIFICATION, { params })
+
+    const responses = await axios.all([resourceRequest, serviceRequest])
+
+    return [].concat.apply(
+      [],
+      responses.map((el, index) => {
+        if (index === 1) {
+          return el?.data?.map((serv) => ({ ...serv, isService: true }))
+        }
+        return el?.data
+      })
+    )
+  } catch (e) {
+    console.log({ e })
+    throw new Error('error')
+  }
+}
+
 const getResourceSpecificationsById = async (id: string): Promise<ApiResourceSpecification> => {
   try {
     const response = await axios.get(`${endpoints.RESOURCE_SPECIFICATION}/${id}`)
@@ -64,10 +101,10 @@ const getResourceSpecificationsById = async (id: string): Promise<ApiResourceSpe
   }
 }
 
-const getProductPrices = async (params?: any): Promise<ApiProductOfferPrice[]> => {
+const getProductPrices = async (params?: any, onlyChildren = false): Promise<ApiProductOfferPrice[]> => {
   try {
     const response = await axios.get(endpoints.PRODUCT_OFFER_PRICE, { params })
-    return response.data
+    return onlyChildren ? response.data.filter((el: any) => !el?.isBundle) : response.data
   } catch (e) {
     console.log({ e })
     throw new Error('error')
@@ -118,6 +155,16 @@ const createCategory = async (body: any): Promise<any> => {
   }
 }
 
+const createLocation = async (body: any): Promise<any> => {
+  try {
+    const response = await axios.post(endpoints.LOCATION_CREATE, body)
+    return response.data
+  } catch (err) {
+    console.log({ err })
+    throw new Error('error')
+  }
+}
+
 export default {
   useAllProductSpecification,
   getProductSpecificationById,
@@ -128,5 +175,7 @@ export default {
   getResourceSpecificationsBatch,
   useAllCategories,
   createCategory,
-  useAllLocations
+  useAllLocations,
+  createLocation,
+  useAllResourceAndServiceSpecifications
 }

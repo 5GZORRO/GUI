@@ -10,10 +10,11 @@ export const endpoints = {
   PRODUCT_OFFERING_FILTERED: `${API_MARKET_PLACE}/productCatalogManagement/v4/productOffering/filtered`,
   LEGAL_PROSE_TEMPLATES: `${API_LPT}/api/v1/legal-prose-templates`,
   RESOURCE_SPECIFICATION: `${API_MARKET_PLACE}/resourceCatalogManagement/v2/resourceSpecification`,
+  SERVICE_SPECIFICATION: `${API_MARKET_PLACE}/serviceCatalogManagement/v4/serviceSpecification`,
   PRODUCT_OFFER_PRICE: `${API_MARKET_PLACE}/productCatalogManagement/v4/productOfferingPrice`,
   CATEGORIES: `${API_MARKET_PLACE}/productCatalogManagement/v4/category`,
   SERVICE_LEGAL_AGREEMENT: `${API_SMART_CONTRACT}/api/v1/service-level-agreement`,
   LICENCES: `${API_SMART_CONTRACT}/api/v1/licences`,
-  LOCATIONS: `${API_MARKET_PLACE}/geographicAddressManagement/v4/geographicAddress`
-
+  LOCATIONS: `${API_MARKET_PLACE}/geographicAddressManagement/v4/geographicAddress`,
+  LOCATION_CREATE: `${API_MARKET_PLACE}/geographicAddressManagement/v4/geographicAddressValidation`
 }

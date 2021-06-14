@@ -36,7 +36,7 @@ import { PlusCircle } from 'assets/icons/externalIcons'
 
 import { Controller, useFormContext } from 'react-hook-form'
 import { useAllSLAs } from 'hooks/api/SLA'
-import { useAllProductOfferingPrices, useAllCategories, useAllLocations } from 'hooks/api/Resources'
+import { useAllProductOfferingPricesChildren, useAllCategories, useAllLocations } from 'hooks/api/Resources'
 
 import DateRangePicker from 'components/DateRangePicker'
 import AddNewCategoryModal from 'containers/AddNewCategoryModal'
@@ -45,6 +45,7 @@ import { DATETIME_FORMAT, DATETIME_FORMAT_SHOW } from 'config'
 import dayjs from 'dayjs'
 import AddNewPOP from 'containers/AddNewPOP'
 import AddNewSLA from 'containers/AddNewSLA'
+import AddNewLocation from 'containers/AddNewLocation'
 
 const colourStyles = {
   control: (styles: any) => ({ ...styles, backgroundColor: '#3C3C43', borderColor: '#3C3C43' }),
@@ -97,6 +98,8 @@ const FormCreateOffer: React.FC = () => {
   const [selectedPOP, setSelectedPOP] = useState<any>([])
 
   const [addCategoryModal, setAddCategoryModal] = useState<any>(false)
+  const [addLocation, setAddLocation] = useState<any>(false)
+
   // const [addPOP, setAddPOP] = useState<any>(false)
   // const [addSLA, setAddSLA] = useState<any>(false)
 
@@ -130,9 +133,9 @@ const FormCreateOffer: React.FC = () => {
   }
 
   const { data: slas, isLoading: isLoadingSlas } = useAllSLAs()
-  const { data: productOfferPrice, isLoading: isLoadingProductOfferPrice } = useAllProductOfferingPrices()
+  const { data: productOfferPrice, isLoading: isLoadingProductOfferPrice } = useAllProductOfferingPricesChildren()
   const { data: categories, isLoading: isLoadingCategories, refetch: refetchCategory } = useAllCategories()
-  const { data: locations, isLoading: isLoadingLocations } = useAllLocations()
+  const { data: locations, isLoading: isLoadingLocations, refetch: refetchLocation } = useAllLocations()
 
   const slaFields = [
     { key: 'select', label: '', filter: false, sorter: false },
@@ -152,16 +155,10 @@ const FormCreateOffer: React.FC = () => {
   const productOfferPriceFields = [
     { key: 'select', label: '', filter: false, sorter: false },
     'name',
-    'percentage',
-    {
-      key: 'price',
-      label: 'Price'
-    },
-    {
-      key: 'unit',
-      label: 'Unit'
-    },
-    'version',
+    'description',
+    { key: 'priceType', label: 'Type' },
+    { key: 'unit', label: 'Unit' },
+    { key: 'value', label: 'Value' },
     {
       key: 'show_details',
       label: '',
@@ -246,24 +243,35 @@ const FormCreateOffer: React.FC = () => {
             <CCol sm={6}>
               <CFormGroup>
                 <CLabel>Location</CLabel>
-                <Controller
-                  control={control}
-                  defaultValue={''}
-                  name="location"
-                  render={({ field }) => (
-                    <CSelect {...field} id="location">
-                      <option value="" disabled>
-                        Select one
-                      </option>
+                <CInputGroup>
+                  {!isLoadingLocations && (
+                    <Controller
+                      control={control}
+                      defaultValue={''}
+                      name="location"
+                      render={({ field }) => (
+                        <CSelect {...field} id="location">
+                          <option value="" disabled>
+                            Select one
+                          </option>
 
-                      {locations?.map((el, index) => (
-                        <option value={JSON.stringify(el)} key={el?.id}>
-                          {[el?.locality, el?.city, el?.country].join(', ')}
-                        </option>
-                      ))}
-                    </CSelect>
+                          {locations?.map((el, index) => (
+                            <option value={JSON.stringify(el)} key={el?.id}>
+                              {[el?.locality, el?.city, el?.country]
+                                ?.filter((loc) => loc != null && loc !== '')
+                                ?.join(', ')}
+                            </option>
+                          ))}
+                        </CSelect>
+                      )}
+                    />
                   )}
-                />
+                  <CInputGroupAppend>
+                    <CButton type="button" color="transparent" onClick={() => setAddLocation(true)}>
+                      <PlusCircle />
+                    </CButton>
+                  </CInputGroupAppend>
+                </CInputGroup>
                 {errors.location && <CFormText className="help-block">Please select a location</CFormText>}
               </CFormGroup>
             </CCol>
@@ -373,12 +381,12 @@ const FormCreateOffer: React.FC = () => {
           <CRow className={'mt-4'}>
             <CCol>
               <CFormGroup>
-                {/* <CRow
+                <CRow
                   style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
                   className={'pl-3 pr-3'}
                 >
                   <CLabel>Product Offering Price</CLabel>
-                  <div
+                  {/* <div
                     style={{ display: 'flex', alignItems: 'center', marginLeft: 'auto', cursor: 'pointer' }}
                     onClick={() => setAddPOP(true)}
                   >
@@ -386,8 +394,8 @@ const FormCreateOffer: React.FC = () => {
                       <PlusCircle />
                     </CButton>
                     <p className={'m-0'}>NEW PRODUCT OFFERING PRICE</p>
-                  </div>
-                </CRow> */}
+                  </div> */}
+                </CRow>
                 <CInputGroup>
                   <CCard className={'p-4'} style={{ width: '100%' }}>
                     <CDataTable
@@ -401,7 +409,7 @@ const FormCreateOffer: React.FC = () => {
                       itemsPerPage={5}
                       scopedSlots={{
                         select: (item: any) => productOfferPriceSelectComponent(item),
-                        price: (item: any) => showPropertyOrDefault(item?.price?.value),
+                        value: (item: any) => showPropertyOrDefault(item?.price?.value),
                         unit: (item: any) => showPropertyOrDefault(item?.price?.unit),
 
                         show_details: (item: any) => showProductOfferPriceDetails(item)
@@ -419,12 +427,12 @@ const FormCreateOffer: React.FC = () => {
           <CRow className={'mt-4'}>
             <CCol>
               <CFormGroup>
-                {/* <CRow
+                <CRow
                   style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
                   className={'pl-3 pr-3'}
                 >
                   <CLabel>Service Level Agreements</CLabel>
-                  <div
+                  {/* <div
                     style={{ display: 'flex', alignItems: 'center', marginLeft: 'auto', cursor: 'pointer' }}
                     onClick={() => setAddSLA(true)}
                   >
@@ -432,8 +440,8 @@ const FormCreateOffer: React.FC = () => {
                       <PlusCircle />
                     </CButton>
                     <p className={'m-0'}>NEW SERVICE LEVEL AGREEMENT</p>
-                  </div>
-                </CRow> */}
+                  </div> */}
+                </CRow>
                 <CInputGroup>
                   <CCard className={'p-4'} style={{ width: '100%' }}>
                     <CDataTable
@@ -507,7 +515,7 @@ const FormCreateOffer: React.FC = () => {
       {modalProductOfferingPrice && (
         <CModal show={modalProductOfferingPrice != null} onClose={() => setModalProductOfferingPrice(null)} size="lg">
           <CModalHeader closeButton>
-            <h5>{`Product Offer ${modalProductOfferingPrice?.id}`}</h5>
+            <h5>{`Product Offer Price ${modalProductOfferingPrice?.id}`}</h5>
           </CModalHeader>
           <CModalBody>
             <CTabs activeTab="description">
@@ -527,18 +535,18 @@ const FormCreateOffer: React.FC = () => {
               </CNav>
               <CTabContent className={'mt-4'}>
                 <CTabPane data-tab="description">
-                  <CRow>
+                  <CRow className={'mt-2'}>
                     <CCol xs="6">
                       <p className={'text-light mb-2'}>Name:</p> <p>{modalProductOfferingPrice?.name}</p>
                     </CCol>
                   </CRow>
-                  <CRow>
+                  <CRow className={'mt-2'}>
                     <CCol xs="12">
                       <p className={'text-light mb-2'}>Description</p>
                       <p>{modalProductOfferingPrice?.description}</p>
                     </CCol>
                   </CRow>
-                  <CRow>
+                  <CRow className={'mt-2'}>
                     <CCol xs="6">
                       <p className={'text-light mb-2'}>Price:</p>
                       <p>{modalProductOfferingPrice?.price?.value}</p>
@@ -548,7 +556,7 @@ const FormCreateOffer: React.FC = () => {
                       <p>{modalProductOfferingPrice?.price?.unit}</p>
                     </CCol>
                   </CRow>
-                  <CRow>
+                  <CRow className={'mt-2'}>
                     <CCol xs="6">
                       <p className={'text-light mb-2'}>Price Type:</p>
                       <p>{modalProductOfferingPrice?.priceType}</p>
@@ -562,7 +570,7 @@ const FormCreateOffer: React.FC = () => {
                   {modalProductOfferingPrice?.unitOfMeasure?.units != null &&
                     modalProductOfferingPrice?.unitOfMeasure?.units !== '' &&
                     modalProductOfferingPrice?.unitOfMeasure?.amount != null && (
-                      <CRow>
+                      <CRow className={'mt-2'}>
                         <CCol xs="6">
                           <p className={'text-light mb-2'}>Unit Of Measure:</p>
                           <p>{modalProductOfferingPrice?.unitOfMeasure?.amount}</p>
@@ -576,7 +584,7 @@ const FormCreateOffer: React.FC = () => {
                   {modalProductOfferingPrice?.recurringChargePeriodType != null &&
                     modalProductOfferingPrice?.recurringChargePeriodType !== '' &&
                     modalProductOfferingPrice?.recurringChargePeriodLength != null && (
-                      <CRow>
+                      <CRow className={'mt-2'}>
                         <CCol xs="6">
                           <p className={'text-light mb-2'}>Recurring Charge Period Type:</p>
                           <p>{modalProductOfferingPrice?.recurringChargePeriodType}</p>
@@ -587,11 +595,11 @@ const FormCreateOffer: React.FC = () => {
                         </CCol>
                       </CRow>
                   )}
-                  <CRow>
+                  <CRow className={'p-3'}>
                     <p className={'text-light mb-2'}>Valid for: </p>
                   </CRow>
                   {modalProductOfferingPrice?.validFor && (
-                    <CRow>
+                    <CRow className={'pl-3 pr-3'}>
                       <CCol xs="6">
                         <p className={'text-light mb-2'}>From:</p>{' '}
                         <p>
@@ -614,13 +622,16 @@ const FormCreateOffer: React.FC = () => {
                 <CTabPane data-tab="advanced">
                   {modalProductOfferingPrice?.prodSpecCharValueUse?.length > 0 &&
                     modalProductOfferingPrice?.prodSpecCharValueUse.map((el, index) => (
-                      <CContainer key={`modal?.prodSpecCharValueUse-${index}`}>
-                        <CRow>
+                      <CContainer
+                        key={`modal?.prodSpecCharValueUse-${index}`}
+                        style={{ borderBottom: '1px solid #6C6E7E' }}
+                      >
+                        <CRow className={'mt-2'}>
                           <CCol xs="6">
                             <p className={'text-light mb-2'}>Name:</p> <p>{el?.name}</p>
                           </CCol>
                         </CRow>
-                        <CRow className={'mt-4'}>
+                        <CRow className={'mt-2'}>
                           <CCol xs="12">
                             <p className={'text-light mb-2'}>Description</p>
                             <p>{el?.description}</p>
@@ -641,6 +652,14 @@ const FormCreateOffer: React.FC = () => {
             </CTabs>
           </CModalBody>
         </CModal>
+      )}
+      {addLocation && (
+        <AddNewLocation
+          handleClose={() => {
+            setAddLocation(false)
+            refetchLocation()
+          }}
+        ></AddNewLocation>
       )}
       {/* {addPOP && <AddNewPOP handleClose={() => setAddPOP(false)}></AddNewPOP>}
       {addSLA && <AddNewSLA handleClose={() => setAddSLA(false)}></AddNewSLA>} */}

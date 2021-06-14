@@ -4,10 +4,9 @@ import { CCard, CCardBody, CCardHeader, CCol, CButton, CRow, CContainer, CModal,
 import dayjs from 'dayjs'
 
 import { DATETIME_FORMAT } from 'config'
-import { ApiResourceSpecification } from 'types/api'
 
 interface CardProps {
-  item: ApiResourceSpecification
+  item: any
 }
 
 const CardProdDetail: React.FC<CardProps> = ({ item }) => {
@@ -20,7 +19,7 @@ const CardProdDetail: React.FC<CardProps> = ({ item }) => {
   return (
     <CCard className={'mb-5'}>
       <CCardHeader className={'d-flex justify-content-between align-items-center'}>
-        <h5>Resource Details</h5>
+        <h5>{item.isService ? 'Service Details' : 'Resource Details'}</h5>
         {/* <CButton className={'d-flex align-items-center'} variant={'ghost'}>
           <CIcon className={'mr-2'} name="cilSync" />
           Switch Selection

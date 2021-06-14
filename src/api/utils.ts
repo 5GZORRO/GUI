@@ -47,8 +47,8 @@ export const TransformResourcesToProduct = (resources: any, offer: any, user: an
     productSpecificationRelationship: null,
     validFor: null,
     version: null,
-    resourceSpecification: resources,
-    serviceSpecification: [],
+    resourceSpecification: resources?.filter(el => !el?.isService),
+    serviceSpecification: resources?.filter(el => el?.isService),
     relatedParty: [
       {
         id: user?.id_token,
@@ -67,4 +67,13 @@ export const cleanEmptyparams = (obj: any) => {
     }
   }
   return obj
+}
+
+export const TransformToParentPOP = (pops: any, offer: any) => {
+  return {
+    bundledPopRelationship: [...pops.map((el: any) => ({ id: el.id }))],
+    isBundle: true,
+    name: `${offer?.name} POP`,
+    validFor: offer.validFor
+  }
 }

@@ -48,7 +48,7 @@ const AddNewCategoryModal = (props: any) => {
   const [step, setStep] = useState(0)
   const [selected, setSelected] = useState<any | null>(null)
 
-  const { data, isLoading: isLoadingTemplates } = useAllSLATemplates()
+  const { data, isLoading: isLoadingTemplates } = useAllSLATemplates({ size: 9999 })
   const { data: selectedSLA } = useGetLegalTemplate(selected?.id)
 
   const [modal, setModal] = useState<any | null>(null)

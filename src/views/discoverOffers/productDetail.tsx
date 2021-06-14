@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { CButton, CContainer, CForm } from '@coreui/react'
 import { FormProvider, useForm } from 'react-hook-form'
-import { useHistory, useParams } from 'react-router-dom'
+import { useHistory, useParams, useLocation } from 'react-router-dom'
 
 /* Assets */
 import { ArrowLeftIcon } from 'assets/icons/externalIcons'
@@ -30,7 +30,7 @@ interface formOfferCreation {
   validFor: {
     startDateTime: string | null
     endDateTime: string | null
-  },
+  }
   category: []
 }
 
@@ -50,13 +50,21 @@ const ProductDetail: React.FC = () => {
     },
     resolver: yupResolver(schemaRegister)
   })
+
+  const useQuery = () => {
+    return new URLSearchParams(useLocation().search)
+  }
   const history = useHistory()
   const { id } = useParams<{ id: string }>()
 
   const { user } = useAuthContext()
 
   const { mutate, isSuccess, isLoading } = useCreateOffering()
-  const { data: resourcesData, isLoading: resourceLoading } = useGetResourceSpecificationsBundle(id)
+  const servicesIndex = useQuery().get('services')
+  const { data: resourcesData, isLoading: resourceLoading } = useGetResourceSpecificationsBundle(
+    id,
+    servicesIndex != null ? JSON.parse(servicesIndex) : []
+  )
 
   useEffect(() => {
     if (isSuccess) {

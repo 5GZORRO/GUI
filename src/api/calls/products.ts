@@ -1,6 +1,6 @@
 import axios from 'api/instance'
 import { endpoints } from 'api/endpoints'
-import { TransformResourcesToProduct, cleanEmptyparams } from '../utils'
+import { TransformResourcesToProduct, cleanEmptyparams, TransformToParentPOP } from '../utils'
 
 const createSpecification = async (body: any): Promise<any> => {
   try {
@@ -12,8 +12,24 @@ const createSpecification = async (body: any): Promise<any> => {
   }
 }
 
+const createFinalPOP = async (body: any, info: any): Promise<any> => {
+  if (body?.length > 1) {
+    try {
+      const parentPOP = TransformToParentPOP(body, info)
+      const response = await axios.post(endpoints.PRODUCT_OFFER_PRICE, parentPOP)
+      return response?.data
+    } catch (e) {
+      console.log({ e })
+      throw new Error('error')
+    }
+  } else {
+    return body
+  }
+}
+
 const createOffering = async (body: any): Promise<any> => {
-  const { resourceSpecifications, currentUser, ...remain } = body
+  const { resourceSpecifications, currentUser, productOfferingPrice, ...remain } = body
+  const finalPOP = await createFinalPOP(productOfferingPrice, remain)
 
   try {
     const productSpecification = TransformResourcesToProduct(resourceSpecifications, remain, currentUser)
@@ -22,6 +38,8 @@ const createOffering = async (body: any): Promise<any> => {
       try {
         const response = await axios.post(endpoints.PRODUCT_OFFERING, {
           ...remain,
+          bundledProductOffering: productOfferingPrice.length > 1 ? [finalPOP] : [],
+          productOfferingPrice: productOfferingPrice.length === 1 ? productOfferingPrice : [],
           productSpecification: newProductSpecification
         })
         return response.data

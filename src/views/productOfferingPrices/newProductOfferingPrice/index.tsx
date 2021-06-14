@@ -176,6 +176,7 @@ const NewProductOfferingPrice = () => {
     formState: { errors },
     control,
     watch,
+    getValues,
     setValue,
     register
   } = useForm<formProductOfferingPriceCreation>({
@@ -238,6 +239,7 @@ const NewProductOfferingPrice = () => {
   const { data: licences, isLoading: isLoadingLicences } = useAllLicences()
 
   const priceType = watch('priceType')
+  const priceLogicValue = watch('prodSpecCharValueUse.2.productSpecCharacteristicValue.0.value')
 
   const fields = [
     { key: 'select', label: '', filter: false, sorter: false },
@@ -308,6 +310,12 @@ const NewProductOfferingPrice = () => {
   useEffect(() => {
     setValue('prodSpecCharValueUse.3.productSpecCharacteristicValue', selectedMeasures)
   }, [selectedMeasures])
+
+  useEffect(() => {
+    if (priceType === 'usage' && priceLogicValue === 'SIMPLE') {
+      setValue('prodSpecCharValueUse.2.productSpecCharacteristicValue.0.value', '')
+    }
+  }, [priceType, priceLogicValue])
 
   const checkMeasure = (item: any) => {
     const found = selectedMeasures.find((measure: any) => measure?.value === item.value)
@@ -463,19 +471,6 @@ const NewProductOfferingPrice = () => {
                     {errors.validFor && <CFormText className="help-block">Please enter a date range</CFormText>}
                   </CFormGroup>
                 </CCol>
-                <CCol sm={6}>
-                  <CFormGroup>
-                    <CLabel htmlFor="lifecycleStatus">Life Cycle</CLabel>
-                    <Controller
-                      control={control}
-                      defaultValue={''}
-                      rules={{ required: true }}
-                      name="lifecycleStatus"
-                      render={({ field }) => <CInput placeholder={'Enter a name'} {...field} />}
-                    />
-                    {errors.lifecycleStatus && <CFormText className="help-block">Please enter a life cycle</CFormText>}
-                  </CFormGroup>
-                </CCol>
               </CRow>
               <CRow>
                 <CCol sm="4">
@@ -504,7 +499,7 @@ const NewProductOfferingPrice = () => {
                 </CCol>
                 <CCol sm="4">
                   <CFormGroup>
-                    <CLabel htmlFor="priceUnit">Price Type</CLabel>
+                    <CLabel htmlFor="priceUnit">Price Unit</CLabel>
 
                     <Controller
                       control={control}
@@ -531,87 +526,77 @@ const NewProductOfferingPrice = () => {
                   </CFormGroup>
                 </CCol>
               </CRow>
-              {priceType === 'recurring' && (
-                <CContainer className={'p-0'}>
-                  <CCol sm={6} className={'p-0'}>
-                    <CLabel>Recurring Charge Period</CLabel>
-                    <CRow>
-                      <CCol sm={8}>
-                        <CFormGroup>
-                          <Controller
-                            control={control}
-                            defaultValue={''}
-                            name="recurringChargePeriodType"
-                            render={({ field }) => <CInput placeholder={'Enter a period'} {...field} />}
-                          />
-                          {errors.recurringChargePeriodType && (
-                            <CFormText className="help-block">Please enter a period</CFormText>
+              <CRow>
+                <CCol sm={6}>
+                  <CFormGroup>
+                    <CLabel htmlFor="prodSpecCharValueUse.2.productSpecCharacteristicValue.0.value">Price Logic</CLabel>
+                    <Controller
+                      control={control}
+                      defaultValue={''}
+                      name="prodSpecCharValueUse.2.productSpecCharacteristicValue.0.value"
+                      render={({ field }) => (
+                        <CSelect {...field} id="prodSpecCharValueUse.2.productSpecCharacteristicValue.0.value">
+                          <option value="" disabled>
+                            Select one
+                          </option>
+                          <option value="TIME_OF_USE">TIME OF USE</option>
+                          <option value="N_OF_USER">N OF USER</option>
+                          <option value="N_OF_INSTANCES">N OF INSTANCES</option>
+                          {(priceType === 'recurring' || priceType === 'oneTime') && (
+                            <option value="SIMPLE">SIMPLE</option>
                           )}
-                        </CFormGroup>
-                      </CCol>
-                      <CCol sm={4}>
-                        <CFormGroup>
-                          <CInputGroup>
-                            <CInputGroupPrepend>
-                              <CButton type="button" color="transparent" onClick={handleMinus}>
-                                <MinusCircle />
-                              </CButton>
-                            </CInputGroupPrepend>
-                            <Controller
-                              control={control}
-                              defaultValue={''}
-                              name="recurringChargePeriodLength"
-                              render={({ field }) => (
-                                <CInput
-                                  placeholder={'0'}
-                                  {...field}
-                                  value={recurringState}
-                                  min={0}
-                                  onChange={(e: any) => setRecurringState(Number(e?.target?.value))}
-                                />
-                              )}
-                            />
-
-                            <CInputGroupAppend>
-                              <CButton
-                                type="button"
-                                color="transparent"
-                                onClick={() => setRecurringState((previous) => previous + 1)}
-                              >
-                                <PlusCircle />
-                              </CButton>
-                            </CInputGroupAppend>
-                            {errors.recurringChargePeriodLength && (
-                              <CFormText className="help-block">Please enter a number</CFormText>
-                            )}
-                          </CInputGroup>
-                        </CFormGroup>
-                      </CCol>
-                    </CRow>
-                  </CCol>
-                </CContainer>
-              )}
-
-              {priceType === 'usage' && (
-                <CContainer>
-                  <CCol>
-                    <CLabel htmlFor="lifecycleStatus">Unit of Measure</CLabel>
+                        </CSelect>
+                      )}
+                    />
+                    {errors.prodSpecCharValueUse?.[2]?.productSpecCharacteristicValue?.[0]?.value && (
+                      <CFormText className="help-block">Please select one</CFormText>
+                    )}
+                  </CFormGroup>
+                </CCol>
+                {priceLogicValue != null && priceLogicValue !== '' && priceLogicValue !== 'SIMPLE' && (
+                  <CCol sm={6}>
+                    <CLabel htmlFor="unitOfMeasure.units">Unit of Measure</CLabel>
                     <CRow>
                       <CCol sm="6">
                         <CFormGroup>
                           <Controller
                             control={control}
                             defaultValue={''}
-                            name="recurringChargePeriodType"
+                            name="unitOfMeasure.units"
                             render={({ field }) => (
-                              <CSelect {...field} id="lifecycleStatus">
-                                <option value="Time">Time</option>
-                                <option value="Users">Users</option>
-                                <option value="Instances">Instances</option>
+                              <CSelect
+                                {...field}
+                                id="unitOfMeasure.units"
+                                disabled={priceLogicValue == null || priceLogicValue === ''}
+                              >
+                                <option value="" disabled>
+                                  Select one
+                                </option>
+                                {priceLogicValue === 'TIME_OF_USE' && (
+                                  <>
+                                    <option value="seconds">Second</option>
+                                    <option value="minutes">Minute</option>
+                                    <option value="hours">Hour</option>
+                                    <option value="days">Day</option>
+                                    <option value="week">Week</option>
+                                    <option value="months">Month</option>
+                                    <option value="years">Year</option>
+                                  </>
+                                )}
+                                {priceLogicValue === 'N_OF_USER' && (
+                                  <>
+                                    <option value="users">Users</option>
+                                  </>
+                                )}
+                                {priceLogicValue === 'N_OF_INSTANCES' && (
+                                  <>
+                                    <option value="instances">Instances</option>
+                                  </>
+                                )}
                               </CSelect>
                             )}
                           />
-                          {errors.recurringChargePeriodType && (
+                          {errors?.unitOfMeasure?.units && (
                             <CFormText className="help-block">Please enter a period</CFormText>
                           )}
                         </CFormGroup>
@@ -653,9 +638,111 @@ const NewProductOfferingPrice = () => {
                       </CCol>
                     </CRow>
                   </CCol>
-                </CContainer>
-              )}
+                )}
+              </CRow>
+              <CRow>
+                <CCol sm={6}>
+                  <CFormGroup>
+                    <CLabel htmlFor="prodSpecCharValueUse.0.productSpecCharacteristicValue.0.value">
+                      Function Descriptor ID
+                    </CLabel>
+                    <Controller
+                      control={control}
+                      defaultValue={''}
+                      name="prodSpecCharValueUse.0.productSpecCharacteristicValue.0.value"
+                      render={({ field }) => <CInput placeholder={'Enter a name'} {...field} />}
+                    />
+                    {errors.prodSpecCharValueUse?.[0]?.productSpecCharacteristicValue?.[0]?.value && (
+                      <CFormText className="help-block">Please enter a name</CFormText>
+                    )}
+                  </CFormGroup>
+                </CCol>
+                <CCol sm={6}>
+                  <CFormGroup>
+                    <CLabel htmlFor="prodSpecCharValueUse.1.productSpecCharacteristicValue.0.value">
+                      Function Descriptor Type
+                    </CLabel>
+                    <Controller
+                      control={control}
+                      defaultValue={''}
+                      name="prodSpecCharValueUse.1.productSpecCharacteristicValue.0.value"
+                      render={({ field }) => (
+                        <CSelect {...field} id="functionDescriptorType">
+                          <option value="" disabled>
+                            Select one
+                          </option>
+                          <option value="SLICE">SLICE</option>
+                          <option value="NETWORK_SERVICE">NETWORK SERVICE</option>
+                          <option value="VIRTUAL_NETWORK_FUNCTION">VIRTUAL NETWORK FUNCTION</option>
+                        </CSelect>
+                      )}
+                    />
+                    {errors.prodSpecCharValueUse?.[1]?.productSpecCharacteristicValue?.[0]?.value && (
+                      <CFormText className="help-block">Please select a type</CFormText>
+                    )}
+                  </CFormGroup>
+                </CCol>
+              </CRow>
+              {(priceType === 'recurring' || priceType === 'usage') && (
+                <>
+                  <CRow>
+                    <CCol sm={12}>
+                      <CLabel>Recurring Charge Period</CLabel>
+                      <CRow>
+                        <CCol sm={6}>
+                          <CFormGroup>
+                            <Controller
+                              control={control}
+                              defaultValue={''}
+                              name="recurringChargePeriodType"
+                              render={({ field }) => <CInput placeholder={'Enter a period'} {...field} />}
+                            />
+                            {errors.recurringChargePeriodType && (
+                              <CFormText className="help-block">Please enter a period</CFormText>
+                            )}
+                          </CFormGroup>
+                        </CCol>
+                        <CCol sm="6">
+                          <CInputGroup>
+                            <CInputGroupPrepend>
+                              <CButton type="button" color="transparent" onClick={handleMinus}>
+                                <MinusCircle />
+                              </CButton>
+                            </CInputGroupPrepend>
+                            <Controller
+                              control={control}
+                              defaultValue={''}
+                              name="recurringChargePeriodLength"
+                              render={({ field }) => (
+                                <CInput
+                                  placeholder={'0'}
+                                  {...field}
+                                  value={recurringState}
+                                  min={0}
+                                  onChange={(e: any) => setRecurringState(Number(e?.target?.value))}
+                                />
+                              )}
+                            />
 
+                            <CInputGroupAppend>
+                              <CButton
+                                type="button"
+                                color="transparent"
+                                onClick={() => setRecurringState((previous) => previous + 1)}
+                              >
+                                <PlusCircle />
+                              </CButton>
+                            </CInputGroupAppend>
+                            {errors.recurringChargePeriodLength && (
+                              <CFormText className="help-block">Please enter a number</CFormText>
+                            )}
+                          </CInputGroup>
+                        </CCol>
+                      </CRow>
+                    </CCol>
+                  </CRow>
+                </>
+              )}
               <button
                 type="button"
                 onClick={() => setAdvancedSearch((previous) => !previous)}
@@ -666,98 +753,29 @@ const NewProductOfferingPrice = () => {
               </button>
               <CCollapse show={advancedSearch}>
                 <CContainer className={'p-0'}>
-                  <CRow>
-                    <CCol sm={6}>
-                      <CFormGroup>
-                        <CLabel htmlFor="prodSpecCharValueUse.0.productSpecCharacteristicValue.0.value">
-                          Function Descriptor Name
-                        </CLabel>
-                        <Controller
-                          control={control}
-                          defaultValue={''}
-                          name="prodSpecCharValueUse.0.productSpecCharacteristicValue.0.value"
-                          render={({ field }) => <CInput placeholder={'Enter a name'} {...field} />}
-                        />
-                        {errors.prodSpecCharValueUse?.[0]?.productSpecCharacteristicValue?.[0]?.value && (
-                          <CFormText className="help-block">Please enter a name</CFormText>
-                        )}
-                      </CFormGroup>
-                    </CCol>
-                  </CRow>
-                  <CRow>
-                    <CCol sm={6}>
-                      <CFormGroup>
-                        <CLabel htmlFor="prodSpecCharValueUse.1.productSpecCharacteristicValue.0.value">
-                          Function Descriptor Type
-                        </CLabel>
-                        <Controller
-                          control={control}
-                          defaultValue={''}
-                          name="prodSpecCharValueUse.1.productSpecCharacteristicValue.0.value"
-                          render={({ field }) => (
-                            <CSelect {...field} id="functionDescriptorType">
-                              <option value="" disabled>
-                                Select one
-                              </option>
-                              <option value="SLICE">SLICE</option>
-                              <option value="NETWORK_SERVICE">NETWORK SERVICE</option>
-                              <option value="VIRTUAL_NETWORK_FUNCTION">VIRTUAL NETWORK FUNCTION</option>
-                            </CSelect>
+                  {priceType === 'usage' && (
+                    <CRow>
+                      <CCol sm={12}>
+                        <CFormGroup>
+                          <CLabel htmlFor="prodSpecCharValueUse.3.productSpecCharacteristicValue">
+                            Unit Of Measure Aggregation
+                          </CLabel>
+                          <Controller
+                            control={control}
+                            defaultValue={''}
+                            name="prodSpecCharValueUse.3.productSpecCharacteristicValue"
+                            render={({ field }) => <CRow>{renderMeasureAggregation()}</CRow>}
+                          />
+                          {errors.prodSpecCharValueUse?.[3]?.productSpecCharacteristicValue && (
+                            <CFormText className="help-block">Please select one</CFormText>
                           )}
-                        />
-                        {errors.prodSpecCharValueUse?.[1]?.productSpecCharacteristicValue?.[0]?.value && (
-                          <CFormText className="help-block">Please select a type</CFormText>
-                        )}
-                      </CFormGroup>
-                    </CCol>
-                    <CCol sm={6}>
-                      <CFormGroup>
-                        <CLabel htmlFor="prodSpecCharValueUse.2.productSpecCharacteristicValue.0.value">
-                          Price Logic
-                        </CLabel>
-                        <Controller
-                          control={control}
-                          defaultValue={''}
-                          name="prodSpecCharValueUse.2.productSpecCharacteristicValue.0.value"
-                          render={({ field }) => (
-                            <CSelect {...field} id="priceLogic">
-                              <option value="" disabled>
-                                Select one
-                              </option>
-                              <option value="TIME_OF_USE">TIME OF USE</option>
-                              <option value="N_OF_USER">N OF USER</option>
-                              <option value="N_OF_INSTANCES">N OF INSTANCES</option>
-                              <option value="SIMPLE">SIMPLE</option>
-                            </CSelect>
-                          )}
-                        />
-                        {errors.prodSpecCharValueUse?.[2]?.productSpecCharacteristicValue?.[0]?.value && (
-                          <CFormText className="help-block">Please select one</CFormText>
-                        )}
-                      </CFormGroup>
-                    </CCol>
-                  </CRow>
+                        </CFormGroup>
+                      </CCol>
+                    </CRow>
+                  )}
                   <CRow>
-                    <CCol sm={12}>
-                      <CFormGroup>
-                        <CLabel htmlFor="prodSpecCharValueUse.3.productSpecCharacteristicValue">
-                          Unit Of Measure Aggregation
-                        </CLabel>
-                        <Controller
-                          control={control}
-                          defaultValue={''}
-                          name="prodSpecCharValueUse.3.productSpecCharacteristicValue"
-                          render={({ field }) => <CRow>{renderMeasureAggregation()}</CRow>}
-                        />
-                        {errors.prodSpecCharValueUse?.[3]?.productSpecCharacteristicValue && (
-                          <CFormText className="help-block">Please select one</CFormText>
-                        )}
-                      </CFormGroup>
-                    </CCol>
-                  </CRow>
-                  <CRow>
-                    <CFormGroup className={'p-3'}>
-                      <CLabel>Licence</CLabel>
+                    <CFormGroup className={'p-3 w-100'}>
+                      <CLabel className={'pb-2'}>Licence</CLabel>
                       <CInputGroup>
                         <CCard className={'p-4'} style={{ width: '100%' }}>
                           <CDataTable

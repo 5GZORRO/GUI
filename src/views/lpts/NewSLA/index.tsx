@@ -39,7 +39,7 @@ const fields = [
 const NewSLA: React.FC = () => {
   const history = useHistory()
   const [selected, setSelected] = useState<string[]>([])
-  const { data, isLoading } = useAllSLATemplates()
+  const { data, isLoading } = useAllSLATemplates({ size: 9999 })
   const [modal, setModal] = useState<any | null>(null)
 
   const check = (item: any) => {

@@ -33,7 +33,7 @@ const ProductOfferingPrices = () => {
           </Link>
         </CCol>
       </CRow>
-      <CTabs activeTab="allTemplates">
+      {/* <CTabs activeTab="allTemplates">
         <CNav variant="tabs">
           <CNavItem>
             <CNavLink data-tab="allTemplates" className={'text-uppercase'}>
@@ -47,16 +47,16 @@ const ProductOfferingPrices = () => {
           </CNavItem>
         </CNav>
         <CTabContent>
-          <CTabPane data-tab="allTemplates">
-            <CCard className={'mt-4'}>
-              <CCardHeader>
-                <h5 className={'font-18'}>All Product Offering Prices</h5>
-              </CCardHeader>
-              <CCardBody>
-                <AllTemplates />
-              </CCardBody>
-            </CCard>
-          </CTabPane>
+          <CTabPane data-tab="allTemplates"> */}
+      <CCard className={'mt-4'}>
+        <CCardHeader>
+          <h5 className={'font-18'}>All Product Offering Prices</h5>
+        </CCardHeader>
+        <CCardBody>
+          <AllTemplates />
+        </CCardBody>
+      </CCard>
+      {/* </CTabPane>
           <CTabPane data-tab="myTemplates">
             <CCard className={'mt-4'}>
               <CCardHeader>
@@ -66,7 +66,7 @@ const ProductOfferingPrices = () => {
             </CCard>
           </CTabPane>
         </CTabContent>
-      </CTabs>
+      </CTabs> */}
     </CContainer>
   )
 }

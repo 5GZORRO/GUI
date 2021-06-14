@@ -24,6 +24,12 @@ export const useGetMembers = (params?: any) => {
   })
 }
 
+export const useAllResourceAndServiceSpecifications = (params?: any) => {
+  return useQuery(['allResourceSpecifications', params], () => api.resources.useAllResourceAndServiceSpecifications(params), {
+    keepPreviousData: true
+  })
+}
+
 export const useAllResourceSpecifications = (params?: any) => {
   return useQuery(['allResourceSpecifications', params], () => api.resources.useAllResourceSpecifications(params), {
     keepPreviousData: true
@@ -45,8 +51,8 @@ export const useAllProductOfferingPrices = (params?: any) => {
 export const useCreateProductOfferingPrice = (params?: any) =>
   useMutation<any, any, any>((params: any) => api.resources.createProductOfferingPrice(params))
 
-export const useGetResourceSpecificationsBundle = (ids: string) =>
-  useQuery(['resourceSpecifications', ids], () => api.resources.getResourceSpecificationsBatch(ids), {
+export const useGetResourceSpecificationsBundle = (ids: string, servicesIndex: any) =>
+  useQuery(['resourceSpecifications', ids, servicesIndex], () => api.resources.getResourceSpecificationsBatch(ids, servicesIndex), {
     keepPreviousData: true
   })
 
@@ -71,3 +77,12 @@ export const useGetSLA = (id: string) =>
 
 export const useAllLocations = (params?: any) =>
   useQuery(['allLocations', params], () => api.resources.useAllLocations(params), { keepPreviousData: true })
+
+export const useCreateLocation = (params?: any) =>
+  useMutation<any, any, any>((params: any) => api.resources.createLocation(params))
+
+export const useAllProductOfferingPricesChildren = (params?: any) => {
+  return useQuery(['allProductPricesChildren', params], () => api.resources.getProductPrices(params, true), {
+    keepPreviousData: true
+  })
+}

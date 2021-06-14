@@ -68,7 +68,7 @@ const createSLA = async (body: any): Promise<any> => {
 
 const getSLA = async (id: string): Promise<any> => {
   try {
-    const response = await axios.get(`${endpoints.SERVICE_LEGAL_AGREEMENT}/${id}`)
+    const response = await axios.get(`${endpoints.SERVICE_LEGAL_AGREEMENT}/${id}`, { params: { size: 9999 } })
 
     if (response?.data?.templateRef?.href) {
       try {
@@ -113,7 +113,8 @@ const getAllLicences = async (params?: any): Promise<any[]> => {
   try {
     const response = await axios.get(endpoints.LEGAL_PROSE_TEMPLATES, {
       params: {
-        categoryFilter: 'LICENSE'
+        categoryFilter: 'LICENSE',
+        ...params
       }
     })
     if (response?.data?.pagedTemplates?.content) {
