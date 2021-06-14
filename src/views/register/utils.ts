@@ -73,6 +73,7 @@ export const schemaRegister = yup.object().shape({
           'Must select at least one', // we'll return error message ourself if needed
           (obj) => {
             // only testing the checkboxes here
+            console.log(obj)
             if (!obj.isSelect) {
               return true
             } else if (obj.informationResource || obj.networkFunction || obj.physicalResource || obj.spectrumResource) {

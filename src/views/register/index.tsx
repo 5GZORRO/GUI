@@ -179,18 +179,18 @@ const Register: React.FC = () => {
                                       <Controller
                                         control={control}
                                         defaultValue={false}
-                                        name={`roles.regulator.${item.id}` as any}
+                                        name={`roles.administrator.${item.id}` as any}
                                         render={({ field: { onChange, onBlur } }) => (
                                           <>
                                             <CInputCheckbox
-                                              id={`regulator_${item.id}`}
+                                              id={`administrator_${item.id}`}
                                               onChange={(e: any) => onChange(e.target.checked)}
                                               onBlur={onBlur}
                                             />
                                             <CLabel
                                               variant="checkbox"
                                               className="form-check-label"
-                                              htmlFor={`regulator_${item.id}`}
+                                              htmlFor={`administrator_${item.id}`}
                                             >
                                               {item.label}
                                             </CLabel>
@@ -202,7 +202,7 @@ const Register: React.FC = () => {
                                 ))}
                                 <CCol>
                                   <CFormText className="help-block" data-testid="error-message">
-                                    <ErrorMessage errors={errors} name={'roles.regulator'} />
+                                    <ErrorMessage errors={errors} name={'roles.administrator'} />
                                   </CFormText>
                                 </CCol>
                               </CRow>
@@ -414,11 +414,6 @@ const Register: React.FC = () => {
                               </CRow>
                             </CCol>
                           )}
-                          <CCol xs="12">
-                            <CFormText className="help-block" data-testid="error-message">
-                              <ErrorMessage errors={errors} name="roles" />
-                            </CFormText>
-                          </CCol>
                         </CRow>
                         <CRow>
                           <CCol xs="5" className={'mb-2'}>
@@ -489,11 +484,6 @@ const Register: React.FC = () => {
                               </CRow>
                             </CCol>
                           )}
-                          <CCol xs="12">
-                            <CFormText className="help-block" data-testid="error-message">
-                              <ErrorMessage errors={errors} name="roles" />
-                            </CFormText>
-                          </CCol>
                         </CRow>
                         <CRow className={'mb-4'}>
                           <CCol xs="5" className={'mb-2'}>

@@ -5,5 +5,5 @@ export const API_IPM = 'http://172.28.3.153:6200'
 export const API_SMART_CONTRACT = 'http://172.28.3.111/operatora/smart-contract-lifecycle-manager'
 
 export const APP_ENV = 'production'
-export const VERIFICATION_KEY = 'GwD5k9DK3tNygeiJG2XL4BKo7r1ip3iTrnsknx6sBUGC'
+export const VERIFICATION_KEY = '3cGXHsLNNk4oXNFxVoT9CUMgDrSZoRcw4dozDh8H1t1J'
 export const LEDGER_IDENTITY = 'CN=OperatorA,OU=DLT,O=DLT,L=London,C=GB'
