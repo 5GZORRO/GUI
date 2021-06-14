@@ -25,7 +25,6 @@ import { LogoVerticalWhite } from 'assets/icons/logos'
 import { TheFooter } from 'containers/index'
 import { useHistory } from 'react-router'
 import { transformForm, assestsArray, schemaRegister } from './utils'
-import { DevTool } from '@hookform/devtools'
 import { SESSION_TOKEN } from 'config'
 /** Hooks */
 import { useRegister } from 'hooks/api/Auth'
@@ -52,6 +51,8 @@ const Register: React.FC = () => {
     // import from utils
     resolver: yupResolver(schemaRegister)
   })
+
+  const administrator = watch('roles.administrator.isSelect')
   const regulator = watch('roles.regulator.isSelect')
   const resourceProvider = watch('roles.resourceProvider.isSelect')
   const resourceConsumer = watch('roles.resourceConsumer.isSelect')
@@ -141,6 +142,72 @@ const Register: React.FC = () => {
                               </CFormText>
                             </CFormGroup>
                           </CCol>
+                        </CRow>
+                        <CRow>
+                          <CCol xs="5" className={'mb-2'}>
+                            <div
+                              className={`${
+                                administrator ? 'bg-gradient' : 'bg-primary'
+                              } p-2 mb-2 rounded-sm cursor-pointer`}
+                            >
+                              <Controller
+                                control={control}
+                                defaultValue={false}
+                                name="roles.administrator.isSelect"
+                                render={({ field: { onChange, onBlur } }) => (
+                                  <>
+                                    <CInputCheckbox
+                                      id={'administrator'}
+                                      onBlur={onBlur}
+                                      onChange={(e: any) => onChange(e.target.checked)}
+                                    />
+                                    <CLabel className="mb-0 font-14" htmlFor={'administrator'}>
+                                      Administrator
+                                    </CLabel>
+                                  </>
+                                )}
+                              />
+                            </div>
+                          </CCol>
+                          {administrator && (
+                            <CCol xs="10" className="ml-3">
+                              <CLabel>Assets</CLabel>
+                              <CRow>
+                                {assestsArray.map((item) => (
+                                  <CCol key={item.id} xs={6}>
+                                    <CFormGroup variant="checkbox" className="checkbox p-0">
+                                      <Controller
+                                        control={control}
+                                        defaultValue={false}
+                                        name={`roles.regulator.${item.id}` as any}
+                                        render={({ field: { onChange, onBlur } }) => (
+                                          <>
+                                            <CInputCheckbox
+                                              id={`regulator_${item.id}`}
+                                              onChange={(e: any) => onChange(e.target.checked)}
+                                              onBlur={onBlur}
+                                            />
+                                            <CLabel
+                                              variant="checkbox"
+                                              className="form-check-label"
+                                              htmlFor={`regulator_${item.id}`}
+                                            >
+                                              {item.label}
+                                            </CLabel>
+                                          </>
+                                        )}
+                                      />
+                                    </CFormGroup>
+                                  </CCol>
+                                ))}
+                                <CCol>
+                                  <CFormText className="help-block" data-testid="error-message">
+                                    <ErrorMessage errors={errors} name={'roles.regulator'} />
+                                  </CFormText>
+                                </CCol>
+                              </CRow>
+                            </CCol>
+                          )}
                         </CRow>
                         <CRow>
                           <CCol xs="5" className={'mb-2'}>
@@ -655,7 +722,6 @@ const Register: React.FC = () => {
                     </CCardBody>
                   </CCard>
                 </CCol>
-                <DevTool control={control} />
               </CRow>
             </CContainer>
           </div>
