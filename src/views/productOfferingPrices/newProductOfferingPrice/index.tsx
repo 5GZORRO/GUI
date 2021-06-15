@@ -312,10 +312,8 @@ const NewProductOfferingPrice = () => {
   }, [selectedMeasures])
 
   useEffect(() => {
-    if (priceType === 'usage' && priceLogicValue === 'SIMPLE') {
-      setValue('prodSpecCharValueUse.2.productSpecCharacteristicValue.0.value', '')
-    }
-  }, [priceType, priceLogicValue])
+    setValue('prodSpecCharValueUse.2.productSpecCharacteristicValue.0.value', '')
+  }, [priceType])
 
   const checkMeasure = (item: any) => {
     const found = selectedMeasures.find((measure: any) => measure?.value === item.value)
@@ -535,13 +533,21 @@ const NewProductOfferingPrice = () => {
                       defaultValue={''}
                       name="prodSpecCharValueUse.2.productSpecCharacteristicValue.0.value"
                       render={({ field }) => (
-                        <CSelect {...field} id="prodSpecCharValueUse.2.productSpecCharacteristicValue.0.value">
+                        <CSelect
+                          {...field}
+                          id="prodSpecCharValueUse.2.productSpecCharacteristicValue.0.value"
+                          disabled={priceType == null || priceType === ''}
+                        >
                           <option value="" disabled>
                             Select one
                           </option>
-                          <option value="TIME_OF_USE">TIME OF USE</option>
-                          <option value="N_OF_USER">N OF USER</option>
-                          <option value="N_OF_INSTANCES">N OF INSTANCES</option>
+                          {priceType === 'usage' && (
+                            <>
+                              <option value="TIME_OF_USE">TIME OF USE</option>
+                              <option value="N_OF_USER">N OF USER</option>
+                              <option value="N_OF_INSTANCES">N OF INSTANCES</option>
+                            </>
+                          )}
                           {(priceType === 'recurring' || priceType === 'oneTime') && (
                             <option value="SIMPLE">SIMPLE</option>
                           )}
@@ -574,13 +580,13 @@ const NewProductOfferingPrice = () => {
                                 </option>
                                 {priceLogicValue === 'TIME_OF_USE' && (
                                   <>
-                                    <option value="seconds">Second</option>
-                                    <option value="minutes">Minute</option>
-                                    <option value="hours">Hour</option>
-                                    <option value="days">Day</option>
-                                    <option value="week">Week</option>
-                                    <option value="months">Month</option>
-                                    <option value="years">Year</option>
+                                    <option value="seconds">Seconds</option>
+                                    <option value="minutes">Minutes</option>
+                                    <option value="hours">Hours</option>
+                                    <option value="days">Days</option>
+                                    <option value="week">Weeks</option>
+                                    <option value="months">Months</option>
+                                    <option value="years">Years</option>
                                   </>
                                 )}
                                 {priceLogicValue === 'N_OF_USER' && (
