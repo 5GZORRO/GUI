@@ -108,7 +108,7 @@ const NewTemplate = () => {
                   </CCol>
                   <CCol sm={6}>
                     <CFormGroup>
-                      <CLabel htmlFor="name">Name</CLabel>
+                      <CLabel htmlFor="proposeTemplateRequest.category">Type</CLabel>
                       <Controller
                         control={control}
                         defaultValue={''}

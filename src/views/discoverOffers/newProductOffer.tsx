@@ -23,13 +23,15 @@ import dayjs from 'dayjs'
 
 import { useAllResourceAndServiceSpecifications } from 'hooks/api/Resources'
 import { useHistory, Link } from 'react-router-dom'
-import { DATETIME_FORMAT } from 'config'
+import { DATETIME_FORMAT, DATETIME_FORMAT_SHOW } from 'config'
 
 const fields = [
   { key: 'select', label: '', filter: false, sorter: false },
   'name',
+  'description',
+  { key: 'lifecycleStatus', label: 'Status' },
+  { key: 'lastUpdate', label: 'Created' },
   'version',
-  'category',
   {
     key: 'show_details',
     label: '',
@@ -262,10 +264,16 @@ const NewProductOffer: React.FC = () => {
                   </td>
                 )
               },
+              lastUpdate: (item: any) => {
+                return (
+                  <td className="py-2">
+                    {dayjs(item?.lastUpdate).isValid() ? dayjs(item?.lastUpdate).format(DATETIME_FORMAT_SHOW) : '-'}
+                  </td>
+                )
+              },
               version: (item: any) => {
                 return <td className="py-2">{item?.version ? item?.version : '-'}</td>
               },
-              category: (item: any) => <td>{item?.category?.map((el) => el?.name).join(', ') ?? '-'}</td>,
               show_details: (item: any) => {
                 return (
                   <td className="py-2">

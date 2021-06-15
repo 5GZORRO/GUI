@@ -74,9 +74,12 @@ const createSLA = async (body: any): Promise<any> => {
     const mySLAs = window.localStorage.getItem('mySLAs')
 
     if (!mySLAs) {
-      window.localStorage.setItem('mySLAs', JSON.stringify([{ ...body, id: uuidv4() }]))
+      window.localStorage.setItem('mySLAs', JSON.stringify([{ ...body, id: uuidv4(), status: 'ACTIVE' }]))
     } else {
-      window.localStorage.setItem('mySLAs', JSON.stringify([...JSON.parse(mySLAs), { ...body, id: uuidv4() }]))
+      window.localStorage.setItem(
+        'mySLAs',
+        JSON.stringify([...JSON.parse(mySLAs), { ...body, id: uuidv4(), status: 'ACTIVE' }])
+      )
     }
   }
 }

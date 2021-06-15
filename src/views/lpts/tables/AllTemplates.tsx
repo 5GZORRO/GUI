@@ -17,7 +17,7 @@ export const AllTemplates: React.FC = () => {
     'name',
     'status',
     'created',
-    'category',
+    { key: 'category', label: 'Type' },
     {
       key: 'show_details',
       label: '',

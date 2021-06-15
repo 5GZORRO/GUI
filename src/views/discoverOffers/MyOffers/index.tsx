@@ -31,8 +31,8 @@ const MyOffers = () => {
   })
 
   const fields = [
-    'id',
     'name',
+    'description',
     'category',
     {
       key: 'location',
@@ -44,7 +44,7 @@ const MyOffers = () => {
     },
     {
       key: 'productOfferingPrice',
-      label: 'Price'
+      label: 'Price Type'
     },
     {
       key: 'show_details',

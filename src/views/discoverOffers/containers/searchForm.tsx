@@ -79,8 +79,8 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
   const { data: members, isLoading: isLoadingMembers } = useGetMembers()
 
   const fields = [
-    'id',
     'name',
+    'description',
     'category',
     {
       key: 'location',
@@ -92,7 +92,7 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
     },
     {
       key: 'productOfferingPrice',
-      label: 'Price'
+      label: 'Price Type'
     },
     {
       key: 'show_details',

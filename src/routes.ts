@@ -27,7 +27,7 @@ const routes = [
   { path: '/offers/new-offer/:id', name: 'Detail Product Offer', component: ProductDetail },
   { path: '/offers/new-offer', name: 'New Product Offer', component: NewProduct },
   { path: '/orders', name: 'Orders', component: Orders },
-  { exact: true, path: '/resource', name: 'Resource & Services', component: Resources },
+  { exact: true, path: '/resource', name: 'Resources & Services', component: Resources },
   { exact: true, path: '/resource/new-resource', name: 'Create Resource & Service', component: NewResource },
   { exact: true, path: '/prices/new', name: 'New Product Offering Price', component: NewProductOfferingPrice },
 

@@ -17,7 +17,6 @@ export const AllTemplates: React.FC = () => {
     'name',
     'status',
     'created',
-    'category',
     {
       key: 'show_details',
       label: '',
@@ -44,9 +43,6 @@ export const AllTemplates: React.FC = () => {
                 {dayjs(item?.created).isValid() ? dayjs(item?.created).format(DATETIME_FORMAT_SHOW) : '-'}
               </td>
             )
-          },
-          category: (item: any) => {
-            return <td className="py-2">{item?.category ? item.category : '-'}</td>
           },
           show_details: (item: any) => {
             return (

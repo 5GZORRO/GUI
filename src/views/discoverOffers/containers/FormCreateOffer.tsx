@@ -139,10 +139,10 @@ const FormCreateOffer: React.FC = () => {
 
   const slaFields = [
     { key: 'select', label: '', filter: false, sorter: false },
+    'id',
     'name',
-    'publisher',
     'status',
-    'version',
+    'created',
     {
       key: 'show_details',
       label: '',
@@ -188,6 +188,18 @@ const FormCreateOffer: React.FC = () => {
       </CButton>
     </td>
   )
+
+  const slaCategoryComponent = (item: any) => {
+    return <td className="py-2">{item?.category ? item.category : '-'}</td>
+  }
+
+  const slaCreatedComponent = (item: any) => {
+    return (
+      <td className="py-2">
+        {dayjs(item?.created).isValid() ? dayjs(item?.created).format(DATETIME_FORMAT_SHOW) : '-'}
+      </td>
+    )
+  }
 
   const slaSelectComponent = (item: any) => {
     return (
@@ -454,6 +466,7 @@ const FormCreateOffer: React.FC = () => {
                       fields={slaFields}
                       itemsPerPage={5}
                       scopedSlots={{
+                        created: (item: any) => slaCreatedComponent(item),
                         select: (item: any) => slaSelectComponent(item),
                         show_details: (item: any) => showSLADetails(item)
                       }}

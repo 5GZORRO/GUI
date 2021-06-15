@@ -45,7 +45,7 @@ export default [
   },
   {
     _tag: 'CSidebarNavItem',
-    name: 'Resource & Services',
+    name: 'Resources & Services',
     to: '/resource',
     icon: 'cilLayers'
   },

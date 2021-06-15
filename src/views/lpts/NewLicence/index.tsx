@@ -108,7 +108,7 @@ const NewLicence = () => {
                   </CCol>
                   <CCol sm={6}>
                     <CFormGroup>
-                      <CLabel htmlFor="proposeTemplateRequest.category">Category</CLabel>
+                      <CLabel htmlFor="proposeTemplateRequest.category">Type</CLabel>
                       <Controller
                         control={control}
                         defaultValue={''}
