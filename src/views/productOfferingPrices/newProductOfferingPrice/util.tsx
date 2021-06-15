@@ -8,7 +8,7 @@ const getInfo = (index) => {
   switch (index) {
     case 0:
       return {
-        name: 'FunctionDescriptorName',
+        name: 'FunctionDescriptorId',
         valueType: 'string'
       }
     case 1:

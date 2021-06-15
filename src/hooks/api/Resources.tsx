@@ -70,8 +70,8 @@ export const useGetLegalTemplate = (id: string) => {
 export const useCreateCategory = (body?: any) =>
   useMutation<any, any, any>((params: any) => api.resources.createCategory(params))
 
-export const useGetSLA = (id: string) =>
-  useQuery(['getSLA', id], () => api.sla.getSLA(id), {
+export const useGetSLA = (id: string, templateHref: string) =>
+  useQuery(['getSLA', id, templateHref], () => api.sla.getSLA(id, templateHref), {
     keepPreviousData: true
   })
 

@@ -114,14 +114,10 @@ const LegalTemplateEditor = ({ getDataCallback, triggerCallback, prefilledData, 
         }, {})
       return { ...blockAcum, ...newBlock }
     }, {})
-    const { endDateTime, startDateTime, approved, approvalDate, ...remain } = transformed
+    const { endDateTime, startDateTime, ...remain } = transformed
     return {
       ...data,
       ...remain,
-      approved: approved === 'true',
-      approvalDate: moment(approvalDate, 'DD/MM/YYYY').isValid()
-        ? moment(approvalDate, 'DD/MM/YYYY').format(SLA_DATETIME_FORMAT)
-        : moment().format(SLA_DATETIME_FORMAT),
       validFor: {
         endDateTime: moment(endDateTime, 'DD/MM/YYYY').isValid()
           ? moment(endDateTime, 'DD/MM/YYYY').format(SLA_DATETIME_FORMAT)

@@ -3,6 +3,7 @@
 import axios from 'api/instance'
 import { endpoints } from 'api/endpoints'
 import { TransformDataTemplates } from 'api/utils'
+import { v4 as uuidv4 } from 'uuid'
 
 const getAllTemplates = async (params?: any): Promise<any[]> => {
   try {
@@ -59,14 +60,48 @@ const createTemplate = async (body: any): Promise<any> => {
 const createSLA = async (body: any): Promise<any> => {
   try {
     const response = await axios.post(endpoints.SERVICE_LEGAL_AGREEMENT, body)
+    const mySLAs = window.localStorage.getItem('mySLAs')
+    if (!mySLAs) {
+      window.localStorage.setItem('mySLAs', JSON.stringify([response?.data]))
+    } else {
+      window.localStorage.setItem('mySLAs', JSON.stringify([...JSON.parse(mySLAs), response?.data]))
+    }
     return response.data
   } catch (err) {
     console.log({ err })
-    throw new Error('error')
+    // throw new Error('error')
+
+    const mySLAs = window.localStorage.getItem('mySLAs')
+
+    if (!mySLAs) {
+      window.localStorage.setItem('mySLAs', JSON.stringify([{ ...body, id: uuidv4() }]))
+    } else {
+      window.localStorage.setItem('mySLAs', JSON.stringify([...JSON.parse(mySLAs), { ...body, id: uuidv4() }]))
+    }
   }
 }
 
-const getSLA = async (id: string): Promise<any> => {
+const getSLA = async (id: string, templateHref: string): Promise<any> => {
+  try {
+    const mySLAs = window.localStorage.getItem('mySLAs')
+
+    if (!mySLAs) {
+      throw new Error('error')
+    } else {
+      const parsedSLAs = JSON.parse(mySLAs)
+      const found = parsedSLAs.find((el) => el.id === id)
+      if (found) {
+        const response = await axios.get(templateHref)
+        return {
+          ...found,
+          template: {
+            templateFileData: response?.data?.templateFileData
+          }
+        }
+      }
+    }
+  } catch (error) {}
+
   try {
     const response = await axios.get(`${endpoints.SERVICE_LEGAL_AGREEMENT}/${id}`, { params: { size: 9999 } })
 
@@ -89,13 +124,16 @@ const getAllSLAs = async (params?: any): Promise<any[]> => {
   try {
     const response = await axios.get(endpoints.SERVICE_LEGAL_AGREEMENT, { params })
     if (response?.data?.pagedSLAs?.content) {
-      return response?.data?.pagedSLAs?.content
+      const mySLAs = window.localStorage.getItem('mySLAs')
+      return [...response?.data?.pagedSLAs?.content, ...(mySLAs != null ? JSON.parse(mySLAs) : [])]
     } else {
       throw new Error('error')
     }
   } catch (e) {
     console.log({ e })
-    throw new Error('error')
+    // throw new Error('error')
+    const mySLAs = window.localStorage.getItem('mySLAs')
+    return mySLAs != null ? JSON.parse(mySLAs) : []
   }
 }
 

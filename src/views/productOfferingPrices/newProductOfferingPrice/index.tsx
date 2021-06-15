@@ -176,9 +176,7 @@ const NewProductOfferingPrice = () => {
     formState: { errors },
     control,
     watch,
-    getValues,
-    setValue,
-    register
+    setValue
   } = useForm<formProductOfferingPriceCreation>({
     defaultValues: {
       name: '',
@@ -646,49 +644,6 @@ const NewProductOfferingPrice = () => {
                   </CCol>
                 )}
               </CRow>
-              <CRow>
-                <CCol sm={6}>
-                  <CFormGroup>
-                    <CLabel htmlFor="prodSpecCharValueUse.0.productSpecCharacteristicValue.0.value">
-                      Function Descriptor ID
-                    </CLabel>
-                    <Controller
-                      control={control}
-                      defaultValue={''}
-                      name="prodSpecCharValueUse.0.productSpecCharacteristicValue.0.value"
-                      render={({ field }) => <CInput placeholder={'Enter a name'} {...field} />}
-                    />
-                    {errors.prodSpecCharValueUse?.[0]?.productSpecCharacteristicValue?.[0]?.value && (
-                      <CFormText className="help-block">Please enter a name</CFormText>
-                    )}
-                  </CFormGroup>
-                </CCol>
-                <CCol sm={6}>
-                  <CFormGroup>
-                    <CLabel htmlFor="prodSpecCharValueUse.1.productSpecCharacteristicValue.0.value">
-                      Function Descriptor Type
-                    </CLabel>
-                    <Controller
-                      control={control}
-                      defaultValue={''}
-                      name="prodSpecCharValueUse.1.productSpecCharacteristicValue.0.value"
-                      render={({ field }) => (
-                        <CSelect {...field} id="functionDescriptorType">
-                          <option value="" disabled>
-                            Select one
-                          </option>
-                          <option value="SLICE">SLICE</option>
-                          <option value="NETWORK_SERVICE">NETWORK SERVICE</option>
-                          <option value="VIRTUAL_NETWORK_FUNCTION">VIRTUAL NETWORK FUNCTION</option>
-                        </CSelect>
-                      )}
-                    />
-                    {errors.prodSpecCharValueUse?.[1]?.productSpecCharacteristicValue?.[0]?.value && (
-                      <CFormText className="help-block">Please select a type</CFormText>
-                    )}
-                  </CFormGroup>
-                </CCol>
-              </CRow>
               {(priceType === 'recurring' || priceType === 'usage') && (
                 <>
                   <CRow>
@@ -779,6 +734,49 @@ const NewProductOfferingPrice = () => {
                       </CCol>
                     </CRow>
                   )}
+                  <CRow>
+                    <CCol sm={6}>
+                      <CFormGroup>
+                        <CLabel htmlFor="prodSpecCharValueUse.0.productSpecCharacteristicValue.0.value">
+                          Function Descriptor ID
+                        </CLabel>
+                        <Controller
+                          control={control}
+                          defaultValue={''}
+                          name="prodSpecCharValueUse.0.productSpecCharacteristicValue.0.value"
+                          render={({ field }) => <CInput placeholder={'Enter a name'} {...field} />}
+                        />
+                        {errors.prodSpecCharValueUse?.[0]?.productSpecCharacteristicValue?.[0]?.value && (
+                          <CFormText className="help-block">Please enter a function descriptor ID</CFormText>
+                        )}
+                      </CFormGroup>
+                    </CCol>
+                    <CCol sm={6}>
+                      <CFormGroup>
+                        <CLabel htmlFor="prodSpecCharValueUse.1.productSpecCharacteristicValue.0.value">
+                          Function Descriptor Type
+                        </CLabel>
+                        <Controller
+                          control={control}
+                          defaultValue={''}
+                          name="prodSpecCharValueUse.1.productSpecCharacteristicValue.0.value"
+                          render={({ field }) => (
+                            <CSelect {...field} id="functionDescriptorType">
+                              <option value="" disabled>
+                                Select one
+                              </option>
+                              <option value="SLICE">SLICE</option>
+                              <option value="NETWORK_SERVICE">NETWORK SERVICE</option>
+                              <option value="VIRTUAL_NETWORK_FUNCTION">VIRTUAL NETWORK FUNCTION</option>
+                            </CSelect>
+                          )}
+                        />
+                        {errors.prodSpecCharValueUse?.[1]?.productSpecCharacteristicValue?.[0]?.value && (
+                          <CFormText className="help-block">Please select a type</CFormText>
+                        )}
+                      </CFormGroup>
+                    </CCol>
+                  </CRow>
                   <CRow>
                     <CFormGroup className={'p-3 w-100'}>
                       <CLabel className={'pb-2'}>Licence</CLabel>

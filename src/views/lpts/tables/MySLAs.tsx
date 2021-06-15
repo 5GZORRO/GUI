@@ -11,6 +11,9 @@ import SLAAccordViewer from 'components/SLAAccordViewer'
 
 export const AllTemplates: React.FC = () => {
   const { data, isLoading } = useAllSLAs({ size: 9999 })
+
+  console.log(data)
+
   const [modal, setModal] = useState<any>(null)
   const fields = [
     'id',
@@ -26,6 +29,7 @@ export const AllTemplates: React.FC = () => {
       sort: false
     }
   ]
+
   return (
     <>
       <CDataTable
@@ -95,7 +99,7 @@ export const AllTemplates: React.FC = () => {
               </CCol>
             </CRow>
             <CRow className={'p-3'}>
-              <SLAAccordViewer id={modal?.id} readOnly={true}></SLAAccordViewer>
+              <SLAAccordViewer id={modal?.id} templateHref={modal?.templateRef?.href} readOnly={true}></SLAAccordViewer>
             </CRow>
           </CModalBody>
         </CModal>

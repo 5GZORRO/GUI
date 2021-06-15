@@ -125,7 +125,7 @@ const MyOffers = () => {
             </CNav>
             <CTabContent className={'mt-4'}>
               <CTabPane data-tab="description">
-                <CRow>
+                <CRow className={'mt-2'}>
                   <CCol xs="6">
                     <p className={'text-light mb-2'}>Name:</p> <p>{modal?.name}</p>
                   </CCol>
@@ -134,7 +134,7 @@ const MyOffers = () => {
                     <p>{dayjs(modal?.lastUpdate).isValid() ? dayjs(modal?.lastUpdate).format(DATETIME_FORMAT) : '-'}</p>
                   </CCol>
                 </CRow>
-                <CRow>
+                <CRow className={'mt-2'}>
                   <CCol xs="6">
                     <p className={'text-light mb-2'}>Sellable:</p>
 
@@ -146,7 +146,7 @@ const MyOffers = () => {
                     <p>{modal?.isBundle ? 'True' : 'False'}</p>
                   </CCol>
                 </CRow>
-                <CRow>
+                <CRow className={'mt-2'}>
                   <CCol xs="12">
                     <p className={'text-light mb-2'}>Description</p>
                     <p>{modal?.description}</p>
@@ -158,7 +158,7 @@ const MyOffers = () => {
                 <CTabPane data-tab="category">
                   {modal?.category?.map((el: any) => (
                     <CContainer key={`category-${el?.id}`}>
-                      <CRow>
+                      <CRow className={'mt-2'}>
                         <CCol xs="6">
                           <p className={'text-light mb-2'}>Id:</p>
                           <p>{el?.id}</p>
@@ -168,7 +168,7 @@ const MyOffers = () => {
                           <p>{el?.name}</p>
                         </CCol>
                       </CRow>
-                      <CRow>
+                      <CRow className={'mt-2'}>
                         <CCol xs="6">
                           <p className={'text-light mb-2'}>Version:</p>
                           <p>{el?.version}</p>
@@ -183,9 +183,9 @@ const MyOffers = () => {
                   {modal?.bundledProductOffering?.map((el: any) => (
                     <CContainer
                       key={`bundle-${el?.id}`}
-                      style={{ borderBottom: '1px solid #6C6E7E', marginBottom: '1rem' }}
+                      style={{ borderBottom: '1px solid #6C6E7E', paddingBottom: '1rem' }}
                     >
-                      <CRow>
+                      <CRow className={'mt-2'}>
                         <CCol xs="6">
                           <p className={'text-light mb-2'}>Id:</p>
                           <p>{el?.id}</p>
@@ -195,7 +195,7 @@ const MyOffers = () => {
                           <p>{el?.name}</p>
                         </CCol>
                       </CRow>
-                      <CRow>
+                      <CRow className={'mt-2'}>
                         <CCol xs="6">
                           <p className={'text-light mb-2'}>Version:</p>
                           <p>{el?.version}</p>
@@ -205,7 +205,7 @@ const MyOffers = () => {
                           <p>{dayjs(el?.lastUpdate).isValid() ? dayjs(el?.lastUpdate).format(DATETIME_FORMAT) : '-'}</p>
                         </CCol>
                       </CRow>
-                      <CRow>
+                      <CRow className={'mt-2'}>
                         <p className={'text-light mb-2'}>Valid for: </p>
                       </CRow>
                       {el?.validFor && (
@@ -237,9 +237,9 @@ const MyOffers = () => {
                   {modal?.productOfferingPrice?.map((el: any) => (
                     <CContainer
                       key={`priceOffer-${el?.id}`}
-                      style={{ borderBottom: '1px solid #6C6E7E', marginBottom: '1rem' }}
+                      style={{ borderBottom: '1px solid #6C6E7E', paddingBottom: '1rem' }}
                     >
-                      <CRow>
+                      <CRow className={'mt-2'}>
                         <CCol xs="6">
                           <p className={'text-light mb-2'}>Id:</p>
                           <p>{el?.id}</p>
@@ -249,14 +249,14 @@ const MyOffers = () => {
                           <p>{el?.name}</p>
                         </CCol>
                       </CRow>
-                      <CRow>
+                      <CRow className={'mt-2'}>
                         <CCol xs="6">
                           <p className={'text-light mb-2'}>Description:</p>
                           <p>{el?.description}</p>
                         </CCol>
                       </CRow>
                       {el?.validFor && (
-                        <CRow>
+                        <CRow className={'mt-2'}>
                           <CCol xs="6">
                             <p className={'text-light mb-2'}>From:</p>{' '}
                             <p>
