@@ -59,6 +59,16 @@ const getResourceSpecificationsBatch = async (
   }
 }
 
+const useAllCategories = async (params?: any): Promise<ApiCategory[]> => {
+  try {
+    const response = await axios.get(endpoints.CATEGORIES, { params })
+    return response.data
+  } catch (e) {
+    console.log({ e })
+    throw new Error('error')
+  }
+}
+
 const useAllResourceSpecifications = async (params?: any): Promise<ApiResourceSpecification[]> => {
   try {
     const response = await axios.get(endpoints.RESOURCE_SPECIFICATION, { params })
@@ -70,6 +80,21 @@ const useAllResourceSpecifications = async (params?: any): Promise<ApiResourceSp
 }
 
 const useAllResourceAndServiceSpecifications = async (params?: any): Promise<any[]> => {
+  // const categories = await useAllCategories()
+  let resourceCandidatesResults: any
+  let serviceCandidatesResults: any
+
+  try {
+    const resourceCandidateRequest = axios.get(endpoints.RESOURCE_CANDIDATE, { params })
+    const serviceCandidateRequest = axios.get(endpoints.SERVICE_CANDIDATE, { params })
+
+    const [resourceCandidates, serviceCandidates] = await axios.all([resourceCandidateRequest, serviceCandidateRequest])
+    resourceCandidatesResults = resourceCandidates?.data
+    serviceCandidatesResults = serviceCandidates?.data
+  } catch (e) {
+    console.log({ e })
+  }
+
   try {
     const resourceRequest = axios.get(endpoints.RESOURCE_SPECIFICATION, { params })
     const serviceRequest = axios.get(endpoints.SERVICE_SPECIFICATION, { params })
@@ -80,9 +105,16 @@ const useAllResourceAndServiceSpecifications = async (params?: any): Promise<any
       [],
       responses.map((el, index) => {
         if (index === 1) {
-          return el?.data?.map((serv) => ({ ...serv, isService: true }))
+          return el?.data?.map((serv) => ({
+            ...serv,
+            isService: true,
+            category: serviceCandidatesResults?.find((cand) => cand?.serviceSpecification?.id === serv?.id)?.category
+          }))
         }
-        return el?.data
+        return el?.data?.map((res) => ({
+          ...res,
+          category: resourceCandidatesResults?.find((cand) => cand?.resourceSpecification?.id === res?.id)?.category
+        }))
       })
     )
   } catch (e) {
@@ -117,16 +149,6 @@ const createProductOfferingPrice = async (body: any): Promise<ApiProductOfferPri
     return response.data
   } catch (err) {
     console.log({ err })
-    throw new Error('error')
-  }
-}
-
-const useAllCategories = async (params?: any): Promise<ApiCategory[]> => {
-  try {
-    const response = await axios.get(endpoints.CATEGORIES, { params })
-    return response.data
-  } catch (e) {
-    console.log({ e })
     throw new Error('error')
   }
 }

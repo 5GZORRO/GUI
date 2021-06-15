@@ -12,6 +12,8 @@ export const endpoints = {
   RESOURCE_SPECIFICATION: `${API_MARKET_PLACE}/resourceCatalogManagement/v2/resourceSpecification`,
   SERVICE_SPECIFICATION: `${API_MARKET_PLACE}/serviceCatalogManagement/v4/serviceSpecification`,
   PRODUCT_OFFER_PRICE: `${API_MARKET_PLACE}/productCatalogManagement/v4/productOfferingPrice`,
+  RESOURCE_CANDIDATE: `${API_MARKET_PLACE}/resourceCatalogManagement/v2/resourceCandidate`,
+  SERVICE_CANDIDATE: `${API_MARKET_PLACE}/serviceCatalogManagement/v4/serviceCandidate`,
   CATEGORIES: `${API_MARKET_PLACE}/productCatalogManagement/v4/category`,
   SERVICE_LEGAL_AGREEMENT: `${API_SMART_CONTRACT}/api/v1/service-level-agreement`,
   LICENCES: `${API_SMART_CONTRACT}/api/v1/licences`,

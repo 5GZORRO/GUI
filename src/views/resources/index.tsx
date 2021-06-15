@@ -29,11 +29,7 @@ import { useAllResourceAndServiceSpecifications } from 'hooks/api/Resources'
 const fields = [
   'name',
   'version',
-  {
-    key: 'category',
-    label: 'Category'
-  },
-  'lifecycleStatus',
+  'category',
   {
     key: 'show_details',
     label: '',
@@ -43,13 +39,20 @@ const fields = [
 ]
 
 const Resources: React.FC = () => {
-  const history = useHistory()
   const { data, isLoading } = useAllResourceAndServiceSpecifications()
 
   const [modal, setModal] = useState<any | null>(null)
 
   const openModal = (data: any) => {
     setModal(() => data)
+  }
+
+  const splitResourceCaract = (value: string) => {
+    const splitted = value.split(',')
+    if (splitted.length > 1) {
+      return splitted.map((el, key) => <p key={key}>{el}</p>)
+    }
+    return <p>{value}</p>
   }
 
   return (
@@ -66,11 +69,20 @@ const Resources: React.FC = () => {
                   Resource Specification
                 </CNavLink>
               </CNavItem>
-              <CNavItem>
-                <CNavLink className={'pl-0 mb-4'} data-tab="resourceCharacteristics" color={'#6C6E7E'}>
-                  Resource Characteristics
-                </CNavLink>
-              </CNavItem>
+              {modal?.resourceSpecCharacteristic?.length > 0 && (
+                <CNavItem>
+                  <CNavLink className={'pl-0 mb-4'} data-tab="resourceCharacteristics" color={'#6C6E7E'}>
+                    Resource Characteristics
+                  </CNavLink>
+                </CNavItem>
+              )}
+              {modal?.serviceSpecCharacteristic?.length > 0 && (
+                <CNavItem>
+                  <CNavLink className={'pl-0 mb-4'} data-tab="resourceCharacteristics" color={'#6C6E7E'}>
+                    Service Characteristics
+                  </CNavLink>
+                </CNavItem>
+              )}
             </CNav>
             <CTabContent>
               <CTabPane data-tab="resourceSpecification">
@@ -81,7 +93,7 @@ const Resources: React.FC = () => {
                   </CCol>
                   <CCol>
                     <p className={'text-light mb-2'}>Category</p>
-                    <p className={'font-16 mb-4'}>{modal?.category}</p>
+                    <p className={'font-16 mb-4'}>{modal?.category?.map((el) => el?.name).join(', ') ?? '-'}</p>
                   </CCol>
                 </CRow>
                 <CRow className={'mt-2'}>
@@ -154,13 +166,50 @@ const Resources: React.FC = () => {
                         {resource?.value?.alias && (
                           <CCol>
                             <p className={'text-light mb-2'}>{resource?.value?.alias}</p>
-                            <p className={'font-16 mb-4'}>{resource?.value?.value}</p>
+                            <div className={'font-16 mb-4'}>{splitResourceCaract(resource?.value?.value)}</div>
                           </CCol>
                         )}
-                        <CCol>
-                          <p className={'text-light mb-2'}>Unit Of Measure</p>
-                          <p className={'font-16 mb-4'}>{resource?.unitOfMeasure?.unitOfMeasure}</p>
-                        </CCol>
+                        {resource?.unitOfMeasure && (
+                          <CCol>
+                            <p className={'text-light mb-2'}>Unit Of Measure</p>
+                            <p className={'font-16 mb-4'}>{resource?.unitOfMeasure}</p>
+                          </CCol>
+                        )}
+                      </CRow>
+                    ))}
+                  </CContainer>
+                ))}
+                {modal?.serviceSpecCharacteristic?.map((el: any, index: number) => (
+                  <CContainer
+                    key={`serviceSpecCharacteristic-${index}`}
+                    style={{ borderBottom: '1px solid #6C6E7E', marginBottom: '1rem' }}
+                  >
+                    <CRow className={'mt-4'}>
+                      <CCol>
+                        <p className={'text-light mb-2'}>Name</p>
+                        <p className={'font-16 mb-4'}>{el?.name}</p>
+                      </CCol>
+                    </CRow>
+                    <CRow className={'mt-4'}>
+                      <CCol>
+                        <p className={'text-light mb-2'}>Description</p>
+                        <p className={'font-16 mb-4'}>{el?.description}</p>
+                      </CCol>
+                    </CRow>
+                    {el?.serviceSpecCharacteristicValue?.map((resource, index) => (
+                      <CRow className={'mt-4'} key={`resourceSpecCharacteristicValue-${index}`}>
+                        {resource?.value?.alias && (
+                          <CCol>
+                            <p className={'text-light mb-2'}>{resource?.value?.alias}</p>
+                            <div className={'font-16 mb-4'}>{splitResourceCaract(resource?.value?.value)}</div>
+                          </CCol>
+                        )}
+                        {resource?.unitOfMeasure && (
+                          <CCol>
+                            <p className={'text-light mb-2'}>Unit Of Measure</p>
+                            <p className={'font-16 mb-4'}>{resource?.unitOfMeasure}</p>
+                          </CCol>
+                        )}
                       </CRow>
                     ))}
                   </CContainer>
@@ -203,10 +252,7 @@ const Resources: React.FC = () => {
               version: (item: any) => {
                 return <td className="py-2">{item?.version ? item?.version : '-'}</td>
               },
-              lifecycleStatus: (item: any) => {
-                return <td className="py-2">{item?.lifecycleStatus ? item?.lifecycleStatus : '-'}</td>
-              },
-              category: (item: any) => <td>{item?.category ?? '-'}</td>,
+              category: (item: any) => <td>{item?.category?.map((el) => el?.name).join(', ') ?? '-'}</td>,
               show_details: (item: any) => {
                 return (
                   <td className="py-2">

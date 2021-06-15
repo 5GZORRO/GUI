@@ -153,7 +153,7 @@ const AllTemplates = () => {
                       </CCol>
                     </CRow>
                 )}
-                <CRow className={'p-3'}>
+                <CRow className={'p-3 mt-2'}>
                   <p className={'text-light mb-2'}>Valid for: </p>
                 </CRow>
                 {modal?.validFor && (
@@ -182,6 +182,7 @@ const AllTemplates = () => {
                   modal?.prodSpecCharValueUse.map((el, index) => (
                     <CContainer
                       key={`modal?.prodSpecCharValueUse-${index}`}
+                      className={'pb-4'}
                       style={{ borderBottom: '1px solid #6C6E7E' }}
                     >
                       <CRow className={'mt-2'}>
