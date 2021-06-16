@@ -73,7 +73,7 @@ const AllTemplates = () => {
       />
       <CModal show={modal != null} onClose={() => setModal(null)} size="lg">
         <CModalHeader closeButton>
-          <h5>{`Product Offer Price ${modal?.id}`}</h5>
+          <h5>{'Product Offer Price'}</h5>
         </CModalHeader>
         <CModalBody>
           <CTabs activeTab="description">
@@ -93,18 +93,18 @@ const AllTemplates = () => {
             </CNav>
             <CTabContent className={'mt-4'}>
               <CTabPane data-tab="description">
-                <CRow className={'mt-2'}>
+                <CRow className={'mt-4'}>
                   <CCol xs="6">
                     <p className={'text-light mb-2'}>Name:</p> <p>{modal?.name}</p>
                   </CCol>
                 </CRow>
-                <CRow className={'mt-2'}>
+                <CRow className={'mt-4'}>
                   <CCol xs="12">
                     <p className={'text-light mb-2'}>Description</p>
                     <p>{modal?.description}</p>
                   </CCol>
                 </CRow>
-                <CRow className={'mt-2'}>
+                <CRow className={'mt-4'}>
                   <CCol xs="6">
                     <p className={'text-light mb-2'}>Price:</p>
                     <p>{modal?.price?.value}</p>
@@ -114,21 +114,17 @@ const AllTemplates = () => {
                     <p>{modal?.price?.unit}</p>
                   </CCol>
                 </CRow>
-                <CRow className={'mt-2'}>
+                <CRow className={'mt-4'}>
                   <CCol xs="6">
                     <p className={'text-light mb-2'}>Price Type:</p>
                     <p>{modal?.priceType}</p>
-                  </CCol>
-                  <CCol xs="6">
-                    <p className={'text-light mb-2'}>Lifecycle Status:</p>
-                    <p>{modal?.lifecycleStatus}</p>
                   </CCol>
                 </CRow>
 
                 {modal?.unitOfMeasure?.units != null &&
                   modal?.unitOfMeasure?.units !== '' &&
                   modal?.unitOfMeasure?.amount != null && (
-                    <CRow className={'mt-2'}>
+                    <CRow className={'mt-4'}>
                       <CCol xs="6">
                         <p className={'text-light mb-2'}>Unit Of Measure:</p>
                         <p>{modal?.unitOfMeasure?.amount}</p>
@@ -142,7 +138,7 @@ const AllTemplates = () => {
                 {modal?.recurringChargePeriodType != null &&
                   modal?.recurringChargePeriodType !== '' &&
                   modal?.recurringChargePeriodLength != null && (
-                    <CRow className={'mt-2'}>
+                    <CRow className={'mt-4'}>
                       <CCol xs="6">
                         <p className={'text-light mb-2'}>Recurring Charge Period Type:</p>
                         <p>{modal?.recurringChargePeriodType}</p>
@@ -153,7 +149,7 @@ const AllTemplates = () => {
                       </CCol>
                     </CRow>
                 )}
-                <CRow className={'p-3 mt-2'}>
+                <CRow className={'p-3 mt-4'}>
                   <p className={'text-light mb-2'}>Valid for: </p>
                 </CRow>
                 {modal?.validFor && (
@@ -185,12 +181,12 @@ const AllTemplates = () => {
                       className={'pb-4'}
                       style={{ borderBottom: '1px solid #6C6E7E' }}
                     >
-                      <CRow className={'mt-2'}>
+                      <CRow className={'mt-4'}>
                         <CCol xs="6">
                           <p className={'text-light mb-2'}>Name:</p> <p>{el?.name}</p>
                         </CCol>
                       </CRow>
-                      <CRow className={'mt-2'}>
+                      <CRow className={'mt-4'}>
                         <CCol xs="12">
                           <p className={'text-light mb-2'}>Description</p>
                           <p>{el?.description}</p>

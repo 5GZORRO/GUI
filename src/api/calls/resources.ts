@@ -30,7 +30,6 @@ const getResourceSpecificationsBatch = async (
   servicesIndex: any
 ): Promise<ApiResourceSpecification[]> => {
   try {
-    console.log(servicesIndex)
     const ids = resourceIds.split(',')
     const response = await Promise.allSettled(
       ids.map((id, index) => {

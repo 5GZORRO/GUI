@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { ArrowDownIcon } from 'assets/icons/externalIcons'
 import CIcon from '@coreui/icons-react'
-import { DATETIME_FORMAT } from 'config'
+import { DATETIME_FORMAT, DATETIME_FORMAT_SHOW } from 'config'
 import dayjs from 'dayjs'
 
 import {
@@ -75,6 +75,7 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
   const [suggestionsMembers, setSuggestionsMembers] = useState<any>([])
 
   const { data, mutate, isLoading, reset: mutationReset } = useSearchOffers()
+  console.log(data)
   const { data: categories, isLoading: isLoadingCategories } = useAllCategories()
   const { data: members, isLoading: isLoadingMembers } = useGetMembers()
 
@@ -83,11 +84,11 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
     'description',
     'category',
     {
-      key: 'location',
+      key: 'place',
       label: 'Location'
     },
     {
-      key: 'owner',
+      key: 'stakeholder',
       label: 'Stakeholder'
     },
     {
@@ -160,7 +161,22 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
     setSuggestions([])
   }
 
-  const arrayToStringsData = (item: any, property: string) => <td>{item?.map((el: any) => el[property]).join(', ')}</td>
+  const arrayToStringsData = (item: any, property: string) => (
+    <td>{item?.map((el: any) => el[property])?.join(', ')}</td>
+  )
+
+  const stakeholderRender = (item: any) => (
+    <td>{item?.productSpecification?.relatedParty?.map((el) => el.name)?.join(', ')}</td>
+  )
+  const locationRender = (item: any) => (
+    <td>
+      {item?.place
+        ?.map((el) => {
+          return [el?.locality, el?.city, el?.country]?.filter((loc) => loc != null && loc !== '')?.join(', ')
+        })
+        ?.join(', ')}
+    </td>
+  )
 
   const showButton = (item: any) => (
     <td className="py-2">
@@ -169,6 +185,14 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
       </CButton>
     </td>
   )
+
+  const splitResourceCaract = (value: string) => {
+    const splitted = value.split(',')
+    if (splitted.length > 1) {
+      return splitted.map((el, key) => <p key={key}>{el}</p>)
+    }
+    return <p>{value}</p>
+  }
 
   return (
     <>
@@ -390,8 +414,8 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
             pagination
             scopedSlots={{
               category: (item: any) => arrayToStringsData(item?.category, 'name'),
-              location: (item: any) => arrayToStringsData(item?.place, 'name'),
-              owner: (item: any) => arrayToStringsData(item?.owner, 'name'),
+              place: (item: any) => locationRender(item),
+              stakeholder: (item: any) => stakeholderRender(item),
               productOfferingPrice: (item: any) => arrayToStringsData(item?.productOfferingPrice, 'name'),
               show_details: (item: any) => showButton(item)
             }}
@@ -401,7 +425,7 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
 
       <CModal show={modal != null} onClose={() => setModal(null)} size="lg">
         <CModalHeader closeButton>
-          <h5>{`Product Offer ${modal?.id}`}</h5>
+          <h5>{'Product Offer'}</h5>
         </CModalHeader>
         <CModalBody>
           <CTabs activeTab="description">
@@ -411,13 +435,11 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                   Description
                 </CNavLink>
               </CNavItem>
-              {modal?.category?.length > 0 && (
-                <CNavItem>
-                  <CNavLink className={'pl-0 mb-4'} data-tab="category" color={'#6C6E7E'}>
-                    Categories
-                  </CNavLink>
-                </CNavItem>
-              )}
+              <CNavItem>
+                <CNavLink className={'pl-0 mb-4'} data-tab="specifications" color={'#6C6E7E'}>
+                  Specifications
+                </CNavLink>
+              </CNavItem>
               {modal?.productOfferingPrice?.length > 0 && (
                 <CNavItem>
                   <CNavLink className={'pl-0 mb-4'} data-tab="price" color={'#6C6E7E'}>
@@ -439,22 +461,6 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                   <CCol xs="6">
                     <p className={'text-light mb-2'}>Name:</p> <p>{modal?.name}</p>
                   </CCol>
-                  <CCol xs="6">
-                    <p className={'text-light mb-2'}>Last Update:</p>{' '}
-                    <p>{dayjs(modal?.lastUpdate).isValid() ? dayjs(modal?.lastUpdate).format(DATETIME_FORMAT) : '-'}</p>
-                  </CCol>
-                </CRow>
-                <CRow className={'mt-2'}>
-                  <CCol xs="6">
-                    <p className={'text-light mb-2'}>Sellable:</p>
-
-                    <p>{modal?.isSellable ? 'True' : 'False'}</p>
-                  </CCol>
-                  <CCol xs="6">
-                    <p className={'text-light mb-2'}>Bundle:</p>
-
-                    <p>{modal?.isBundle ? 'True' : 'False'}</p>
-                  </CCol>
                 </CRow>
                 <CRow className={'mt-2'}>
                   <CCol xs="12">
@@ -462,86 +468,181 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                     <p>{modal?.description}</p>
                   </CCol>
                 </CRow>
-                <CRow></CRow>
+                <CRow>
+                  <CCol xs="6">
+                    <p className={'text-light mb-2'}>Location:</p>{' '}
+                    <p>
+                      {modal?.place
+                        ?.map((el) => {
+                          return [el?.locality, el?.city, el?.country]
+                            ?.filter((loc) => loc != null && loc !== '')
+                            ?.join(', ')
+                        })
+                        ?.join(', ')}
+                    </p>
+                  </CCol>
+                  <CCol xs="6">
+                    <p className={'text-light mb-2'}>Category</p>
+                    <p> {modal?.category?.map((el: any) => el?.name)?.join(', ')}</p>
+                  </CCol>
+                </CRow>
+                <CRow className={'p-3 mt-4'}>
+                  <p className={'text-light mb-2'}>Valid for: </p>
+                </CRow>
+                {modal?.validFor && (
+                  <CRow className={'pl-3 pr-3'}>
+                    <CCol xs="6">
+                      <p className={'text-light mb-2'}>From:</p>{' '}
+                      <p>
+                        {dayjs(modal?.validFor?.startDateTime).isValid()
+                          ? dayjs(modal?.validFor?.startDateTime).format(DATETIME_FORMAT_SHOW)
+                          : '-'}
+                      </p>
+                    </CCol>
+                    <CCol xs="6">
+                      <p className={'text-light mb-2'}>To:</p>{' '}
+                      <p>
+                        {dayjs(modal?.validFor?.endDateTime).isValid()
+                          ? dayjs(modal?.validFor?.endDateTime).format(DATETIME_FORMAT_SHOW)
+                          : '-'}
+                      </p>
+                    </CCol>
+                  </CRow>
+                )}
               </CTabPane>
-              {modal?.category?.length > 0 && (
-                <CTabPane data-tab="category">
-                  {modal?.category?.map((el: any) => (
-                    <CContainer key={`category-${el?.id}`}>
+              <CTabPane data-tab="specifications">
+                <CContainer>
+                  <CRow className={'mt-4'}>
+                    <CCol>
+                      <p className={'text-light mb-2'}>Name</p>
+                      <p className={'font-weight-bold font-18 mb-4'}>{modal?.productSpecification?.name}</p>
+                    </CCol>
+                    <CCol>
+                      <p className={'text-light mb-2'}>Status</p>
+                      <p className={'font-16 mb-4'}>{modal?.productSpecification?.lifecycleStatus}</p>
+                    </CCol>
+                  </CRow>
+                  <CRow className={'mt-2'} style={{ borderBottom: '1px solid #6C6E7E', marginBottom: '1rem' }}>
+                    <CCol>
+                      <p className={'text-light mb-2'}>Description</p>
+                      <p className={'font-16 mb-4'}>{modal?.productSpecification?.description}</p>
+                    </CCol>
+                  </CRow>
+                  {modal?.productSpecification?.resourceSpecification?.length && <h5>Resource Specification</h5>}
+                  {modal?.productSpecification?.resourceSpecification?.map((rs: any, rsIndex: number) => (
+                    <CContainer key={`offer-rs-${rsIndex}`} className={'pl-0 pr-0'}>
                       <CRow className={'mt-2'}>
-                        <CCol xs="6">
-                          <p className={'text-light mb-2'}>Id:</p>
-                          <p>{el?.id}</p>
-                        </CCol>
-                        <CCol xs="6">
-                          <p className={'text-light mb-2'}>Name:</p>
-                          <p>{el?.name}</p>
+                        <CCol>
+                          <p className={'text-light mb-2'}>Name</p>
+                          <p className={'font-weight-bold font-18 mb-4'}>{rs?.name}</p>
                         </CCol>
                       </CRow>
                       <CRow className={'mt-2'}>
-                        <CCol xs="6">
-                          <p className={'text-light mb-2'}>Version:</p>
-                          <p>{el?.version}</p>
+                        <CCol>
+                          <p className={'text-light mb-2'}>Description</p>
+                          <p className={'font-16 mb-4'}>{rs?.description}</p>
                         </CCol>
                       </CRow>
-                    </CContainer>
-                  ))}
-                </CTabPane>
-              )}
-              {modal?.isBundle && modal?.bundledProductOffering?.length && (
-                <CTabPane data-tab="bundle">
-                  {modal?.bundledProductOffering?.map((el: any) => (
-                    <CContainer
-                      key={`bundle-${el?.id}`}
-                      style={{ borderBottom: '1px solid #6C6E7E', paddingBottom: '1rem' }}
-                    >
-                      <CRow className={'mt-2'}>
-                        <CCol xs="6">
-                          <p className={'text-light mb-2'}>Id:</p>
-                          <p>{el?.id}</p>
-                        </CCol>
-                        <CCol xs="6">
-                          <p className={'text-light mb-2'}>Name:</p>
-                          <p>{el?.name}</p>
-                        </CCol>
-                      </CRow>
-                      <CRow className={'mt-2'}>
-                        <CCol xs="6">
-                          <p className={'text-light mb-2'}>Version:</p>
-                          <p>{el?.version}</p>
-                        </CCol>
-                        <CCol xs="6">
-                          <p className={'text-light mb-2'}>Last Update:</p>
-                          <p>{dayjs(el?.lastUpdate).isValid() ? dayjs(el?.lastUpdate).format(DATETIME_FORMAT) : '-'}</p>
-                        </CCol>
-                      </CRow>
-                      <CRow className={'mt-2'}>
-                        <p className={'text-light mb-2'}>Valid for: </p>
-                      </CRow>
-                      {el?.validFor && (
-                        <CRow className={'mt-2'}>
-                          <CCol xs="6">
-                            <p className={'text-light mb-2'}>From:</p>{' '}
-                            <p>
-                              {dayjs(el?.validFor?.startDateTime).isValid()
-                                ? dayjs(el?.validFor?.startDateTime).format(DATETIME_FORMAT)
-                                : '-'}
-                            </p>
-                          </CCol>
-                          <CCol xs="6">
-                            <p className={'text-light mb-2'}>To:</p>{' '}
-                            <p>
-                              {dayjs(el?.validFor?.endDateTime).isValid()
-                                ? dayjs(el?.validFor?.endDateTime).format(DATETIME_FORMAT)
-                                : '-'}
-                            </p>
-                          </CCol>
-                        </CRow>
+                      {rs?.resourceSpecCharacteristic?.length && (
+                        <h5 style={{ borderTop: '1px solid #6C6E7E', paddingTop: '1rem' }}>Resource Characteristics</h5>
                       )}
+
+                      {rs?.resourceSpecCharacteristic?.map((el: any, index: number) => (
+                        <CContainer
+                          key={`resourceCharacteristics-${index}`}
+                          style={{ borderBottom: '1px solid #6C6E7E', marginBottom: '1rem' }}
+                          className={''}
+                        >
+                          <CRow className={'mt-2'}>
+                            <CCol>
+                              <p className={'text-light mb-2'}>Name</p>
+                              <p className={'font-16 mb-4'}>{el?.name}</p>
+                            </CCol>
+                          </CRow>
+                          <CRow className={'mt-2'}>
+                            <CCol>
+                              <p className={'text-light mb-2'}>Description</p>
+                              <p className={'font-16 mb-4'}>{el?.description}</p>
+                            </CCol>
+                          </CRow>
+                          {el?.resourceSpecCharacteristicValue?.map((resource, index) => (
+                            <CRow className={'mt-2'} key={`resourceSpecCharacteristicValue-${index}`}>
+                              {resource?.value?.alias && (
+                                <CCol>
+                                  <p className={'text-light mb-2'}>{resource?.value?.alias}</p>
+                                  <div className={'font-16 mb-4'}>{splitResourceCaract(resource?.value?.value)}</div>
+                                </CCol>
+                              )}
+                              {resource?.unitOfMeasure && (
+                                <CCol>
+                                  <p className={'text-light mb-2'}>Unit Of Measure</p>
+                                  <p className={'font-16 mb-4'}>{resource?.unitOfMeasure}</p>
+                                </CCol>
+                              )}
+                            </CRow>
+                          ))}
+                        </CContainer>
+                      ))}
                     </CContainer>
                   ))}
-                </CTabPane>
-              )}
+                  {modal?.productSpecification?.serviceSpecification?.length && (
+                    <h5>Service Specification</h5>
+                  )}
+                  {modal?.productSpecification?.serviceSpecification?.map((ss: any, index: number) => (
+                    <CContainer key={`serviceSpecification-${index}`} className={'pl-0 pr-0'}>
+                      <CRow className={'mt-2'}>
+                        <CCol>
+                          <p className={'text-light mb-2'}>Name</p>
+                          <p className={'font-16 mb-4'}>{ss?.name}</p>
+                        </CCol>
+                      </CRow>
+                      <CRow className={'mt-2'}>
+                        <CCol>
+                          <p className={'text-light mb-2'}>Description</p>
+                          <p className={'font-16 mb-4'}>{ss?.description}</p>
+                        </CCol>
+                      </CRow>
+                      {ss?.serviceSpecCharacteristic?.length && <h5>Service Characteristics</h5>}
+                      {ss?.serviceSpecCharacteristic?.map((el, index) => (
+                        <CContainer
+                          key={`serviceSpecCharacteristic-${index}`}
+                          style={{ borderBottom: '1px solid #6C6E7E', marginBottom: '1rem' }}
+                          className={''}
+                        >
+                          <CRow className={'mt-2'}>
+                            <CCol>
+                              <p className={'text-light mb-2'}>Name</p>
+                              <p className={'font-16 mb-4'}>{el?.name}</p>
+                            </CCol>
+                          </CRow>
+                          <CRow className={'mt-2'}>
+                            <CCol>
+                              <p className={'text-light mb-2'}>Description</p>
+                              <p className={'font-16 mb-4'}>{el?.description}</p>
+                            </CCol>
+                          </CRow>
+                          {el?.serviceSpecCharacteristicValue?.map((resource, index) => (
+                            <CRow className={'mt-2'} key={`serviceSpecCharacteristicValue-${index}`}>
+                              {resource?.value?.alias && (
+                                <CCol>
+                                  <p className={'text-light mb-2'}>{resource?.value?.alias}</p>
+                                  <div className={'font-16 mb-4'}>{splitResourceCaract(resource?.value?.value)}</div>
+                                </CCol>
+                              )}
+                              {resource?.unitOfMeasure && (
+                                <CCol>
+                                  <p className={'text-light mb-2'}>Unit Of Measure</p>
+                                  <p className={'font-16 mb-4'}>{resource?.unitOfMeasure}</p>
+                                </CCol>
+                              )}
+                            </CRow>
+                          ))}
+                        </CContainer>
+                      ))}
+                    </CContainer>
+                  ))}
+                </CContainer>
+              </CTabPane>
               {modal?.productOfferingPrice?.length > 0 && (
                 <CTabPane data-tab="price">
                   {modal?.productOfferingPrice?.map((el: any) => (

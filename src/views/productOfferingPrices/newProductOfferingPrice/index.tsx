@@ -310,7 +310,11 @@ const NewProductOfferingPrice = () => {
   }, [selectedMeasures])
 
   useEffect(() => {
-    setValue('prodSpecCharValueUse.2.productSpecCharacteristicValue.0.value', '')
+    if (priceType !== 'usage') {
+      setValue('prodSpecCharValueUse.2.productSpecCharacteristicValue.0.value', 'SIMPLE')
+    } else {
+      setValue('prodSpecCharValueUse.2.productSpecCharacteristicValue.0.value', '')
+    }
   }, [priceType])
 
   const checkMeasure = (item: any) => {
@@ -522,42 +526,35 @@ const NewProductOfferingPrice = () => {
                   </CFormGroup>
                 </CCol>
               </CRow>
-              <CRow>
-                <CCol sm={6}>
-                  <CFormGroup>
-                    <CLabel htmlFor="prodSpecCharValueUse.2.productSpecCharacteristicValue.0.value">Price Logic</CLabel>
-                    <Controller
-                      control={control}
-                      defaultValue={''}
-                      name="prodSpecCharValueUse.2.productSpecCharacteristicValue.0.value"
-                      render={({ field }) => (
-                        <CSelect
-                          {...field}
-                          id="prodSpecCharValueUse.2.productSpecCharacteristicValue.0.value"
-                          disabled={priceType == null || priceType === ''}
-                        >
-                          <option value="" disabled>
-                            Select one
-                          </option>
-                          {priceType === 'usage' && (
+              {priceType === 'usage' && (
+                <CRow>
+                  <CCol sm={6}>
+                    <CFormGroup>
+                      <CLabel htmlFor="prodSpecCharValueUse.2.productSpecCharacteristicValue.0.value">
+                        Price Logic
+                      </CLabel>
+                      <Controller
+                        control={control}
+                        defaultValue={''}
+                        name="prodSpecCharValueUse.2.productSpecCharacteristicValue.0.value"
+                        render={({ field }) => (
+                          <CSelect {...field} id="prodSpecCharValueUse.2.productSpecCharacteristicValue.0.value">
+                            <option value="" disabled>
+                              Select one
+                            </option>
                             <>
                               <option value="TIME_OF_USE">TIME OF USE</option>
                               <option value="N_OF_USER">N OF USER</option>
                               <option value="N_OF_INSTANCES">N OF INSTANCES</option>
                             </>
-                          )}
-                          {(priceType === 'recurring' || priceType === 'oneTime') && (
-                            <option value="SIMPLE">SIMPLE</option>
-                          )}
-                        </CSelect>
+                          </CSelect>
+                        )}
+                      />
+                      {errors.prodSpecCharValueUse?.[2]?.productSpecCharacteristicValue?.[0]?.value && (
+                        <CFormText className="help-block">Please select one</CFormText>
                       )}
-                    />
-                    {errors.prodSpecCharValueUse?.[2]?.productSpecCharacteristicValue?.[0]?.value && (
-                      <CFormText className="help-block">Please select one</CFormText>
-                    )}
-                  </CFormGroup>
-                </CCol>
-                {priceLogicValue != null && priceLogicValue !== '' && priceLogicValue !== 'SIMPLE' && (
+                    </CFormGroup>
+                  </CCol>
                   <CCol sm={6}>
                     <CLabel htmlFor="unitOfMeasure.units">Unit of Measure</CLabel>
                     <CRow>
@@ -642,8 +639,8 @@ const NewProductOfferingPrice = () => {
                       </CCol>
                     </CRow>
                   </CCol>
-                )}
-              </CRow>
+                </CRow>
+              )}
               {(priceType === 'recurring' || priceType === 'usage') && (
                 <>
                   <CRow>

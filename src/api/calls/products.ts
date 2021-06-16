@@ -60,7 +60,64 @@ const getProductOffers = async (params: any): Promise<any> => {
   try {
     const newParams = cleanEmptyparams(params)
     const response = await axios.get(endpoints.PRODUCT_OFFERING_FILTERED, { params: { ...newParams } })
-    return response.data
+    const productSpecificationResponses = await Promise.allSettled(
+      response?.data?.map((offer, index) => axios.get(offer?.productSpecification?.href))
+    )
+    const locationsResponses = await Promise.allSettled(
+      response?.data?.map((offer, index) => offer?.place?.map((el) => axios.get(el?.href))).flat()
+    )
+
+    const productSpecifications = productSpecificationResponses?.reduce((acc: any, item: any) => {
+      if (item?.status === 'fulfilled') {
+        return [...acc, item?.value?.data]
+      }
+      return acc
+    }, [])
+
+    const resourceAndServicesSpecifications = await Promise.allSettled(
+      productSpecifications
+        ?.map((ps, index) => [
+          ...ps?.resourceSpecification?.map((el) => axios.get(el?.href)),
+          ...ps?.serviceSpecification?.map((el) => axios.get(el?.href))
+        ])
+        .flat()
+    )
+
+    const resourceAndServices = resourceAndServicesSpecifications?.reduce((acc: any, item: any) => {
+      if (item?.status === 'fulfilled') {
+        if (Array.isArray(item?.value?.data)) {
+          return [...acc, ...item?.value?.data]
+        } else {
+          return [...acc, item?.value?.data]
+        }
+      }
+      return acc
+    }, [])
+
+    console.log(resourceAndServices)
+
+    const locations = locationsResponses?.reduce((acc: any, item: any) => {
+      if (item?.status === 'fulfilled') {
+        return [...acc, item?.value?.data]
+      }
+      return acc
+    }, [])
+    return response?.data?.map((el) => {
+      const ps = productSpecifications?.find((rp) => rp?.id === el?.productSpecification?.id)
+      return {
+        ...el,
+        productSpecification: {
+          ...ps,
+          resourceSpecification: ps?.resourceSpecification?.map((rs) =>
+            resourceAndServices?.find((rss) => rs?.id === rss?.id)
+          ),
+          serviceSpecification: ps?.serviceSpecification?.map((ss) =>
+            resourceAndServices?.find((rss) => ss?.id === rss?.id)
+          )
+        },
+        place: el?.place?.map((pl) => locations.find((lc) => lc?.id === pl?.id))
+      }
+    })
   } catch (e) {
     console.log({ e })
     throw new Error('error')

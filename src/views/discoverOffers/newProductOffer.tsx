@@ -105,8 +105,8 @@ const NewProductOffer: React.FC = () => {
                     <p className={'font-weight-bold font-18 mb-4'}>{modal?.name}</p>
                   </CCol>
                   <CCol>
-                    <p className={'text-light mb-2'}>Category</p>
-                    <p className={'font-16 mb-4'}>{modal?.category?.map((el) => el?.name).join(', ') ?? '-'}</p>
+                    <p className={'text-light mb-2'}>Status</p>
+                    <p className={'font-16 mb-4'}>{modal?.lifecycleStatus}</p>
                   </CCol>
                 </CRow>
                 <CRow className={'mt-2'}>
@@ -117,8 +117,10 @@ const NewProductOffer: React.FC = () => {
                 </CRow>
                 <CRow>
                   <CCol>
-                    <p className={'text-light mb-2'}>Bundle</p>
-                    <p className={'font-16 mb-4'}>{modal?.isBundle ? 'True' : 'False'}</p>
+                    <p className={'text-light mb-2'}>Created</p>
+                    <p className={'font-16 mb-4'}>
+                      {dayjs(modal?.lastUpdate).isValid() ? dayjs(modal?.lastUpdate).format(DATETIME_FORMAT_SHOW) : '-'}
+                    </p>
                   </CCol>
                   <CCol>
                     {modal?.version && (
