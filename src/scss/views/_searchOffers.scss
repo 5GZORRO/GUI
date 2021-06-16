@@ -1,0 +1,30 @@
+@import '../variables';
+
+.search-offers {
+  &--advanced {
+    height: fit-content;
+    padding: 0;
+    margin: 0 0 0 auto;
+
+    &:focus,
+    &:active {
+      outline: none;
+      text-decoration: none;
+      box-shadow: none;
+    }
+
+    & p {
+      color: $light;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 0.875rem;
+      line-height: 1em;
+      margin: 0;
+      margin-right: 0.75rem;
+      &:hover {
+        text-decoration: underline;
+        color: $light;
+      }
+    }
+  }
+}

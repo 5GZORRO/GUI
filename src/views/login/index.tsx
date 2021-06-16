@@ -6,19 +6,11 @@ import {
   CCol,
   CContainer,
   CForm,
-  CFormGroup,
-  CFormText,
-  CInput,
-  CInputGroup,
-  CInputGroupPrepend,
-  CInputGroupText,
-  CLabel,
   CRow
 } from '@coreui/react'
-import { useForm, Controller } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 // import MaskedInput from 'react-text-mask'
 // import Input from 'components/input'
-import { KeyLogin } from 'assets/icons/externalIcons'
 import { LogoVerticalWhite } from 'assets/icons/logos'
 import CIcon from '@coreui/icons-react'
 import { useHistory } from 'react-router'
@@ -30,6 +22,8 @@ import { useAuthContext } from 'context/AuthContext'
 
 import { InputLogin } from 'types/forms'
 
+import LoadingWithFade from 'components/LoadingWithFade'
+
 const Login: React.FC = () => {
   const {
     handleSubmit,
@@ -37,11 +31,11 @@ const Login: React.FC = () => {
     control
   } = useForm<InputLogin>()
   const history = useHistory()
-  const { data, mutate, isSuccess } = useLogin()
+  const { data, mutate, isSuccess, isLoading } = useLogin()
   const { user, signin } = useAuthContext()
 
   const onSubmit = (data: InputLogin) => {
-    mutate(data)
+    mutate()
   }
 
   useEffect(() => {
@@ -59,23 +53,25 @@ const Login: React.FC = () => {
   }, [isSuccess])
 
   return (
-    <div className="c-app c-default-layout">
-      <div className="c-wrapper">
-        <div className="c-body flex-row align-items-center">
-          <CContainer>
-            <CForm onSubmit={handleSubmit(onSubmit)}>
-              <CRow className="justify-content-center">
-                <CCol xs="5" className={'d-flex justify-content-center align-items-center mb-5'}>
-                  <LogoVerticalWhite />
-                </CCol>
-              </CRow>
-              <CRow className="justify-content-center">
-                <CCol xs="5" className={'d-flex justify-content-center align-items-center'}>
-                  <CCard className="p-5 w-100" accentColor="#0403">
-                    <CCardBody className={'p-0'}>
-                      <h1 className={'mb-4'}>Login</h1>
-                      <p className="text-muted">Sign In to your account</p>
-                      <CFormGroup className={'mb-4'}>
+    <>
+      {isLoading && <LoadingWithFade />}
+      <div className="c-app c-default-layout">
+        <div className="c-wrapper">
+          <div className="c-body flex-row align-items-center">
+            <CContainer>
+              <CForm onSubmit={handleSubmit(onSubmit)}>
+                <CRow className="justify-content-center">
+                  <CCol xs="5" className={'d-flex justify-content-center align-items-center mb-5'}>
+                    <LogoVerticalWhite />
+                  </CCol>
+                </CRow>
+                <CRow className="justify-content-center">
+                  <CCol xs="5" className={'d-flex justify-content-center align-items-center'}>
+                    <CCard className="p-5 w-100" accentColor="#0403">
+                      <CCardBody className={'p-0'}>
+                        <h1 className={'mb-4'}>Login</h1>
+                        <p className="text-muted">Sign In to your account</p>
+                        {/* <CFormGroup className={'mb-4'}>
                         <CLabel>Stakeholder DID</CLabel>
                         <CInputGroup>
                           <CInputGroupPrepend>
@@ -106,56 +102,57 @@ const Login: React.FC = () => {
                             Please enter a valid key
                           </CFormText>
                         )}
-                      </CFormGroup>
-                      <CRow>
-                        <CCol xs={12} className="text-right mb-4">
-                          <p
-                            className={'px-0 text-uppercase font-12 text-light cursor-pointer'}
-                            onClick={() => console.log('did something')}
-                          >
-                            <u>did you have any problem?</u>
-                          </p>
-                        </CCol>
-                        <CCol xs={12}>
-                          <CButton
-                            color={'gradient'}
-                            className="px-5 text-uppercase"
-                            data-testid="submit"
-                            type="submit"
-                          >
-                            submit
-                          </CButton>
-                        </CCol>
-                      </CRow>
-                    </CCardBody>
-                  </CCard>
+                      </CFormGroup> */}
+                        <CRow>
+                          {/* <CCol xs={12} className="text-right mb-4">
+                            <p
+                              className={'px-0 text-uppercase font-12 text-light cursor-pointer'}
+                              onClick={() => console.log('did something')}
+                            >
+                              <u>did you have any problem?</u>
+                            </p>
+                          </CCol> */}
+                          <CCol xs={12}>
+                            <CButton
+                              color={'gradient'}
+                              className="px-5 text-uppercase"
+                              data-testid="submit"
+                              type="submit"
+                            >
+                              Login
+                            </CButton>
+                          </CCol>
+                        </CRow>
+                      </CCardBody>
+                    </CCard>
+                  </CCol>
+                </CRow>
+              </CForm>
+              <CRow className="justify-content-center">
+                <CCol xs="5" className={'d-flex justify-content-center align-items-center w-63'}>
+                  <CButton
+                    color={'secondary'}
+                    size="lg"
+                    className={'p-3'}
+                    block
+                    onClick={() => history.push('/register')}
+                  >
+                    <div className={'d-flex justify-content-between align-items-center'}>
+                      <div className={'d-flex align-items-center'}>
+                        <CIcon name="cilGlobeAlt" className={'m-0 mr-3'} />
+                        Create new Account
+                      </div>
+                      <CIcon name="cilArrowRight" className={'m-0'} />
+                    </div>
+                  </CButton>
                 </CCol>
               </CRow>
-            </CForm>
-            <CRow className="justify-content-center">
-              <CCol xs="5" className={'d-flex justify-content-center align-items-center w-63'}>
-                <CButton
-                  color={'secondary'}
-                  size="lg"
-                  className={'p-3'}
-                  block
-                  onClick={() => history.push('/register')}
-                >
-                  <div className={'d-flex justify-content-between align-items-center'}>
-                    <div className={'d-flex align-items-center'}>
-                      <CIcon name="cilGlobeAlt" className={'m-0 mr-3'} />
-                      Create new Account
-                    </div>
-                    <CIcon name="cilArrowRight" className={'m-0'} />
-                  </div>
-                </CButton>
-              </CCol>
-            </CRow>
-          </CContainer>
+            </CContainer>
+          </div>
+          <TheFooter />
         </div>
-        <TheFooter />
       </div>
-    </div>
+    </>
   )
 }
 

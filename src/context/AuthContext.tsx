@@ -2,6 +2,7 @@ import React, { createContext, ReactNode, useContext, useState, useEffect } from
 import { StackeholderResponse } from 'types/api'
 import { SESSION_USER } from 'config'
 import { useHistory, useLocation } from 'react-router-dom'
+import { useLogin } from 'hooks/api/Auth'
 
 interface AuthState {
   user: StackeholderResponse | null
@@ -21,24 +22,36 @@ const ProviderAuth = ({ children }: IProps) => {
   const [user, setUser] = useState<StackeholderResponse | null>(null)
   const history = useHistory()
   const location = useLocation()
+  const { data, mutate } = useLogin()
 
   useEffect(() => {
+    const getUser = async (prevUser: string) => {
+      const parsed = JSON.parse(prevUser)
+      if (parsed?.stakeholderClaim?.stakeholderDID) {
+        await mutate()
+      }
+    }
     const previousState = window.sessionStorage.getItem(SESSION_USER)
-    if (previousState != null) {
-      setUser(() => JSON.parse(previousState))
+    if (previousState) {
+      getUser(previousState)
     }
   }, [])
 
+  useEffect(() => {
+    if (data != null) {
+      setUser(() => data ?? null)
+    }
+  }, [data])
+
   const signin = (user: StackeholderResponse) => {
-    console.log(user)
     setUser(() => user)
     window.sessionStorage.setItem(SESSION_USER, JSON.stringify(user))
   }
 
   const signout = () => {
+    window.sessionStorage.clear()
     setUser(() => null)
     // remove to localStorage
-    window.sessionStorage.removeItem(SESSION_USER)
     history.push('/login')
   }
 

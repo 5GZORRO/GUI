@@ -51,11 +51,17 @@ interface GovernanceActionsResponse {
   statusUpdated: string
 }
 
+export interface ApiOrganizationBody {
+  organizationCreate: {}
+  stakeholderDID: string
+  token: string
+}
+
 export interface StackeholderResponse {
   /* eslint-disable camelcase */
-  'handler_url': string
+  handler_url: string
   /* eslint-disable camelcase */
-  'id_token': string
+  id_token: string
   stakeholderClaim: {
     governanceBoardDID: string
     stakeholderDID: string
@@ -152,4 +158,470 @@ export interface ApiLoginResponse {
   state: string
   credentialDefinitionId: string
   idToken: string
+}
+
+export interface ApiProductSpecification {
+  brand: string | null
+  bundledProductSpecification:
+    | [
+        {
+          description: string
+          id: string
+          lastUpdate: string
+          name: string
+          validFor: {
+            endDateTime: string
+            startDateTime: string
+          }
+          version: string
+        }
+      ]
+    | null
+  description: string
+  id?: string
+  isBundle: boolean | null
+  lastUpdate: string | null
+  name: string
+  productNumber: string | null
+  productSpecCharacteristic:
+    | [
+        {
+          configurable: boolean
+          description: string
+          extensible: boolean
+          href: string
+          isUnique: true
+          lastUpdate: string
+          lifecycleStatus: string
+          lifecycleStatusEnum: string
+          maxCardinality: number
+          minCardinality: number
+          name: string
+          productSpecCharRelationship: [
+            description: string,
+            href: string,
+            id: string,
+            lastUpdate: string,
+            lifecycleStatus: string,
+            lifecycleStatusEnum: string,
+            name: string,
+            relationshipType: string,
+            validFor: {
+              endDateTime: string
+              startDateTime: string
+            },
+            version: string
+          ]
+          productSpecCharacteristicValue: [
+            {
+              isDefault: true
+              rangeInterval: string
+              unitOfMeasure: string
+              validFor: {
+                endDateTime: string
+                startDateTime: string
+              }
+              value: {
+                alias: string
+                value: string
+              }
+              valueFrom: string
+              valueTo: string
+              valueType: string
+            }
+          ]
+          regex: string
+          validFor: {
+            endDateTime: string
+            startDateTime: string
+          }
+          valueType: string
+          version: string
+        }
+      ]
+    | null
+  productSpecificationRelationship:
+    | [
+        {
+          id: string
+          relationshipType: string
+          validFor: {
+            endDateTime: string
+            startDateTime: string
+          }
+        }
+      ]
+    | null
+  relatedParty: [
+    {
+      extendedInfo: string
+      id: string
+      name: string
+      role: string
+    }
+  ]
+  resourceSpecification: [
+    {
+      id: string
+      name: string
+      version: string
+    }
+  ]
+  serviceSpecification:
+    | [
+        {
+          id: string
+          name: string
+          version: string
+        }
+      ]
+    | []
+  validFor: {
+    endDateTime: string
+    startDateTime: string
+  } | null
+  version: string | null
+}
+
+export interface ApiResourceSpecification {
+  id: string
+  attachment: [
+    {
+      description: string
+      id: string
+      name: string
+      url: string
+    }
+  ]
+  category: string
+  description: string
+  feature: [
+    {
+      id: string
+      isBundle: true
+      isEnabled: true
+      name: string
+      validFor: {
+        endDateTime: string
+        startDateTime: string
+      }
+      version: string
+    }
+  ]
+  isBundle: boolean
+  lastUpdate: string
+  lifecycleStatus: string
+  name: string
+  relatedParty: [
+    {
+      extendedInfo: string
+      id: string
+      name: string
+      role: string
+    }
+  ]
+  resourceSpecCharacteristic: [
+    {
+      configurable: true
+      description: string
+      extensible: true
+      isUnique: boolean
+      maxCardinality: number
+      minCardinality: number
+      name: string
+      regex: string
+      resourceSpecCharRelationship: [
+        {
+          id: string
+          name: string
+          relationshipType: string
+          validFor: {
+            endDateTime: string
+            startDateTime: string
+          }
+        }
+      ]
+      resourceSpecCharacteristicValue: [
+        {
+          isDefault: boolean
+          rangeInterval: string
+          regex: string
+          unitOfMeasure: string
+          validFor: {
+            endDateTime: string
+            startDateTime: string
+          }
+          value: {
+            alias: string
+            value: string
+          }
+          valueFrom: number
+          valueTo: number
+          valueType: string
+        }
+      ]
+      validFor: {
+        endDateTime: string
+        startDateTime: string
+      }
+      valueType: string
+    }
+  ]
+  resourceSpecRelationship: [
+    {
+      id: string
+      name: string
+      relationshipType: string
+      role: string
+      validFor: {
+        endDateTime: string
+        startDateTime: string
+      }
+    }
+  ]
+  targetResourceSchema: {
+    href: string
+  }
+  validFor: {
+    endDateTime: string
+    startDateTime: string
+  }
+  version: string
+}
+
+export interface ApiProductOfferPrice {
+  id: string
+  bundledPopRelationship: [
+    {
+      description: string
+      id: string
+      lastUpdate: string
+      lifecycleStatus: string
+      lifecycleStatusEnum: string
+      name: string
+      validFor: {
+        endDateTime: string
+        startDateTime: string
+      }
+      version: string
+    }
+  ]
+  constraint: [
+    {
+      description: string
+      id: string
+      lastUpdate: string
+      lifecycleStatus: string
+      lifecycleStatusEnum: string
+      name: string
+      validFor: {
+        endDateTime: string
+        startDateTime: string
+      }
+      version: string
+    }
+  ]
+  description: string
+  isBundle: boolean
+  lastUpdate: string
+  lifecycleStatus: string
+  name: string
+  percentage: number
+  place: [
+    {
+      id: string
+      name: string
+      role: string
+    }
+  ]
+  popRelationship: [
+    {
+      description: string
+      id: string
+      lastUpdate: string
+      lifecycleStatus: string
+      lifecycleStatusEnum: string
+      name: string
+      relationshipType: string
+      validFor: {
+        endDateTime: string
+        startDateTime: string
+      }
+      version: string
+    }
+  ]
+  price: {
+    unit: string
+    value: number
+  }
+  priceType: string
+  pricingLogicAlgorithm: [
+    {
+      description: string
+      id: string
+      lastUpdate: string
+      lifecycleStatus: string
+      lifecycleStatusEnum: string
+      name: string
+      plaSpecId: string
+      validFor: {
+        endDateTime: string
+        startDateTime: string
+      }
+      version: string
+    }
+  ]
+  prodSpecCharValueUse: [
+    {
+      description: string
+      lastUpdate: string
+      lifecycleStatus: string
+      lifecycleStatusEnum: string
+      maxCardinality: number
+      minCardinality: number
+      name: string
+      productSpecCharacteristicValue: [
+        {
+          isDefault: boolean
+          rangeInterval: string
+          regex: string
+          unitOfMeasure: string
+          validFor: {
+            endDateTime: string
+            startDateTime: string
+          }
+          value: {
+            alias: string
+            value: string
+          }
+          valueFrom: string
+          valueTo: string
+          valueType: string
+        }
+      ]
+      productSpecification: {
+        description: string
+        id: string
+        lastUpdate: string
+        lifecycleStatus: string
+        lifecycleStatusEnum: string
+        name: string
+        validFor: {
+          endDateTime: string
+          startDateTime: string
+        }
+        version: string
+      }
+      validFor: {
+        endDateTime: string
+        startDateTime: string
+      }
+      valueType: string
+      version: string
+    }
+  ]
+  productOfferingTerm: [
+    {
+      description: string
+      duration: {
+        amount: number
+        units: string
+      }
+      lastUpdate: string
+      lifecycleStatus: string
+      lifecycleStatusEnum: string
+      name: string
+      validFor: {
+        endDateTime: string
+        startDateTime: string
+      }
+      version: string
+    }
+  ]
+  recurringChargePeriodLength: number
+  recurringChargePeriodType: string
+  tax: [
+    {
+      taxAmount: {
+        unit: string
+        value: number
+      }
+      taxCategory: string
+      taxRate: number
+    }
+  ]
+  unitOfMeasure: {
+    amount: number
+    units: string
+  }
+  validFor: {
+    endDateTime: string
+    startDateTime: string
+  }
+  version: string
+}
+
+export interface ApiCategory {
+  description: string
+  id: string
+  isRoot: true
+  lastUpdate: string
+  lifecycleStatus: string
+  name: string
+  parentId: string
+  productOffering: [
+    {
+      id: string
+      name: string
+    }
+  ]
+  subCategory: [
+    {
+      id: string
+      name: string
+      version: string
+    }
+  ]
+  validFor: {
+    endDateTime: string
+    startDateTime: string
+  }
+  version: string
+}
+
+export interface SLABody {
+  templateRef: {
+    name: string
+    description: string
+    href: string
+  }
+  validFor: {
+    startDateTime: string
+    endDateTime: string
+  }
+  name: string
+  description: string
+  relatedPartyRefs: [
+        {
+          role: string
+          name: string
+          href: string
+          validFor: {
+            starDateTime: string | null
+            endDateTime: string | null
+          }
+        }
+      ]
+    | []
+  rules: [
+    {
+      unit: string
+      consequence: string
+      metric: string
+      id: string
+      operator: string
+      tolerance: string
+      referenceValue: string
+    }
+  ]
 }

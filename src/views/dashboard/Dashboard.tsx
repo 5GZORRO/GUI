@@ -1,10 +1,12 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable react/display-name */
 import React from 'react'
+// import EditSLA from 'views/lpts/edit'
 
-const Dashboard:React.FC = () => {
+const Dashboard: React.FC<{}> = () => {
+  // const getData = (data: any) => console.log('dashboard', data)
   return (
-    <h1>Dashboard</h1>
+    <div>
+      {/* <EditSLA getDataCallback={getData} prefilledData={{ accountName: 'HELLO' }}></EditSLA> */}
+    </div>
   )
 }
 

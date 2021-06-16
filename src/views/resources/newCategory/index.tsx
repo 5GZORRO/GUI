@@ -27,7 +27,6 @@ const NewCategory: React.FC = () => {
   const { handleSubmit, formState: { errors }, control, reset } = useForm<FormCategory>()
 
   const onSubmit = (data: FormCategory) => {
-    console.log('data new category', data)
   }
 
   const clearForm = () => {

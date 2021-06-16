@@ -1,62 +1,213 @@
-import React from 'react'
-import { CCard, CCardBody, CCardHeader, CCol, CButton, CRow } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
+import React, { useState } from 'react'
+import { CCard, CCardBody, CCardHeader, CCol, CButton, CRow, CContainer, CModal, CModalHeader } from '@coreui/react'
 /** Hooks */
-import { useCandidate } from 'hooks/api/Resources'
+import dayjs from 'dayjs'
+
+import { DATETIME_FORMAT } from 'config'
 
 interface CardProps {
-  id: string
+  item: any
 }
 
-const CardProdDetail:React.FC<CardProps> = ({ id }) => {
-  const candidate = useCandidate(id)
+const CardProdDetail: React.FC<CardProps> = ({ item }) => {
+  const [modal, setModal] = useState<any | null>(null)
+  const [serviceModal, setServiceModal] = useState<any | null>(null)
+
+  const showResourceCharacteristics = (item: any) => {
+    setModal(item)
+  }
+
+  const showServiceCharacteristics = (item: any) => {
+    setServiceModal(item)
+  }
+
+  const splitResourceCaract = (value: string) => {
+    const splitted = value.split(',')
+    if (splitted.length > 1) {
+      return splitted.map((el, key) => <p key={key}>{el}</p>)
+    }
+    return <p>{value}</p>
+  }
 
   return (
     <CCard className={'mb-5'}>
       <CCardHeader className={'d-flex justify-content-between align-items-center'}>
-        <h5>Resource Candidate</h5>
-        <CButton className={'d-flex align-items-center'} variant={'ghost'}>
-          <CIcon className={'mr-2'} name='cilSync' />
+        <h5>{item.isService ? 'Service Details' : 'Resource Details'}</h5>
+        {/* <CButton className={'d-flex align-items-center'} variant={'ghost'}>
+          <CIcon className={'mr-2'} name="cilSync" />
           Switch Selection
-        </CButton>
+        </CButton> */}
       </CCardHeader>
       <CCardBody>
-      {candidate.data && candidate.data.map((item: any) =>
-        <React.Fragment key={item.id}>
-        <p className={'font-18'}>{item.name}</p>
-        <p className={'text-light mb-2'}>Description</p>
-        <p className={'mb-4'}>{item.description}</p>
-        <CRow>
-          <CCol>
-            <p className={'text-light mb-2'}>Type</p>
-            <p>{item.category?.type}</p>
-            {item.validFor &&
-            <>
-              <p className={'text-light mb-2'}>Valid For</p>
-              <p>{item.validFor?.endDateTime}</p>
-            </>
-            }
-            {item.resourceSpecification &&
-            <>
-              <p className={'text-light mb-2'}>Resource Specification</p>
-              <p>{item.resourceSpecification?.name}</p>
-            </>
-            }
-          </CCol>
-          <CCol>
-            <p className={'text-light mb-2'}>Version</p>
-            <p>{item?.version}</p>
-            <p className={'text-light mb-2'}>Category</p>
-            <p>{item?.category?.name}</p>
-            <p className={'text-light mb-2'}>Owner Did</p>
-            <p>{item?.ownerdid}</p>
-          </CCol>
-        </CRow>
-        <CButton disabled className={'text-uppercase mr-3'} color={'white'} variant={'outline'} onClick={() => console.log('show physical capabilities')}>show physical capabilities</CButton>
-        <CButton disabled className={'text-uppercase'} color={'white'} variant={'outline'} onClick={() => console.log('show virtual capabilities')}>show virtual capabilities</CButton>
-        </React.Fragment>
-      )}
+        <CContainer className={'mt-4'} key={item?.id}>
+          <CRow className={'mt-4'}>
+            <CCol>
+              <p className={'text-light mb-2'}>Name</p>
+              <p className={'font-weight-bold font-18 mb-4'}>{item?.name}</p>
+            </CCol>
+            <CCol>
+              <p className={'text-light mb-2'}>Category</p>
+              <p className={'font-16 mb-4'}>{item?.category}</p>
+            </CCol>
+          </CRow>
+          <CRow className={'mt-2'}>
+            <CCol>
+              <p className={'text-light mb-2'}>Description</p>
+              <p className={'font-16 mb-4'}>{item?.description}</p>
+            </CCol>
+          </CRow>
+          <CRow>
+            <CCol>
+              <p className={'text-light mb-2'}>Bundle</p>
+              <p className={'font-16 mb-4'}>{item?.isBundle ? 'True' : 'False'}</p>
+            </CCol>
+            <CCol>
+              {item?.version && (
+                <>
+                  <p className={'text-light mb-1'}>Version</p>
+                  <p className={'font-16 text-white'}>{item?.version}</p>
+                </>
+              )}
+            </CCol>
+          </CRow>
+          {item?.validFor && (
+            <CRow>
+              <CCol xs="6">
+                <p className={'text-light mb-2'}>From:</p>{' '}
+                <p>
+                  {dayjs(item?.validFor?.startDateTime).isValid()
+                    ? dayjs(item?.validFor?.startDateTime).format(DATETIME_FORMAT)
+                    : '-'}
+                </p>
+              </CCol>
+              <CCol xs="6">
+                <p className={'text-light mb-2'}>To:</p>{' '}
+                <p>
+                  {dayjs(item?.validFor?.endDateTime).isValid()
+                    ? dayjs(item?.validFor?.endDateTime).format(DATETIME_FORMAT)
+                    : '-'}
+                </p>
+              </CCol>
+            </CRow>
+          )}
+          {item?.resourceSpecCharacteristic?.length && (
+            <CButton
+              disabled={!item?.resourceSpecCharacteristic?.length}
+              className={'text-uppercase mr-3'}
+              color={'white'}
+              variant={'outline'}
+              onClick={() => showResourceCharacteristics(item)}
+            >
+              Show Resource Characteristics
+            </CButton>
+          )}
+          {item?.serviceSpecCharacteristic?.length && (
+            <CButton
+              disabled={!item?.serviceSpecCharacteristic?.length}
+              className={'text-uppercase mr-3'}
+              color={'white'}
+              variant={'outline'}
+              onClick={() => showServiceCharacteristics(item)}
+            >
+              Show Service Characteristics
+            </CButton>
+          )}
+        </CContainer>
       </CCardBody>
+      <CModal show={modal != null} onClose={() => setModal(null)} size="lg">
+        <CModalHeader closeButton>
+          <h5>Resource Characteristics</h5>
+        </CModalHeader>
+        <CContainer
+          style={{
+            maxHeight: '24rem',
+            overflowY: 'scroll'
+          }}
+        >
+          {modal?.resourceSpecCharacteristic?.map((el: any, index: number) => (
+            <CContainer
+              key={`resourceCharacteristics-${index}`}
+              style={{ borderBottom: '1px solid #6C6E7E', marginBottom: '1rem' }}
+            >
+              <CRow className={'mt-4'}>
+                <CCol>
+                  <p className={'text-light mb-2'}>Name</p>
+                  <p className={'font-16 mb-4'}>{el?.name}</p>
+                </CCol>
+              </CRow>
+              <CRow className={'mt-4'}>
+                <CCol>
+                  <p className={'text-light mb-2'}>Description</p>
+                  <p className={'font-16 mb-4'}>{el?.description}</p>
+                </CCol>
+              </CRow>
+              {el?.resourceSpecCharacteristicValue?.map((resource, index) => (
+                <CRow className={'mt-4'} key={`resourceSpecCharacteristicValue-${index}`}>
+                  {resource?.value?.alias && (
+                    <CCol>
+                      <p className={'text-light mb-2'}>{resource?.value?.alias}</p>
+                      <div className={'font-16 mb-4'}>{splitResourceCaract(resource?.value?.value)}</div>
+                    </CCol>
+                  )}
+                  {resource?.unitOfMeasure && (
+                    <CCol>
+                      <p className={'text-light mb-2'}>Unit Of Measure</p>
+                      <p className={'font-16 mb-4'}>{resource?.unitOfMeasure}</p>
+                    </CCol>
+                  )}
+                </CRow>
+              ))}
+            </CContainer>
+          ))}
+        </CContainer>
+      </CModal>
+      <CModal show={serviceModal != null} onClose={() => setServiceModal(null)} size="lg">
+        <CModalHeader closeButton>
+          <h5>Service Characteristics</h5>
+        </CModalHeader>
+        <CContainer
+          style={{
+            maxHeight: '24rem',
+            overflowY: 'scroll'
+          }}
+        >
+          {serviceModal?.serviceSpecCharacteristic?.map((el: any, index: number) => (
+            <CContainer
+              key={`serviceSpecCharacteristic-${index}`}
+              style={{ borderBottom: '1px solid #6C6E7E', marginBottom: '1rem' }}
+            >
+              <CRow className={'mt-4'}>
+                <CCol>
+                  <p className={'text-light mb-2'}>Name</p>
+                  <p className={'font-16 mb-4'}>{el?.name}</p>
+                </CCol>
+              </CRow>
+              <CRow className={'mt-4'}>
+                <CCol>
+                  <p className={'text-light mb-2'}>Description</p>
+                  <p className={'font-16 mb-4'}>{el?.description}</p>
+                </CCol>
+              </CRow>
+              {el?.serviceSpecCharacteristicValue?.map((resource, index) => (
+                <CRow className={'mt-4'} key={`resourceSpecCharacteristicValue-${index}`}>
+                  {resource?.value?.alias && (
+                    <CCol>
+                      <p className={'text-light mb-2'}>{resource?.value?.alias}</p>
+                      <div className={'font-16 mb-4'}>{splitResourceCaract(resource?.value?.value)}</div>
+                    </CCol>
+                  )}
+                  {resource?.unitOfMeasure && (
+                    <CCol>
+                      <p className={'text-light mb-2'}>Unit Of Measure</p>
+                      <p className={'font-16 mb-4'}>{resource?.unitOfMeasure}</p>
+                    </CCol>
+                  )}
+                </CRow>
+              ))}
+            </CContainer>
+          ))}
+        </CContainer>
+      </CModal>
     </CCard>
   )
 }

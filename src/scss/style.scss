@@ -1,28 +1,40 @@
 // If you want to override variables do it here
-@import "variables";
+@import 'variables';
 
 // Import CoreUI styles
-@import "~@coreui/coreui-pro/scss/coreui.scss";
+@import '~@coreui/coreui-pro/scss/coreui.scss';
 
 // If you want to add something do it here
-@import "reboot";
-@import "custom";
-@import "card";
-@import "modal";
-@import "links";
-@import "buttons";
-@import "nav";
-@import "custom-forms";
-@import "form";
-@import "footer";
-@import "header";
-@import "subheader";
-@import "sidebar";
-@import "breadcrumb";
-@import "pagination";
-@import "tables";
-@import "close";
-@import "type";
-@import "switches";
-@import "views/registerSuccess";
-@import "components/backdrop";
+@import 'reboot';
+@import 'custom';
+@import 'card';
+@import 'modal';
+@import 'links';
+@import 'buttons';
+@import 'nav';
+@import 'custom-forms';
+@import 'form';
+@import 'footer';
+@import 'header';
+@import 'subheader';
+@import 'sidebar';
+@import 'breadcrumb';
+@import 'pagination';
+@import 'tables';
+@import 'close';
+@import 'type';
+@import 'switches';
+
+@import 'components/backdrop';
+@import 'components/select';
+@import 'components/datepicker';
+@import 'components/autocomplete';
+
+@import 'views/registerSuccess';
+@import 'views/searchOffers';
+@import 'views/productOffer';
+
+
+#ap-rich-text-editor{
+    width: 100% !important; 
+}

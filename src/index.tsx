@@ -5,10 +5,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
-import {
-  QueryClient,
-  QueryClientProvider
-} from 'react-query'
+import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 
 import { icons } from './assets/icons'
@@ -17,6 +14,7 @@ import { Provider } from 'react-redux'
 import store from './store'
 import { APP_ENV, VERSION, BUILD_DATE } from './config'
 import { makeServer } from 'server'
+import 'moment/locale/en-gb'
 
 React.icons = icons
 // Version info for debugging
@@ -38,11 +36,8 @@ ReactDOM.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
-        <App/>
+        <App />
       </Provider>
-      {(APP_ENV === 'fake' || APP_ENV === 'development') &&
-        <ReactQueryDevtools initialIsOpen={false} />
-      }
     </QueryClientProvider>
   </React.StrictMode>,
   document.getElementById('root')

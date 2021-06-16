@@ -6,9 +6,6 @@ import {
   CRow,
   CDataTable,
   CButton,
-  CFormGroup,
-  CInputCheckbox,
-  CLabel,
   CCard,
   CCardBody,
   CCardHeader,
@@ -22,24 +19,19 @@ import {
   CTabPane,
   CTabs
 } from '@coreui/react'
-import { useAllCandidates } from 'hooks/api/Resources'
-import { useHistory } from 'react-router-dom'
-import { IconRAM } from 'assets/icons/externalIcons'
+import dayjs from 'dayjs'
+
+import { useAllResourceAndServiceSpecifications } from 'hooks/api/Resources'
+import { useHistory, Link } from 'react-router-dom'
+import { DATETIME_FORMAT, DATETIME_FORMAT_SHOW } from 'config'
 
 const fields = [
   { key: 'select', label: '', filter: false, sorter: false },
   'name',
+  'description',
+  { key: 'lifecycleStatus', label: 'Status' },
+  { key: 'lastUpdate', label: 'Created' },
   'version',
-  {
-    key: 'categories',
-    label: 'Categories'
-  },
-  'lifecycleStatus',
-  'validFor',
-  {
-    key: 'valid',
-    label: 'validFor'
-  },
   {
     key: 'show_details',
     label: '',
@@ -48,234 +40,195 @@ const fields = [
   }
 ]
 
-const NewProductOffer:React.FC = () => {
+const NewProductOffer: React.FC = () => {
   const history = useHistory()
   const [selected, setSelected] = useState<string[]>([])
-  const { data, isLoading } = useAllCandidates()
-  const [modal, setModal] = useState(false)
-  const [modalInfo, setModalInfo] = useState<any>(null)
+  const { data, isLoading } = useAllResourceAndServiceSpecifications()
+  const [modal, setModal] = useState<any | null>(null)
 
-  const check = (e: any, id: string) => {
-    if (e.target.checked) {
-      setSelected([...selected, id])
+  const check = (item: any) => {
+    const found = selected.find((rs: any) => rs === item?.id)
+
+    if (!found) {
+      setSelected((previous: any) => [...previous, item?.id])
     } else {
-      setSelected(selected.filter(itemId => itemId !== id))
+      setSelected((previous: any) => previous.filter((rs: any) => rs !== item?.id))
     }
   }
 
   const openModal = (data: any) => {
-    console.log(data)
-    setModalInfo(data)
-    setModal(true)
+    setModal(data)
+  }
+
+  const splitResourceCaract = (value: string) => {
+    const splitted = value.split(',')
+    if (splitted.length > 1) {
+      return splitted.map((el, key) => <p key={key}>{el}</p>)
+    }
+    return <p>{value}</p>
   }
 
   return (
     <CContainer>
-      <CModal
-        show={modal}
-        onClose={() => setModal(false)}
-        size='lg'
-      >
+      <CModal show={modal != null} onClose={() => setModal(null)} size="lg">
         <CModalHeader closeButton>
-          <h5>Resource Candidate Details</h5>
+          <h5>Resource Details</h5>
         </CModalHeader>
         <CModalBody>
-          <CTabs activeTab='resourceDetail'>
-            <CNav variant='pills'>
+          <CTabs activeTab="resourceSpecification">
+            <CNav variant="pills">
               <CNavItem>
-                <CNavLink className={'pl-0 mb-4'} data-tab='resourceDetail' color={'#6C6E7E'}>Resource Details</CNavLink>
+                <CNavLink className={'pl-0 mb-4'} data-tab="resourceSpecification" color={'#6C6E7E'}>
+                  Resource Specification
+                </CNavLink>
               </CNavItem>
-             {/*  <CNavItem>
-                <CNavLink data-tab='physicalCap'>Resource - Physical Capabilities</CNavLink>
-              </CNavItem>
-              <CNavItem>
-                <CNavLink data-tab='virtualCap'>Resource - Virtual Capabilities</CNavLink>
-              </CNavItem> */}
-              <CNavItem>
-                <CNavLink className={'pl-0 mb-4'} data-tab='resourceSpecification' color={'#6C6E7E'}>Resource Specification</CNavLink>
-              </CNavItem>
+              {modal?.resourceSpecCharacteristic?.length > 0 && (
+                <CNavItem>
+                  <CNavLink className={'pl-0 mb-4'} data-tab="resourceCharacteristics" color={'#6C6E7E'}>
+                    Resource Characteristics
+                  </CNavLink>
+                </CNavItem>
+              )}
+              {modal?.serviceSpecCharacteristic?.length > 0 && (
+                <CNavItem>
+                  <CNavLink className={'pl-0 mb-4'} data-tab="resourceCharacteristics" color={'#6C6E7E'}>
+                    Service Characteristics
+                  </CNavLink>
+                </CNavItem>
+              )}
             </CNav>
             <CTabContent>
-              <CTabPane data-tab='resourceDetail'>
+              <CTabPane data-tab="resourceSpecification">
                 <CRow className={'mt-4'}>
                   <CCol>
-                    <p className={'font-weight-bold font-18 mb-4'}>{modalInfo?.name}</p>
-                    <p className={'text-light mb-2'}>Description</p>
-                    <p className={'font-16 mb-4'}>{modalInfo?.description}</p>
-                    <CRow>
-                      <CCol>
-                     {/*  {modalInfo.type &&
-                        <>
-                          <p className={'text-light mb-1'}>Type</p>
-                          <p className={'font-16 text-white'}>{modalInfo.type}</p>
-                        </>
-                      } */}
-                      {modalInfo?.valid &&
-                        <>
-                          <p className={'text-light mb-1'}>Valid For</p>
-                          <p className={'font-16 text-white'}>{modalInfo.valid}</p>
-                        </>
-                      }
-                      {modalInfo?.resourceSpecification &&
-                        <>
-                          <p className={'text-light mb-1'}>Resource Specification</p>
-                          <p className={'font-16 text-white'}>{modalInfo.resourceSpecification?.name}</p>
-                        </>
-                      }
-                      </CCol>
-                      <CCol>
-                        {modalInfo?.version &&
-                        <>
-                          <p className={'text-light mb-1'}>Version</p>
-                          <p className={'font-16 text-white'}>{modalInfo.version}</p>
-                        </>
-                        }
-                        {!!modalInfo?.categories.length &&
-                          <>
-                            <p className={'text-light mb-1'}>Categories</p>
-                            <p className={'font-16 text-white'}>{modalInfo.categories}</p>
-                          </>
-                        }
-                        <p className={'text-light mb-1'}>Owner Did</p>
-                        <p className={'font-16 text-white'}>Owner Did Label</p>
-                      </CCol>
-                    </CRow>
+                    <p className={'text-light mb-2'}>Name</p>
+                    <p className={'font-weight-bold font-18 mb-4'}>{modal?.name}</p>
+                  </CCol>
+                  <CCol>
+                    <p className={'text-light mb-2'}>Status</p>
+                    <p className={'font-16 mb-4'}>{modal?.lifecycleStatus}</p>
                   </CCol>
                 </CRow>
-              </CTabPane>
-              <CTabPane data-tab='physicalCap'>
-              <CRow className={'my-4'}>
+                <CRow className={'mt-2'}>
                   <CCol>
-                    <p className={'font-weight-bold font-18 mb-4'}>Name Label Resource- Physical Capabilities</p>
                     <p className={'text-light mb-2'}>Description</p>
-                    <p className={'font-16 mb-4'}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                    <CRow>
-                      <CCol>
-                        <p className={'text-light mb-1'}>Cloud Id</p>
-                        <p className={'font-16 text-white'}>Cloud Id Label</p>
-                        <p className={'text-light mb-1'}>Node Id</p>
-                        <p className={'font-16 text-white'}>Node Id Label</p>
-                        <p className={'text-light mb-1'}>Resource Specification</p>
-                        <p className={'font-16 text-white'}>Resource Specification Label</p>
-                      </CCol>
-                      <CCol>
-                        <p className={'text-light mb-1'}>Data Center Id</p>
-                        <p className={'font-16 text-white'}>Data Center Id Label</p>
-                      </CCol>
-                    </CRow>
-                  </CCol>
-                </CRow>
-                <CRow className={'mb-4'}>
-                  <CCol>
-                    <p className={'font-weight-bold font-16 text-light mb-4'}>Hardware Capabilities</p>
-                    <IconRAM fill={'#fff'} />
-                    <span className={'ml-2 font-weight-bold'}>RAM</span>
-                    <div className={'mt-3'}>
-                      <CRow>
-                        <CCol xs={4} className={'text-light'}><span>Hardware Cap Value</span></CCol>
-                        <CCol xs={8}>
-                          <span className={'font-weight-bold text-gradient'}>64G</span>
-                        </CCol>
-                      </CRow>
-                      <CRow className={'mt-2'}>
-                        <CCol xs={4} className={'text-light'}><span>Hardware Cap Unit</span></CCol>
-                        <CCol xs={8}>
-                          <span className={'font-weight-bold'}>4 unit</span>
-                        </CCol>
-                      </CRow>
-                      <CRow className={'mt-2'}>
-                        <CCol xs={4} className={'text-light'}><span>Hardware Cap Quota</span></CCol>
-                        <CCol xs={8}>
-                          <span className={'font-weight-bold'}>8G</span>
-                        </CCol>
-                      </CRow>
-                    </div>
+                    <p className={'font-16 mb-4'}>{modal?.description}</p>
                   </CCol>
                 </CRow>
                 <CRow>
                   <CCol>
-                    <p className={'font-weight-bold font-16 text-light'}>Feature</p>
-                    <p className={'text-light'}>Href</p>
-                    <p className={'text-light'}>www.ubiwhere.com</p>
+                    <p className={'text-light mb-2'}>Created</p>
+                    <p className={'font-16 mb-4'}>
+                      {dayjs(modal?.lastUpdate).isValid() ? dayjs(modal?.lastUpdate).format(DATETIME_FORMAT_SHOW) : '-'}
+                    </p>
+                  </CCol>
+                  <CCol>
+                    {modal?.version && (
+                      <>
+                        <p className={'text-light mb-1'}>Version</p>
+                        <p className={'font-16 text-white'}>{modal?.version}</p>
+                      </>
+                    )}
                   </CCol>
                 </CRow>
+                {modal?.validFor && (
+                  <CRow>
+                    <CCol xs="6">
+                      <p className={'text-light mb-2'}>From:</p>{' '}
+                      <p>
+                        {dayjs(modal?.validFor?.startDateTime).isValid()
+                          ? dayjs(modal?.validFor?.startDateTime).format(DATETIME_FORMAT)
+                          : '-'}
+                      </p>
+                    </CCol>
+                    <CCol xs="6">
+                      <p className={'text-light mb-2'}>To:</p>{' '}
+                      <p>
+                        {dayjs(modal?.validFor?.endDateTime).isValid()
+                          ? dayjs(modal?.validFor?.endDateTime).format(DATETIME_FORMAT)
+                          : '-'}
+                      </p>
+                    </CCol>
+                  </CRow>
+                )}
               </CTabPane>
-              <CTabPane data-tab='virtualCap'>
-              <CRow className={'my-4'}>
-                  <CCol>
-                    <p className={'font-weight-bold font-18 mb-4'}>Name Label Resource - Virtual Capabilities</p>
-                    <p className={'text-light mb-2'}>Description</p>
-                    <p className={'font-16 mb-4'}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                    <CRow>
+              <CTabPane
+                data-tab="resourceCharacteristics"
+                style={{
+                  maxHeight: '24rem',
+                  overflowY: 'scroll'
+                }}
+              >
+                {modal?.resourceSpecCharacteristic?.map((el: any, index: number) => (
+                  <CContainer
+                    key={`resourceCharacteristics-${index}`}
+                    style={{ borderBottom: '1px solid #6C6E7E', marginBottom: '1rem' }}
+                  >
+                    <CRow className={'mt-4'}>
                       <CCol>
-                        <p className={'text-light mb-1'}>Cloud Id</p>
-                        <p className={'font-16 text-white'}>Cloud Id Label</p>
-                        <p className={'text-light mb-1'}>Node Id</p>
-                        <p className={'font-16 text-white'}>Node Id Label</p>
-                        <p className={'text-light mb-1'}>Type</p>
-                        <p className={'font-16 text-white'}>Type Label</p>
-                      </CCol>
-                      <CCol>
-                        <p className={'text-light mb-1'}>Data Center Id</p>
-                        <p className={'font-16 text-white'}>Data Center Id Label</p>
-                        <p className={'text-light mb-1'}>Is Master</p>
-                        <p className={'font-16 text-white'}>False</p>
+                        <p className={'text-light mb-2'}>Name</p>
+                        <p className={'font-16 mb-4'}>{el?.name}</p>
                       </CCol>
                     </CRow>
-                  </CCol>
-                </CRow>
-                <CRow className={'mb-4'}>
-                  <CCol>
-                    <p className={'font-weight-bold font-16 text-light mb-4'}>Virtual Capabilities</p>
-                    <IconRAM fill={'#fff'} />
-                    <span className={'ml-2 font-weight-bold'}>Cloud</span>
-                    <div className={'mt-3'}>
-                      <CRow>
-                        <CCol xs={4} className={'text-light'}><span>Virtual Cap Value</span></CCol>
-                        <CCol xs={8}>
-                          <span className={'font-weight-bold text-gradient'}>64G</span>
-                        </CCol>
-                      </CRow>
-                      <CRow className={'mt-2'}>
-                        <CCol xs={4} className={'text-light'}><span>Virtual Cap Unit</span></CCol>
-                        <CCol xs={8}>
-                          <span className={'font-weight-bold'}>4 unit</span>
-                        </CCol>
-                      </CRow>
-                    </div>
-                  </CCol>
-                </CRow>
-              </CTabPane>
-              <CTabPane data-tab='resourceSpecification'>
-              <CRow className={'mt-4'}>
-                  <CCol>
-                    <p className={'font-weight-bold font-18 mb-4'}>{modalInfo?.resourceSpecification?.name}</p>
-                    <CRow>
+                    <CRow className={'mt-4'}>
                       <CCol>
-                      {modalInfo?.resourceSpecification?.id &&
-                        <>
-                          <p className={'text-light mb-1'}>ID</p>
-                          <p className={'font-16 text-white'}>{modalInfo.resourceSpecification.id}</p>
-                        </>
-                      }
-                      </CCol>
-                      <CCol>
-                        {modalInfo?.resourceSpecification?.version &&
-                        <>
-                          <p className={'text-light mb-1'}>Version</p>
-                          <p className={'font-16 text-white'}>{modalInfo.resourceSpecification.version}</p>
-                        </>
-                        }
+                        <p className={'text-light mb-2'}>Description</p>
+                        <p className={'font-16 mb-4'}>{el?.description}</p>
                       </CCol>
                     </CRow>
-                    {modalInfo?.resourceSpecification?.href &&
-                    <>
-                      <p className={'text-light mb-1'}>Href</p>
-                      <p className={'font-16 text-white'}>{modalInfo.resourceSpecification.href}</p>
-                    </>
-                    }
-                  </CCol>
-                </CRow>
+                    {el?.resourceSpecCharacteristicValue?.map((resource, index) => (
+                      <CRow className={'mt-4'} key={`resourceSpecCharacteristicValue-${index}`}>
+                        {resource?.value?.alias && (
+                          <CCol>
+                            <p className={'text-light mb-2'}>{resource?.value?.alias}</p>
+                            <div className={'font-16 mb-4'}>{splitResourceCaract(resource?.value?.value)}</div>
+                          </CCol>
+                        )}
+                        {resource?.unitOfMeasure && (
+                          <CCol>
+                            <p className={'text-light mb-2'}>Unit Of Measure</p>
+                            <p className={'font-16 mb-4'}>{resource?.unitOfMeasure}</p>
+                          </CCol>
+                        )}
+                      </CRow>
+                    ))}
+                  </CContainer>
+                ))}
+                {modal?.serviceSpecCharacteristic?.map((el: any, index: number) => (
+                  <CContainer
+                    key={`serviceSpecCharacteristic-${index}`}
+                    style={{ borderBottom: '1px solid #6C6E7E', marginBottom: '1rem' }}
+                  >
+                    <CRow className={'mt-4'}>
+                      <CCol>
+                        <p className={'text-light mb-2'}>Name</p>
+                        <p className={'font-16 mb-4'}>{el?.name}</p>
+                      </CCol>
+                    </CRow>
+                    <CRow className={'mt-4'}>
+                      <CCol>
+                        <p className={'text-light mb-2'}>Description</p>
+                        <p className={'font-16 mb-4'}>{el?.description}</p>
+                      </CCol>
+                    </CRow>
+                    {el?.serviceSpecCharacteristicValue?.map((resource, index) => (
+                      <CRow className={'mt-4'} key={`resourceSpecCharacteristicValue-${index}`}>
+                        {resource?.value?.alias && (
+                          <CCol>
+                            <p className={'text-light mb-2'}>{resource?.value?.alias}</p>
+                            <div className={'font-16 mb-4'}>{splitResourceCaract(resource?.value?.value)}</div>
+                          </CCol>
+                        )}
+                        {resource?.unitOfMeasure && (
+                          <CCol>
+                            <p className={'text-light mb-2'}>Unit Of Measure</p>
+                            <p className={'font-16 mb-4'}>{resource?.unitOfMeasure}</p>
+                          </CCol>
+                        )}
+                      </CRow>
+                    ))}
+                  </CContainer>
+                ))}
               </CTabPane>
             </CTabContent>
           </CTabs>
@@ -288,13 +241,13 @@ const NewProductOffer:React.FC = () => {
       </CRow>
       <CCard>
         <CCardHeader>
-          <h5>Resource Candidate</h5>
+          <h5>Resource</h5>
         </CCardHeader>
         <CCardBody>
           <CDataTable
             cleaner
             loading={isLoading}
-            items={data}
+            items={data?.filter((el) => el != null) ?? []}
             columnFilter
             tableFilter
             clickableRows
@@ -304,59 +257,66 @@ const NewProductOffer:React.FC = () => {
               select: (item: { id: any; _selected: boolean | undefined }) => {
                 return (
                   <td>
-                    <CFormGroup variant='custom-checkbox'>
-                      <CInputCheckbox
-                        custom
-                        id={`checkbox${item.id}`}
-                        checked={item._selected}
-                        onChange={(e) => check(e, item.id)}
-                      />
-                      <CLabel
-                        variant='custom-checkbox'
-                        htmlFor={`checkbox${item.id}`}
-                      />
-                    </CFormGroup>
+                    <input
+                      className={'product-offer--checkbox'}
+                      type="checkbox"
+                      checked={selected?.find((el) => item?.id === el) != null}
+                      onChange={() => check(item)}
+                    />
                   </td>
                 )
               },
-              show_details:
-                (item: any) => {
-                  return (
-                <td className='py-2'>
-                  <CButton
-                    color='primary'
-                    className={'shadow-none text-uppercase'}
-                    onClick={() => openModal(item)}
-                  >
-                    {'Show'}
-                  </CButton>
-                </td>
-                  )
-                }
+              lastUpdate: (item: any) => {
+                return (
+                  <td className="py-2">
+                    {dayjs(item?.lastUpdate).isValid() ? dayjs(item?.lastUpdate).format(DATETIME_FORMAT_SHOW) : '-'}
+                  </td>
+                )
+              },
+              lifecycleStatus: (item: any) => {
+                return <td className="py-2">{item?.lifecycleStatus ? item?.lifecycleStatus : '-'}</td>
+              },
+              version: (item: any) => {
+                return <td className="py-2">{item?.version ? item?.version : '-'}</td>
+              },
+              show_details: (item: any) => {
+                return (
+                  <td className="py-2">
+                    <CButton color="primary" className={'shadow-none text-uppercase'} onClick={() => openModal(item)}>
+                      {'Show'}
+                    </CButton>
+                  </td>
+                )
+              }
             }}
             sorter
             hover
             pagination
           />
-      </CCardBody>
-    </CCard>
+        </CCardBody>
+      </CCard>
       <div className={'d-flex flex-row-reverse mb-5'}>
         <CButton
           className={'text-uppercase px-5'}
           color={'gradient'}
-          disabled={!selected.length}
-          onClick={() => history.push(`/offers/detail-product/${selected}`)}
+          disabled={!selected?.length}
+          onClick={() =>
+            history.push(
+              `/offers/new-offer/${selected}?services=[${selected
+                ?.map((el, index) =>
+                  data?.find((resourceOrService) => resourceOrService.id === el).isService ? index : null
+                )
+                .filter((el) => el != null)}]`
+            )
+          }
         >
           next
         </CButton>
-        <CButton
-          className={'text-uppercase px-5 mr-3'}
-          variant='outline'
-          color={'white'}
-          onClick={() => setSelected([])}
-        >
-          Cancel
-        </CButton>
+        <Link to={'/offers/'}>
+          <CButton className={'text-uppercase px-5 mr-3'} variant="outline" color={'white'}>
+            Cancel
+          </CButton>
+        </Link>
       </div>
     </CContainer>
   )

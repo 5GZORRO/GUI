@@ -21,7 +21,7 @@ export interface RolesProps {
 }
 
 export interface InputLogin {
-  stakeholderDID: string
+  // stakeholderDID: string
 }
 
 export interface InputRegister {
@@ -40,6 +40,13 @@ export interface InputRegister {
   serviceProviderRole: boolean
   serviceConsumerRole: boolean
   roles: {
+    administrator: {
+      isSelect: boolean
+      informationResource: boolean
+      networkFunction: boolean
+      physicalResource: boolean
+      spectrumResource: boolean
+    }
     regulator: {
       isSelect: boolean
       informationResource: boolean
