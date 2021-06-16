@@ -14,7 +14,6 @@ const Input:React.FC<PropsInputFile> = ({ onChange, onBlur, value }) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const fileUpload = (e: any) => {
     const files = e.target.files
-    console.log(files)
     setFileName(files[0].name)
     onChange(e.target.files)
   }

@@ -24,3 +24,6 @@ yarn-error.log*
 
 # release
 /coreui-pro-react-admin-template-starter-ts*.zip
+
+/deployment/operator-a
+/deployment/operator-b

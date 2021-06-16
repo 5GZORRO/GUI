@@ -7,7 +7,6 @@ interface IProps {
 }
 const PrivateRoute = ({ children, ...rest }: IProps) => {
   const { user } = useAuthContext()
-  console.log(user)
   return (
     <Route
       {...rest}

@@ -1,0 +1,40 @@
+.datepicker {
+  & .DateInput {
+    width: auto;
+  }
+  & .DateInput_input,
+  & .DateInput_input__focused {
+    height: 36px;
+    padding: 0.375rem 0.75rem;
+    font-family: 'Inter';
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 0.875rem;
+    background-color: #3c3c43;
+    border-color: #3c3c43;
+    color: white;
+    &::placeholder {
+      color: #73818f;
+    }
+  }
+
+  & .DateInput_input__focused {
+    color: white;
+  }
+
+  & .DateRangePickerInput__withBorder {
+    border-color: #3c3c43;
+  }
+
+  & .DateRangePickerInput {
+    background-color: #3c3c43;
+  }
+
+  & .DateRangePickerInput_arrow_svg {
+    fill: white;
+  }
+
+  & .DateRangePicker_picker{
+    z-index: 100;
+  }
+}

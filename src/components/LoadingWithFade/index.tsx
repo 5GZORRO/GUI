@@ -8,7 +8,7 @@ const LoadingWithBackdrop = () => {
   useEffect(() => {
     setContent(
       <div
-        style={{ height: '100%' }}
+        style={{ height: '100%', color: '#fff' }}
         className="d-flex justify-content-center align-items-center"
         data-testid="loading"
       >

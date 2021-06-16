@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useMutation } from 'react-query'
-import { ApiLoginBody, ApiRegisterBody, StackeholderResponse } from 'types/api'
+import { useMutation, useQuery } from 'react-query'
+import { ApiRegisterBody, StackeholderResponse } from 'types/api'
 import { api } from 'api'
 import { AxiosError } from 'axios'
 
@@ -9,4 +9,4 @@ import { AxiosError } from 'axios'
 export const useRegister = () =>
   useMutation<StackeholderResponse, AxiosError, ApiRegisterBody>((data) => api.auth.registerClient(data))
 
-export const useLogin = () => useMutation<StackeholderResponse, AxiosError, ApiLoginBody>((key) => api.auth.verifyClient(key))
+export const useLogin = () => useMutation<StackeholderResponse, AxiosError>(['useLogin'], () => api.auth.verifyClient())
