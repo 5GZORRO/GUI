@@ -5,6 +5,7 @@ import { ArrowDownIcon } from 'assets/icons/externalIcons'
 import CIcon from '@coreui/icons-react'
 import { DATETIME_FORMAT, DATETIME_FORMAT_SHOW } from 'config'
 import dayjs from 'dayjs'
+import SLAAccordViewer from 'components/SLAAccordViewer'
 
 import {
   CForm,
@@ -75,7 +76,6 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
   const [suggestionsMembers, setSuggestionsMembers] = useState<any>([])
 
   const { data, mutate, isLoading, reset: mutationReset } = useSearchOffers()
-  console.log(data)
   const { data: categories, isLoading: isLoadingCategories } = useAllCategories()
   const { data: members, isLoading: isLoadingMembers } = useGetMembers()
 
@@ -162,7 +162,7 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
   }
 
   const arrayToStringsData = (item: any, property: string) => (
-    <td>{item?.map((el: any) => el[property])?.join(', ')}</td>
+    <td>{item?.map((el: any) => el?.[property])?.join(', ')}</td>
   )
 
   const stakeholderRender = (item: any) => (
@@ -447,10 +447,10 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                   </CNavLink>
                 </CNavItem>
               )}
-              {modal?.isBundle && modal?.bundledProductOffering?.length && (
+              {modal?.serviceLevelAgreement && (
                 <CNavItem>
-                  <CNavLink className={'pl-0 mb-4'} data-tab="bundle" color={'#6C6E7E'}>
-                    Bundle
+                  <CNavLink className={'pl-0 mb-4'} data-tab="sla" color={'#6C6E7E'}>
+                    SLA
                   </CNavLink>
                 </CNavItem>
               )}
@@ -528,7 +528,7 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                       <p className={'font-16 mb-4'}>{modal?.productSpecification?.description}</p>
                     </CCol>
                   </CRow>
-                  {modal?.productSpecification?.resourceSpecification?.length && <h5>Resource Specification</h5>}
+                  {modal?.productSpecification?.resourceSpecification?.length > 0 && <h5>Resource Specification</h5>}
                   {modal?.productSpecification?.resourceSpecification?.map((rs: any, rsIndex: number) => (
                     <CContainer key={`offer-rs-${rsIndex}`} className={'pl-0 pr-0'}>
                       <CRow className={'mt-2'}>
@@ -585,9 +585,7 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                       ))}
                     </CContainer>
                   ))}
-                  {modal?.productSpecification?.serviceSpecification?.length && (
-                    <h5>Service Specification</h5>
-                  )}
+                  {modal?.productSpecification?.serviceSpecification?.length > 0 && <h5>Service Specification</h5>}
                   {modal?.productSpecification?.serviceSpecification?.map((ss: any, index: number) => (
                     <CContainer key={`serviceSpecification-${index}`} className={'pl-0 pr-0'}>
                       <CRow className={'mt-2'}>
@@ -602,7 +600,7 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                           <p className={'font-16 mb-4'}>{ss?.description}</p>
                         </CCol>
                       </CRow>
-                      {ss?.serviceSpecCharacteristic?.length && <h5>Service Characteristics</h5>}
+                      {ss?.serviceSpecCharacteristic?.length > 0 && <h5>Service Characteristics</h5>}
                       {ss?.serviceSpecCharacteristic?.map((el, index) => (
                         <CContainer
                           key={`serviceSpecCharacteristic-${index}`}
@@ -650,29 +648,72 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                       key={`priceOffer-${el?.id}`}
                       style={{ borderBottom: '1px solid #6C6E7E', paddingBottom: '1rem' }}
                     >
-                      <CRow className={'mt-2'}>
+                      <CRow className={'mt-4'}>
                         <CCol xs="6">
-                          <p className={'text-light mb-2'}>Id:</p>
-                          <p>{el?.id}</p>
-                        </CCol>
-                        <CCol xs="6">
-                          <p className={'text-light mb-2'}>Name:</p>
-                          <p>{el?.name}</p>
+                          <p className={'text-light mb-2'}>Name:</p> <p>{el?.name}</p>
                         </CCol>
                       </CRow>
-                      <CRow className={'mt-2'}>
-                        <CCol xs="6">
-                          <p className={'text-light mb-2'}>Description:</p>
+                      <CRow className={'mt-4'}>
+                        <CCol xs="12">
+                          <p className={'text-light mb-2'}>Description</p>
                           <p>{el?.description}</p>
                         </CCol>
                       </CRow>
+                      <CRow className={'mt-4'}>
+                        <CCol xs="6">
+                          <p className={'text-light mb-2'}>Price:</p>
+                          <p>{el?.price?.value}</p>
+                        </CCol>
+                        <CCol xs="6">
+                          <p className={'text-light mb-2'}>Price Unit:</p>
+                          <p>{el?.price?.unit}</p>
+                        </CCol>
+                      </CRow>
+                      <CRow className={'mt-4'}>
+                        <CCol xs="6">
+                          <p className={'text-light mb-2'}>Price Type:</p>
+                          <p>{el?.priceType}</p>
+                        </CCol>
+                      </CRow>
+
+                      {el?.unitOfMeasure?.units != null &&
+                        el?.unitOfMeasure?.units !== '' &&
+                        el?.unitOfMeasure?.amount != null && (
+                          <CRow className={'mt-4'}>
+                            <CCol xs="6">
+                              <p className={'text-light mb-2'}>Unit Of Measure:</p>
+                              <p>{el?.unitOfMeasure?.amount}</p>
+                            </CCol>
+                            <CCol xs="6">
+                              <p className={'text-light mb-2'}>Units:</p>
+                              <p>{el?.unitOfMeasure?.units}</p>
+                            </CCol>
+                          </CRow>
+                      )}
+                      {el?.recurringChargePeriodType != null &&
+                        el?.recurringChargePeriodType !== '' &&
+                        el?.recurringChargePeriodLength != null && (
+                          <CRow className={'mt-4'}>
+                            <CCol xs="6">
+                              <p className={'text-light mb-2'}>Recurring Charge Period Type:</p>
+                              <p>{el?.recurringChargePeriodType}</p>
+                            </CCol>
+                            <CCol xs="6">
+                              <p className={'text-light mb-2'}>Recurring Charge Period Length:</p>
+                              <p>{el?.recurringChargePeriodLength}</p>
+                            </CCol>
+                          </CRow>
+                      )}
+                      <CRow className={'p-3 mt-4'}>
+                        <p className={'text-light mb-2'}>Valid for: </p>
+                      </CRow>
                       {el?.validFor && (
-                        <CRow className={'mt-2'}>
+                        <CRow className={'pl-3 pr-3'}>
                           <CCol xs="6">
                             <p className={'text-light mb-2'}>From:</p>{' '}
                             <p>
                               {dayjs(el?.validFor?.startDateTime).isValid()
-                                ? dayjs(el?.validFor?.startDateTime).format(DATETIME_FORMAT)
+                                ? dayjs(el?.validFor?.startDateTime).format(DATETIME_FORMAT_SHOW)
                                 : '-'}
                             </p>
                           </CCol>
@@ -680,7 +721,7 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                             <p className={'text-light mb-2'}>To:</p>{' '}
                             <p>
                               {dayjs(el?.validFor?.endDateTime).isValid()
-                                ? dayjs(el?.validFor?.endDateTime).format(DATETIME_FORMAT)
+                                ? dayjs(el?.validFor?.endDateTime).format(DATETIME_FORMAT_SHOW)
                                 : '-'}
                             </p>
                           </CCol>
@@ -688,6 +729,43 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                       )}
                     </CContainer>
                   ))}
+                </CTabPane>
+              )}
+              {modal?.serviceLevelAgreement != null && (
+                <CTabPane data-tab="sla">
+                  <CRow>
+                    <CCol xs="6">
+                      <p className={'text-light mb-2'}>Name:</p> <p>{modal?.serviceLevelAgreement?.name}</p>
+                    </CCol>
+                    <CCol xs="6">
+                      <p className={'text-light mb-2'}>Last Update:</p>{' '}
+                      <p>
+                        {dayjs(modal?.serviceLevelAgreement?.statusUpdated).isValid()
+                          ? dayjs(modal?.serviceLevelAgreement?.statusUpdated).format(DATETIME_FORMAT_SHOW)
+                          : '-'}
+                      </p>
+                    </CCol>
+                  </CRow>
+                  <CRow>
+                    <CCol xs="12">
+                      <p className={'text-light mb-2'}>Description</p>
+                      <p>{modal?.serviceLevelAgreement?.description}</p>
+                    </CCol>
+                  </CRow>
+                  <CRow>
+                    <CCol xs="6">
+                      <p className={'text-light mb-2'}>Status:</p>
+
+                      <p>{modal?.serviceLevelAgreement?.status}</p>
+                    </CCol>
+                  </CRow>
+                  <CRow className={'p-3'}>
+                    <SLAAccordViewer
+                      id={modal?.serviceLevelAgreement?.id}
+                      templateHref={modal?.serviceLevelAgreement?.templateRef?.href}
+                      readOnly={true}
+                    ></SLAAccordViewer>
+                  </CRow>
                 </CTabPane>
               )}
             </CTabContent>

@@ -60,12 +60,10 @@ const NewPhysicalResource: React.FC = () => {
   })
 
   const onSubmit = (data: FormPhysical) => {
-    console.log('data FormPhysical', data)
   }
 
   const addVirtualResource = () => append({ key: '', value: '', unit: '', quota: '' })
 
-  console.log('errors', errors)
   return (
     <CContainer style={{ marginBottom: '200px' }}>
       <div

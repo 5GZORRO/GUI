@@ -273,6 +273,9 @@ const NewProductOffer: React.FC = () => {
                   </td>
                 )
               },
+              lifecycleStatus: (item: any) => {
+                return <td className="py-2">{item?.lifecycleStatus ? item?.lifecycleStatus : '-'}</td>
+              },
               version: (item: any) => {
                 return <td className="py-2">{item?.version ? item?.version : '-'}</td>
               },

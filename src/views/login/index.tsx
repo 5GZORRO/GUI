@@ -104,14 +104,14 @@ const Login: React.FC = () => {
                         )}
                       </CFormGroup> */}
                         <CRow>
-                          <CCol xs={12} className="text-right mb-4">
+                          {/* <CCol xs={12} className="text-right mb-4">
                             <p
                               className={'px-0 text-uppercase font-12 text-light cursor-pointer'}
                               onClick={() => console.log('did something')}
                             >
                               <u>did you have any problem?</u>
                             </p>
-                          </CCol>
+                          </CCol> */}
                           <CCol xs={12}>
                             <CButton
                               color={'gradient'}

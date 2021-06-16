@@ -67,6 +67,10 @@ const getProductOffers = async (params: any): Promise<any> => {
       response?.data?.map((offer, index) => offer?.place?.map((el) => axios.get(el?.href))).flat()
     )
 
+    const productOfferingPricesResponses = await Promise.allSettled(
+      response?.data?.map((offer, index) => offer?.productOfferingPrice?.map((el) => axios.get(el?.href))).flat()
+    )
+
     const productSpecifications = productSpecificationResponses?.reduce((acc: any, item: any) => {
       if (item?.status === 'fulfilled') {
         return [...acc, item?.value?.data]
@@ -94,14 +98,20 @@ const getProductOffers = async (params: any): Promise<any> => {
       return acc
     }, [])
 
-    console.log(resourceAndServices)
-
     const locations = locationsResponses?.reduce((acc: any, item: any) => {
       if (item?.status === 'fulfilled') {
         return [...acc, item?.value?.data]
       }
       return acc
     }, [])
+
+    const productOfferingPrices = productOfferingPricesResponses?.reduce((acc: any, item: any) => {
+      if (item?.status === 'fulfilled') {
+        return [...acc, item?.value?.data]
+      }
+      return acc
+    }, [])
+
     return response?.data?.map((el) => {
       const ps = productSpecifications?.find((rp) => rp?.id === el?.productSpecification?.id)
       return {
@@ -115,6 +125,9 @@ const getProductOffers = async (params: any): Promise<any> => {
             resourceAndServices?.find((rss) => ss?.id === rss?.id)
           )
         },
+        productOfferingPrice: el?.productOfferingPrice?.map((pop) =>
+          productOfferingPrices?.find((price) => price?.id === pop?.id)
+        ),
         place: el?.place?.map((pl) => locations.find((lc) => lc?.id === pl?.id))
       }
     })

@@ -262,6 +262,9 @@ const Resources: React.FC = () => {
               version: (item: any) => {
                 return <td className="py-2">{item?.version ? item?.version : '-'}</td>
               },
+              lifecycleStatus: (item: any) => {
+                return <td className="py-2">{item?.lifecycleStatus ? item?.lifecycleStatus : '-'}</td>
+              },
               show_details: (item: any) => {
                 return (
                   <td className="py-2">

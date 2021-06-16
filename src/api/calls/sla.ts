@@ -87,14 +87,13 @@ const createSLA = async (body: any): Promise<any> => {
 const getSLA = async (id: string, templateHref: string): Promise<any> => {
   try {
     const mySLAs = window.localStorage.getItem('mySLAs')
-
     if (!mySLAs) {
       throw new Error('error')
     } else {
       const parsedSLAs = JSON.parse(mySLAs)
       const found = parsedSLAs.find((el) => el.id === id)
       if (found) {
-        const response = await axios.get(templateHref)
+        const response = await axios.get(found?.templateRef?.href ?? templateHref)
         return {
           ...found,
           template: {

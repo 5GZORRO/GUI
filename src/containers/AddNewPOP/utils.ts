@@ -38,6 +38,5 @@ export const TransformFormData = (data) => {
         .map((cara) => ({ value: { ...cara }, isDefault: true, valueType: 'string' }))
     }))
     ?.filter((el) => el?.productSpecCharacteristicValue?.length > 0)
-  console.log(data?.prodSpecCharValueUse, { ...data, prodSpecCharValueUse })
   return { ...data, prodSpecCharValueUse }
 }

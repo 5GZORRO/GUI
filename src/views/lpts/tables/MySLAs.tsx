@@ -12,8 +12,6 @@ import SLAAccordViewer from 'components/SLAAccordViewer'
 export const AllTemplates: React.FC = () => {
   const { data, isLoading } = useAllSLAs({ size: 9999 })
 
-  console.log(data)
-
   const [modal, setModal] = useState<any>(null)
   const fields = [
     'id',
