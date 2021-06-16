@@ -14,7 +14,8 @@ import {
   CLabel,
   CFormGroup,
   CFormText,
-  CInputCheckbox
+  CInputCheckbox,
+  CInputRadio
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { useForm, Controller } from 'react-hook-form'
@@ -39,7 +40,8 @@ const Register: React.FC = () => {
     handleSubmit,
     formState: { errors },
     control,
-    watch
+    watch,
+    setValue
   } = useForm<InputRegister>({
     defaultValues: {
       name: '',
@@ -58,6 +60,24 @@ const Register: React.FC = () => {
   const resourceConsumer = watch('roles.resourceConsumer.isSelect')
   const serviceProvider = watch('roles.serviceProvider.isSelect')
   const serviceConsumer = watch('roles.serviceConsumer.isSelect')
+
+  const removeRemain = (currentActive: string) => {
+    const allValues = {
+      administrator: 'roles.administrator.isSelect',
+      regulator: 'roles.regulator.isSelect',
+      resourceProvider: 'roles.resourceProvider.isSelect',
+      resourceConsumer: 'roles.resourceConsumer.isSelect',
+      serviceProvider: 'roles.serviceProvider.isSelect',
+      serviceConsumer: 'roles.serviceConsumer.isSelect'
+    }
+
+    Object.keys(allValues)
+      .filter((el) => el !== currentActive)
+      .forEach((value, index) => {
+        console.log(value, allValues[value])
+        setValue(allValues[value], false)
+      })
+  }
 
   const { data, mutate, isSuccess, isLoading, isError } = useRegister()
   const history = useHistory()
@@ -154,14 +174,21 @@ const Register: React.FC = () => {
                                 control={control}
                                 defaultValue={false}
                                 name="roles.administrator.isSelect"
-                                render={({ field: { onChange, onBlur } }) => (
+                                render={({ field: { onChange, onBlur, value } }) => (
                                   <>
-                                    <CInputCheckbox
+                                    <CInputRadio
                                       id={'administrator'}
                                       onBlur={onBlur}
-                                      onChange={(e: any) => onChange(e.target.checked)}
+                                      checked={value}
+                                      className={'m-0'}
+                                      onChange={(e: any) => {
+                                        onChange(e.target.checked)
+                                        if (e.target.checked) {
+                                          removeRemain('administrator')
+                                        }
+                                      }}
                                     />
-                                    <CLabel className="mb-0 font-14" htmlFor={'administrator'}>
+                                    <CLabel className="mb-0 font-14 ml-4 ml-4" htmlFor={'administrator'}>
                                       Administrator
                                     </CLabel>
                                   </>
@@ -220,14 +247,21 @@ const Register: React.FC = () => {
                                 control={control}
                                 defaultValue={false}
                                 name="roles.regulator.isSelect"
-                                render={({ field: { onChange, onBlur } }) => (
+                                render={({ field: { onChange, onBlur, value } }) => (
                                   <>
-                                    <CInputCheckbox
+                                    <CInputRadio
                                       id={'regulator'}
                                       onBlur={onBlur}
-                                      onChange={(e: any) => onChange(e.target.checked)}
+                                      checked={value}
+                                      className={'m-0'}
+                                      onChange={(e: any) => {
+                                        onChange(e.target.checked)
+                                        if (e.target.checked) {
+                                          removeRemain('regulator')
+                                        }
+                                      }}
                                     />
-                                    <CLabel className="mb-0 font-14" htmlFor={'regulator'}>
+                                    <CLabel className="mb-0 font-14 ml-4" htmlFor={'regulator'}>
                                       Regulator
                                     </CLabel>
                                   </>
@@ -287,14 +321,21 @@ const Register: React.FC = () => {
                                 defaultValue={false}
                                 name={'roles.resourceProvider.isSelect'}
                                 data-testid={'role'}
-                                render={({ field: { onChange, onBlur } }) => (
+                                render={({ field: { onChange, onBlur, value } }) => (
                                   <>
-                                    <CInputCheckbox
+                                    <CInputRadio
                                       id={'provider'}
                                       onBlur={onBlur}
-                                      onChange={(e: any) => onChange(e.target.checked)}
+                                      className={'m-0'}
+                                      checked={value}
+                                      onChange={(e: any) => {
+                                        onChange(e.target.checked)
+                                        if (e.target.checked) {
+                                          removeRemain('resourceProvider')
+                                        }
+                                      }}
                                     />
-                                    <CLabel className="mb-0 font-14" htmlFor={'provider'}>
+                                    <CLabel className="mb-0 font-14 ml-4" htmlFor={'provider'}>
                                       Resource Provider
                                     </CLabel>
                                   </>
@@ -359,12 +400,19 @@ const Register: React.FC = () => {
                                 data-testid={'role'}
                                 render={({ field: { onChange, onBlur, value, name, ref } }) => (
                                   <>
-                                    <CInputCheckbox
+                                    <CInputRadio
                                       id={'resourceConsumer'}
                                       onBlur={onBlur}
-                                      onChange={(e: any) => onChange(e.target.checked)}
+                                      className={'m-0'}
+                                      checked={value}
+                                      onChange={(e: any) => {
+                                        onChange(e.target.checked)
+                                        if (e.target.checked) {
+                                          removeRemain('resourceConsumer')
+                                        }
+                                      }}
                                     />
-                                    <CLabel className="mb-0 font-14" htmlFor={'resourceConsumer'}>
+                                    <CLabel className="mb-0 font-14 ml-4" htmlFor={'resourceConsumer'}>
                                       Resource Consumer
                                     </CLabel>
                                   </>
@@ -429,12 +477,19 @@ const Register: React.FC = () => {
                                 data-testid={'role'}
                                 render={({ field: { onChange, onBlur, value, name, ref } }) => (
                                   <>
-                                    <CInputCheckbox
+                                    <CInputRadio
                                       id={'serviceProvider'}
                                       onBlur={onBlur}
-                                      onChange={(e: any) => onChange(e.target.checked)}
+                                      className={'m-0'}
+                                      checked={value}
+                                      onChange={(e: any) => {
+                                        onChange(e.target.checked)
+                                        if (e.target.checked) {
+                                          removeRemain('serviceProvider')
+                                        }
+                                      }}
                                     />
-                                    <CLabel className="mb-0 font-14" htmlFor={'serviceProvider'}>
+                                    <CLabel className="mb-0 font-14 ml-4" htmlFor={'serviceProvider'}>
                                       Service Provider
                                     </CLabel>
                                   </>
@@ -499,12 +554,19 @@ const Register: React.FC = () => {
                                 data-testid={'role'}
                                 render={({ field: { onChange, onBlur, value, name, ref } }) => (
                                   <>
-                                    <CInputCheckbox
+                                    <CInputRadio
                                       id={'serviceConsumer'}
                                       onBlur={onBlur}
-                                      onChange={(e: any) => onChange(e.target.checked)}
+                                      className={'m-0'}
+                                      checked={value}
+                                      onChange={(e: any) => {
+                                        onChange(e.target.checked)
+                                        if (e.target.checked) {
+                                          removeRemain('serviceConsumer')
+                                        }
+                                      }}
                                     />
-                                    <CLabel className="mb-0 font-14" htmlFor={'serviceConsumer'}>
+                                    <CLabel className="mb-0 font-14 ml-4" htmlFor={'serviceConsumer'}>
                                       Service Consumer
                                     </CLabel>
                                   </>

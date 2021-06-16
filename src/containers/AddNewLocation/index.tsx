@@ -24,6 +24,9 @@ interface formLocation {
     city: string
     country: string
     locality: string
+    geographicLocation: {
+      name: ''
+    }
   }
 }
 
@@ -38,14 +41,27 @@ const AddNewLocation = (props: any) => {
       submittedGeographicAddress: {
         city: '',
         country: '',
-        locality: ''
+        locality: '',
+        geographicLocation: {
+          name: ''
+        }
       }
     }
   })
+
   const { mutate, isSuccess, isLoading } = useCreateLocation()
 
   const onSubmit = (data: formLocation) => {
-    mutate(data)
+    mutate({
+      submittedGeographicAddress: {
+        ...data,
+        geographicLocation: {
+          ...data?.submittedGeographicAddress?.geographicLocation,
+          geometry: [],
+          geometryType: 'string'
+        }
+      }
+    })
   }
 
   useEffect(() => {
@@ -68,7 +84,23 @@ const AddNewLocation = (props: any) => {
                 <CRow>
                   <CCol sm={12}>
                     <CFormGroup>
-                      <CLabel htmlFor="locality">Locality</CLabel>
+                      <CLabel htmlFor="submittedGeographicAddress.geographicLocation.name">Name</CLabel>
+                      <Controller
+                        control={control}
+                        defaultValue={''}
+                        name="submittedGeographicAddress.geographicLocation.name"
+                        render={({ field }) => <CInput placeholder={'Enter a name'} {...field} />}
+                      />
+                      {errors?.submittedGeographicAddress?.geographicLocation?.name && (
+                        <CFormText className="help-block">Please enter a name</CFormText>
+                      )}
+                    </CFormGroup>
+                  </CCol>
+                </CRow>
+                <CRow>
+                  <CCol sm={12}>
+                    <CFormGroup>
+                      <CLabel htmlFor="submittedGeographicAddress.locality">Locality</CLabel>
                       <Controller
                         control={control}
                         defaultValue={''}
@@ -84,7 +116,7 @@ const AddNewLocation = (props: any) => {
                 <CRow>
                   <CCol sm={12}>
                     <CFormGroup>
-                      <CLabel htmlFor="city">City</CLabel>
+                      <CLabel htmlFor="submittedGeographicAddress.city">City</CLabel>
                       <Controller
                         control={control}
                         defaultValue={''}
@@ -100,7 +132,7 @@ const AddNewLocation = (props: any) => {
                 <CRow>
                   <CCol sm={12}>
                     <CFormGroup>
-                      <CLabel htmlFor="country">Country</CLabel>
+                      <CLabel htmlFor="submittedGeographicAddress.country">Country</CLabel>
                       <Controller
                         control={control}
                         defaultValue={''}

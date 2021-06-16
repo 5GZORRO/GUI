@@ -172,7 +172,7 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
     <td>
       {item?.place
         ?.map((el) => {
-          return [el?.locality, el?.city, el?.country]?.filter((loc) => loc != null && loc !== '')?.join(', ')
+          return el?.geographicLocation?.name
         })
         ?.join(', ')}
     </td>
@@ -474,9 +474,7 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                     <p>
                       {modal?.place
                         ?.map((el) => {
-                          return [el?.locality, el?.city, el?.country]
-                            ?.filter((loc) => loc != null && loc !== '')
-                            ?.join(', ')
+                          return el?.geographicLocation?.name
                         })
                         ?.join(', ')}
                     </p>

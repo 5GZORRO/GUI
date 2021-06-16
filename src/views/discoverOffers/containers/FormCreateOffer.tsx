@@ -269,9 +269,7 @@ const FormCreateOffer: React.FC = () => {
 
                           {locations?.map((el, index) => (
                             <option value={JSON.stringify(el)} key={el?.id}>
-                              {[el?.locality, el?.city, el?.country]
-                                ?.filter((loc) => loc != null && loc !== '')
-                                ?.join(', ')}
+                              {el?.geographicLocation?.name}
                             </option>
                           ))}
                         </CSelect>

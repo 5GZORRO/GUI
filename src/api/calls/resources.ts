@@ -154,11 +154,7 @@ const createProductOfferingPrice = async (body: any): Promise<ApiProductOfferPri
 
 const useAllLocations = async (params?: any): Promise<any[]> => {
   try {
-    const response = await axios.get(endpoints.LOCATIONS, {
-      params: {
-        fields: 'city,country,id,href,locality'
-      }
-    })
+    const response = await axios.get(endpoints.LOCATIONS, { params })
     return response.data
   } catch (e) {
     console.log({ e })
