@@ -31,7 +31,7 @@ const fields = [
   'description',
   { key: 'lifecycleStatus', label: 'Status' },
   { key: 'lastUpdate', label: 'Created' },
-  'version',
+  'type',
   {
     key: 'show_details',
     label: '',
@@ -72,7 +72,7 @@ const NewProductOffer: React.FC = () => {
     <CContainer>
       <CModal show={modal != null} onClose={() => setModal(null)} size="lg">
         <CModalHeader closeButton>
-          <h5>Resource Details</h5>
+          <h5>Resource & Service Details</h5>
         </CModalHeader>
         <CModalBody>
           <CTabs activeTab="resourceSpecification">
@@ -276,8 +276,8 @@ const NewProductOffer: React.FC = () => {
               lifecycleStatus: (item: any) => {
                 return <td className="py-2">{item?.lifecycleStatus ? item?.lifecycleStatus : '-'}</td>
               },
-              version: (item: any) => {
-                return <td className="py-2">{item?.version ? item?.version : '-'}</td>
+              type: (item: any) => {
+                return <td className="py-2">{item?.isService ? 'Service' : 'Resource'}</td>
               },
               show_details: (item: any) => {
                 return (

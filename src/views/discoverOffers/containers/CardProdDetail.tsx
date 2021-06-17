@@ -3,7 +3,7 @@ import { CCard, CCardBody, CCardHeader, CCol, CButton, CRow, CContainer, CModal,
 /** Hooks */
 import dayjs from 'dayjs'
 
-import { DATETIME_FORMAT } from 'config'
+import { DATETIME_FORMAT_SHOW } from 'config'
 
 interface CardProps {
   item: any
@@ -46,8 +46,8 @@ const CardProdDetail: React.FC<CardProps> = ({ item }) => {
               <p className={'font-weight-bold font-18 mb-4'}>{item?.name}</p>
             </CCol>
             <CCol>
-              <p className={'text-light mb-2'}>Category</p>
-              <p className={'font-16 mb-4'}>{item?.category}</p>
+              <p className={'text-light mb-2'}>Status</p>
+              <p className={'font-16 mb-4'}>{item?.lifecycleStatus}</p>
             </CCol>
           </CRow>
           <CRow className={'mt-2'}>
@@ -58,14 +58,16 @@ const CardProdDetail: React.FC<CardProps> = ({ item }) => {
           </CRow>
           <CRow>
             <CCol>
-              <p className={'text-light mb-2'}>Bundle</p>
-              <p className={'font-16 mb-4'}>{item?.isBundle ? 'True' : 'False'}</p>
+              <p className={'text-light mb-2'}>Created</p>
+              <p className={'font-16 mb-4'}>
+                {dayjs(modal?.lastUpdate).isValid() ? dayjs(modal?.lastUpdate).format(DATETIME_FORMAT_SHOW) : '-'}
+              </p>
             </CCol>
             <CCol>
-              {item?.version && (
+              {modal?.version && (
                 <>
                   <p className={'text-light mb-1'}>Version</p>
-                  <p className={'font-16 text-white'}>{item?.version}</p>
+                  <p className={'font-16 text-white'}>{modal?.version}</p>
                 </>
               )}
             </CCol>
@@ -76,7 +78,7 @@ const CardProdDetail: React.FC<CardProps> = ({ item }) => {
                 <p className={'text-light mb-2'}>From:</p>{' '}
                 <p>
                   {dayjs(item?.validFor?.startDateTime).isValid()
-                    ? dayjs(item?.validFor?.startDateTime).format(DATETIME_FORMAT)
+                    ? dayjs(item?.validFor?.startDateTime).format(DATETIME_FORMAT_SHOW)
                     : '-'}
                 </p>
               </CCol>
@@ -84,7 +86,7 @@ const CardProdDetail: React.FC<CardProps> = ({ item }) => {
                 <p className={'text-light mb-2'}>To:</p>{' '}
                 <p>
                   {dayjs(item?.validFor?.endDateTime).isValid()
-                    ? dayjs(item?.validFor?.endDateTime).format(DATETIME_FORMAT)
+                    ? dayjs(item?.validFor?.endDateTime).format(DATETIME_FORMAT_SHOW)
                     : '-'}
                 </p>
               </CCol>

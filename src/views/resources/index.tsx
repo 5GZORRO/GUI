@@ -30,7 +30,7 @@ const fields = [
   'description',
   { key: 'lifecycleStatus', label: 'Status' },
   { key: 'lastUpdate', label: 'Created' },
-  'version',
+  'type',
   {
     key: 'show_details',
     label: '',
@@ -259,8 +259,8 @@ const Resources: React.FC = () => {
                   </td>
                 )
               },
-              version: (item: any) => {
-                return <td className="py-2">{item?.version ? item?.version : '-'}</td>
+              type: (item: any) => {
+                return <td className="py-2">{item?.isService ? 'Service' : 'Resource'}</td>
               },
               lifecycleStatus: (item: any) => {
                 return <td className="py-2">{item?.lifecycleStatus ? item?.lifecycleStatus : '-'}</td>

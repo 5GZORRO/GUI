@@ -245,7 +245,6 @@ const NewProductOfferingPrice = () => {
     'name',
     'status',
     'created',
-    'category',
     {
       key: 'show_details',
       label: '',
@@ -791,7 +790,6 @@ const NewProductOfferingPrice = () => {
                             scopedSlots={{
                               select: (item: any) => pricingLogicAlgorithmSelectComponent(item),
                               created: (item: any) => renderCreated(item),
-                              category: (item: any) => renderCategory(item),
                               show_details: (item: any) => renderShowDetails(item)
                             }}
                             sorter
@@ -808,7 +806,7 @@ const NewProductOfferingPrice = () => {
                   {modal != null && (
                     <CModal show={true} onClose={() => setModal(null)} size="lg">
                       <CModalHeader closeButton>
-                        <h5>{`Legal Prose Template ${modal?.id}`}</h5>
+                        <h5>{'Legal Prose Template'}</h5>
                       </CModalHeader>
                       <CModalBody>
                         <CRow>
