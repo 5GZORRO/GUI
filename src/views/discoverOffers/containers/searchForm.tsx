@@ -416,7 +416,7 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
               category: (item: any) => arrayToStringsData(item?.category, 'name'),
               place: (item: any) => locationRender(item),
               stakeholder: (item: any) => stakeholderRender(item),
-              productOfferingPrice: (item: any) => arrayToStringsData(item?.productOfferingPrice, 'name'),
+              productOfferingPrice: (item: any) => arrayToStringsData(item?.productOfferingPrice, 'priceType'),
               show_details: (item: any) => showButton(item)
             }}
           />
@@ -510,29 +510,99 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
               </CTabPane>
               <CTabPane data-tab="specifications">
                 <CContainer>
-                  <CRow className={'mt-4'}>
-                    <CCol>
-                      <p className={'text-light mb-2'}>Name</p>
-                      <p className={'font-weight-bold font-18 mb-4'}>{modal?.productSpecification?.name}</p>
-                    </CCol>
-                    <CCol>
-                      <p className={'text-light mb-2'}>Status</p>
-                      <p className={'font-16 mb-4'}>{modal?.productSpecification?.lifecycleStatus}</p>
-                    </CCol>
-                  </CRow>
-                  <CRow className={'mt-2'} style={{ borderBottom: '1px solid #6C6E7E', marginBottom: '1rem' }}>
-                    <CCol>
-                      <p className={'text-light mb-2'}>Description</p>
-                      <p className={'font-16 mb-4'}>{modal?.productSpecification?.description}</p>
-                    </CCol>
-                  </CRow>
+                  <CContainer
+                    className={'pl-0 pr-0'}
+                    style={{ borderBottom: '1px solid #6C6E7E', marginBottom: '1rem' }}
+                  >
+                    <CRow className={'mt-4'}>
+                      <CCol>
+                        <p className={'text-light mb-2'}>Name</p>
+                        <p className={'font-18 mb-4'}>{modal?.productSpecification?.name}</p>
+                      </CCol>
+                      {modal?.productSpecification?.lifecycleStatus != null &&
+                        modal?.productSpecification?.lifecycleStatus !== '' && (
+                          <CCol>
+                            <p className={'text-light mb-2'}>Status</p>
+                            <p className={'font-16 mb-4'}>{modal?.productSpecification?.lifecycleStatus}</p>
+                          </CCol>
+                      )}
+                    </CRow>
+                    {modal?.productSpecification?.description != null &&
+                      modal?.productSpecification?.description !== '' && (
+                        <CRow className={'mt-2'}>
+                          <CCol>
+                            <p className={'text-light mb-2'}>Description</p>
+                            <p className={'font-16 mb-4'}>{modal?.productSpecification?.description}</p>
+                          </CCol>
+                        </CRow>
+                    )}
+                  </CContainer>
+                  {modal?.productSpecification?.serviceSpecification?.length > 0 && (
+                    <CContainer
+                      className={'pl-0 pr-0'}
+                      style={{ borderBottom: '1px solid #6C6E7E', marginBottom: '1rem' }}
+                    >
+                      <h5>Service Specification</h5>
+                      {modal?.productSpecification?.serviceSpecification?.map((ss: any, index: number) => (
+                        <CContainer key={`serviceSpecification-${index}`} className={'pl-0 pr-0'}>
+                          <CRow className={'mt-2'}>
+                            <CCol>
+                              <p className={'text-light mb-2'}>Name</p>
+                              <p className={'font-16 mb-4'}>{ss?.name}</p>
+                            </CCol>
+                          </CRow>
+                          <CRow className={'mt-2'}>
+                            <CCol>
+                              <p className={'text-light mb-2'}>Description</p>
+                              <p className={'font-16 mb-4'}>{ss?.description}</p>
+                            </CCol>
+                          </CRow>
+                          {ss?.serviceSpecCharacteristic?.length > 0 && <h5>Service Characteristics</h5>}
+                          {ss?.serviceSpecCharacteristic?.map((el, index) => (
+                            <CContainer key={`serviceSpecCharacteristic-${index}`} className={''}>
+                              <CRow className={'mt-2'}>
+                                <CCol>
+                                  <p className={'text-light mb-2'}>Name</p>
+                                  <p className={'font-16 mb-4'}>{el?.name}</p>
+                                </CCol>
+                              </CRow>
+                              <CRow className={'mt-2'}>
+                                <CCol>
+                                  <p className={'text-light mb-2'}>Description</p>
+                                  <p className={'font-16 mb-4'}>{el?.description}</p>
+                                </CCol>
+                              </CRow>
+                              {el?.serviceSpecCharacteristicValue?.map((resource, index) => (
+                                <CRow className={'mt-2'} key={`serviceSpecCharacteristicValue-${index}`}>
+                                  {resource?.value?.alias && (
+                                    <CCol>
+                                      <p className={'text-light mb-2'}>{resource?.value?.alias}</p>
+                                      <div className={'font-16 mb-4'}>
+                                        {splitResourceCaract(resource?.value?.value)}
+                                      </div>
+                                    </CCol>
+                                  )}
+                                  {resource?.unitOfMeasure && (
+                                    <CCol>
+                                      <p className={'text-light mb-2'}>Unit Of Measure</p>
+                                      <p className={'font-16 mb-4'}>{resource?.unitOfMeasure}</p>
+                                    </CCol>
+                                  )}
+                                </CRow>
+                              ))}
+                            </CContainer>
+                          ))}
+                        </CContainer>
+                      ))}
+                    </CContainer>
+                  )}
                   {modal?.productSpecification?.resourceSpecification?.length > 0 && <h5>Resource Specification</h5>}
                   {modal?.productSpecification?.resourceSpecification?.map((rs: any, rsIndex: number) => (
                     <CContainer key={`offer-rs-${rsIndex}`} className={'pl-0 pr-0'}>
                       <CRow className={'mt-2'}>
                         <CCol>
                           <p className={'text-light mb-2'}>Name</p>
-                          <p className={'font-weight-bold font-18 mb-4'}>{rs?.name}</p>
+                          <p className={'font-18 mb-4'}>{rs?.name}</p>
                         </CCol>
                       </CRow>
                       <CRow className={'mt-2'}>
@@ -542,15 +612,11 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                         </CCol>
                       </CRow>
                       {rs?.resourceSpecCharacteristic?.length && (
-                        <h5 style={{ borderTop: '1px solid #6C6E7E', paddingTop: '1rem' }}>Resource Characteristics</h5>
+                        <h5>Resource Characteristics</h5>
                       )}
 
                       {rs?.resourceSpecCharacteristic?.map((el: any, index: number) => (
-                        <CContainer
-                          key={`resourceCharacteristics-${index}`}
-                          style={{ borderBottom: '1px solid #6C6E7E', marginBottom: '1rem' }}
-                          className={''}
-                        >
+                        <CContainer key={`resourceCharacteristics-${index}`} className={''}>
                           <CRow className={'mt-2'}>
                             <CCol>
                               <p className={'text-light mb-2'}>Name</p>
@@ -583,60 +649,6 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                       ))}
                     </CContainer>
                   ))}
-                  {modal?.productSpecification?.serviceSpecification?.length > 0 && <h5>Service Specification</h5>}
-                  {modal?.productSpecification?.serviceSpecification?.map((ss: any, index: number) => (
-                    <CContainer key={`serviceSpecification-${index}`} className={'pl-0 pr-0'}>
-                      <CRow className={'mt-2'}>
-                        <CCol>
-                          <p className={'text-light mb-2'}>Name</p>
-                          <p className={'font-16 mb-4'}>{ss?.name}</p>
-                        </CCol>
-                      </CRow>
-                      <CRow className={'mt-2'}>
-                        <CCol>
-                          <p className={'text-light mb-2'}>Description</p>
-                          <p className={'font-16 mb-4'}>{ss?.description}</p>
-                        </CCol>
-                      </CRow>
-                      {ss?.serviceSpecCharacteristic?.length > 0 && <h5>Service Characteristics</h5>}
-                      {ss?.serviceSpecCharacteristic?.map((el, index) => (
-                        <CContainer
-                          key={`serviceSpecCharacteristic-${index}`}
-                          style={{ borderBottom: '1px solid #6C6E7E', marginBottom: '1rem' }}
-                          className={''}
-                        >
-                          <CRow className={'mt-2'}>
-                            <CCol>
-                              <p className={'text-light mb-2'}>Name</p>
-                              <p className={'font-16 mb-4'}>{el?.name}</p>
-                            </CCol>
-                          </CRow>
-                          <CRow className={'mt-2'}>
-                            <CCol>
-                              <p className={'text-light mb-2'}>Description</p>
-                              <p className={'font-16 mb-4'}>{el?.description}</p>
-                            </CCol>
-                          </CRow>
-                          {el?.serviceSpecCharacteristicValue?.map((resource, index) => (
-                            <CRow className={'mt-2'} key={`serviceSpecCharacteristicValue-${index}`}>
-                              {resource?.value?.alias && (
-                                <CCol>
-                                  <p className={'text-light mb-2'}>{resource?.value?.alias}</p>
-                                  <div className={'font-16 mb-4'}>{splitResourceCaract(resource?.value?.value)}</div>
-                                </CCol>
-                              )}
-                              {resource?.unitOfMeasure && (
-                                <CCol>
-                                  <p className={'text-light mb-2'}>Unit Of Measure</p>
-                                  <p className={'font-16 mb-4'}>{resource?.unitOfMeasure}</p>
-                                </CCol>
-                              )}
-                            </CRow>
-                          ))}
-                        </CContainer>
-                      ))}
-                    </CContainer>
-                  ))}
                 </CContainer>
               </CTabPane>
               {modal?.productOfferingPrice?.length > 0 && (
@@ -644,7 +656,6 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                   {modal?.productOfferingPrice?.map((el: any) => (
                     <CContainer
                       key={`priceOffer-${el?.id}`}
-                      style={{ borderBottom: '1px solid #6C6E7E', paddingBottom: '1rem' }}
                     >
                       <CRow className={'mt-4'}>
                         <CCol xs="6">

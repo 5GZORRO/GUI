@@ -127,11 +127,11 @@ const AllTemplates = () => {
                     <CRow className={'mt-4'}>
                       <CCol xs="6">
                         <p className={'text-light mb-2'}>Unit Of Measure:</p>
-                        <p>{modal?.unitOfMeasure?.amount}</p>
+                        <p>{modal?.unitOfMeasure?.units}</p>
                       </CCol>
                       <CCol xs="6">
-                        <p className={'text-light mb-2'}>Units:</p>
-                        <p>{modal?.unitOfMeasure?.units}</p>
+                        <p className={'text-light mb-2'}>Unit Of Measure Length:</p>
+                        <p>{modal?.unitOfMeasure?.amount}</p>
                       </CCol>
                     </CRow>
                 )}
