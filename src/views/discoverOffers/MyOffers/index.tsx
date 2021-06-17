@@ -25,7 +25,6 @@ import { useAuthContext } from 'context/AuthContext'
 
 const MyOffers = () => {
   const [modal, setModal] = useState<any | null>(null)
-  console.log(modal)
 
   const { user } = useAuthContext()
 
