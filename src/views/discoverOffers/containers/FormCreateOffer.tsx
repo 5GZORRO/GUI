@@ -484,7 +484,7 @@ const FormCreateOffer: React.FC = () => {
       </CCard>
       <CModal show={modalSLA != null} onClose={() => setModalSLA(null)} size="lg">
         <CModalHeader closeButton>
-          <h5>{`Legal Prose Template ${modalSLA?.id}`}</h5>
+          <h5>{'Legal Prose Template'}</h5>
         </CModalHeader>
         <CModalBody>
           <CRow>
@@ -580,11 +580,11 @@ const FormCreateOffer: React.FC = () => {
                     <CRow className={'mt-4'}>
                       <CCol xs="6">
                         <p className={'text-light mb-2'}>Unit Of Measure:</p>
-                        <p>{modalProductOfferingPrice?.unitOfMeasure?.amount}</p>
+                        <p>{modalProductOfferingPrice?.unitOfMeasure?.units}</p>
                       </CCol>
                       <CCol xs="6">
-                        <p className={'text-light mb-2'}>Units:</p>
-                        <p>{modalProductOfferingPrice?.unitOfMeasure?.units}</p>
+                        <p className={'text-light mb-2'}>Unit Of Measure Length:</p>
+                        <p>{modalProductOfferingPrice?.unitOfMeasure?.amount}</p>
                       </CCol>
                     </CRow>
                 )}

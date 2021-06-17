@@ -74,7 +74,6 @@ const Register: React.FC = () => {
     Object.keys(allValues)
       .filter((el) => el !== currentActive)
       .forEach((value, index) => {
-        console.log(value, allValues[value])
         setValue(allValues[value], false)
       })
   }

@@ -16,7 +16,7 @@ const getInfo = (index) => {
       return {
         name: 'FunctionDescriptorType',
         description:
-          'Type of component that correspond to the FunctionDescriptorName values in a POP. This PSC affects to the entire POP, therefore each type of FunctionDescriptorName would require a new POP.',
+          'Type of component that correspond to the FunctionDescriptorName values in a POP.',
         valueType: 'string'
       }
     case 2:
@@ -29,7 +29,7 @@ const getInfo = (index) => {
       return {
         name: 'UnitOfMeasureAggregation',
         description:
-          'Additional logic required to correctly measure the PriceType. They may be combined in order to closely describe the price logic.',
+          'Additional logic required to correctly measure the PriceType.',
         valueType: 'string'
       }
   }

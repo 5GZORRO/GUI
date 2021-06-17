@@ -30,7 +30,7 @@ const fields = [
   'description',
   { key: 'lifecycleStatus', label: 'Status' },
   { key: 'lastUpdate', label: 'Created' },
-  'version',
+  'type',
   {
     key: 'show_details',
     label: '',
@@ -60,14 +60,14 @@ const Resources: React.FC = () => {
     <CContainer>
       <CModal show={modal != null} onClose={() => setModal(null)} size="lg">
         <CModalHeader closeButton>
-          <h5>Resource Details</h5>
+          <h5>{modal?.isService ? 'Service Details' : 'Resource Details'}</h5>
         </CModalHeader>
         <CModalBody>
           <CTabs activeTab="resourceSpecification">
             <CNav variant="pills">
               <CNavItem>
                 <CNavLink className={'pl-0 mb-4'} data-tab="resourceSpecification" color={'#6C6E7E'}>
-                  Resource Specification
+                  {modal?.isService ? 'Service Specification' : 'Resource Specification'}
                 </CNavLink>
               </CNavItem>
               {modal?.resourceSpecCharacteristic?.length > 0 && (
@@ -81,6 +81,21 @@ const Resources: React.FC = () => {
                 <CNavItem>
                   <CNavLink className={'pl-0 mb-4'} data-tab="resourceCharacteristics" color={'#6C6E7E'}>
                     Service Characteristics
+                  </CNavLink>
+                </CNavItem>
+              )}
+
+              {modal?.resourceSpecification?.length > 0 && (
+                <CNavItem>
+                  <CNavLink className={'pl-0 mb-4'} data-tab="serviceResourceSpecification" color={'#6C6E7E'}>
+                    Resource Specification
+                  </CNavLink>
+                </CNavItem>
+              )}
+              {modal?.resourceSpecification?.some((el) => el?.resourceSpecCharacteristic?.length > 0) && (
+                <CNavItem>
+                  <CNavLink className={'pl-0 mb-4'} data-tab="serviceResourceCharacteristics" color={'#6C6E7E'}>
+                    Resource Characteristics
                   </CNavLink>
                 </CNavItem>
               )}
@@ -125,7 +140,7 @@ const Resources: React.FC = () => {
                       <p className={'text-light mb-2'}>From:</p>{' '}
                       <p>
                         {dayjs(modal?.validFor?.startDateTime).isValid()
-                          ? dayjs(modal?.validFor?.startDateTime).format(DATETIME_FORMAT)
+                          ? dayjs(modal?.validFor?.startDateTime).format(DATETIME_FORMAT_SHOW)
                           : '-'}
                       </p>
                     </CCol>
@@ -133,7 +148,7 @@ const Resources: React.FC = () => {
                       <p className={'text-light mb-2'}>To:</p>{' '}
                       <p>
                         {dayjs(modal?.validFor?.endDateTime).isValid()
-                          ? dayjs(modal?.validFor?.endDateTime).format(DATETIME_FORMAT)
+                          ? dayjs(modal?.validFor?.endDateTime).format(DATETIME_FORMAT_SHOW)
                           : '-'}
                       </p>
                     </CCol>
@@ -218,6 +233,151 @@ const Resources: React.FC = () => {
                   </CContainer>
                 ))}
               </CTabPane>
+              {modal?.resourceSpecification?.length > 0 && (
+                <CTabPane data-tab="serviceResourceSpecification">
+                  {modal?.resourceSpecification?.map((rs) => (
+                    <CContainer key={`serviceResourceSpecification-${rs?.id}`} className={'pl-0 pr-0'}>
+                      <CRow className={'mt-4'}>
+                        <CCol>
+                          <p className={'text-light mb-2'}>Name</p>
+                          <p className={'font-18 mb-4'}>{rs?.name}</p>
+                        </CCol>
+                        <CCol>
+                          <p className={'text-light mb-2'}>Status</p>
+                          <p className={'font-16 mb-4'}>{rs?.lifecycleStatus}</p>
+                        </CCol>
+                      </CRow>
+                      <CRow className={'mt-2'}>
+                        <CCol>
+                          <p className={'text-light mb-2'}>Description</p>
+                          <p className={'font-16 mb-4'}>{rs?.description}</p>
+                        </CCol>
+                      </CRow>
+                      <CRow>
+                        <CCol>
+                          <p className={'text-light mb-2'}>Created</p>
+                          <p className={'font-16 mb-4'}>
+                            {dayjs(rs?.lastUpdate).isValid() ? dayjs(rs?.lastUpdate).format(DATETIME_FORMAT_SHOW) : '-'}
+                          </p>
+                        </CCol>
+                        <CCol>
+                          {rs?.version && (
+                            <>
+                              <p className={'text-light mb-1'}>Version</p>
+                              <p className={'font-16 text-white'}>{rs?.version}</p>
+                            </>
+                          )}
+                        </CCol>
+                      </CRow>
+                      {rs?.validFor && (
+                        <CRow>
+                          <CCol xs="6">
+                            <p className={'text-light mb-2'}>From:</p>{' '}
+                            <p>
+                              {dayjs(rs?.validFor?.startDateTime).isValid()
+                                ? dayjs(rs?.validFor?.startDateTime).format(DATETIME_FORMAT_SHOW)
+                                : '-'}
+                            </p>
+                          </CCol>
+                          <CCol xs="6">
+                            <p className={'text-light mb-2'}>To:</p>{' '}
+                            <p>
+                              {dayjs(rs?.validFor?.endDateTime).isValid()
+                                ? dayjs(rs?.validFor?.endDateTime).format(DATETIME_FORMAT_SHOW)
+                                : '-'}
+                            </p>
+                          </CCol>
+                        </CRow>
+                      )}
+                    </CContainer>
+                  ))}
+                </CTabPane>
+              )}
+
+              {modal?.resourceSpecification?.some((el) => el?.resourceSpecCharacteristic?.length > 0) && (
+                <CTabPane
+                  data-tab="serviceResourceCharacteristics"
+                  style={{
+                    maxHeight: '24rem',
+                    overflowY: 'scroll'
+                  }}
+                >
+                  {modal?.resourceSpecification?.map((rs) => (
+                    <CContainer key={`serviceResourceCharacteristics-${rs?.id}`} className={'pl-0 pr-0'}>
+                      {rs?.resourceSpecCharacteristic?.map((el: any, index: number) => (
+                        <CContainer
+                          key={`resourceCharacteristics-${index}`}
+                          style={{ borderBottom: '1px solid #6C6E7E', marginBottom: '1rem' }}
+                        >
+                          <CRow className={'mt-4'}>
+                            <CCol>
+                              <p className={'text-light mb-2'}>Name</p>
+                              <p className={'font-16 mb-4'}>{el?.name}</p>
+                            </CCol>
+                          </CRow>
+                          <CRow className={'mt-4'}>
+                            <CCol>
+                              <p className={'text-light mb-2'}>Description</p>
+                              <p className={'font-16 mb-4'}>{el?.description}</p>
+                            </CCol>
+                          </CRow>
+                          {el?.resourceSpecCharacteristicValue?.map((resource, index) => (
+                            <CRow className={'mt-4'} key={`resourceSpecCharacteristicValue-${index}`}>
+                              {resource?.value?.alias && (
+                                <CCol>
+                                  <p className={'text-light mb-2'}>{resource?.value?.alias}</p>
+                                  <div className={'font-16 mb-4'}>{splitResourceCaract(resource?.value?.value)}</div>
+                                </CCol>
+                              )}
+                              {resource?.unitOfMeasure && (
+                                <CCol>
+                                  <p className={'text-light mb-2'}>Unit Of Measure</p>
+                                  <p className={'font-16 mb-4'}>{resource?.unitOfMeasure}</p>
+                                </CCol>
+                              )}
+                            </CRow>
+                          ))}
+                        </CContainer>
+                      ))}
+                      {modal?.serviceSpecCharacteristic?.map((el: any, index: number) => (
+                        <CContainer
+                          key={`serviceSpecCharacteristic-${index}`}
+                          style={{ borderBottom: '1px solid #6C6E7E', marginBottom: '1rem' }}
+                        >
+                          <CRow className={'mt-4'}>
+                            <CCol>
+                              <p className={'text-light mb-2'}>Name</p>
+                              <p className={'font-16 mb-4'}>{el?.name}</p>
+                            </CCol>
+                          </CRow>
+                          <CRow className={'mt-4'}>
+                            <CCol>
+                              <p className={'text-light mb-2'}>Description</p>
+                              <p className={'font-16 mb-4'}>{el?.description}</p>
+                            </CCol>
+                          </CRow>
+                          {el?.serviceSpecCharacteristicValue?.map((resource, index) => (
+                            <CRow className={'mt-4'} key={`resourceSpecCharacteristicValue-${index}`}>
+                              {resource?.value?.alias && (
+                                <CCol>
+                                  <p className={'text-light mb-2'}>{resource?.value?.alias}</p>
+                                  <div className={'font-16 mb-4'}>{splitResourceCaract(resource?.value?.value)}</div>
+                                </CCol>
+                              )}
+                              {resource?.unitOfMeasure && (
+                                <CCol>
+                                  <p className={'text-light mb-2'}>Unit Of Measure</p>
+                                  <p className={'font-16 mb-4'}>{resource?.unitOfMeasure}</p>
+                                </CCol>
+                              )}
+                            </CRow>
+                          ))}
+                        </CContainer>
+                      ))}
+                    </CContainer>
+                  ))}
+                </CTabPane>
+              )}
             </CTabContent>
           </CTabs>
         </CModalBody>
@@ -259,8 +419,8 @@ const Resources: React.FC = () => {
                   </td>
                 )
               },
-              version: (item: any) => {
-                return <td className="py-2">{item?.version ? item?.version : '-'}</td>
+              type: (item: any) => {
+                return <td className="py-2">{item?.isService ? 'Service' : 'Resource'}</td>
               },
               lifecycleStatus: (item: any) => {
                 return <td className="py-2">{item?.lifecycleStatus ? item?.lifecycleStatus : '-'}</td>
