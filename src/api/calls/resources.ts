@@ -51,7 +51,35 @@ const getResourceSpecificationsBatch = async (
       return acc
     }, [])
 
-    return newResponse
+    const nestedResourcesResponse = await Promise.allSettled(
+      newResponse
+        ?.filter((el) => el?.isService === true)
+        ?.map((ss) => ss?.resourceSpecification?.map((rs) => axios.get(rs?.href))?.flat())
+        ?.flat()
+    )
+
+    const nestedResources = nestedResourcesResponse?.reduce((acc: any, item: any) => {
+      if (item?.status === 'fulfilled') {
+        if (Array.isArray(item?.value?.data)) {
+          return [...acc, ...item?.value?.data]
+        } else {
+          return [...acc, item?.value?.data]
+        }
+      }
+      return acc
+    }, [])
+
+    return newResponse?.map((el) => {
+      if (el?.isService) {
+        return {
+          ...el,
+          resourceSpecification: el?.resourceSpecification?.map((rs) =>
+            nestedResources?.find((ns) => ns?.id === rs?.id)
+          )
+        }
+      }
+      return el
+    })
   } catch (e) {
     console.log(e)
     throw new Error('error')
@@ -100,6 +128,23 @@ const useAllResourceAndServiceSpecifications = async (params?: any): Promise<any
 
     const responses = await axios.all([resourceRequest, serviceRequest])
 
+    const nestedResourcesResponse = await Promise.allSettled(
+      responses?.[1]?.data
+        ?.map((ss) => ss?.resourceSpecification?.map((rs) => axios.get(rs?.href, { params }))?.flat())
+        ?.flat()
+    )
+
+    const nestedResources = nestedResourcesResponse?.reduce((acc: any, item: any) => {
+      if (item?.status === 'fulfilled') {
+        if (Array.isArray(item?.value?.data)) {
+          return [...acc, ...item?.value?.data]
+        } else {
+          return [...acc, item?.value?.data]
+        }
+      }
+      return acc
+    }, [])
+
     return [].concat.apply(
       [],
       responses.map((el, index) => {
@@ -107,7 +152,10 @@ const useAllResourceAndServiceSpecifications = async (params?: any): Promise<any
           return el?.data?.map((serv) => ({
             ...serv,
             isService: true,
-            category: serviceCandidatesResults?.find((cand) => cand?.serviceSpecification?.id === serv?.id)?.category
+            category: serviceCandidatesResults?.find((cand) => cand?.serviceSpecification?.id === serv?.id)?.category,
+            resourceSpecification: serv?.resourceSpecification?.map((rs) =>
+              nestedResources?.find((ns) => ns?.id === rs?.id)
+            )
           }))
         }
         return el?.data?.map((res) => ({

@@ -92,6 +92,23 @@ const getProductOffers = async (params: any): Promise<any> => {
         if (Array.isArray(item?.value?.data)) {
           return [...acc, ...item?.value?.data]
         } else {
+          return [...acc, { ...item?.value?.data, isService: true }]
+        }
+      }
+      return acc
+    }, [])
+    const nestedResourcesResponse = await Promise.allSettled(
+      resourceAndServices
+        ?.filter((el) => el?.isService === true)
+        ?.map((ss) => ss?.resourceSpecification?.map((rs) => axios.get(rs?.href, { params }))?.flat())
+        ?.flat()
+    )
+
+    const nestedResources = nestedResourcesResponse?.reduce((acc: any, item: any) => {
+      if (item?.status === 'fulfilled') {
+        if (Array.isArray(item?.value?.data)) {
+          return [...acc, ...item?.value?.data]
+        } else {
           return [...acc, item?.value?.data]
         }
       }
@@ -121,9 +138,17 @@ const getProductOffers = async (params: any): Promise<any> => {
           resourceSpecification: ps?.resourceSpecification?.map((rs) =>
             resourceAndServices?.find((rss) => rs?.id === rss?.id)
           ),
-          serviceSpecification: ps?.serviceSpecification?.map((ss) =>
-            resourceAndServices?.find((rss) => ss?.id === rss?.id)
-          )
+          serviceSpecification: ps?.serviceSpecification?.map((ss) => {
+            const service = resourceAndServices?.find((rss) => ss?.id === rss?.id)
+
+            return {
+              ...service,
+              isService: true,
+              resourceSpecification: service?.resourceSpecification?.map((rs) =>
+                nestedResources?.find((ns) => ns?.id === rs?.id)
+              )
+            }
+          })
         },
         productOfferingPrice: el?.productOfferingPrice?.map((pop) =>
           productOfferingPrices?.find((price) => price?.id === pop?.id)

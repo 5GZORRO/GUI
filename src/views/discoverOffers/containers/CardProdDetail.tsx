@@ -60,7 +60,7 @@ const CardProdDetail: React.FC<CardProps> = ({ item }) => {
             <CCol>
               <p className={'text-light mb-2'}>Created</p>
               <p className={'font-16 mb-4'}>
-                {dayjs(modal?.lastUpdate).isValid() ? dayjs(modal?.lastUpdate).format(DATETIME_FORMAT_SHOW) : '-'}
+                {dayjs(item?.lastUpdate).isValid() ? dayjs(item?.lastUpdate).format(DATETIME_FORMAT_SHOW) : '-'}
               </p>
             </CCol>
             <CCol>
@@ -95,7 +95,7 @@ const CardProdDetail: React.FC<CardProps> = ({ item }) => {
           {item?.resourceSpecCharacteristic?.length && (
             <CButton
               disabled={!item?.resourceSpecCharacteristic?.length}
-              className={'text-uppercase mr-3'}
+              className={'text-uppercase mr-3 mb-4'}
               color={'white'}
               variant={'outline'}
               onClick={() => showResourceCharacteristics(item)}
@@ -106,13 +106,85 @@ const CardProdDetail: React.FC<CardProps> = ({ item }) => {
           {item?.serviceSpecCharacteristic?.length && (
             <CButton
               disabled={!item?.serviceSpecCharacteristic?.length}
-              className={'text-uppercase mr-3'}
+              className={'text-uppercase mr-3 mb-4'}
               color={'white'}
               variant={'outline'}
               onClick={() => showServiceCharacteristics(item)}
             >
               Show Service Characteristics
             </CButton>
+          )}
+          {item?.resourceSpecification?.length > 0 && (
+            <>
+              {item?.resourceSpecification?.map((rs) => (
+                <CContainer key={`resource-spec-${rs?.id}`} className={'m-0'}>
+                  <h5>Resource Specification</h5>
+                  <CRow className={'mt-4'}>
+                    <CCol>
+                      <p className={'text-light mb-2'}>Name</p>
+                      <p className={'font-weight-bold font-18 mb-4'}>{rs?.name}</p>
+                    </CCol>
+                    <CCol>
+                      <p className={'text-light mb-2'}>Status</p>
+                      <p className={'font-16 mb-4'}>{rs?.lifecycleStatus}</p>
+                    </CCol>
+                  </CRow>
+                  <CRow className={'mt-2'}>
+                    <CCol>
+                      <p className={'text-light mb-2'}>Description</p>
+                      <p className={'font-16 mb-4'}>{rs?.description}</p>
+                    </CCol>
+                  </CRow>
+                  <CRow>
+                    <CCol>
+                      <p className={'text-light mb-2'}>Created</p>
+                      <p className={'font-16 mb-4'}>
+                        {dayjs(rs?.lastUpdate).isValid() ? dayjs(rs?.lastUpdate).format(DATETIME_FORMAT_SHOW) : '-'}
+                      </p>
+                    </CCol>
+                    <CCol>
+                      {rs?.version && (
+                        <>
+                          <p className={'text-light mb-1'}>Version</p>
+                          <p className={'font-16 text-white'}>{rs?.version}</p>
+                        </>
+                      )}
+                    </CCol>
+                  </CRow>
+                  {rs?.validFor && (
+                    <CRow>
+                      <CCol xs="6">
+                        <p className={'text-light mb-2'}>From:</p>{' '}
+                        <p>
+                          {dayjs(rs?.validFor?.startDateTime).isValid()
+                            ? dayjs(rs?.validFor?.startDateTime).format(DATETIME_FORMAT_SHOW)
+                            : '-'}
+                        </p>
+                      </CCol>
+                      <CCol xs="6">
+                        <p className={'text-light mb-2'}>To:</p>{' '}
+                        <p>
+                          {dayjs(rs?.validFor?.endDateTime).isValid()
+                            ? dayjs(rs?.validFor?.endDateTime).format(DATETIME_FORMAT_SHOW)
+                            : '-'}
+                        </p>
+                      </CCol>
+                    </CRow>
+                  )}
+                  {rs?.resourceSpecCharacteristic?.length && (
+                    <CButton
+                      disabled={!rs?.resourceSpecCharacteristic?.length}
+                      className={'text-uppercase mb-3'}
+                      color={'white'}
+                      variant={'outline'}
+                      onClick={() => showResourceCharacteristics(rs)}
+                    >
+                      Show Resource Characteristics
+                    </CButton>
+                  )}
+                </CContainer>
+              ))}
+            </>
           )}
         </CContainer>
       </CCardBody>
