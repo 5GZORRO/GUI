@@ -55,7 +55,7 @@ const escapeRegexCharacters = (str: any) => {
 const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
   const [advancedSearch, setAdvancedSearch] = useState(false)
   const [modal, setModal] = useState<any | null>(null)
-
+  console.log(modal)
   const {
     handleSubmit,
     formState: { errors },
@@ -540,7 +540,11 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                   {modal?.productSpecification?.serviceSpecification?.length > 0 && (
                     <CContainer
                       className={'pl-0 pr-0'}
-                      style={{ borderBottom: '1px solid #6C6E7E', marginBottom: '1rem' }}
+                      style={
+                        modal?.productSpecification?.resourceSpecification?.length > 0
+                          ? { borderBottom: '1px solid #6C6E7E', marginBottom: '1rem' }
+                          : {}
+                      }
                     >
                       <h5>Service Specification</h5>
                       {modal?.productSpecification?.serviceSpecification?.map((ss: any, index: number) => (
@@ -592,71 +596,132 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                               ))}
                             </CContainer>
                           ))}
+
+                          {ss?.resourceSpecification?.length > 0 && (
+                            <CContainer style={{ borderTop: '1px solid #6C6E7E', paddingTop: '1rem' }}>
+                              <h5>Resource Specification</h5>
+
+                              {ss?.resourceSpecification?.map((rs: any, rsIndex: number) => (
+                                <CContainer key={`offer-rs-${rsIndex}`}>
+                                  <CRow className={'mt-2'}>
+                                    <CCol>
+                                      <p className={'text-light mb-2'}>Name</p>
+                                      <p className={'font-18 mb-4'}>{rs?.name}</p>
+                                    </CCol>
+                                  </CRow>
+                                  <CRow className={'mt-2'}>
+                                    <CCol>
+                                      <p className={'text-light mb-2'}>Description</p>
+                                      <p className={'font-16 mb-4'}>{rs?.description}</p>
+                                    </CCol>
+                                  </CRow>
+                                  {rs?.resourceSpecCharacteristic?.length && <h5>Resource Characteristics</h5>}
+
+                                  {rs?.resourceSpecCharacteristic?.map((el: any, index: number) => (
+                                    <CContainer key={`resourceCharacteristics-${index}`} className={''}>
+                                      <CRow className={'mt-2'}>
+                                        <CCol>
+                                          <p className={'text-light mb-2'}>Name</p>
+                                          <p className={'font-16 mb-4'}>{el?.name}</p>
+                                        </CCol>
+                                      </CRow>
+                                      <CRow className={'mt-2'}>
+                                        <CCol>
+                                          <p className={'text-light mb-2'}>Description</p>
+                                          <p className={'font-16 mb-4'}>{el?.description}</p>
+                                        </CCol>
+                                      </CRow>
+                                      {el?.resourceSpecCharacteristicValue?.map((resource, index) => (
+                                        <CRow className={'mt-2'} key={`resourceSpecCharacteristicValue-${index}`}>
+                                          {resource?.value?.alias && (
+                                            <CCol>
+                                              <p className={'text-light mb-2'}>{resource?.value?.alias}</p>
+                                              <div className={'font-16 mb-4'}>
+                                                {splitResourceCaract(resource?.value?.value)}
+                                              </div>
+                                            </CCol>
+                                          )}
+                                          {resource?.unitOfMeasure && (
+                                            <CCol>
+                                              <p className={'text-light mb-2'}>Unit Of Measure</p>
+                                              <p className={'font-16 mb-4'}>{resource?.unitOfMeasure}</p>
+                                            </CCol>
+                                          )}
+                                        </CRow>
+                                      ))}
+                                    </CContainer>
+                                  ))}
+                                </CContainer>
+                              ))}
+                            </CContainer>
+                          )}
                         </CContainer>
                       ))}
                     </CContainer>
                   )}
-                  {modal?.productSpecification?.resourceSpecification?.length > 0 && <h5>Resource Specification</h5>}
-                  {modal?.productSpecification?.resourceSpecification?.map((rs: any, rsIndex: number) => (
-                    <CContainer key={`offer-rs-${rsIndex}`} className={'pl-0 pr-0'}>
-                      <CRow className={'mt-2'}>
-                        <CCol>
-                          <p className={'text-light mb-2'}>Name</p>
-                          <p className={'font-18 mb-4'}>{rs?.name}</p>
-                        </CCol>
-                      </CRow>
-                      <CRow className={'mt-2'}>
-                        <CCol>
-                          <p className={'text-light mb-2'}>Description</p>
-                          <p className={'font-16 mb-4'}>{rs?.description}</p>
-                        </CCol>
-                      </CRow>
-                      {rs?.resourceSpecCharacteristic?.length && (
-                        <h5>Resource Characteristics</h5>
-                      )}
-
-                      {rs?.resourceSpecCharacteristic?.map((el: any, index: number) => (
-                        <CContainer key={`resourceCharacteristics-${index}`} className={''}>
+                  {modal?.productSpecification?.resourceSpecification?.length > 0 && (
+                    <CContainer className={'pl-0 pr-0'}>
+                      <h5>Resource Specification</h5>
+                      {modal?.productSpecification?.resourceSpecification?.map((rs: any, rsIndex: number) => (
+                        <CContainer key={`offer-rs-${rsIndex}`}>
                           <CRow className={'mt-2'}>
                             <CCol>
                               <p className={'text-light mb-2'}>Name</p>
-                              <p className={'font-16 mb-4'}>{el?.name}</p>
+                              <p className={'font-18 mb-4'}>{rs?.name}</p>
                             </CCol>
                           </CRow>
                           <CRow className={'mt-2'}>
                             <CCol>
                               <p className={'text-light mb-2'}>Description</p>
-                              <p className={'font-16 mb-4'}>{el?.description}</p>
+                              <p className={'font-16 mb-4'}>{rs?.description}</p>
                             </CCol>
                           </CRow>
-                          {el?.resourceSpecCharacteristicValue?.map((resource, index) => (
-                            <CRow className={'mt-2'} key={`resourceSpecCharacteristicValue-${index}`}>
-                              {resource?.value?.alias && (
+                          {rs?.resourceSpecCharacteristic?.length && <h5>Resource Characteristics</h5>}
+
+                          {rs?.resourceSpecCharacteristic?.map((el: any, index: number) => (
+                            <CContainer key={`resourceCharacteristics-${index}`} className={''}>
+                              <CRow className={'mt-2'}>
                                 <CCol>
-                                  <p className={'text-light mb-2'}>{resource?.value?.alias}</p>
-                                  <div className={'font-16 mb-4'}>{splitResourceCaract(resource?.value?.value)}</div>
+                                  <p className={'text-light mb-2'}>Name</p>
+                                  <p className={'font-16 mb-4'}>{el?.name}</p>
                                 </CCol>
-                              )}
-                              {resource?.unitOfMeasure && (
+                              </CRow>
+                              <CRow className={'mt-2'}>
                                 <CCol>
-                                  <p className={'text-light mb-2'}>Unit Of Measure</p>
-                                  <p className={'font-16 mb-4'}>{resource?.unitOfMeasure}</p>
+                                  <p className={'text-light mb-2'}>Description</p>
+                                  <p className={'font-16 mb-4'}>{el?.description}</p>
                                 </CCol>
-                              )}
-                            </CRow>
+                              </CRow>
+                              {el?.resourceSpecCharacteristicValue?.map((resource, index) => (
+                                <CRow className={'mt-2'} key={`resourceSpecCharacteristicValue-${index}`}>
+                                  {resource?.value?.alias && (
+                                    <CCol>
+                                      <p className={'text-light mb-2'}>{resource?.value?.alias}</p>
+                                      <div className={'font-16 mb-4'}>
+                                        {splitResourceCaract(resource?.value?.value)}
+                                      </div>
+                                    </CCol>
+                                  )}
+                                  {resource?.unitOfMeasure && (
+                                    <CCol>
+                                      <p className={'text-light mb-2'}>Unit Of Measure</p>
+                                      <p className={'font-16 mb-4'}>{resource?.unitOfMeasure}</p>
+                                    </CCol>
+                                  )}
+                                </CRow>
+                              ))}
+                            </CContainer>
                           ))}
                         </CContainer>
                       ))}
                     </CContainer>
-                  ))}
+                  )}
                 </CContainer>
               </CTabPane>
               {modal?.productOfferingPrice?.length > 0 && (
                 <CTabPane data-tab="price">
                   {modal?.productOfferingPrice?.map((el: any) => (
-                    <CContainer
-                      key={`priceOffer-${el?.id}`}
-                    >
+                    <CContainer key={`priceOffer-${el?.id}`}>
                       <CRow className={'mt-4'}>
                         <CCol xs="6">
                           <p className={'text-light mb-2'}>Name:</p> <p>{el?.name}</p>
@@ -691,11 +756,11 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                           <CRow className={'mt-4'}>
                             <CCol xs="6">
                               <p className={'text-light mb-2'}>Unit Of Measure:</p>
-                              <p>{el?.unitOfMeasure?.amount}</p>
+                              <p>{el?.unitOfMeasure?.units}</p>
                             </CCol>
                             <CCol xs="6">
-                              <p className={'text-light mb-2'}>Units:</p>
-                              <p>{el?.unitOfMeasure?.units}</p>
+                              <p className={'text-light mb-2'}>Unit Of Measure Length:</p>
+                              <p>{el?.unitOfMeasure?.amount}</p>
                             </CCol>
                           </CRow>
                       )}

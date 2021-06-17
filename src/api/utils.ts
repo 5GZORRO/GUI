@@ -36,7 +36,7 @@ export const TransformDataTemplates = (data: any) => {
 
 export const TransformResourcesToProduct = (resources: any, offer: any, user: any): any => {
   const newData = {
-    name: `productOfferProductSpecification-${offer?.name}`,
+    name: `${offer?.name}`,
     description: '',
     brand: null,
     bundledProductSpecification: null,
@@ -73,7 +73,7 @@ export const TransformToParentPOP = (pops: any, offer: any) => {
   return {
     bundledPopRelationship: [...pops.map((el: any) => ({ id: el.id }))],
     isBundle: true,
-    name: `${offer?.name} POP`,
+    name: `${offer?.name}`,
     validFor: offer.validFor
   }
 }
