@@ -55,7 +55,6 @@ const escapeRegexCharacters = (str: any) => {
 const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
   const [advancedSearch, setAdvancedSearch] = useState(false)
   const [modal, setModal] = useState<any | null>(null)
-  console.log(modal)
   const {
     handleSubmit,
     formState: { errors },
