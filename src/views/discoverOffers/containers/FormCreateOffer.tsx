@@ -37,6 +37,7 @@ import { PlusCircle } from 'assets/icons/externalIcons'
 import { Controller, useFormContext } from 'react-hook-form'
 import { useAllSLAs } from 'hooks/api/SLA'
 import { useAllProductOfferingPricesChildren, useAllCategories, useAllLocations } from 'hooks/api/Resources'
+import SLAAccordViewer from 'components/SLAAccordViewer'
 
 import DateRangePicker from 'components/DateRangePicker'
 import AddNewCategoryModal from 'containers/AddNewCategoryModal'
@@ -513,6 +514,9 @@ const FormCreateOffer: React.FC = () => {
               <p>{modalSLA?.status}</p>
             </CCol>
           </CRow>
+          <CRow className={'p-3'}>
+              <SLAAccordViewer id={modalSLA?.id} templateHref={modalSLA?.templateRef?.href} readOnly={true}></SLAAccordViewer>
+            </CRow>
         </CModalBody>
       </CModal>
       {addCategoryModal && (

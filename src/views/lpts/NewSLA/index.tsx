@@ -130,7 +130,7 @@ const NewSLA: React.FC = () => {
       {modal != null && (
         <CModal show={true} onClose={() => setModal(null)} size="lg">
           <CModalHeader closeButton>
-            <h5>{`SLA Template ${modal?.id}`}</h5>
+            <h5>{'SLA Template'}</h5>
           </CModalHeader>
           <CModalBody>
             <CRow>
