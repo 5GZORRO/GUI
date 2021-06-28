@@ -9,7 +9,7 @@
     &:focus,
     &:active {
       outline: none;
-      text-decoration: none;
+      text-decoration: none !important;
       box-shadow: none;
     }
 

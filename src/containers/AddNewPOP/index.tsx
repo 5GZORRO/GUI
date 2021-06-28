@@ -742,7 +742,7 @@ const AddNewPOP = (props: any) => {
                     {modal != null && (
                       <CModal show={true} onClose={() => setModal(null)} size="lg">
                         <CModalHeader closeButton>
-                          <h5>{`Legal Prose Template ${modal?.id}`}</h5>
+                          <h5>{'Legal Prose Template'}</h5>
                         </CModalHeader>
                         <CModalBody>
                           <CRow>
