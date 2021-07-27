@@ -11,7 +11,7 @@ const createStakeHolderRoles = (data: any) => {
       const keys = Object.keys(data[role]).filter((item) => item !== 'isSelect')
       acc.push({
         // Capitalize ty google
-        role: startCase(lowerCase(role)),
+        role: startCase(lowerCase(role)).replace(/\s/g, ''),
         assets: [...keys.filter((item) => data[role][item]).map((el) => el.charAt(0).toUpperCase() + el.slice(1))]
       })
     }

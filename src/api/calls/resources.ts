@@ -54,7 +54,11 @@ const getResourceSpecificationsBatch = async (
     const nestedResourcesResponse = await Promise.allSettled(
       newResponse
         ?.filter((el) => el?.isService === true)
-        ?.map((ss) => ss?.resourceSpecification?.map((rs) => axios.get(rs?.href))?.flat())
+        ?.map((ss) =>
+          ss?.resourceSpecification
+            ?.map((rs) => rs?.href != null && rs?.href !== 'string' && axios.get(rs?.href))
+            ?.flat()
+        )
         ?.flat()
     )
 
@@ -130,7 +134,11 @@ const useAllResourceAndServiceSpecifications = async (params?: any): Promise<any
 
     const nestedResourcesResponse = await Promise.allSettled(
       responses?.[1]?.data
-        ?.map((ss) => ss?.resourceSpecification?.map((rs) => axios.get(rs?.href, { params }))?.flat())
+        ?.map((ss) =>
+          ss?.resourceSpecification
+            ?.map((rs) => rs?.href != null && rs?.href !== 'string' && axios.get(rs?.href, { params }))
+            ?.flat()
+        )
         ?.flat()
     )
 

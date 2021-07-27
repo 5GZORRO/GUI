@@ -78,7 +78,7 @@ const AddNewLocation = (props: any) => {
           <h5>{'Add new location'}</h5>
         </CModalHeader>
         <CModalBody>
-          <CForm onSubmit={handleSubmit(onSubmit)}>
+          <CForm>
             <CCard>
               <CCardBody>
                 <CRow>
@@ -150,7 +150,7 @@ const AddNewLocation = (props: any) => {
             </CCard>
             <div className={'mt-5 d-flex justify-content-end mb-5'}>
               <div className={'d-flex'}>
-                <CButton className={'text-uppercase px-5'} type="submit" color={'gradient'}>
+                <CButton className={'text-uppercase px-5'} color={'gradient'} onClick={handleSubmit(onSubmit)}>
                   Submit
                 </CButton>
               </div>
