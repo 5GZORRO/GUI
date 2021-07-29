@@ -102,7 +102,9 @@ const getSLA = async (id: string, templateHref: string): Promise<any> => {
         }
       }
     }
-  } catch (error) {}
+  } catch (error) {
+    console.log(error)
+  }
 
   try {
     const response = await axios.get(`${endpoints.SERVICE_LEGAL_AGREEMENT}/${id}`, { params: { size: 9999 } })
@@ -118,7 +120,6 @@ const getSLA = async (id: string, templateHref: string): Promise<any> => {
     return response.data
   } catch (e) {
     console.log({ e })
-    throw new Error('error')
   }
 }
 

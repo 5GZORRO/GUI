@@ -1,26 +1,13 @@
-import React, { useState, useEffect } from 'react'
-
-import { Controller, useForm } from 'react-hook-form'
-import { ArrowDownIcon } from 'assets/icons/externalIcons'
-import CIcon from '@coreui/icons-react'
+import React, { useState } from 'react'
 import { DATETIME_FORMAT_SHOW } from 'config'
 import dayjs from 'dayjs'
 import SLAAccordViewer from 'components/SLAAccordViewer'
-import { useLocation } from 'react-router-dom'
 
 import {
-  CForm,
-  CFormGroup,
   CRow,
   CCol,
-  CLabel,
   CButton,
-  CTextarea,
-  CFormText,
-  CCollapse,
-  CInputGroup,
   CContainer,
-  CInput,
   CDataTable,
   CModal,
   CModalBody,
@@ -30,64 +17,12 @@ import {
   CNavItem,
   CNavLink,
   CTabContent,
-  CTabPane
+  CTabPane,
+  CCard, CCardBody, CCardHeader
 } from '@coreui/react'
-import { useAllCategories, useGetMembers, useAllLocations } from 'hooks/api/Resources'
-import { useSearchOffers } from 'hooks/api/Products'
-import Autosuggest from 'react-autosuggest'
 
-interface Search {
-  search: string
-  category: string
-  location: string
-  maxPrice: number | ''
-  minPrice: number | ''
-  currency: string
-  stakeholder: string
-}
-
-// /tmf-api/productCatalogManagement/v4/productOffering
-interface SearchFormTypes {}
-
-const escapeRegexCharacters = (str: any) => {
-  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-}
-
-const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
-  const [advancedSearch, setAdvancedSearch] = useState(false)
-  const [referrer, setRefferer] = useState(false)
-
+const SelectedOffers = ({ data, isLoading }) => {
   const [modal, setModal] = useState<any | null>(null)
-
-  const useQuery = () => {
-    return new URLSearchParams(useLocation().search)
-  }
-
-  const query = useQuery()
-  const {
-    handleSubmit,
-    formState: { errors },
-    control,
-    reset
-  } = useForm<Search>({
-    defaultValues: {
-      category: '',
-      location: '',
-      maxPrice: '',
-      minPrice: '',
-      currency: '',
-      stakeholder: ''
-    }
-  })
-
-  const [suggestions, setSuggestions] = useState<any>([])
-  const [suggestionsMembers, setSuggestionsMembers] = useState<any>([])
-  const [suggestionsLocation, setSuggestionsLocation] = useState<any>([])
-
-  const { data, mutate, isLoading, reset: mutationReset } = useSearchOffers()
-  const { data: categories, isLoading: isLoadingCategories } = useAllCategories()
-  const { data: locations, isLoading: isLoadingLocations } = useAllLocations()
-  const { data: members, isLoading: isLoadingMembers } = useGetMembers()
 
   const fields = [
     'name',
@@ -114,115 +49,7 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
     }
   ]
 
-  const clearForm = () => {
-    reset({
-      search: '',
-      category: '',
-      location: '',
-      maxPrice: '',
-      minPrice: '',
-      currency: '',
-      stakeholder: ''
-    })
-    mutationReset()
-  }
-
-  const submit = (form: Search) => {
-    mutate(form)
-  }
-
-  useEffect(() => {
-    if (query.get('id') != null) {
-      mutate({})
-    }
-  }, [])
-
-  useEffect(() => {
-    if (query.get('id') != null && data != null && referrer === false) {
-      const found = data?.find(el => el.id === query.get('id'))
-      if (found) {
-        setRefferer(() => true)
-        setModal(() => found)
-      }
-    }
-  }, [query, data])
-
-  const getSuggestions = (value: any) => {
-    const escapedValue = escapeRegexCharacters(value?.trim())
-
-    if (escapedValue === '') {
-      return []
-    }
-
-    const regex = new RegExp('^' + escapedValue, 'i')
-
-    return !isLoadingCategories ? categories?.filter((category) => regex.test(category?.name)) : []
-  }
-
-  const getSuggestionsLocation = (value: any) => {
-    const escapedValue = escapeRegexCharacters(value?.trim())
-
-    if (escapedValue === '') {
-      return []
-    }
-
-    const regex = new RegExp('^' + escapedValue, 'i')
-
-    return !isLoadingLocations ? locations?.filter((location) => regex.test(location?.geographicLocation?.name)) : []
-  }
-
-  const getSuggestionsMembers = (value: any) => {
-    const escapedValue = escapeRegexCharacters(value?.trim())
-
-    if (escapedValue === '') {
-      return []
-    }
-
-    const regex = new RegExp('^' + escapedValue, 'i')
-
-    return !isLoadingMembers ? members?.filter((member) => regex.test(member?.legalName)) : []
-  }
-
-  const onSuggestionsFetchRequestedMembers = ({ value }) => {
-    setSuggestionsMembers(getSuggestionsMembers(value))
-  }
-
-  const onSuggestionsClearRequestedMembers = () => {
-    setSuggestionsMembers([])
-  }
-
-  const onSuggestionsFetchRequestedLocation = ({ value }) => {
-    setSuggestionsLocation(getSuggestionsLocation(value))
-  }
-
-  const onSuggestionsClearRequestedLocation = () => {
-    setSuggestionsLocation([])
-  }
-
-  const onSuggestionsFetchRequested = ({ value }) => {
-    setSuggestions(getSuggestions(value))
-  }
-
-  const onSuggestionsClearRequested = () => {
-    setSuggestions([])
-  }
-
-  const arrayToStringsData = (item: any, property: string) => (
-    <td>{item?.map((el: any) => el?.[property])?.join(', ')}</td>
-  )
-
-  const stakeholderRender = (item: any) => (
-    <td>{item?.productSpecification?.relatedParty?.map((el) => el.name)?.join(', ')}</td>
-  )
-  const locationRender = (item: any) => (
-    <td>
-      {item?.place
-        ?.map((el) => {
-          return el?.geographicLocation?.name
-        })
-        ?.join(', ')}
-    </td>
-  )
+  const arrayToStringsData = (item: any, property: string) => <td>{item?.map((el: any) => el[property]).join(', ')}</td>
 
   const showButton = (item: any) => (
     <td className="py-2">
@@ -240,249 +67,48 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
     return <p>{value}</p>
   }
 
+  const stakeholderRender = (item: any) => (
+    <td>{item?.productSpecification?.relatedParty?.map((el) => el.name)?.join(', ')}</td>
+  )
+  const locationRender = (item: any) => (
+    <td>
+      {item?.place
+        ?.map((el) => {
+          return el?.geographicLocation?.name
+        })
+        ?.join(', ')}
+    </td>
+  )
+
   return (
-    <>
-      <CForm onSubmit={handleSubmit(submit)}>
-        {data && (
-          <CRow>
-            <CCol className={'d-flex justify-content-end align-items-center mb-1'}>
-              <CButton variant={'ghost'} className="d-flex align-items-center" onClick={clearForm}>
-                <CIcon name="cilTrash" size={'lg'} className={'mr-2'} />
-                Clear Search
-              </CButton>
-            </CCol>
-          </CRow>
-        )}
-        <CRow className={'mb-4'}>
-          <CCol xs="6">
-            <CFormGroup>
-              <CLabel>Category</CLabel>
-              <CInputGroup>
-                <Controller
-                  control={control}
-                  defaultValue={''}
-                  name="category"
-                  data-testid={'category'}
-                  render={({ field: { onChange, onBlur, value } }) => (
-                    <Autosuggest
-                      suggestions={suggestions}
-                      onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-                      onSuggestionsClearRequested={onSuggestionsClearRequested}
-                      getSuggestionValue={(selected: any) => selected?.name}
-                      renderSuggestion={(sugg: any) => <span>{sugg?.name}</span>}
-                      id={'category-autosuggestion'}
-                      inputProps={{
-                        placeholder: 'Selection category',
-                        onChange: (event, { newValue }) => onChange(newValue),
-                        onBlur: onBlur,
-                        value: value
-                      }}
-                    />
-                  )}
-                />
-              </CInputGroup>
-              {errors.category && (
-                <CFormText className="help-block" data-testid="error-message">
-                  Please enter a valid category
-                </CFormText>
-              )}
-            </CFormGroup>
-            <CFormGroup>
-              <CRow>
-                <CCol>
-                  <CLabel>Currency</CLabel>
-                  <CInputGroup>
-                    <Controller
-                      control={control}
-                      defaultValue={''}
-                      name="currency"
-                      data-testid={'currency'}
-                      render={({ field: { onChange, onBlur, value } }) => (
-                        <CInput placeholder={'Euro'} onChange={onChange} onBlur={onBlur} value={value} />
-                      )}
-                    />
-                  </CInputGroup>
-                  {errors.currency && (
-                    <CFormText className="help-block" data-testid="error-message">
-                      Please enter a valid currency
-                    </CFormText>
-                  )}
-                </CCol>
-                <CCol>
-                  <CLabel>Min Price</CLabel>
-                  <CInputGroup>
-                    <Controller
-                      control={control}
-                      defaultValue={''}
-                      name="minPrice"
-                      data-testid={'minPrice'}
-                      render={({ field: { onChange, onBlur, value } }) => (
-                        <CInput placeholder={'000'} onChange={onChange} onBlur={onBlur} value={value} type={'number'} />
-                      )}
-                    />
-                  </CInputGroup>
-                  {errors.minPrice && (
-                    <CFormText className="help-block" data-testid="error-message">
-                      Please enter a valid number
-                    </CFormText>
-                  )}
-                </CCol>
-                <CCol>
-                  <CLabel>Max Price</CLabel>
-                  <CInputGroup>
-                    <Controller
-                      control={control}
-                      defaultValue={''}
-                      name="maxPrice"
-                      data-testid={'maxPrice'}
-                      render={({ field: { onChange, onBlur, value } }) => (
-                        <CInput placeholder={'000'} onChange={onChange} onBlur={onBlur} value={value} type={'number'} />
-                      )}
-                    />
-                  </CInputGroup>
-                  {errors.maxPrice && (
-                    <CFormText className="help-block" data-testid="error-message">
-                      Please enter a valid number
-                    </CFormText>
-                  )}
-                </CCol>
-              </CRow>
-            </CFormGroup>
-          </CCol>
-          <CCol xs="6">
-            <CFormGroup>
-              <CLabel>Location</CLabel>
-              <CInputGroup>
-                <Controller
-                  control={control}
-                  defaultValue={''}
-                  name="location"
-                  data-testid={'location'}
-                  render={({ field: { onChange, onBlur, value } }) => (
-                    <Autosuggest
-                      suggestions={suggestionsLocation}
-                      onSuggestionsFetchRequested={onSuggestionsFetchRequestedLocation}
-                      onSuggestionsClearRequested={onSuggestionsClearRequestedLocation}
-                      getSuggestionValue={(selected: any) => selected?.geographicLocation?.name}
-                      renderSuggestion={(sugg: any) => <span>{sugg?.geographicLocation?.name}</span>}
-                      id={'location-autosuggestion'}
-                      inputProps={{
-                        placeholder: 'Selection location',
-                        onChange: (event, { newValue }) => onChange(newValue),
-                        onBlur: onBlur,
-                        value: value
-                      }}
-                    />
-                  )}
-                />
-              </CInputGroup>
-              {errors.location && (
-                <CFormText className="help-block" data-testid="error-message">
-                  Please enter a valid location
-                </CFormText>
-              )}
-            </CFormGroup>
-            <CFormGroup>
-              <CLabel>Stakeholder Preference</CLabel>
-              <CInputGroup>
-                <Controller
-                  control={control}
-                  defaultValue={''}
-                  name="stakeholder"
-                  data-testid={'stakeholder'}
-                  render={({ field: { onChange, onBlur, value } }) => (
-                    <Autosuggest
-                      suggestions={suggestionsMembers}
-                      onSuggestionsFetchRequested={onSuggestionsFetchRequestedMembers}
-                      onSuggestionsClearRequested={onSuggestionsClearRequestedMembers}
-                      getSuggestionValue={(selected: any) => selected?.legalName}
-                      renderSuggestion={(sugg: any) => <span>{sugg?.legalName}</span>}
-                      id={'stakeholder-autosuggestion'}
-                      inputProps={{
-                        placeholder: 'Selection stakeholder',
-                        onChange: (event, { newValue }) => onChange(newValue),
-                        onBlur: onBlur,
-                        value: value
-                      }}
-                    />
-                  )}
-                />
-              </CInputGroup>
-              {errors.stakeholder && (
-                <CFormText className="help-block" data-testid="error-message">
-                  Please enter a valid stakeholder
-                </CFormText>
-              )}
-            </CFormGroup>
-          </CCol>
-        </CRow>
-        <button
-          type="button"
-          onClick={() => setAdvancedSearch((previous) => !previous)}
-          className={'btn btn-link d-flex search-offers--advanced align-items-center'}
-        >
-          <p>Advanced Search</p>
-          <ArrowDownIcon height={'1.5rem'} />
-        </button>
-        <CCollapse show={advancedSearch}>
-          <CContainer>
-            <CFormGroup>
-              <CRow className={'d-flex align-items-center justify-content-space-between mb-4'}>
-                <CCol className={'d-flex justify-content-start '}>
-                  <CLabel htmlFor="search" className={'mb-0'}>
-                    Insert your search
-                  </CLabel>
-                </CCol>
-              </CRow>
-              <Controller
-                control={control}
-                defaultValue={''}
-                name="search"
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <CTextarea rows={8} onChange={onChange} onBlur={onBlur} value={value} />
-                )}
-              />
-              {errors.search && <CFormText className="help-block">Please enter a search</CFormText>}
-            </CFormGroup>
-          </CContainer>
-        </CCollapse>
-        <CButton
-          type="submit"
-          block={false}
-          variant={'outline'}
-          color={'white'}
-          className="text-uppercase px-5 float-right mt-4 mb-4"
-        >
-          Search
-        </CButton>
-      </CForm>
-
-      {data && (
-        <CContainer className={'p-0 mt-4 '}>
-          <CDataTable
-            cleaner
-            loading={isLoading}
-            items={data?.filter((el) => el != null) ?? []}
-            columnFilter
-            tableFilter
-            clickableRows
-            fields={fields}
-            itemsPerPage={5}
-            sorter
-            hover
-            pagination
-            scopedSlots={{
-              category: (item: any) => arrayToStringsData(item?.category, 'name'),
-              place: (item: any) => locationRender(item),
-              stakeholder: (item: any) => stakeholderRender(item),
-              productOfferingPrice: (item: any) => arrayToStringsData(item?.productOfferingPrice, 'priceType'),
-              show_details: (item: any) => showButton(item)
-            }}
-            onColumnFilterChange={(state) => console.log(state)}
-          />
-        </CContainer>
-      )}
-
+    <CCard className={'mb-5'}>
+      <CCardHeader className={'d-flex justify-content-between align-items-center'}>
+        <h5>Selected Product Offers</h5>
+      </CCardHeader>
+      <CCardBody>
+      <CContainer className={'p-0 mt-4 '}>
+        <CDataTable
+          cleaner
+          loading={isLoading}
+          items={data?.filter((el) => el != null) ?? []}
+          columnFilter
+          tableFilter
+          clickableRows
+          fields={fields}
+          itemsPerPage={5}
+          sorter
+          hover
+          pagination
+          scopedSlots={{
+            category: (item: any) => arrayToStringsData(item?.category, 'name'),
+            place: (item: any) => locationRender(item),
+            stakeholder: (item: any) => stakeholderRender(item),
+            productOfferingPrice: (item: any) => arrayToStringsData(item?.productOfferingPrice, 'priceType'),
+            show_details: (item: any) => showButton(item)
+          }}
+        />
+      </CContainer>
+      </CCardBody>
       <CModal show={modal != null} onClose={() => setModal(null)} size="lg">
         <CModalHeader closeButton>
           <h5>{'Product Offer'}</h5>
@@ -720,7 +346,9 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                     </CContainer>
                   )}
                   {modal?.productSpecification?.resourceSpecification?.length > 0 && (
-                    <CContainer className={'pl-0 pr-0'}>
+                    <CContainer
+                      className={'pl-0 pr-0'}
+                    >
                       <h5>Resource Specification</h5>
                       {modal?.productSpecification?.resourceSpecification?.map((rs: any, rsIndex: number) => (
                         <CContainer key={`offer-rs-${rsIndex}`}>
@@ -906,8 +534,8 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
           </CTabs>
         </CModalBody>
       </CModal>
-    </>
+      </CCard>
   )
 }
 
-export default SearchForm
+export default SelectedOffers
