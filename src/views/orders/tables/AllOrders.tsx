@@ -180,9 +180,6 @@ export const AllOrders: React.FC = () => {
                             <Link to={{ pathname: '/offers', search: `?id=${el?.productOffering?.id}` }}>
                               See details
                             </Link>
-                            <Link to={{ pathname: '/offers', search: '?id=1aaa886c-cd5b-4e3f-85e7-fc8ee4e7b5c7' }}>
-                            See details Mocked
-                          </Link>
                             </>
                           )}
                         </p>
