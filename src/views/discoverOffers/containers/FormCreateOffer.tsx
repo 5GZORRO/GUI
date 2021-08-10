@@ -483,7 +483,7 @@ const FormCreateOffer: React.FC = () => {
           </CRow>
         </CCardBody>
       </CCard>
-      <CModal show={modalSLA != null} onClose={() => setModalSLA(null)} size="lg">
+      {modalSLA && <CModal show={modalSLA != null} onClose={() => setModalSLA(null)} size="lg">
         <CModalHeader closeButton>
           <h5>{'Legal Prose Template'}</h5>
         </CModalHeader>
@@ -519,7 +519,7 @@ const FormCreateOffer: React.FC = () => {
             </CRow>
         </CModalBody>
       </CModal>
-      {addCategoryModal && (
+      }{addCategoryModal && (
         <AddNewCategoryModal
           handleClose={() => {
             setAddCategoryModal(false)

@@ -19,14 +19,17 @@ const NewLegalProseTemplate = React.lazy(() => import('./views/lpts/NewTemplate'
 const NewLicence = React.lazy(() => import('./views/lpts/NewLicence'))
 const NewSLA = React.lazy(() => import('./views/lpts/NewSLA'))
 const NewSLAForm = React.lazy(() => import('./views/lpts/NewSLAForm'))
-
+const NewOrder = React.lazy(() => import('./views/orders/NewOrder'))
+const FormCreateOrder = React.lazy(() => import('./views/orders/FormCreateOrder'))
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
   { exact: true, path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { exact: true, path: '/offers', name: 'Offers', component: DiscoverOffers },
   { path: '/offers/new-offer/:id', name: 'Detail Product Offer', component: ProductDetail },
   { path: '/offers/new-offer', name: 'New Product Offer', component: NewProduct },
-  { path: '/orders', name: 'Orders', component: Orders },
+  { exact: true, path: '/orders', name: 'Orders', component: Orders },
+  { path: '/orders/new-order/:id', name: 'Detail Product Order', component: FormCreateOrder },
+  { path: '/orders/new-order', name: 'New Product Orders', component: NewOrder },
   { exact: true, path: '/resource', name: 'Resources & Services', component: Resources },
   { exact: true, path: '/resource/new-resource', name: 'Create Resource & Service', component: NewResource },
   { exact: true, path: '/prices/new', name: 'New Product Offering Price', component: NewProductOfferingPrice },
