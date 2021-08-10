@@ -49,7 +49,7 @@ const SelectedOffers = ({ data, isLoading }) => {
     }
   ]
 
-  const arrayToStringsData = (item: any, property: string) => <td>{item?.map((el: any) => el[property]).join(', ')}</td>
+  const arrayToStringsData = (item: any, property: string) => <td>{item?.map((el: any) => el?.[property])?.join(', ')}</td>
 
   const showButton = (item: any) => (
     <td className="py-2">
@@ -109,7 +109,7 @@ const SelectedOffers = ({ data, isLoading }) => {
         />
       </CContainer>
       </CCardBody>
-      <CModal show={modal != null} onClose={() => setModal(null)} size="lg">
+      {modal && <CModal show={modal != null} onClose={() => setModal(null)} size="lg">
         <CModalHeader closeButton>
           <h5>{'Product Offer'}</h5>
         </CModalHeader>
@@ -533,7 +533,7 @@ const SelectedOffers = ({ data, isLoading }) => {
             </CTabContent>
           </CTabs>
         </CModalBody>
-      </CModal>
+      </CModal>}
       </CCard>
   )
 }

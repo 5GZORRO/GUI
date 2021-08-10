@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useHistory, useParams, useLocation } from 'react-router-dom'
+import { useHistory, useParams, Link } from 'react-router-dom'
 import {
   CContainer,
   CForm,
@@ -91,11 +91,13 @@ const FormCreateOrder: React.FC = () => {
   const [priorityState, setPriorityState] = useState(0)
 
   const { user } = useAuthContext()
+
   const { mutate, isSuccess, isLoading } = useCreateOrder()
 
   const methods = useForm<formOrderCreation>({
     defaultValues: {
       description: '',
+      category: null,
       requestedStartDate: null,
       requestedCompletionDate: null,
       externalId: '',
@@ -103,6 +105,8 @@ const FormCreateOrder: React.FC = () => {
     },
     resolver: yupResolver(schemaRegister)
   })
+
+  const startDate = methods?.watch('requestedStartDate')
 
   const {
     handleSubmit,
@@ -134,8 +138,8 @@ const FormCreateOrder: React.FC = () => {
   }
 
   const onSubmit = (data: formOrderCreation) => {
-    // const formData = transformForm(data, offersData)
-    // mutate({ ...formData, offersData, currentUser: user })
+    const formData = transformForm(data, { productOrderItem: offersData })
+    mutate({ ...formData })
   }
 
   return (
@@ -203,6 +207,11 @@ const FormCreateOrder: React.FC = () => {
                                 <SingleDatePicker
                                   date={moment(value, DATETIME_FORMAT).isValid() ? moment(value) : null}
                                   onDateChange={(date) => onChange(moment(date).format(DATETIME_FORMAT))}
+                                  isOutsideRange={(date) =>
+                                    moment(startDate).isValid()
+                                      ? moment(date).isBefore(moment(startDate))
+                                      : moment(date).isBefore(moment())
+                                  }
                                   ref={ref}
                                 />
                               </div>
@@ -258,19 +267,16 @@ const FormCreateOrder: React.FC = () => {
                         {!isLoadingCategories && (
                           <Controller
                             control={control}
-                            defaultValue={''}
-                            rules={{ required: true }}
+                            defaultValue={null}
                             name="category"
                             render={({ field: { onChange, onBlur, value, ref } }) => (
                               <Select
                                 onChange={(e: any) => {
-                                  onChange(e)
+                                  onChange(JSON.stringify(e))
                                 }}
-                                name={'category'}
-                                onBlur={onBlur}
-                                value={value}
+                                value={JSON.parse(value)}
                                 ref={ref}
-                                options={categories?.map((el) => ({ value: el, label: el?.name }))}
+                                options={categories?.map((el) => ({ value: el?.name, label: el?.name }))}
                                 className={'select'}
                                 styles={colourStyles}
                               ></Select>
@@ -341,9 +347,11 @@ const FormCreateOrder: React.FC = () => {
                 Previous
               </CButton>
               <div className={'d-flex'}>
-                <CButton className={'text-uppercase px-5 mr-3'} variant="outline" color={'white'}>
-                  Cancel
-                </CButton>
+                <Link to={'/orders/'}>
+                  <CButton className={'text-uppercase px-5 mr-3'} variant="outline" color={'white'}>
+                    Cancel
+                  </CButton>
+                </Link>
                 <CButton className={'text-uppercase px-5'} type="submit" color={'gradient'}>
                   Submit
                 </CButton>

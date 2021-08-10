@@ -14,7 +14,13 @@ const getMyOrders = async (params: any): Promise<ApiOrders[]> => {
 }
 
 const createOrder = async (body: any): Promise<any> => {
-  console.log(body)
+  try {
+    const response = await axios.post(endpoints.PRODUCT_ORDERS, body)
+    return response.data
+  } catch (error) {
+    console.log({ error })
+    throw new Error('error')
+  }
 }
 
 export default {

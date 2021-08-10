@@ -478,7 +478,6 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
               productOfferingPrice: (item: any) => arrayToStringsData(item?.productOfferingPrice, 'priceType'),
               show_details: (item: any) => showButton(item)
             }}
-            onColumnFilterChange={(state) => console.log(state)}
           />
         </CContainer>
       )}
