@@ -54,7 +54,11 @@ const getResourceSpecificationsBatch = async (
     const nestedResourcesResponse = await Promise.allSettled(
       newResponse
         ?.filter((el) => el?.isService === true)
-        ?.map((ss) => ss?.resourceSpecification?.map((rs) => axios.get(rs?.href))?.flat())
+        ?.map((ss) =>
+          ss?.resourceSpecification
+            ?.map((rs) => rs?.href != null && rs?.href !== 'string' && axios.get(rs?.href))
+            ?.flat()
+        )
         ?.flat()
     )
 
@@ -84,6 +88,120 @@ const getResourceSpecificationsBatch = async (
     console.log(e)
     throw new Error('error')
   }
+}
+
+const getProductOffersBatch = async (offersIds: string) => {
+  const ids = offersIds.split(',')
+  const response = await Promise.allSettled(
+    ids.map((id, index) =>
+      axios.get(`${endpoints.PRODUCT_OFFERING}/${id}`)
+    )
+  )
+
+  const data = response?.reduce((acc: any, item: any) => {
+    if (item?.status === 'fulfilled') {
+      return [...acc, item?.value?.data]
+    }
+    return acc
+  }, [])
+
+  const productSpecificationResponses = await Promise.allSettled(
+    data?.map(
+      (offer, index) => offer?.productSpecification?.href != null && offer?.productSpecification?.href !== 'string' && axios.get(offer?.productSpecification?.href)
+    )
+  )
+  const locationsResponses = await Promise.allSettled(
+    data?.map((offer, index) => offer?.place?.map((el) => el?.href != null && el?.href !== 'string' && axios.get(el?.href))).flat()
+  )
+
+  const productOfferingPricesResponses = await Promise.allSettled(
+    data?.map((offer, index) => offer?.productOfferingPrice?.map((el) => el?.href != null && el?.href !== 'string' && axios.get(el?.href))).flat()
+  )
+
+  const productSpecifications = productSpecificationResponses?.reduce((acc: any, item: any) => {
+    if (item?.status === 'fulfilled') {
+      return [...acc, item?.value?.data]
+    }
+    return acc
+  }, [])
+  const resourceAndServicesSpecifications = await Promise.allSettled(
+    productSpecifications?.filter(el => el != null)
+      ?.map((ps, index) => [
+        ...ps?.resourceSpecification?.map((el) => el?.href != null && el?.href !== 'string' && axios.get(el?.href)),
+        ...ps?.serviceSpecification?.map((el) => el?.href != null && el?.href !== 'string' && axios.get(el?.href))
+      ])
+      .flat()
+  )
+
+  const resourceAndServices = resourceAndServicesSpecifications?.reduce((acc: any, item: any) => {
+    if (item?.status === 'fulfilled') {
+      if (Array.isArray(item?.value?.data)) {
+        return [...acc, ...item?.value?.data]
+      } else {
+        return [...acc, { ...item?.value?.data, isService: true }]
+      }
+    }
+    return acc
+  }, [])
+  const nestedResourcesResponse = await Promise.allSettled(
+    resourceAndServices
+      ?.filter((el) => el != null && el?.isService === true)
+      ?.map((ss) => ss?.resourceSpecification?.map((rs) => axios.get(rs?.href != null && rs?.href !== 'string' && rs?.href))?.flat())
+      ?.flat()
+  )
+
+  const nestedResources = nestedResourcesResponse?.reduce((acc: any, item: any) => {
+    if (item?.status === 'fulfilled') {
+      if (Array.isArray(item?.value?.data)) {
+        return [...acc, ...item?.value?.data]
+      } else {
+        return [...acc, item?.value?.data]
+      }
+    }
+    return acc
+  }, [])
+
+  const locations = locationsResponses?.reduce((acc: any, item: any) => {
+    if (item?.status === 'fulfilled') {
+      return [...acc, item?.value?.data]
+    }
+    return acc
+  }, [])
+
+  const productOfferingPrices = productOfferingPricesResponses?.reduce((acc: any, item: any) => {
+    if (item?.status === 'fulfilled') {
+      return [...acc, item?.value?.data]
+    }
+    return acc
+  }, [])
+
+  return data?.map((el) => {
+    const ps = productSpecifications?.find((rp) => rp?.id === el?.productSpecification?.id)
+    return {
+      ...el,
+      productSpecification: {
+        ...ps,
+        resourceSpecification: ps?.resourceSpecification?.map((rs) =>
+          resourceAndServices?.find((rss) => rs?.id === rss?.id)
+        ),
+        serviceSpecification: ps?.serviceSpecification?.map((ss) => {
+          const service = resourceAndServices?.find((rss) => ss?.id === rss?.id)
+
+          return {
+            ...service,
+            isService: true,
+            resourceSpecification: service?.resourceSpecification?.map((rs) =>
+              nestedResources?.find((ns) => ns?.id === rs?.id)
+            )
+          }
+        })
+      },
+      productOfferingPrice: el?.productOfferingPrice?.map((pop) =>
+        productOfferingPrices?.find((price) => price?.id === pop?.id)
+      ),
+      place: el?.place?.map((pl) => locations.find((lc) => lc?.id === pl?.id))
+    }
+  })
 }
 
 const useAllCategories = async (params?: any): Promise<ApiCategory[]> => {
@@ -130,7 +248,11 @@ const useAllResourceAndServiceSpecifications = async (params?: any): Promise<any
 
     const nestedResourcesResponse = await Promise.allSettled(
       responses?.[1]?.data
-        ?.map((ss) => ss?.resourceSpecification?.map((rs) => axios.get(rs?.href, { params }))?.flat())
+        ?.map((ss) =>
+          ss?.resourceSpecification
+            ?.map((rs) => rs?.href != null && rs?.href !== 'string' && axios.get(rs?.href, { params }))
+            ?.flat()
+        )
         ?.flat()
     )
 
@@ -242,5 +364,6 @@ export default {
   createCategory,
   useAllLocations,
   createLocation,
-  useAllResourceAndServiceSpecifications
+  useAllResourceAndServiceSpecifications,
+  getProductOffersBatch
 }

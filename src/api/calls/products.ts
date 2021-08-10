@@ -61,14 +61,16 @@ const getProductOffers = async (params: any): Promise<any> => {
     const newParams = cleanEmptyparams(params)
     const response = await axios.get(endpoints.PRODUCT_OFFERING_FILTERED, { params: { ...newParams } })
     const productSpecificationResponses = await Promise.allSettled(
-      response?.data?.map((offer, index) => axios.get(offer?.productSpecification?.href))
+      response?.data?.map(
+        (offer, index) => offer?.productSpecification?.href != null && offer?.productSpecification?.href !== 'string' && axios.get(offer?.productSpecification?.href)
+      )
     )
     const locationsResponses = await Promise.allSettled(
-      response?.data?.map((offer, index) => offer?.place?.map((el) => axios.get(el?.href))).flat()
+      response?.data?.map((offer, index) => offer?.place?.map((el) => el?.href != null && el?.href !== 'string' && axios.get(el?.href))).flat()
     )
 
     const productOfferingPricesResponses = await Promise.allSettled(
-      response?.data?.map((offer, index) => offer?.productOfferingPrice?.map((el) => axios.get(el?.href))).flat()
+      response?.data?.map((offer, index) => offer?.productOfferingPrice?.map((el) => el?.href != null && el?.href !== 'string' && axios.get(el?.href))).flat()
     )
 
     const productSpecifications = productSpecificationResponses?.reduce((acc: any, item: any) => {
@@ -77,12 +79,11 @@ const getProductOffers = async (params: any): Promise<any> => {
       }
       return acc
     }, [])
-
     const resourceAndServicesSpecifications = await Promise.allSettled(
-      productSpecifications
+      productSpecifications?.filter(el => el != null)
         ?.map((ps, index) => [
-          ...ps?.resourceSpecification?.map((el) => axios.get(el?.href)),
-          ...ps?.serviceSpecification?.map((el) => axios.get(el?.href))
+          ...ps?.resourceSpecification?.map((el) => el?.href != null && el?.href !== 'string' && axios.get(el?.href)),
+          ...ps?.serviceSpecification?.map((el) => el?.href != null && el?.href !== 'string' && axios.get(el?.href))
         ])
         .flat()
     )
@@ -99,8 +100,8 @@ const getProductOffers = async (params: any): Promise<any> => {
     }, [])
     const nestedResourcesResponse = await Promise.allSettled(
       resourceAndServices
-        ?.filter((el) => el?.isService === true)
-        ?.map((ss) => ss?.resourceSpecification?.map((rs) => axios.get(rs?.href, { params }))?.flat())
+        ?.filter((el) => el != null && el?.isService === true)
+        ?.map((ss) => ss?.resourceSpecification?.map((rs) => axios.get(rs?.href != null && rs?.href !== 'string' && rs?.href, { params }))?.flat())
         ?.flat()
     )
 
@@ -157,7 +158,7 @@ const getProductOffers = async (params: any): Promise<any> => {
       }
     })
   } catch (e) {
-    console.log({ e })
+    console.log(e, { e })
     throw new Error('error')
   }
 }

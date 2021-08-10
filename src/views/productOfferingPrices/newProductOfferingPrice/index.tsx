@@ -269,6 +269,10 @@ const NewProductOfferingPrice = () => {
     setValue('recurringChargePeriodLength', recurringState)
   }, [recurringState])
 
+  useEffect(() => {
+    setValue('unitOfMeasure.amount', unitState)
+  }, [unitState])
+
   const handleMinus = () => {
     if (recurringState > 0) {
       setRecurringState((previous) => previous - 1)

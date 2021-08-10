@@ -86,3 +86,8 @@ export const useAllProductOfferingPricesChildren = (params?: any) => {
     keepPreviousData: true
   })
 }
+
+export const useGetProductOffersBundle = (ids: string) =>
+  useQuery(['GetProductOffers', ids], () => api.resources.getProductOffersBatch(ids), {
+    keepPreviousData: true
+  })

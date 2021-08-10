@@ -589,6 +589,19 @@ export interface ApiCategory {
   version: string
 }
 
+type LifecycleStatusEnum =
+  | 'Active'
+  | 'In design'
+  | 'In study'
+  | 'In test'
+  | 'Launched'
+  | 'Obsolete'
+  | 'Rejected'
+  | 'Retired'
+
+type ActionsEnum = 'add' | 'delete' | 'modify' | 'noChange'
+
+type StateEnum = 'acknowledged'| 'assessingCancellation'| 'cancelled'| 'completed'| 'failed'| 'held'| 'inProgress'| 'pending'| 'pendingCancellation'| 'rejected'
 export interface SLABody {
   templateRef: {
     name: string
@@ -601,7 +614,8 @@ export interface SLABody {
   }
   name: string
   description: string
-  relatedPartyRefs: [
+  relatedPartyRefs:
+    | [
         {
           role: string
           name: string
@@ -622,6 +636,597 @@ export interface SLABody {
       operator: string
       tolerance: string
       referenceValue: string
+    }
+  ]
+}
+
+export interface ApiOrders {
+  id: string
+  cancellationDate: string
+  cancellationReason: string
+  category: string
+  description: string
+  externalId: string
+  notificationContact: string
+  priority: string
+  requestedCompletionDate: string
+  requestedStartDate: string
+  agreement: [
+    {
+      href: string
+      id: string
+      name: string
+    }
+  ]
+  billingAccount: {
+    id: string
+    href: string
+    name: string
+  }
+  channel: [
+    {
+      id: string
+      href: string
+      name: string
+      role: string
+    }
+  ]
+  note: [
+    {
+      id: string
+      author: string
+      date: string
+      text: string
+    }
+  ]
+  orderTotalPrice: [
+    {
+      id: string
+      description: string
+      name: string
+      priceType: string
+      recurringChargePeriod: string
+      unitOfMeasure: string
+      billingAccount: {
+        id: string
+        href: string
+        name: string
+      }
+      price: {
+        id: string
+        percentage: number
+        taxRate: number
+        dutyFreeAmount: {
+          unit: string
+          value: number
+        }
+        taxIncludedAmount: {
+          unit: string
+          value: number
+        }
+      }
+      priceAlteration: [
+        {
+          id: string
+          applicationDuration: number
+          description: string
+          name: string
+          priceType: string
+          priority: number
+          recurringChargePeriod: string
+          unitOfMeasure: string
+          price: {
+            id: string
+            percentage: number
+            taxRate: number
+            dutyFreeAmount: {
+              unit: string
+              value: number
+            }
+            taxIncludedAmount: {
+              unit: string
+              value: number
+            }
+          }
+          productOfferingPrice: {
+            description: string
+            href: string
+            id: string
+            lastUpdate: string
+            lifecycleStatus: string
+            lifecycleStatusEnum: LifecycleStatusEnum
+            name: string
+            validFor: {
+              endDateTime: string
+              startDateTime: string
+            }
+            version: string
+          }
+        }
+      ]
+      productOfferingPrice: {
+        description: string
+        href: string
+        id: string
+        lastUpdate: string
+        lifecycleStatus: string
+        lifecycleStatusEnum: LifecycleStatusEnum
+        name: string
+        validFor: {
+          endDateTime: string
+          startDateTime: string
+        }
+        version: string
+      }
+    }
+  ]
+  payment: [
+    {
+      id: string
+      href: string
+      name: string
+    }
+  ]
+  productOfferingQualification: [
+    {
+      id: string
+      href: string
+      name: string
+    }
+  ]
+  productOrderItem: [
+    {
+      id: string
+      quantity: number
+      action: ActionsEnum
+      appointment: {
+        id: string
+        href: string
+        description: string
+      }
+      billingAccount: {
+        id: string
+        href: string
+        name: string
+      }
+      itemPrice: [
+        {
+          id: string
+          description: string
+          name: string
+          priceType: string
+          recurringChargePeriod: string
+          unitOfMeasure: string
+          billingAccount: {
+            id: string
+            href: string
+            name: string
+          }
+          price: {
+            id: string
+            percentage: number
+            taxRate: number
+            dutyFreeAmount: {
+              unit: string
+              value: number
+            }
+            taxIncludedAmount: {
+              unit: string
+              value: number
+            }
+          }
+          priceAlteration: [
+            {
+              id: string
+              applicationDuration: number
+              description: string
+              name: string
+              priceType: string
+              priority: number
+              recurringChargePeriod: string
+              unitOfMeasure: string
+              price: {
+                id: string
+                percentage: number
+                taxRate: number
+                dutyFreeAmount: {
+                  unit: string
+                  value: number
+                }
+                taxIncludedAmount: {
+                  unit: string
+                  value: number
+                }
+              }
+              productOfferingPrice: {
+                description: string
+                href: string
+                id: string
+                lastUpdate: string
+                lifecycleStatus: string
+                lifecycleStatusEnum: LifecycleStatusEnum
+                name: string
+                validFor: {
+                  endDateTime: string
+                  startDateTime: string
+                }
+                version: string
+              }
+            }
+          ]
+          productOfferingPrice: {
+            description: string
+            href: string
+            id: string
+            lastUpdate: string
+            lifecycleStatus: string
+            lifecycleStatusEnum: LifecycleStatusEnum
+            name: string
+            validFor: {
+              endDateTime: string
+              startDateTime: string
+            }
+            version: string
+          }
+        }
+      ]
+      itemTerm: [
+        {
+          id: string
+          description: string
+          name: string
+          duration: {
+            id: string
+            amount: number
+            units: string
+          }
+        }
+      ]
+      itemTotalPrice: [
+        {
+          id: string
+          description: string
+          name: string
+          priceType: string
+          recurringChargePeriod: string
+          unitOfMeasure: string
+          billingAccount: {
+            id: string
+            href: string
+            name: string
+          }
+          price: {
+            id: string
+            percentage: number
+            taxRate: number
+            dutyFreeAmount: {
+              unit: string
+              value: number
+            }
+            taxIncludedAmount: {
+              unit: string
+              value: number
+            }
+          }
+          priceAlteration: [
+            {
+              id: string
+              applicationDuration: number
+              description: string
+              name: string
+              priceType: string
+              priority: number
+              recurringChargePeriod: string
+              unitOfMeasure: string
+              price: {
+                id: string
+                percentage: number
+                taxRate: number
+                dutyFreeAmount: {
+                  unit: string
+                  value: number
+                }
+                taxIncludedAmount: {
+                  unit: string
+                  value: number
+                }
+              }
+              productOfferingPrice: {
+                description: string
+                href: string
+                id: string
+                lastUpdate: string
+                lifecycleStatus: string
+                lifecycleStatusEnum: LifecycleStatusEnum
+                name: string
+                validFor: {
+                  endDateTime: string
+                  startDateTime: string
+                }
+                version: string
+              }
+            }
+          ]
+          productOfferingPrice: {
+            description: string
+            href: string
+            id: string
+            lastUpdate: string
+            lifecycleStatus: string
+            lifecycleStatusEnum: LifecycleStatusEnum
+            name: string
+            validFor: {
+              endDateTime: string
+              startDateTime: string
+            }
+            version: string
+          }
+        }
+      ]
+      payment: [
+        {
+          id: string
+          href: string
+          name: string
+        }
+      ]
+      product: {
+        id: string
+        href: string
+        description: string
+        isBundle: true
+        isCustomerVisible: true
+        name: string
+        orderDate: string
+        productSerialNumber: string
+        startDate: string
+        terminationDate: string
+        agreement: [
+          {
+            id: string
+            href: string
+            agreementItemId: string
+            name: string
+          }
+        ]
+        billingAccount: {
+          id: string
+          href: string
+          name: string
+        }
+        place: [
+          {
+            id: string
+            href: string
+            name: string
+            role: string
+          }
+        ]
+        product: []
+        productCharacteristic: [
+          {
+            href: string
+            name: string
+            value: {
+              alias: string
+              value: string
+            }
+            valueType: string
+          }
+        ]
+        productOffering: {
+          href: string
+          id: string
+          name: string
+        }
+        productOrderItem: [
+          {
+            id: string
+            orderItemAction: string
+            orderItemId: string
+            productOrderHref: string
+            productOrderId: string
+            role: string
+          }
+        ]
+        productPrice: [
+          {
+            id: string
+            description: string
+            name: string
+            priceType: string
+            recurringChargePeriod: string
+            unitOfMeasure: string
+            billingAccount: {
+              id: string
+              href: string
+              name: string
+            }
+            price: {
+              id: string
+              percentage: number
+              taxRate: number
+              dutyFreeAmount: {
+                unit: string
+                value: number
+              }
+              taxIncludedAmount: {
+                unit: string
+                value: number
+              }
+            }
+            productOfferingPrice: {
+              description: string
+              href: string
+              id: string
+              lastUpdate: string
+              lifecycleStatus: string
+              lifecycleStatusEnum: LifecycleStatusEnum
+              name: string
+              validFor: {
+                endDateTime: string
+                startDateTime: string
+              }
+              version: string
+            }
+            productPriceAlteration: [
+              {
+                id: string
+                applicationDuration: number
+                description: string
+                name: string
+                priceType: string
+                priority: number
+                recurringChargePeriod: string
+                unitOfMeasure: string
+                price: {
+                  id: string
+                  percentage: number
+                  taxRate: number
+                  dutyFreeAmount: {
+                    unit: string
+                    value: number
+                  }
+                  taxIncludedAmount: {
+                    unit: string
+                    value: number
+                  }
+                }
+                productOfferingPrice: {
+                  description: string
+                  href: string
+                  id: string
+                  lastUpdate: string
+                  lifecycleStatus: string
+                  lifecycleStatusEnum: LifecycleStatusEnum
+                  name: string
+                  validFor: {
+                    endDateTime: string
+                    startDateTime: string
+                  }
+                  version: string
+                }
+              }
+            ]
+          }
+        ]
+        productRelationship: [
+          {
+            id: string
+            relationshipType: string
+          }
+        ]
+        productSpecification: {
+          description: string
+          href: string
+          id: string
+          lastUpdate: string
+          lifecycleStatus: string
+          lifecycleStatusEnum: LifecycleStatusEnum
+          name: string
+          targetProductSchema: {
+            href: string
+          }
+          validFor: {
+            endDateTime: string
+            startDateTime: string
+          }
+          version: string
+        }
+        productTerm: [
+          {
+            id: string
+            description: string
+            name: string
+            duration: {
+              id: string
+              amount: number
+              units: string
+            }
+            validFor: {
+              endDateTime: string
+              startDateTime: string
+            }
+          }
+        ]
+        realizingResource: [
+          {
+            id: string
+            href: string
+            name: string
+            value: string
+          }
+        ]
+        realizingService: [
+          {
+            id: string
+            href: string
+            name: string
+          }
+        ]
+        relatedParty: [
+          {
+            extendedInfo: string
+            href: string
+            id: string
+            name: string
+            role: string
+          }
+        ]
+        status: string // change to ENUM
+      }
+      productOffering: {
+        href: string
+        id: string
+        name: string
+      }
+      productOfferingQualificationItem: {
+        id: string
+        href: string
+        name: string
+        productOfferingQualificationHref: string
+        productOfferingQualificationId: string
+        productOfferingQualificationName: string
+      }
+      productOrderItem: []
+      productOrderItemRelationship: [
+        {
+          id: string
+          relationshipType: string
+        }
+      ]
+      qualification: [
+        {
+          id: string
+          href: string
+          name: string
+        }
+      ]
+      quoteItem: {
+        id: string
+        href: string
+        name: string
+        quoteHref: string
+        quoteId: string
+        quoteName: string
+      }
+      state: StateEnum
+    }
+  ]
+  quote: [
+    {
+      id: string
+      href: string
+      name: string
+    }
+  ]
+  relatedParty: [
+    {
+      extendedInfo: string
+      href: string
+      id: string
+      name: string
+      role: string
     }
   ]
 }

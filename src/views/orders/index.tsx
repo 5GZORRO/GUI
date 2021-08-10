@@ -1,68 +1,27 @@
 import React from 'react'
-import {
-  CContainer,
-  CRow,
-  CCol,
-  CButton,
-  CCard,
-  CCardBody,
-  CCardHeader,
-  CNav,
-  CNavItem,
-  CNavLink,
-  CTabContent,
-  CTabPane,
-  CTabs
-} from '@coreui/react'
+import { CContainer, CRow, CCol, CButton, CCard, CCardHeader, CCardBody } from '@coreui/react'
 import AllOrders from './tables/AllOrders'
+import { useHistory } from 'react-router-dom'
 
 const Orders: React.FC = () => {
+  const history = useHistory()
   return (
     <CContainer>
       <CRow className={'mb-5'}>
         <CCol>
-          <h2>Discover Orders</h2>
+          <h2>Orders</h2>
         </CCol>
-        {/* <CCol className={'d-flex justify-content-end align-items-center'}>
-          <CButton block={false} color={'gradient'} className={'text-uppercase px-4'}>
-            add sla template
+        <CCol className={'d-flex justify-content-end align-items-center'}>
+          <CButton block={false} color={'gradient'} className={'text-uppercase px-4'} onClick={() => history.push('/orders/new-order')}>
+            new order
           </CButton>
-        </CCol> */}
+        </CCol>
       </CRow>
-      <CTabs activeTab="allTemplates">
-        <CNav variant="tabs">
-          <CNavItem>
-            <CNavLink data-tab="allTemplates" className={'text-uppercase'}>
-              all orders
-            </CNavLink>
-          </CNavItem>
-          <CNavItem>
-            <CNavLink data-tab="myTemplates" className={'text-uppercase'}>
-              my orders
-            </CNavLink>
-          </CNavItem>
-        </CNav>
-        <CTabContent>
-          <CTabPane data-tab="allTemplates">
-            <CCard className={'mt-4'}>
-              <CCardHeader>
-                <h5 className={'font-18'}>All Orders</h5>
-              </CCardHeader>
-              <CCardBody>
-                <AllOrders />
-              </CCardBody>
-            </CCard>
-          </CTabPane>
-          <CTabPane data-tab="myTemplates">
-            <CCard className={'mt-4'}>
-              <CCardHeader>
-                <h5>My Orders</h5>
-              </CCardHeader>
-              <CCardBody></CCardBody>
-            </CCard>
-          </CTabPane>
-        </CTabContent>
-      </CTabs>
+      <CCard>
+        <CCardBody>
+        <AllOrders></AllOrders>
+        </CCardBody>
+      </CCard>
     </CContainer>
   )
 }
