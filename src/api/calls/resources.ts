@@ -92,11 +92,7 @@ const getResourceSpecificationsBatch = async (
 
 const getProductOffersBatch = async (offersIds: string) => {
   const ids = offersIds.split(',')
-  const response = await Promise.allSettled(
-    ids.map((id, index) =>
-      axios.get(`${endpoints.PRODUCT_OFFERING}/${id}`)
-    )
-  )
+  const response = await Promise.allSettled(ids.map((id, index) => axios.get(`${endpoints.PRODUCT_OFFERING}/${id}`)))
 
   const data = response?.reduce((acc: any, item: any) => {
     if (item?.status === 'fulfilled') {
@@ -107,15 +103,26 @@ const getProductOffersBatch = async (offersIds: string) => {
 
   const productSpecificationResponses = await Promise.allSettled(
     data?.map(
-      (offer, index) => offer?.productSpecification?.href != null && offer?.productSpecification?.href !== 'string' && axios.get(offer?.productSpecification?.href)
+      (offer, index) =>
+        offer?.productSpecification?.href != null &&
+        offer?.productSpecification?.href !== 'string' &&
+        axios.get(offer?.productSpecification?.href)
     )
   )
   const locationsResponses = await Promise.allSettled(
-    data?.map((offer, index) => offer?.place?.map((el) => el?.href != null && el?.href !== 'string' && axios.get(el?.href))).flat()
+    data
+      ?.map((offer, index) =>
+        offer?.place?.map((el) => el?.href != null && el?.href !== 'string' && axios.get(el?.href))
+      )
+      .flat()
   )
 
   const productOfferingPricesResponses = await Promise.allSettled(
-    data?.map((offer, index) => offer?.productOfferingPrice?.map((el) => el?.href != null && el?.href !== 'string' && axios.get(el?.href))).flat()
+    data
+      ?.map((offer, index) =>
+        offer?.productOfferingPrice?.map((el) => el?.href != null && el?.href !== 'string' && axios.get(el?.href))
+      )
+      .flat()
   )
 
   const productSpecifications = productSpecificationResponses?.reduce((acc: any, item: any) => {
@@ -125,7 +132,8 @@ const getProductOffersBatch = async (offersIds: string) => {
     return acc
   }, [])
   const resourceAndServicesSpecifications = await Promise.allSettled(
-    productSpecifications?.filter(el => el != null)
+    productSpecifications
+      ?.filter((el) => el != null)
       ?.map((ps, index) => [
         ...ps?.resourceSpecification?.map((el) => el?.href != null && el?.href !== 'string' && axios.get(el?.href)),
         ...ps?.serviceSpecification?.map((el) => el?.href != null && el?.href !== 'string' && axios.get(el?.href))
@@ -146,7 +154,9 @@ const getProductOffersBatch = async (offersIds: string) => {
   const nestedResourcesResponse = await Promise.allSettled(
     resourceAndServices
       ?.filter((el) => el != null && el?.isService === true)
-      ?.map((ss) => ss?.resourceSpecification?.map((rs) => axios.get(rs?.href != null && rs?.href !== 'string' && rs?.href))?.flat())
+      ?.map((ss) =>
+        ss?.resourceSpecification?.map((rs) => axios.get(rs?.href != null && rs?.href !== 'string' && rs?.href))?.flat()
+      )
       ?.flat()
   )
 
@@ -352,6 +362,137 @@ const createLocation = async (body: any): Promise<any> => {
   }
 }
 
+const useAllXrmResources = async (params?: any): Promise<any[]> => {
+  // try {
+  // const vnfRequest = axios.get(endpoints.XRM_VNF_ENDPOINT, { params })
+  // const nsdRequest = axios.get(endpoints.XRM_NSD_ENDPOINT, { params })
+
+  // const responses = await axios.all([vnfRequest, nsdRequest])
+  return [
+    ...[
+      {
+        id: 'a6b6238a-92a6-4da6-9a04-1fb0a1226ef9',
+        nsdId: 'ae3c115c-0423-40b3-8623-a993de1e9d03',
+        nsdName: 'edge_cache_nsd',
+        nsdVersion: '1.0',
+        nsdDesigner: 'NXW',
+        nsdInvariantId: 'ae3c115c-0423-40b3-8623-a993de1e9d03',
+        vnfPkgIds: ['6fcd31f4-bcee-4ff3-9779-ad45ff5d87c0'],
+        pnfdInfoIds: [],
+        nestedNsdInfoIds: [],
+        nsdOnboardingState: 'ONBOARDED',
+        onboardingFailureDetails: null,
+        nsdOperationalState: 'ENABLED',
+        nsdUsageState: 'NOT_IN_USE',
+        userDefinedData: {
+          isRetrievedFromMANO: 'yes',
+          NXW_OSMR10: 'yes'
+        },
+        _links: {
+          self: '/nsd/v1/ns_descriptors/a6b6238a-92a6-4da6-9a04-1fb0a1226ef9',
+          nsd_content: '/nsd/v1/ns_descriptors/a6b6238a-92a6-4da6-9a04-1fb0a1226ef9/nsd_content'
+        },
+        manosOnboardingStatus: {
+          NXW_OSMR10: 'ONBOARDED'
+        },
+        c2cOnboardingState: 'UNPUBLISHED',
+        projectId: 'admin',
+        type: 'NSD'
+      },
+      {
+        id: '6fcd31f4-bcee-4ff3-9779-ad45ff5d87c0',
+        vnfdId: '5d14868f-4603-4fd9-a540-ec9939d340e3',
+        vnfProvider: 'NXW',
+        vnfProductName: 'edge_cache_vnfd',
+        vnfSoftwareVersion: null,
+        vnfdVersion: '1.0',
+        checksum: null,
+        softwareImages: null,
+        additionalArtifacts: null,
+        onboardingState: 'ONBOARDED',
+        operationalState: 'ENABLED',
+        usageState: 'NOT_IN_USE',
+        userDefinedData: {
+          isRetrievedFromMANO: 'yes',
+          NXW_OSMR10: 'yes'
+        },
+        _links: {
+          self: '/vnfpkgm/v1/vnf_packages/6fcd31f4-bcee-4ff3-9779-ad45ff5d87c0',
+          vnfd: '/vnfpkgm/v1/vnf_packages/6fcd31f4-bcee-4ff3-9779-ad45ff5d87c0/vnfd',
+          packageContent: '/vnfpkgm/v1/vnf_packages/6fcd31f4-bcee-4ff3-9779-ad45ff5d87c0/package_content'
+        },
+        manosOnboardingStatus: {
+          NXW_OSMR10: 'ONBOARDED'
+        },
+        c2cOnboardingState: 'UNPUBLISHED',
+        projectId: 'admin',
+        type: 'VNF'
+
+      },
+      {
+        id: '2c26356d-d9e4-4f12-a799-92d8f72cecb7',
+        vnfdId: 'ffa1ef83-bcbf-4214-8aa2-62f117beb22e',
+        vnfProvider: 'NXW',
+        vnfProductName: 'hackfest_firewall_pnf',
+        vnfSoftwareVersion: null,
+        vnfdVersion: '1.0',
+        checksum: null,
+        softwareImages: null,
+        additionalArtifacts: null,
+        onboardingState: 'ONBOARDED',
+        operationalState: 'ENABLED',
+        usageState: 'NOT_IN_USE',
+        userDefinedData: {
+          isRetrievedFromMANO: 'yes',
+          NXW_OSMR10: 'yes'
+        },
+        _links: {
+          self: '/vnfpkgm/v1/vnf_packages/2c26356d-d9e4-4f12-a799-92d8f72cecb7',
+          vnfd: '/vnfpkgm/v1/vnf_packages/2c26356d-d9e4-4f12-a799-92d8f72cecb7/vnfd',
+          packageContent: '/vnfpkgm/v1/vnf_packages/2c26356d-d9e4-4f12-a799-92d8f72cecb7/package_content'
+        },
+        manosOnboardingStatus: {
+          NXW_OSMR10: 'ONBOARDED'
+        },
+        c2cOnboardingState: 'UNPUBLISHED',
+        projectId: 'admin',
+        type: 'VNF'
+      }
+    ]
+  ]
+  // return [
+  //   ...responses[0]?.data?.map((el) => ({ ...el, type: 'VNF' })),
+  //   ...responses[0]?.data?.map((el) => ({ ...el, type: 'NSD' }))
+  // ]
+  // } catch (e) {
+  //   console.log({ e })
+  //   throw new Error('error')
+  // }
+}
+
+const translateResource = async ({ id, type } : {id: string, type: string}): Promise<any> => {
+  let endpoint = ''
+  switch (type) {
+    case 'VNF':
+      endpoint = endpoints.XRM_VNF_ENDPOINT
+      break
+    case 'NSD':
+      endpoint = endpoints.XRM_NSD_ENDPOINT
+      break
+    default:
+      endpoint = endpoints.XRM_NSD_ENDPOINT
+      break
+  }
+
+  try {
+    const response = await axios.post(endpoint + `${id}/`)
+    return response.data
+  } catch (err) {
+    console.log({ err })
+    throw new Error('error')
+  }
+}
+
 export default {
   useAllProductSpecification,
   getProductSpecificationById,
@@ -365,5 +506,7 @@ export default {
   useAllLocations,
   createLocation,
   useAllResourceAndServiceSpecifications,
-  getProductOffersBatch
+  getProductOffersBatch,
+  useAllXrmResources,
+  translateResource
 }

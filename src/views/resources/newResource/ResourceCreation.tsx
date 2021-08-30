@@ -18,7 +18,6 @@ import CIcon from '@coreui/icons-react'
 import MaskedInput from 'react-text-mask'
 import { Controller, useFormContext } from 'react-hook-form'
 import { useHistory } from 'react-router'
-import { DevTool } from '@hookform/devtools'
 /** Components */
 import { PlusCircle } from 'assets/icons/externalIcons'
 
@@ -233,7 +232,6 @@ const ResourceCreation = () => {
             }
           </CFormGroup>
         </CCol>
-        <DevTool control={control} />
     </CRow>
   )
 }

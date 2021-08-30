@@ -19,7 +19,8 @@ import {
   CTabPane,
   CTabs
 } from '@coreui/react'
-import { DATETIME_FORMAT, DATETIME_FORMAT_SHOW } from 'config'
+import { DATETIME_FORMAT_SHOW } from 'config'
+import { Link } from 'react-router-dom'
 
 import dayjs from 'dayjs'
 
@@ -386,16 +387,13 @@ const Resources: React.FC = () => {
         <CCol>
           <h2>Resources & Services</h2>
         </CCol>
-        {/* <CCol className={'d-flex justify-content-end align-items-center'}>
-          <CButton
-            block={false}
-            color={'gradient'}
-            className={'text-uppercase'}
-            onClick={() => history.push('/resource/new-resource')}
-          >
-            New Resource
-          </CButton>
-        </CCol> */}
+        <CCol className={'d-flex justify-content-end align-items-center'}>
+          <Link to="/resource/translate-resources">
+            <CButton block={false} color={'gradient'} className={'text-uppercase'}>
+              Translate Resources
+            </CButton>
+          </Link>
+        </CCol>
       </CRow>
       <CCard>
         <CCardHeader>
