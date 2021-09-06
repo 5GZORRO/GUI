@@ -1,4 +1,4 @@
-import { API_MARKET_PLACE, API_IPM, API_SMART_CONTRACT, API_GOVERNANCE, API_LPT } from 'config'
+import { API_MARKET_PLACE, API_IPM, API_SMART_CONTRACT, API_GOVERNANCE, API_LPT, XRM_ENDPOINT } from 'config'
 
 export const endpoints = {
   MEMBERSHIPS: `${API_GOVERNANCE}/api/v1/memberships`,
@@ -19,5 +19,7 @@ export const endpoints = {
   SERVICE_LEGAL_AGREEMENT: `${API_SMART_CONTRACT}/api/v1/service-level-agreement`,
   LICENCES: `${API_SMART_CONTRACT}/api/v1/licences`,
   LOCATIONS: `${API_MARKET_PLACE}/geographicAddressManagement/v4/geographicAddress`,
-  LOCATION_CREATE: `${API_MARKET_PLACE}/geographicAddressManagement/v4/geographicAddressValidation`
+  LOCATION_CREATE: `${API_MARKET_PLACE}/geographicAddressManagement/v4/geographicAddressValidation`,
+  XRM_VNF_ENDPOINT: `${XRM_ENDPOINT}/catalogue/vnfd/`,
+  XRM_NSD_ENDPOINT: `${XRM_ENDPOINT}/catalogue/nsd/`
 }

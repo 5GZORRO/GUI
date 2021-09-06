@@ -21,6 +21,8 @@ const NewSLA = React.lazy(() => import('./views/lpts/NewSLA'))
 const NewSLAForm = React.lazy(() => import('./views/lpts/NewSLAForm'))
 const NewOrder = React.lazy(() => import('./views/orders/NewOrder'))
 const FormCreateOrder = React.lazy(() => import('./views/orders/FormCreateOrder'))
+const FetchResources = React.lazy(() => import('./views/resources/FetchResources'))
+
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
   { exact: true, path: '/dashboard', name: 'Dashboard', component: Dashboard },
@@ -31,6 +33,9 @@ const routes = [
   { path: '/orders/new-order/:id', name: 'Detail Product Order', component: FormCreateOrder },
   { path: '/orders/new-order', name: 'New Product Orders', component: NewOrder },
   { exact: true, path: '/resource', name: 'Resources & Services', component: Resources },
+
+  { exact: true, path: '/resource/translate-resources', name: 'Fetch xRM', component: FetchResources },
+
   { exact: true, path: '/resource/new-resource', name: 'Create Resource & Service', component: NewResource },
   { exact: true, path: '/prices/new', name: 'New Product Offering Price', component: NewProductOfferingPrice },
 

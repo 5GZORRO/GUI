@@ -25,9 +25,13 @@ export const useGetMembers = (params?: any) => {
 }
 
 export const useAllResourceAndServiceSpecifications = (params?: any) => {
-  return useQuery(['allResourceSpecifications', params], () => api.resources.useAllResourceAndServiceSpecifications(params), {
-    keepPreviousData: true
-  })
+  return useQuery(
+    ['allResourceSpecifications', params],
+    () => api.resources.useAllResourceAndServiceSpecifications(params),
+    {
+      keepPreviousData: true
+    }
+  )
 }
 
 export const useAllResourceSpecifications = (params?: any) => {
@@ -52,9 +56,13 @@ export const useCreateProductOfferingPrice = (params?: any) =>
   useMutation<any, any, any>((params: any) => api.resources.createProductOfferingPrice(params))
 
 export const useGetResourceSpecificationsBundle = (ids: string, servicesIndex: any) =>
-  useQuery(['resourceSpecifications', ids, servicesIndex], () => api.resources.getResourceSpecificationsBatch(ids, servicesIndex), {
-    keepPreviousData: true
-  })
+  useQuery(
+    ['resourceSpecifications', ids, servicesIndex],
+    () => api.resources.getResourceSpecificationsBatch(ids, servicesIndex),
+    {
+      keepPreviousData: true
+    }
+  )
 
 export const useAllCategories = (params?: any) =>
   useQuery(['allCategories', params], () => api.resources.useAllCategories(params), {
@@ -91,3 +99,9 @@ export const useGetProductOffersBundle = (ids: string) =>
   useQuery(['GetProductOffers', ids], () => api.resources.getProductOffersBatch(ids), {
     keepPreviousData: true
   })
+
+export const useAllXrmResources = (params?: any) =>
+  useQuery(['useAllXrmResources', params], () => api.resources.useAllXrmResources(params), { keepPreviousData: true })
+
+export const useTranslateResource = (options?: any) =>
+  useMutation((params: {id: string, type: string}) => api.resources.translateResource(params), options)
