@@ -460,8 +460,8 @@ const NewProductOfferingPrice = () => {
                                 }
                                 onDatesChange={({ startDate, endDate }) =>
                                   onChange({
-                                    startDateTime: moment(startDate).format(DATETIME_FORMAT),
-                                    endDateTime: moment(endDate).format(DATETIME_FORMAT)
+                                    startDateTime: moment(startDate).toISOString(),
+                                    endDateTime: moment(endDate).toISOString()
                                   })
                                 }
                                 ref={ref}

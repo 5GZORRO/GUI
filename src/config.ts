@@ -1,6 +1,6 @@
 // ! Do not remove the env comments they are used for building the correct environemnt
 // env
-export * from 'environments/operatorA'
+export * from 'environments/development'
 // env
 
 // Core Constants

@@ -175,7 +175,7 @@ const FormCreateOrder: React.FC = () => {
                               <div className={'datepicker'}>
                                 <SingleDatePicker
                                   date={moment(value, DATETIME_FORMAT).isValid() ? moment(value) : null}
-                                  onDateChange={(date) => onChange(moment(date).format(DATETIME_FORMAT))}
+                                  onDateChange={(date) => onChange(moment(date).toISOString())}
                                   ref={ref}
                                 />
                               </div>
@@ -206,7 +206,7 @@ const FormCreateOrder: React.FC = () => {
                               <div className={'datepicker'}>
                                 <SingleDatePicker
                                   date={moment(value, DATETIME_FORMAT).isValid() ? moment(value) : null}
-                                  onDateChange={(date) => onChange(moment(date).format(DATETIME_FORMAT))}
+                                  onDateChange={(date) => onChange(moment(date).toISOString())}
                                   isOutsideRange={(date) =>
                                     moment(startDate).isValid()
                                       ? moment(date).isBefore(moment(startDate))
