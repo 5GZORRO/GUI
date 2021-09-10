@@ -152,7 +152,7 @@ const NewProductOffer: React.FC = () => {
                       <p className={'text-light mb-2'}>From:</p>{' '}
                       <p>
                         {dayjs(modal?.validFor?.startDateTime).isValid()
-                          ? dayjs(modal?.validFor?.startDateTime).format(DATETIME_FORMAT)
+                          ? dayjs(modal?.validFor?.startDateTime).toISOString()
                           : '-'}
                       </p>
                     </CCol>
@@ -160,7 +160,7 @@ const NewProductOffer: React.FC = () => {
                       <p className={'text-light mb-2'}>To:</p>{' '}
                       <p>
                         {dayjs(modal?.validFor?.endDateTime).isValid()
-                          ? dayjs(modal?.validFor?.endDateTime).format(DATETIME_FORMAT)
+                          ? dayjs(modal?.validFor?.endDateTime).toISOString()
                           : '-'}
                       </p>
                     </CCol>
@@ -287,7 +287,7 @@ const NewProductOffer: React.FC = () => {
                             <p className={'text-light mb-2'}>From:</p>{' '}
                             <p>
                               {dayjs(rs?.validFor?.startDateTime).isValid()
-                                ? dayjs(rs?.validFor?.startDateTime).format(DATETIME_FORMAT)
+                                ? dayjs(rs?.validFor?.startDateTime).toISOString()
                                 : '-'}
                             </p>
                           </CCol>
@@ -295,7 +295,7 @@ const NewProductOffer: React.FC = () => {
                             <p className={'text-light mb-2'}>To:</p>{' '}
                             <p>
                               {dayjs(rs?.validFor?.endDateTime).isValid()
-                                ? dayjs(rs?.validFor?.endDateTime).format(DATETIME_FORMAT)
+                                ? dayjs(rs?.validFor?.endDateTime).toISOString()
                                 : '-'}
                             </p>
                           </CCol>

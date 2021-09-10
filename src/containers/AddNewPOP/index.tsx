@@ -21,7 +21,7 @@ import {
   CModal,
   CModalBody,
   CModalHeader,
-  CDataTable,
+  CDataTable
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { ArrowLeftIcon, PlusCircle, MinusCircle, ArrowDownIcon } from 'assets/icons/externalIcons'
@@ -400,8 +400,8 @@ const AddNewPOP = (props: any) => {
                                   }
                                   onDatesChange={({ startDate, endDate }) =>
                                     onChange({
-                                      startDateTime: moment(startDate).format(DATETIME_FORMAT),
-                                      endDateTime: moment(endDate).format(DATETIME_FORMAT)
+                                      startDateTime: moment(startDate).toISOString(),
+                                      endDateTime: moment(endDate).toISOString()
                                     })
                                   }
                                   ref={ref}

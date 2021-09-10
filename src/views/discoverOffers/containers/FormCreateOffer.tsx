@@ -336,8 +336,8 @@ const FormCreateOffer: React.FC = () => {
                             }
                             onDatesChange={({ startDate, endDate }) =>
                               onChange({
-                                startDateTime: moment(startDate).format(DATETIME_FORMAT),
-                                endDateTime: moment(endDate).format(DATETIME_FORMAT)
+                                startDateTime: moment(startDate).toISOString(),
+                                endDateTime: moment(endDate).toISOString()
                               })
                             }
                             ref={ref}
@@ -496,7 +496,7 @@ const FormCreateOffer: React.FC = () => {
               <p className={'text-light mb-2'}>Last Update:</p>{' '}
               <p>
                 {dayjs(modalSLA?.statusUpdated).isValid()
-                  ? dayjs(modalSLA?.statusUpdated).format(DATETIME_FORMAT)
+                  ? dayjs(modalSLA?.statusUpdated).toISOString()
                   : '-'}
               </p>
             </CCol>

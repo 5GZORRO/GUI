@@ -20,6 +20,8 @@ export const endpoints = {
   LICENCES: `${API_SMART_CONTRACT}/api/v1/licences`,
   LOCATIONS: `${API_MARKET_PLACE}/geographicAddressManagement/v4/geographicAddress`,
   LOCATION_CREATE: `${API_MARKET_PLACE}/geographicAddressManagement/v4/geographicAddressValidation`,
-  XRM_VNF_ENDPOINT: `${XRM_ENDPOINT}/catalogue/vnfd/`,
-  XRM_NSD_ENDPOINT: `${XRM_ENDPOINT}/catalogue/nsd/`
+  XRM_VNF_DISCOVERY_ENDPOINT: `${XRM_ENDPOINT}/catalogue/vnfd/`,
+  XRM_NSD_DISCOVERY_ENDPOINT: `${XRM_ENDPOINT}/catalogue/nsd/`,
+  XRM_VNF_TRANSLATOR_ENDPOINT: `${XRM_ENDPOINT}/translator/vnf/`,
+  XRM_NSD_TRANSLATOR_ENDPOINT: `${XRM_ENDPOINT}/translator/ns/`
 }

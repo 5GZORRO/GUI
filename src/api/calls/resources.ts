@@ -2,6 +2,8 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import axios from 'api/instance'
 import { endpoints } from 'api/endpoints'
+import { XRM_DISCOVERY_API_KEY, XRM_TRANSLATOR_API_KEY } from 'config'
+
 /** Types */
 import { ApiProductSpecification, ApiResourceSpecification, ApiProductOfferPrice, ApiCategory } from 'types/api'
 
@@ -363,129 +365,50 @@ const createLocation = async (body: any): Promise<any> => {
 }
 
 const useAllXrmResources = async (params?: any): Promise<any[]> => {
-  // try {
-  // const vnfRequest = axios.get(endpoints.XRM_VNF_ENDPOINT, { params })
-  // const nsdRequest = axios.get(endpoints.XRM_NSD_ENDPOINT, { params })
+  try {
+    const vnfRequest = axios.get(endpoints.XRM_VNF_DISCOVERY_ENDPOINT, {
+      params,
+      headers: { 'X-Gravitee-Api-Key': XRM_DISCOVERY_API_KEY }
+    })
+    const nsdRequest = axios.get(endpoints.XRM_NSD_DISCOVERY_ENDPOINT, {
+      params,
+      headers: { 'X-Gravitee-Api-Key': XRM_DISCOVERY_API_KEY }
+    })
 
-  // const responses = await axios.all([vnfRequest, nsdRequest])
-  return [
-    ...[
-      {
-        id: 'a6b6238a-92a6-4da6-9a04-1fb0a1226ef9',
-        nsdId: 'ae3c115c-0423-40b3-8623-a993de1e9d03',
-        nsdName: 'edge_cache_nsd',
-        nsdVersion: '1.0',
-        nsdDesigner: 'NXW',
-        nsdInvariantId: 'ae3c115c-0423-40b3-8623-a993de1e9d03',
-        vnfPkgIds: ['6fcd31f4-bcee-4ff3-9779-ad45ff5d87c0'],
-        pnfdInfoIds: [],
-        nestedNsdInfoIds: [],
-        nsdOnboardingState: 'ONBOARDED',
-        onboardingFailureDetails: null,
-        nsdOperationalState: 'ENABLED',
-        nsdUsageState: 'NOT_IN_USE',
-        userDefinedData: {
-          isRetrievedFromMANO: 'yes',
-          NXW_OSMR10: 'yes'
-        },
-        _links: {
-          self: '/nsd/v1/ns_descriptors/a6b6238a-92a6-4da6-9a04-1fb0a1226ef9',
-          nsd_content: '/nsd/v1/ns_descriptors/a6b6238a-92a6-4da6-9a04-1fb0a1226ef9/nsd_content'
-        },
-        manosOnboardingStatus: {
-          NXW_OSMR10: 'ONBOARDED'
-        },
-        c2cOnboardingState: 'UNPUBLISHED',
-        projectId: 'admin',
-        type: 'NSD'
-      },
-      {
-        id: '6fcd31f4-bcee-4ff3-9779-ad45ff5d87c0',
-        vnfdId: '5d14868f-4603-4fd9-a540-ec9939d340e3',
-        vnfProvider: 'NXW',
-        vnfProductName: 'edge_cache_vnfd',
-        vnfSoftwareVersion: null,
-        vnfdVersion: '1.0',
-        checksum: null,
-        softwareImages: null,
-        additionalArtifacts: null,
-        onboardingState: 'ONBOARDED',
-        operationalState: 'ENABLED',
-        usageState: 'NOT_IN_USE',
-        userDefinedData: {
-          isRetrievedFromMANO: 'yes',
-          NXW_OSMR10: 'yes'
-        },
-        _links: {
-          self: '/vnfpkgm/v1/vnf_packages/6fcd31f4-bcee-4ff3-9779-ad45ff5d87c0',
-          vnfd: '/vnfpkgm/v1/vnf_packages/6fcd31f4-bcee-4ff3-9779-ad45ff5d87c0/vnfd',
-          packageContent: '/vnfpkgm/v1/vnf_packages/6fcd31f4-bcee-4ff3-9779-ad45ff5d87c0/package_content'
-        },
-        manosOnboardingStatus: {
-          NXW_OSMR10: 'ONBOARDED'
-        },
-        c2cOnboardingState: 'UNPUBLISHED',
-        projectId: 'admin',
-        type: 'VNF'
+    const responses = await axios.all([vnfRequest, nsdRequest])
 
-      },
-      {
-        id: '2c26356d-d9e4-4f12-a799-92d8f72cecb7',
-        vnfdId: 'ffa1ef83-bcbf-4214-8aa2-62f117beb22e',
-        vnfProvider: 'NXW',
-        vnfProductName: 'hackfest_firewall_pnf',
-        vnfSoftwareVersion: null,
-        vnfdVersion: '1.0',
-        checksum: null,
-        softwareImages: null,
-        additionalArtifacts: null,
-        onboardingState: 'ONBOARDED',
-        operationalState: 'ENABLED',
-        usageState: 'NOT_IN_USE',
-        userDefinedData: {
-          isRetrievedFromMANO: 'yes',
-          NXW_OSMR10: 'yes'
-        },
-        _links: {
-          self: '/vnfpkgm/v1/vnf_packages/2c26356d-d9e4-4f12-a799-92d8f72cecb7',
-          vnfd: '/vnfpkgm/v1/vnf_packages/2c26356d-d9e4-4f12-a799-92d8f72cecb7/vnfd',
-          packageContent: '/vnfpkgm/v1/vnf_packages/2c26356d-d9e4-4f12-a799-92d8f72cecb7/package_content'
-        },
-        manosOnboardingStatus: {
-          NXW_OSMR10: 'ONBOARDED'
-        },
-        c2cOnboardingState: 'UNPUBLISHED',
-        projectId: 'admin',
-        type: 'VNF'
-      }
+    return [
+      ...responses[0]?.data?.map((el) => ({ ...el, type: 'VNF' })),
+      ...responses[0]?.data?.map((el) => ({ ...el, type: 'NSD' }))
     ]
-  ]
-  // return [
-  //   ...responses[0]?.data?.map((el) => ({ ...el, type: 'VNF' })),
-  //   ...responses[0]?.data?.map((el) => ({ ...el, type: 'NSD' }))
-  // ]
-  // } catch (e) {
-  //   console.log({ e })
-  //   throw new Error('error')
-  // }
+  } catch (e) {
+    console.log({ e })
+    throw new Error('error')
+  }
 }
 
-const translateResource = async ({ id, type } : {id: string, type: string}): Promise<any> => {
+const translateResource = async ({ id, type }: { id: string; type: string }): Promise<any> => {
   let endpoint = ''
   switch (type) {
     case 'VNF':
-      endpoint = endpoints.XRM_VNF_ENDPOINT
+      endpoint = endpoints.XRM_VNF_TRANSLATOR_ENDPOINT
       break
     case 'NSD':
-      endpoint = endpoints.XRM_NSD_ENDPOINT
+      endpoint = endpoints.XRM_NSD_TRANSLATOR_ENDPOINT
       break
     default:
-      endpoint = endpoints.XRM_NSD_ENDPOINT
+      endpoint = endpoints.XRM_NSD_TRANSLATOR_ENDPOINT
       break
   }
 
   try {
-    const response = await axios.post(endpoint + `${id}/`)
+    const response = await axios.post(
+      endpoint + `${id}/`,
+      {},
+      {
+        headers: { 'X-Gravitee-Api-Key': XRM_TRANSLATOR_API_KEY }
+      }
+    )
     return response.data
   } catch (err) {
     console.log({ err })
