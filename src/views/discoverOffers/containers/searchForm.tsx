@@ -139,7 +139,7 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
 
   useEffect(() => {
     if (query.get('id') != null && data != null && referrer === false) {
-      const found = data?.find(el => el.id === query.get('id'))
+      const found = data?.find((el) => el.id === query.get('id'))
       if (found) {
         setRefferer(() => true)
         setModal(() => found)
@@ -150,21 +150,15 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
   const getSuggestions = (value: any) => {
     const escapedValue = escapeRegexCharacters(value?.trim())
 
-    if (escapedValue === '') {
-      return []
-    }
-
     const regex = new RegExp('^' + escapedValue, 'i')
 
-    return !isLoadingCategories ? categories?.filter((category) => regex.test(category?.name)) : []
+    return !isLoadingCategories
+      ? categories?.filter((category) => regex.test(category?.name))
+      : []
   }
 
   const getSuggestionsLocation = (value: any) => {
     const escapedValue = escapeRegexCharacters(value?.trim())
-
-    if (escapedValue === '') {
-      return []
-    }
 
     const regex = new RegExp('^' + escapedValue, 'i')
 
@@ -173,10 +167,6 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
 
   const getSuggestionsMembers = (value: any) => {
     const escapedValue = escapeRegexCharacters(value?.trim())
-
-    if (escapedValue === '') {
-      return []
-    }
 
     const regex = new RegExp('^' + escapedValue, 'i')
 
@@ -239,7 +229,6 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
     }
     return <p>{value}</p>
   }
-
   return (
     <>
       <CForm onSubmit={handleSubmit(submit)}>
@@ -265,12 +254,13 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                   data-testid={'category'}
                   render={({ field: { onChange, onBlur, value } }) => (
                     <Autosuggest
-                      suggestions={suggestions}
+                      suggestions={suggestions ?? categories ?? []}
                       onSuggestionsFetchRequested={onSuggestionsFetchRequested}
                       onSuggestionsClearRequested={onSuggestionsClearRequested}
                       getSuggestionValue={(selected: any) => selected?.name}
                       renderSuggestion={(sugg: any) => <span>{sugg?.name}</span>}
                       id={'category-autosuggestion'}
+                      shouldRenderSuggestions={(value: string, reason: string) => true}
                       inputProps={{
                         placeholder: 'Selection category',
                         onChange: (event, { newValue }) => onChange(newValue),
@@ -360,11 +350,12 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                   data-testid={'location'}
                   render={({ field: { onChange, onBlur, value } }) => (
                     <Autosuggest
-                      suggestions={suggestionsLocation}
+                      suggestions={suggestionsLocation ?? locations ?? []}
                       onSuggestionsFetchRequested={onSuggestionsFetchRequestedLocation}
                       onSuggestionsClearRequested={onSuggestionsClearRequestedLocation}
                       getSuggestionValue={(selected: any) => selected?.geographicLocation?.name}
                       renderSuggestion={(sugg: any) => <span>{sugg?.geographicLocation?.name}</span>}
+                      shouldRenderSuggestions={(value: string, reason: string) => true}
                       id={'location-autosuggestion'}
                       inputProps={{
                         placeholder: 'Selection location',
@@ -397,6 +388,7 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                       onSuggestionsClearRequested={onSuggestionsClearRequestedMembers}
                       getSuggestionValue={(selected: any) => selected?.legalName}
                       renderSuggestion={(sugg: any) => <span>{sugg?.legalName}</span>}
+                      shouldRenderSuggestions={(value: string, reason: string) => true}
                       id={'stakeholder-autosuggestion'}
                       inputProps={{
                         placeholder: 'Selection stakeholder',
