@@ -1,17 +1,27 @@
 import React from 'react'
+import { useHistory } from 'react-router'
 
 import { CButton, CDataTable, CContainer, CCard, CCardBody, CRow, CCol } from '@coreui/react'
+
+import LoadingWithFade from 'components/LoadingWithFade'
 
 import { useQueryClient } from 'react-query'
 import { useAllXrmResources, useTranslateResource } from 'hooks/api/Resources'
 
 const FetchResources: React.FC = () => {
+  const history = useHistory()
+
   const queryClient = useQueryClient()
   const { data, isLoading } = useAllXrmResources()
 
-  const { mutate } = useTranslateResource({
+  const {
+    mutate,
+    isLoading: isMutating,
+    isError
+  } = useTranslateResource({
     onSuccess: () => {
-      queryClient.invalidateQueries('useAllXrmResources')
+      queryClient.refetchQueries('useAllXrmResources')
+      history.push('/resource')
     }
   })
 
@@ -19,7 +29,7 @@ const FetchResources: React.FC = () => {
     'id',
     { key: 'name', label: 'Name' },
     { key: 'provider', label: 'Created by' },
-    'type',
+    'contentType',
     {
       key: 'fetch_details',
       label: '',
@@ -34,10 +44,11 @@ const FetchResources: React.FC = () => {
         color="primary"
         className={'text-uppercase'}
         shape="square"
+        disabled={isMutating}
         onClick={() => {
           mutate({
             id: item?.id,
-            type: item?.type
+            type: item?.contentType
           })
         }}
       >
@@ -46,12 +57,16 @@ const FetchResources: React.FC = () => {
     </td>
   )
 
-  const showByType = (item: any, key: string, keyNSD?: string) => {
-    switch (item.type) {
+  const showByType = (item: any, key: string, keyNSD?: string, keySPC?: string, keyRAD?: string) => {
+    switch (item.contentType) {
       case 'VNF':
         return <td className="py-2">{item?.[`vnf${key}`]}</td>
       case 'NSD':
         return <td className="py-2">{item?.[`nsd${keyNSD ?? key}`]}</td>
+      case 'SPC':
+        return <td className="py-2">{item?.[`${keySPC ?? key}`]}</td>
+      case 'RAD':
+        return <td className="py-2">{item?.[`${keyRAD ?? key}`]}</td>
       default:
         return <td className="py-2">{item?.[key]}</td>
     }
@@ -65,6 +80,12 @@ const FetchResources: React.FC = () => {
         </CCol>
       </CRow>
       <CCard>
+        {isMutating && !isError && <LoadingWithFade />}
+        {!isMutating && isError && (
+          <p style={{ color: 'red', padding: '0.5rem', background: 'rgba(255, 0, 0, 0.1)' }}>
+            An error has occurred, please try again
+          </p>
+        )}
         <CCardBody>
           <CDataTable
             cleaner
@@ -79,7 +100,7 @@ const FetchResources: React.FC = () => {
             hover
             pagination
             scopedSlots={{
-              name: (item: any) => showByType(item, 'ProductName', 'Name'),
+              name: (item: any) => showByType(item, 'ProductName', 'Name', 'band', 'technology'),
               provider: (item: any) => showByType(item, 'Provider', 'Designer'),
               fetch_details: (item: any) => showButton(item)
             }}

@@ -22,6 +22,10 @@ export const endpoints = {
   LOCATION_CREATE: `${API_MARKET_PLACE}/geographicAddressManagement/v4/geographicAddressValidation`,
   XRM_VNF_DISCOVERY_ENDPOINT: `${XRM_ENDPOINT}/catalogue/vnfd/`,
   XRM_NSD_DISCOVERY_ENDPOINT: `${XRM_ENDPOINT}/catalogue/nsd/`,
+  RAPP_SPC_DISCOVERY_ENDPOINT: `${XRM_ENDPOINT}/rapp/spc`,
+  RAPP_RAD_DISCOVERY_ENDPOINT: `${XRM_ENDPOINT}/rapp/rad`,
   XRM_VNF_TRANSLATOR_ENDPOINT: `${XRM_ENDPOINT}/translator/vnf/`,
-  XRM_NSD_TRANSLATOR_ENDPOINT: `${XRM_ENDPOINT}/translator/ns/`
+  XRM_NSD_TRANSLATOR_ENDPOINT: `${XRM_ENDPOINT}/translator/ns/`,
+  XRM_SPC_TRANSLATOR_ENDPOINT: `${XRM_ENDPOINT}/translator/spc/`,
+  XRM_RAD_TRANSLATOR_ENDPOINT: `${XRM_ENDPOINT}/translator/rad/`
 }
