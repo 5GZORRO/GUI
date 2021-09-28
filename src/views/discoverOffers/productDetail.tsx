@@ -59,7 +59,7 @@ const ProductDetail: React.FC = () => {
 
   const { user } = useAuthContext()
 
-  const { mutate, isSuccess, isLoading } = useCreateOffering()
+  const { mutate, isSuccess, isLoading, isError } = useCreateOffering()
   const servicesIndex = useQuery().get('services')
   const { data: resourcesData, isLoading: resourceLoading } = useGetResourceSpecificationsBundle(
     id,
@@ -79,6 +79,11 @@ const ProductDetail: React.FC = () => {
   return (
     <>
       {isLoading && <LoadingWithFade />}
+      {!isLoading && isError && (
+          <p style={{ color: 'red', padding: '0.5rem', background: 'rgba(255, 0, 0, 0.1)' }}>
+            An error has occurred, please try again later
+          </p>
+      )}
       <CContainer>
         <h1 className={'mb-5'}>New Product Offer</h1>
         <FormProvider {...methods}>

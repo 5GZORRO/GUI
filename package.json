@@ -187,7 +187,7 @@
   },
   "hooks": {
     "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-    "pre-commit": "yarn lint && yarn test && yarn typescript"
+    "pre-commit": "yarn lint"
   },
   "config": {
     "commitizen": {

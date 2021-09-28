@@ -28,7 +28,7 @@ const FetchResources: React.FC = () => {
   const fields = [
     'id',
     { key: 'name', label: 'Name' },
-    { key: 'provider', label: 'Created by' },
+    'description',
     'contentType',
     {
       key: 'fetch_details',
@@ -60,15 +60,15 @@ const FetchResources: React.FC = () => {
   const showByType = (item: any, key: string, keyNSD?: string, keySPC?: string, keyRAD?: string) => {
     switch (item.contentType) {
       case 'VNF':
-        return <td className="py-2">{item?.[`vnf${key}`]}</td>
+        return <td className="py-2">{item?.[`vnf${key}`] ?? item?.[`${key}`] ?? '-'}</td>
       case 'NSD':
-        return <td className="py-2">{item?.[`nsd${keyNSD ?? key}`]}</td>
+        return <td className="py-2">{item?.[`nsd${keyNSD}`] ?? item?.[`${key}`] ?? '-'}</td>
       case 'SPC':
-        return <td className="py-2">{item?.[`${keySPC ?? key}`]}</td>
+        return <td className="py-2">{item?.[`${keySPC ?? key}`] ?? '-'}</td>
       case 'RAD':
-        return <td className="py-2">{item?.[`${keyRAD ?? key}`]}</td>
+        return <td className="py-2">{item?.[`${keyRAD ?? key}`] ?? '-'}</td>
       default:
-        return <td className="py-2">{item?.[key]}</td>
+        return <td className="py-2">{item?.[key] ?? '-'}</td>
     }
   }
 
@@ -100,8 +100,9 @@ const FetchResources: React.FC = () => {
             hover
             pagination
             scopedSlots={{
+              // band and technology no the correct fields to show name
               name: (item: any) => showByType(item, 'ProductName', 'Name', 'band', 'technology'),
-              provider: (item: any) => showByType(item, 'Provider', 'Designer'),
+              description: (item: any) => showByType(item, 'description'),
               fetch_details: (item: any) => showButton(item)
             }}
           />

@@ -37,6 +37,15 @@ export const schemaRegister = yup.object().shape({
     })
 })
 
+const IsJsonString = (str: string) => {
+  try {
+    JSON.parse(str)
+  } catch (e) {
+    return false
+  }
+  return true
+}
+
 export const transformForm = (form: any, resourcesData: any) => {
   const newData = {
     agreement: [],
@@ -50,7 +59,7 @@ export const transformForm = (form: any, resourcesData: any) => {
     lifecycleStatus: 'active',
     marketSegment: [],
     name: form?.name,
-    place: [JSON.parse(form?.location)],
+    place: IsJsonString(form?.location) ? [JSON.parse(form?.location)] : [],
     prodSpecCharValueUse: [],
     productOfferingPrice: form?.productOfferPrice,
     productOfferingTerm: [],
