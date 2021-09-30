@@ -27,3 +27,4 @@ yarn-error.log*
 
 /deployment/operator-a
 /deployment/operator-b
+/deployment/operator-c
