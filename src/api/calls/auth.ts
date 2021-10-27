@@ -36,16 +36,16 @@ const registerOrganization = async (body: ApiOrganizationBody) => {
 const verifyClient = async () => {
   try {
     const response = await axios.get(endpoints.LOGIN)
-    if ((await response?.data?.stakeholderClaim?.stakeholderDID) && response?.data?.id_token) {
+    if ((await response?.data?.[0]?.stakeholderClaim?.stakeholderDID) && response?.data?.[0]?.id_token) {
       try {
         await axios.post(endpoints.REGISTER_ORGANIZATION, <ApiOrganizationBody>{
           organizationCreate: {},
-          stakeholderDID: response?.data?.stakeholderClaim?.stakeholderDID,
-          token: response?.data?.id_token
+          stakeholderDID: response?.data?.[0]?.stakeholderClaim?.stakeholderDID,
+          token: response?.data?.[0]?.id_token
         })
       } catch (err) {}
     }
-    return response.data
+    return response?.data?.[0]
   } catch (e) {
     console.log({ e })
     throw new Error('error')
