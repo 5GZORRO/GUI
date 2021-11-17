@@ -3,6 +3,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: "nginx-configmap-c"
+  namespace: domain-operator-c 
 data:
     nginx.conf: |
       server {
@@ -25,6 +26,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: operator-dashboard-c
+  namespace: domain-operator-c 
 spec:
   selector:
     matchLabels:
@@ -61,6 +63,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: operator-service-c
+  namespace: domain-operator-c
 spec:
   type: NodePort
   ports:
