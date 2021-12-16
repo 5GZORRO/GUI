@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import axios from 'api/instance'
 import { endpoints } from 'api/endpoints'
-import { XRM_DISCOVERY_API_KEY, XRM_TRANSLATOR_API_KEY } from 'config'
+import { XRM_DISCOVERY_API_KEY, XRM_TRANSLATOR_API_KEY, RAPP_DISCOVERY_API_KEY } from 'config'
 
 /** Types */
 import { ApiProductSpecification, ApiResourceSpecification, ApiProductOfferPrice, ApiCategory } from 'types/api'
@@ -375,11 +375,23 @@ const useAllXrmResources = async (params?: any): Promise<any[]> => {
       headers: { 'X-Gravitee-Api-Key': XRM_DISCOVERY_API_KEY }
     })
 
-    const responses = await axios.all([vnfRequest, nsdRequest])
+    const spcRequest = axios.get(endpoints.RAPP_SPC_DISCOVERY_ENDPOINT, {
+      params,
+      headers: { 'X-Gravitee-Api-Key': RAPP_DISCOVERY_API_KEY }
+    })
+
+    const radRequest = axios.get(endpoints.RAPP_RAD_DISCOVERY_ENDPOINT, {
+      params,
+      headers: { 'X-Gravitee-Api-Key': RAPP_DISCOVERY_API_KEY }
+    })
+
+    const responses = await axios.all([vnfRequest, nsdRequest, spcRequest, radRequest])
 
     return [
-      ...responses[0]?.data?.map((el) => ({ ...el, type: 'VNF' })),
-      ...responses[0]?.data?.map((el) => ({ ...el, type: 'NSD' }))
+      ...responses[0]?.data?.map((el) => ({ ...el, contentType: 'VNF' })),
+      ...responses[1]?.data?.map((el) => ({ ...el, contentType: 'NSD' })),
+      ...responses[2]?.data?.map((el) => ({ ...el, contentType: 'SPC' })),
+      ...responses[3]?.data?.radios?.map((el) => ({ ...el, contentType: 'RAD' }))
     ]
   } catch (e) {
     console.log({ e })
@@ -396,19 +408,24 @@ const translateResource = async ({ id, type }: { id: string; type: string }): Pr
     case 'NSD':
       endpoint = endpoints.XRM_NSD_TRANSLATOR_ENDPOINT
       break
+    case 'SPC':
+      endpoint = endpoints.XRM_SPC_TRANSLATOR_ENDPOINT
+      break
+    case 'RAD':
+      endpoint = endpoints.XRM_RAD_TRANSLATOR_ENDPOINT
+      break
     default:
       endpoint = endpoints.XRM_NSD_TRANSLATOR_ENDPOINT
       break
   }
 
   try {
-    const response = await axios.post(
-      endpoint + `${id}/`,
-      {},
-      {
-        headers: { 'X-Gravitee-Api-Key': XRM_TRANSLATOR_API_KEY }
+    const response = await axios.post(endpoint + `${id}`, null, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'X-Gravitee-Api-Key': XRM_TRANSLATOR_API_KEY
       }
-    )
+    })
     return response.data
   } catch (err) {
     console.log({ err })

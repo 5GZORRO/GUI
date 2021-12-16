@@ -47,7 +47,7 @@ spec:
       containers:
       - name: nginx
         #image: nginx
-        image: ubiwhere/5gzorro-operator-a-dashboard
+        image: ubiwhere/5gzorro-5tonic-operator-a-dashboard
         command: ["/usr/sbin/nginx", "-g", "daemon off;"]
         ports:
           - containerPort: 80

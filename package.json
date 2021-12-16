@@ -119,9 +119,12 @@
     "start:operatorA": "cross-env APP_ENV=operatorA node scripts/start.js",
     "start:operatorB": "cross-env APP_ENV=operatorB node scripts/start.js",
     "start:operatorC": "cross-env APP_ENV=operatorC node scripts/start.js",
-    "build:operatorA": "cross-env APP_ENV=operatorA NODE_OPTIONS='--max-old-space-size=8192' node scripts/build.js",
-    "build:operatorB": "cross-env APP_ENV=operatorB NODE_OPTIONS='--max-old-space-size=8192' node scripts/build.js",
-    "build:operatorC": "cross-env APP_ENV=operatorC node scripts/build.js",
+    "build:barcelona:operatorA": "cross-env APP_ENV=operatorA NODE_OPTIONS='--max-old-space-size=8192' node scripts/build.js",
+    "build:barcelona:operatorB": "cross-env APP_ENV=operatorB NODE_OPTIONS='--max-old-space-size=8192' node scripts/build.js",
+    "build:barcelona:operatorC": "cross-env APP_ENV=operatorC NODE_OPTIONS='--max-old-space-size=8192' node scripts/build.js",
+    "build:5tonic:operatorA": "cross-env APP_ENV=5tonic-operatorA NODE_OPTIONS='--max-old-space-size=8192' node scripts/build.js",
+    "build:5tonic:operatorB": "cross-env APP_ENV=5tonic-operatorB NODE_OPTIONS='--max-old-space-size=8192' node scripts/build.js",
+    "build:5tonic:operatorC": "cross-env APP_ENV=5tonic-operatorC NODE_OPTIONS='--max-old-space-size=8192' node scripts/build.js",
     "test": "node scripts/test.js --coverage",
     "test:watch": "node scripts/test.js",
     "eject": "react-scripts eject",
@@ -187,7 +190,7 @@
   },
   "hooks": {
     "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-    "pre-commit": "yarn lint && yarn test && yarn typescript"
+    "pre-commit": "yarn lint"
   },
   "config": {
     "commitizen": {

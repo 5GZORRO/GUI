@@ -1,3 +1,5 @@
+import { CSidebarNavItem } from '@coreui/react'
+
 export default [
   {
     _tag: 'CSidebarNavItem',
@@ -54,5 +56,15 @@ export default [
     name: 'Product Offering Prices',
     to: '/prices',
     icon: 'cilDollar'
+  },
+  {
+    _tag: 'CSidebarNavTitle',
+    _children: ['Orchestration']
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'ISSM',
+    icon: 'cilPenAlt',
+    to: '/businesstransactions'
   }
 ]

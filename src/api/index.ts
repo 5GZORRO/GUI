@@ -5,6 +5,7 @@ import sla from './calls/sla'
 import memberships from './calls/memberships'
 import licences from './calls/licences'
 import orders from './calls/orders'
+import issm from './calls/issm'
 
 export * from './endpoints'
 
@@ -15,5 +16,6 @@ export const api = {
   sla,
   memberships,
   licences,
-  orders
+  orders,
+  issm
 }

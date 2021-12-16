@@ -33,7 +33,7 @@ import {
   CTabPane
 } from '@coreui/react'
 import { useAllCategories, useGetMembers, useAllLocations } from 'hooks/api/Resources'
-import { useSearchOffers } from 'hooks/api/Products'
+import { useSearchOffers, useSearchOffersAdvanced } from 'hooks/api/Products'
 import Autosuggest from 'react-autosuggest'
 
 interface Search {
@@ -85,6 +85,12 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
   const [suggestionsLocation, setSuggestionsLocation] = useState<any>([])
 
   const { data, mutate, isLoading, reset: mutationReset } = useSearchOffers()
+  const {
+    data: dataAdvanced,
+    mutate: mutateAdvanced,
+    isLoading: isLoadingAdvanced,
+    reset: mutationResetAdvanced
+  } = useSearchOffersAdvanced()
   const { data: categories, isLoading: isLoadingCategories } = useAllCategories()
   const { data: locations, isLoading: isLoadingLocations } = useAllLocations()
   const { data: members, isLoading: isLoadingMembers } = useGetMembers()
@@ -125,10 +131,17 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
       stakeholder: ''
     })
     mutationReset()
+    mutationResetAdvanced()
   }
 
   const submit = (form: Search) => {
-    mutate(form)
+    mutationReset()
+    mutationResetAdvanced()
+    if (form.search !== '' && advancedSearch) {
+      mutateAdvanced(form.search)
+    } else {
+      mutate(form)
+    }
   }
 
   useEffect(() => {
@@ -152,9 +165,7 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
 
     const regex = new RegExp('^' + escapedValue, 'i')
 
-    return !isLoadingCategories
-      ? categories?.filter((category) => regex.test(category?.name))
-      : []
+    return !isLoadingCategories ? categories?.filter((category) => regex.test(category?.name)) : []
   }
 
   const getSuggestionsLocation = (value: any) => {
@@ -232,7 +243,7 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
   return (
     <>
       <CForm onSubmit={handleSubmit(submit)}>
-        {data && (
+        {(data || dataAdvanced) && (
           <CRow>
             <CCol className={'d-flex justify-content-end align-items-center mb-1'}>
               <CButton variant={'ghost'} className="d-flex align-items-center" onClick={clearForm}>
@@ -265,7 +276,8 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                         placeholder: 'Selection category',
                         onChange: (event, { newValue }) => onChange(newValue),
                         onBlur: onBlur,
-                        value: value
+                        value: value,
+                        disabled: advancedSearch
                       }}
                     />
                   )}
@@ -288,7 +300,13 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                       name="currency"
                       data-testid={'currency'}
                       render={({ field: { onChange, onBlur, value } }) => (
-                        <CInput placeholder={'Euro'} onChange={onChange} onBlur={onBlur} value={value} />
+                        <CInput
+                          placeholder={'Euro'}
+                          onChange={onChange}
+                          onBlur={onBlur}
+                          value={value}
+                          disabled={advancedSearch}
+                        />
                       )}
                     />
                   </CInputGroup>
@@ -307,7 +325,14 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                       name="minPrice"
                       data-testid={'minPrice'}
                       render={({ field: { onChange, onBlur, value } }) => (
-                        <CInput placeholder={'000'} onChange={onChange} onBlur={onBlur} value={value} type={'number'} />
+                        <CInput
+                          placeholder={'000'}
+                          onChange={onChange}
+                          onBlur={onBlur}
+                          value={value}
+                          type={'number'}
+                          disabled={advancedSearch}
+                        />
                       )}
                     />
                   </CInputGroup>
@@ -326,7 +351,14 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                       name="maxPrice"
                       data-testid={'maxPrice'}
                       render={({ field: { onChange, onBlur, value } }) => (
-                        <CInput placeholder={'000'} onChange={onChange} onBlur={onBlur} value={value} type={'number'} />
+                        <CInput
+                          placeholder={'000'}
+                          onChange={onChange}
+                          onBlur={onBlur}
+                          value={value}
+                          type={'number'}
+                          disabled={advancedSearch}
+                        />
                       )}
                     />
                   </CInputGroup>
@@ -361,7 +393,8 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                         placeholder: 'Selection location',
                         onChange: (event, { newValue }) => onChange(newValue),
                         onBlur: onBlur,
-                        value: value
+                        value: value,
+                        disabled: advancedSearch
                       }}
                     />
                   )}
@@ -394,7 +427,8 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                         placeholder: 'Selection stakeholder',
                         onChange: (event, { newValue }) => onChange(newValue),
                         onBlur: onBlur,
-                        value: value
+                        value: value,
+                        disabled: advancedSearch
                       }}
                     />
                   )}
@@ -449,12 +483,12 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
         </CButton>
       </CForm>
 
-      {data && (
+      {((isLoading || data) || (isLoadingAdvanced || dataAdvanced)) && (
         <CContainer className={'p-0 mt-4 '}>
           <CDataTable
             cleaner
-            loading={isLoading}
-            items={data?.filter((el) => el != null) ?? []}
+            loading={isLoading || isLoadingAdvanced}
+            items={(data?.filter((el) => el != null) || dataAdvanced?.filter((el) => el != null)) ?? []}
             columnFilter
             tableFilter
             clickableRows
@@ -667,7 +701,6 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                                     </CCol>
                                   </CRow>
                                   {rs?.resourceSpecCharacteristic?.length && <h5>Resource Characteristics</h5>}
-
                                   {rs?.resourceSpecCharacteristic?.map((el: any, index: number) => (
                                     <CContainer key={`resourceCharacteristics-${index}`} className={''}>
                                       <CRow className={'mt-2'}>
@@ -738,13 +771,23 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                                 </CCol>
                               </CRow>
                               <CRow className={'mt-2'}>
-                                <CCol>
-                                  <p className={'text-light mb-2'}>Description</p>
-                                  <p className={'font-16 mb-4'}>{el?.description}</p>
-                                </CCol>
+                                {el?.description && (
+                                  <CCol>
+                                    <p className={'text-light mb-2'}>Description</p>
+                                    <p className={'font-16 mb-4'}>{el?.description}</p>
+                                  </CCol>
+                                )}
                               </CRow>
                               {el?.resourceSpecCharacteristicValue?.map((resource, index) => (
                                 <CRow className={'mt-2'} key={`resourceSpecCharacteristicValue-${index}`}>
+                                  {!resource?.unitOfMeasure && (
+                                    <CCol>
+                                      <p className={'text-light mb-2'}>Processors</p>
+                                      <div className={'font-16 mb-4'}>
+                                        {resource?.value?.value}
+                                      </div>
+                                    </CCol>
+                                  )}
                                   {resource?.value?.alias && (
                                     <CCol>
                                       <p className={'text-light mb-2'}>{resource?.value?.alias}</p>
@@ -754,10 +797,16 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                                     </CCol>
                                   )}
                                   {resource?.unitOfMeasure && (
-                                    <CCol>
-                                      <p className={'text-light mb-2'}>Unit Of Measure</p>
-                                      <p className={'font-16 mb-4'}>{resource?.unitOfMeasure}</p>
-                                    </CCol>
+                                    <>
+                                      <CCol xs="6">
+                                        <p className={'text-light mb-2'}>Unit Of Measure</p>
+                                        <p className={'font-16 mb-4'}>{resource?.unitOfMeasure}</p>
+                                      </CCol>
+                                      <CCol xs="6">
+                                        <p className={'text-light mb-2'}>Value</p>
+                                        {splitResourceCaract(resource?.value?.value)}
+                                      </CCol>
+                                    </>
                                   )}
                                 </CRow>
                               ))}

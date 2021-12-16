@@ -22,6 +22,7 @@ const NewSLAForm = React.lazy(() => import('./views/lpts/NewSLAForm'))
 const NewOrder = React.lazy(() => import('./views/orders/NewOrder'))
 const FormCreateOrder = React.lazy(() => import('./views/orders/FormCreateOrder'))
 const FetchResources = React.lazy(() => import('./views/resources/FetchResources'))
+const IssmBusinessTransactions = React.lazy(() => import('./views/Issm/index'))
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -38,6 +39,8 @@ const routes = [
 
   { exact: true, path: '/resource/new-resource', name: 'Create Resource & Service', component: NewResource },
   { exact: true, path: '/prices/new', name: 'New Product Offering Price', component: NewProductOfferingPrice },
+
+  { exact: true, path: '/businesstransactions', name: 'Business Transactions', component: IssmBusinessTransactions },
 
   { path: '/resource/new-resource/new-category', name: 'New Category', component: NewCategory },
   {
