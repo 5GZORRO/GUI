@@ -13,3 +13,8 @@ export const APP_ENV = 'development'
 
 export const VERIFICATION_KEY = '7xiHGWTGfWhxrA92RSqaX5QTajGadKNZLrdwHq2YqHA8'
 export const LEDGER_IDENTITY = 'O=OperatorC,OU=Barcelona,L=Barcelona,C=ES'
+
+export const API_SRSD = 'http://172.28.3.42:32068'
+
+export const API_ISSM = 'http://172.28.3.42:30080'
+export const API_ISSM_ARCHIVED = 'http://172.28.3.42:32026'
