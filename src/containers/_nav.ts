@@ -58,6 +58,10 @@ export default [
     icon: 'cilDollar'
   },
   {
+    _tag: 'CSidebarNavTitle',
+    _children: ['Orchestration']
+  },
+  {
     _tag: 'CSidebarNavItem',
     name: 'ISSM',
     icon: 'cilPenAlt',
