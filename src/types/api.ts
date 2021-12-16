@@ -1230,3 +1230,10 @@ export interface ApiOrders {
     }
   ]
 }
+
+export interface ApiBusinessTransactions {
+  ref: string
+  status: string
+  transaction_type: string
+  transaction_uuid: string
+}

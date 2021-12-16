@@ -11,8 +11,12 @@ export const RAPP_DISCOVERY_API_KEY = '7fb384dc-12aa-4a23-af93-74c8f7dd2e67'
 
 export const APP_ENV = 'production'
 
-export const VERIFICATION_KEY = 'D8AsR7MYEPMXaqjLDDfBY9FH1k9hmNqiDq83CqB3QEnn'
+export const VERIFICATION_KEY = '3yLdYwrZyxX3NoYtCAgtfNJAnVk4X98X9KtwMQDtiXMS' // 'D8AsR7MYEPMXaqjLDDfBY9FH1k9hmNqiDq83CqB3QEnn'
 export const LEDGER_IDENTITY = 'CN=OperatorA,OU=DLT,O=DLT,L=London,C=GB'
 
+export const API_SRSD = 'http://172.28.3.42:32068'
 
-'http://10.4.2.126:30010/'
+export const API_ISSM = 'http://172.28.3.42:30080'
+export const API_ISSM_ARCHIVED = 'http://172.28.3.42:32026'
+
+// 'http://10.4.2.126:30010/'

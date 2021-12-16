@@ -11,5 +11,5 @@ export const RAPP_DISCOVERY_API_KEY = '7fb384dc-12aa-4a23-af93-74c8f7dd2e67'
 
 export const APP_ENV = 'development'
 
-export const VERIFICATION_KEY = '4vJcb1YJxtmryfKoK5TiFqguhyfCsrZFqqdZKKPY2hz9'
+export const VERIFICATION_KEY = '7xiHGWTGfWhxrA92RSqaX5QTajGadKNZLrdwHq2YqHA8' // '4vJcb1YJxtmryfKoK5TiFqguhyfCsrZFqqdZKKPY2hz9'
 export const LEDGER_IDENTITY = 'O=OperatorC,OU=Barcelona,L=Barcelona,C=ES'
