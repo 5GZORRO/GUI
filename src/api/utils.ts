@@ -49,12 +49,6 @@ export const TransformResourcesToProduct = (resources: any, offer: any, user: an
     version: null,
     resourceSpecification: resources?.filter(el => !el?.isService),
     serviceSpecification: resources?.filter(el => el?.isService)
-    // relatedParty: [
-    //   {
-    //     id: user?.id_token,
-    //     name: user?.stakeholderClaim?.stakeholderProfile?.name
-    //   }
-    // ]
   }
 
   return newData

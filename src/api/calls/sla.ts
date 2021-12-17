@@ -43,7 +43,6 @@ const createTemplate = async (body: any): Promise<any> => {
       }
     }
   })
-
   try {
     const response = await axios.post(endpoints.LEGAL_PROSE_TEMPLATES, formData, {
       headers: {

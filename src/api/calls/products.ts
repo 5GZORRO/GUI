@@ -29,10 +29,14 @@ const createFinalPOP = async (body: any, info: any): Promise<any> => {
 
 const createOffering = async (body: any): Promise<any> => {
   const { resourceSpecifications, currentUser, productOfferingPrice, ...remain } = body
+
+  const { relatedParty, ...filtered } = resourceSpecifications[0]
+
   const finalPOP = await createFinalPOP(productOfferingPrice, remain)
 
   try {
-    const productSpecification = TransformResourcesToProduct(resourceSpecifications, remain, currentUser)
+    const productSpecification = TransformResourcesToProduct([filtered], remain, currentUser)
+
     const newProductSpecification = await createSpecification(productSpecification)
     if (newProductSpecification != null) {
       try {
