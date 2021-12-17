@@ -35,6 +35,7 @@ const NewTemplate = () => {
   const {
     formState: { errors, ...remain },
     control,
+    watch,
     handleSubmit,
     ...methods
   } = useForm<templateForm>({
@@ -48,6 +49,8 @@ const NewTemplate = () => {
     }
   })
   const { mutate, isSuccess, isLoading } = useCreateTemplate()
+
+  console.log(watch('templateFile'))
 
   const history = useHistory()
 

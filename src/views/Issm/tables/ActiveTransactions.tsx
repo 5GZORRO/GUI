@@ -49,7 +49,10 @@ export const ActiveTransactions: React.FC = () => {
 
   const showButton = (item: ApiBusinessTransactions) => (
     <td className="py-2">
-      <Link to={{ pathname: 'http://172.28.3.42:32026/workflows/domain-operator-a/' + item?.transaction_uuid }} target="_blank">
+      <Link
+        to={{ pathname: 'http://172.28.3.42:32026/workflows/domain-operator-a/' + item?.transaction_uuid }}
+        target="_blank"
+      >
         <CButton color="primary" className={'text-uppercase px-3 d-flex align-items-center '} shape="rounded">
           Show
           <CIcon name="cilExternalLink" className="ml-2" size="sm" />
@@ -76,25 +79,38 @@ export const ActiveTransactions: React.FC = () => {
     // }
   }
 
-  const showActions = (item: ApiBusinessTransactions) => (
-    <td className="py-2">
-      <CButton color="dark" className={'text-uppercase m-1'} shape="rounded" disabled={item?.status === 'Succeeded'}>
-        <CIcon name="cilBan" />
-      </CButton>
-      <CButton color="dark" className={'text-uppercase m-1'} shape="rounded" disabled={item?.status !== 'Succeeded'}>
-        <CIcon name="cilFolder" />
-      </CButton>
-      <CButton
-        color="dark"
-        className={'text-uppercase m-1'}
-        shape="rounded"
-        disabled={item?.status !== 'Succeeded'}
-        onClick={() => handleDelete(item)}
-      >
-        <CIcon name="cilTrash" className="text-danger" />
-      </CButton>
-    </td>
-  )
+  const showActions = (item: ApiBusinessTransactions) => {
+    const check = ['Succeeded', 'Failed']
+    return (
+      <td className="py-2">
+        <CButton
+          color="dark"
+          className={'text-uppercase m-1'}
+          shape="rounded"
+          disabled={item?.status === 'Succeeded' || item?.status === 'Failed'}
+        >
+          <CIcon name="cilBan" />
+        </CButton>
+        <CButton
+          color="dark"
+          className={'text-uppercase m-1'}
+          shape="rounded"
+          disabled={!check.includes(item?.status)}
+        >
+          <CIcon name="cilFolder" />
+        </CButton>
+        <CButton
+          color="dark"
+          className={'text-uppercase m-1'}
+          shape="rounded"
+          disabled={!check.includes(item?.status)}
+          onClick={() => handleDelete(item)}
+        >
+          <CIcon name="cilTrash" className="text-danger" />
+        </CButton>
+      </td>
+    )
+  }
 
   return (
     <CDataTable
