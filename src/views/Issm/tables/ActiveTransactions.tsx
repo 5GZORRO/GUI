@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom'
 import { useAuthContext } from 'context/AuthContext'
 
 const fields = [
-  { key: 'transaction_uuid', label: 'Argo Reference', filter: true },
+  { key: 'transaction_uuid', label: 'Transaction UUID', filter: true },
   { key: 'status', label: 'Status', filter: true },
   { key: 'transaction_type', label: 'Transaction Type', filter: true },
   { key: 'actions', label: 'Actions', filter: false },
@@ -21,10 +21,17 @@ const fields = [
   }
 ]
 
-export const ActiveTransactions: React.FC = () => {
+export const ActiveTransactions: React.FC = (props: any) => {
+  const { modal } = props
   const { user } = useAuthContext()
-  const { data, isLoading } = getAllTransactions(user?.stakeholderClaim?.stakeholderProfile?.name)
-  const { mutate, isLoading: isLoadingDelete } = deleteTransaction()
+  const { data, isLoading, refetch } = getAllTransactions(user?.stakeholderClaim?.stakeholderProfile?.name)
+  const { mutate, isLoading: isLoadingDelete, isSuccess } = deleteTransaction()
+
+  useEffect(() => {
+    if (isSuccess || modal) {
+      refetch()
+    }
+  }, [isSuccess, modal])
 
   const handleDelete = (item: ApiBusinessTransactions) => {
     let operator: any
@@ -36,7 +43,7 @@ export const ActiveTransactions: React.FC = () => {
         operator = 'operator-b'
         break
 
-      case 'Operator_C':
+      case 'Operator C ':
         operator = 'operator-c'
         break
     }
@@ -49,10 +56,7 @@ export const ActiveTransactions: React.FC = () => {
 
   const showButton = (item: ApiBusinessTransactions) => (
     <td className="py-2">
-      <Link
-        to={{ pathname: 'http://172.28.3.42:32026/workflows/domain-operator-a/' + item?.transaction_uuid }}
-        target="_blank"
-      >
+      <Link to={{ pathname: item?.ref }} target="_blank">
         <CButton color="primary" className={'text-uppercase px-3 d-flex align-items-center '} shape="rounded">
           Show
           <CIcon name="cilExternalLink" className="ml-2" size="sm" />
@@ -60,10 +64,6 @@ export const ActiveTransactions: React.FC = () => {
       </Link>
     </td>
   )
-
-  const showArgoRef = (item: ApiBusinessTransactions) => {
-    return <td className="py-2">{item?.transaction_uuid}</td>
-  }
 
   const showTransactionType = (item: ApiBusinessTransactions) => {
     return <td className="py-2">{item?.transaction_type}</td>
@@ -91,12 +91,7 @@ export const ActiveTransactions: React.FC = () => {
         >
           <CIcon name="cilBan" />
         </CButton>
-        <CButton
-          color="dark"
-          className={'text-uppercase m-1'}
-          shape="rounded"
-          disabled={!check.includes(item?.status)}
-        >
+        <CButton color="dark" className={'text-uppercase m-1'} shape="rounded" disabled={!check.includes(item?.status)}>
           <CIcon name="cilFolder" />
         </CButton>
         <CButton
@@ -126,7 +121,6 @@ export const ActiveTransactions: React.FC = () => {
       hover
       pagination
       scopedSlots={{
-        // argoReference: (item: ApiBusinessTransactions) => showArgoRef(item),
         status: (item: ApiBusinessTransactions) => showStatus(item),
         transactionType: (item: ApiBusinessTransactions) => showTransactionType(item),
         actions: (item: ApiBusinessTransactions) => showActions(item),

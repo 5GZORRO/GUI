@@ -66,7 +66,7 @@ const NewBusinessTransaction = (props: any) => {
           operator = 'operator-b'
           break
 
-        case 'Operator_C':
+        case 'Operator C ':
           operator = 'operator-c'
           break
       }
@@ -81,7 +81,7 @@ const NewBusinessTransaction = (props: any) => {
 
   useEffect(() => {
     if (isSuccess) {
-      history.push('/businesstransactions')
+      setModal(null)
     }
   }, [isSuccess])
 
@@ -128,7 +128,9 @@ const NewBusinessTransaction = (props: any) => {
                         Transaction Type
                       </option>
                       {data?.map((type: any) => (
-                        <option value={type} key={type}>{type}</option>
+                        <option value={type} key={type}>
+                          {type}
+                        </option>
                       ))}
                     </CSelect>
                   )}

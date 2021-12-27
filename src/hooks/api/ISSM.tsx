@@ -15,12 +15,12 @@ export const getAllTransactions = (params?: any) => {
       operator = '/operator-b'
       break
 
-    case 'Operator_C':
+    case 'Operator C ':
       operator = '/operator-c'
       break
   }
   return useQuery(['allTransactions', operator], () => api.issm.getAllTransactions(operator), {
-    keepPreviousData: true
+    keepPreviousData: false
   })
 }
 
@@ -34,7 +34,7 @@ export const getArchivedTransactions = (params?: any) => {
       operator = 'operator-b'
       break
 
-    case 'Operator_C':
+    case 'Operator C ':
       operator = 'operator-c'
       break
   }
@@ -49,7 +49,6 @@ export const getTransactionsTypes = () => {
   })
 }
 
-export const scaleOutOp = (params?: any) => useMutation<any, any, any>((params?: any) => api.issm.scaleOut(params))
+export const scaleOutOp = () => useMutation<any, any, any>((params?: any) => api.issm.scaleOut(params))
 
-export const deleteTransaction = (params?: any) =>
-  useMutation<any, any, any>((params?: any) => api.issm.deleteTransaction(params))
+export const deleteTransaction = () => useMutation<any, any, any>((params?: any) => api.issm.deleteTransaction(params))
