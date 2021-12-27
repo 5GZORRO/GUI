@@ -35,7 +35,7 @@ const Issm: React.FC = () => {
         </CCol>
         <CCol className={'d-flex justify-content-end align-items-center'}>
           <CButton block={false} color={'gradient'} className={'text-uppercase px-4'} onClick={() => setModal(true)}>
-            New Automated Transactions
+            New Automated Transaction
           </CButton>
         </CCol>
       </CRow>
@@ -59,7 +59,7 @@ const Issm: React.FC = () => {
                 <h5>Transactions</h5>
               </CCardHeader>
               <CCardBody>
-                <ActiveTransactions/>
+                <ActiveTransactions {...{ modal }} />
               </CCardBody>
             </CCard>
           </CTabPane>
