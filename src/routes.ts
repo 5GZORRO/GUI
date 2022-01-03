@@ -23,6 +23,8 @@ const NewOrder = React.lazy(() => import('./views/orders/NewOrder'))
 const FormCreateOrder = React.lazy(() => import('./views/orders/FormCreateOrder'))
 const FetchResources = React.lazy(() => import('./views/resources/FetchResources'))
 const IssmBusinessTransactions = React.lazy(() => import('./views/Issm/index'))
+const StakeholderCertificates = React.lazy(() => import('./views/stakeholderCertificates/index'))
+const AdminStakeholderCertificates = React.lazy(() => import('./views/stakeholderCertificates/adminRole/index'))
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -64,7 +66,11 @@ const routes = [
   { path: '/templates/new/', name: 'New Legal Prose Template', component: NewLegalProseTemplate },
 
   { path: '/templates', name: 'Legal Prose Templates', component: LegalProseTemplates },
-  { path: '/prices', name: 'Product Offering Prices', component: ProductOfferingPrices }
+  { path: '/prices', name: 'Product Offering Prices', component: ProductOfferingPrices },
+
+  { path: '/certificates', name: 'Stakeholder Certificates', component: StakeholderCertificates },
+  { path: '/stakeholdercertificates', name: 'Stakeholder Certificates', component: AdminStakeholderCertificates },
+  { path: '/offercertificates', name: 'Offer Certificates', component: AdminStakeholderCertificates }
 ]
 
 export default routes

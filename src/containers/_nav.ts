@@ -1,5 +1,3 @@
-import { CSidebarNavItem } from '@coreui/react'
-
 export default [
   {
     _tag: 'CSidebarNavItem',
@@ -28,6 +26,29 @@ export default [
     name: 'Legal Prose Templates',
     to: '/templates/',
     icon: 'cilFlagAlt'
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Certificates',
+    to: '/certificates/',
+    icon: 'cil-featured-playlist'
+  },
+  {
+    _tag: 'CSidebarNavDropdown',
+    name: 'Certificates',
+    icon: 'cil-featured-playlist',
+    _children: [
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Stakeholder Certificates',
+        to: '/stakeholdercertificates'
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Offer Certificates',
+        to: '/offercertificates/'
+      }
+    ]
   },
   {
     _tag: 'CSidebarNavTitle',

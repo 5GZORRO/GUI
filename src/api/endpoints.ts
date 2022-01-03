@@ -33,5 +33,13 @@ export const endpoints = {
   ISSM_TRANSACTIONS_TYPES: `${API_ISSM}/transactions_types`,
   ISSM_SCALE_OUT: `${API_ISSM}/transactions`,
   ISSM_ARCHIVED: `${API_ISSM_ARCHIVED}/archived-workflows/domain-`,
-  ISSM_DELETE: `${API_ISSM}/transactions`
+  ISSM_DELETE: `${API_ISSM}/transactions`,
+  CERTIFICATE_HOLDER_REGISTER: `${API_IPM}/holder/register_stakeholder`,
+  CERTIFICATE_HOLDER_CREATE_OFFER: `${API_IPM}/holder/create_did`,
+  CERTIFICATE_ADMIN_PENDING: `${API_IPM}/issuer/stakeholder/pending`,
+  CERTIFICATE_ADMIN_RESOLVE: `${API_IPM}/issuer/stakeholder/resolve`,
+  CERTIFICATE_ADMIN_PENDING_OFFER: `${API_IPM}/issuer/did_offer/pending`,
+  CERTIFICATE_ADMIN_RESOLVE_OFFER: `${API_IPM}/issuer/did_offer/resolve`,
+  CERTIFICATE_ADMIN_ALL_OFFER: `${API_IPM}/issuer/read_issued_did/all`,
+  CERTIFICATE_ADMIN_REVOKED_OFFER: `${API_IPM}/issuer/read_did/revoked`
 }

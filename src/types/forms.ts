@@ -30,7 +30,7 @@ export interface InputRegister {
   email: string
   adminGovernance: boolean
   /* eslint-disable camelcase */
-  'handler_url': string
+  handler_url: string
   company: string
   address: string
   key: string
@@ -39,6 +39,60 @@ export interface InputRegister {
   resourceConsumerRole: boolean
   serviceProviderRole: boolean
   serviceConsumerRole: boolean
+  roles: {
+    administrator: {
+      isSelect: boolean
+      informationResource: boolean
+      networkFunction: boolean
+      physicalResource: boolean
+      spectrumResource: boolean
+    }
+    regulator: {
+      isSelect: boolean
+      informationResource: boolean
+      networkFunction: boolean
+      physicalResource: boolean
+      spectrumResource: boolean
+    }
+    resourceProvider: {
+      isSelect: boolean
+      informationResource: boolean
+      networkFunction: boolean
+      physicalResource: boolean
+      spectrumResource: boolean
+    }
+    resourceConsumer: {
+      isSelect: boolean
+      informationResource: boolean
+      networkFunction: boolean
+      physicalResource: boolean
+      spectrumResource: boolean
+    }
+    serviceProvider: {
+      isSelect: boolean
+      informationResource: boolean
+      networkFunction: boolean
+      physicalResource: boolean
+      spectrumResource: boolean
+    }
+    serviceConsumer: {
+      isSelect: boolean
+      informationResource: boolean
+      networkFunction: boolean
+      physicalResource: boolean
+      spectrumResource: boolean
+    }
+  }
+}
+
+export interface InputAddCertificate {
+  governanceDID: string
+  name: string
+  company: string
+  email: string
+  address: string
+  spectrumResource: string
+  stakeholderObject: string
   roles: {
     administrator: {
       isSelect: boolean

@@ -120,6 +120,11 @@ interface stakeholderProfileProps {
   assets: string[]
 }
 
+interface credentialSubject {
+  id: string
+  claims: string[]
+}
+
 export interface ApiRegisterBody {
   key: string
   governanceBoardDID: string
@@ -601,7 +606,17 @@ type LifecycleStatusEnum =
 
 type ActionsEnum = 'add' | 'delete' | 'modify' | 'noChange'
 
-type StateEnum = 'acknowledged'| 'assessingCancellation'| 'cancelled'| 'completed'| 'failed'| 'held'| 'inProgress'| 'pending'| 'pendingCancellation'| 'rejected'
+type StateEnum =
+  | 'acknowledged'
+  | 'assessingCancellation'
+  | 'cancelled'
+  | 'completed'
+  | 'failed'
+  | 'held'
+  | 'inProgress'
+  | 'pending'
+  | 'pendingCancellation'
+  | 'rejected'
 export interface SLABody {
   templateRef: {
     name: string
@@ -1236,4 +1251,24 @@ export interface ApiBusinessTransactions {
   status: string
   transaction_type: string
   transaction_uuid: string
+}
+
+export interface ApiCertificatesBody {
+  key: string
+  governanceBoardDID: string
+  stakeholderRoles: stakeholderProfileProps[]
+  stakeholderServices: any[]
+  stakeholderProfile: {
+    name: string
+    address: string
+    company: string
+  }
+}
+
+export interface ApiIssuerOffers {
+  type: string
+  id: string
+  claims: string
+  timestamp: string
+  credential_definition_id: string
 }

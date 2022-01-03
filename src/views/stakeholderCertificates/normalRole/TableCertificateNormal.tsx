@@ -4,15 +4,12 @@ import { useAuthContext } from 'context/AuthContext'
 
 import { CRow, CCol, CButton, CContainer, CDataTable, CCard, CCardBody, CCardHeader } from '@coreui/react'
 
-const ArchivedTransactions: React.FC = () => {
+const CertificatesNormal: React.FC = (props: any) => {
+  const { modal } = props
   const { user } = useAuthContext()
   // const { data, isLoading } = getArchivedTransactions(user?.stakeholderClaim?.stakeholderProfile?.name)
 
-  const fields = [
-    { key: 'argoReferenceId', label: 'Transaction UUID' },
-    'status',
-    { key: 'archivedDate', label: 'Archived Date' }
-  ]
+  const fields = ['name', 'role', 'assets', { key: 'stakeholderDID', label: 'Stakeholder DID' }, 'company', 'status']
 
   return (
     <>
@@ -37,4 +34,4 @@ const ArchivedTransactions: React.FC = () => {
   )
 }
 
-export default ArchivedTransactions
+export default CertificatesNormal

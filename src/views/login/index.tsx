@@ -1,13 +1,5 @@
 import React, { useEffect } from 'react'
-import {
-  CButton,
-  CCard,
-  CCardBody,
-  CCol,
-  CContainer,
-  CForm,
-  CRow
-} from '@coreui/react'
+import { CButton, CCard, CCardBody, CCol, CContainer, CForm, CRow } from '@coreui/react'
 import { useForm } from 'react-hook-form'
 // import MaskedInput from 'react-text-mask'
 // import Input from 'components/input'
