@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { CButton, CDataTable } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-
+import { LEDGER_IDENTITY } from 'config'
 import { ApiBusinessTransactions } from 'types/api'
 
 import { deleteTransaction, getAllTransactions } from 'hooks/api/ISSM'
 import { Link } from 'react-router-dom'
-import { useAuthContext } from 'context/AuthContext'
 
 const fields = [
   { key: 'transaction_uuid', label: 'Transaction UUID', filter: true },
@@ -23,8 +22,7 @@ const fields = [
 
 export const ActiveTransactions: React.FC = (props: any) => {
   const { modal } = props
-  const { user } = useAuthContext()
-  const { data, isLoading, refetch } = getAllTransactions(user?.stakeholderClaim?.stakeholderProfile?.name)
+  const { data, isLoading, refetch } = getAllTransactions(LEDGER_IDENTITY)
   const { mutate, isLoading: isLoadingDelete, isSuccess } = deleteTransaction()
 
   useEffect(() => {
@@ -35,17 +33,12 @@ export const ActiveTransactions: React.FC = (props: any) => {
 
   const handleDelete = (item: ApiBusinessTransactions) => {
     let operator: any
-    switch (user?.stakeholderClaim?.stakeholderProfile?.name) {
-      case 'Operator_A':
-        operator = 'operator-a'
-        break
-      case 'Operator_B':
-        operator = 'operator-b'
-        break
-
-      case 'Operator C ':
-        operator = 'operator-c'
-        break
+    if (LEDGER_IDENTITY.includes('OperatorA')) {
+      operator = 'operator-a'
+    } else if (LEDGER_IDENTITY.includes('OperatorB')) {
+      operator = 'operator-b'
+    } else if (LEDGER_IDENTITY.includes('OperatorC')) {
+      operator = 'operator-c'
     }
     const params = {
       operator,

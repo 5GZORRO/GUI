@@ -104,4 +104,4 @@ export const useAllXrmResources = (params?: any) =>
   useQuery(['useAllXrmResources', params], () => api.resources.useAllXrmResources(params), { keepPreviousData: true })
 
 export const useTranslateResource = (options?: any) =>
-  useMutation((params: {id: string, type: string}) => api.resources.translateResource(params), options)
+  useMutation((params: {id: string, type: string, input: string}) => api.resources.translateResource(params), options)

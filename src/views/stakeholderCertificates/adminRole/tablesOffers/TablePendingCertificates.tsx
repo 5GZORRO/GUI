@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
-import { getAllPendingOffers } from 'hooks/api/Certificates'
+import React, { useEffect, useState } from 'react'
+import { getAllPendingOffers, resolveOffer } from 'hooks/api/Certificates'
 
 import { CButton, CDataTable } from '@coreui/react'
 import { ApiIssuerOffers } from 'types/api'
 
 const OfferPendingCertificates: React.FC = (props: any) => {
-  const { data, isLoading } = getAllPendingOffers()
+  const { data, isLoading, refetch } = getAllPendingOffers()
+  const { mutate, isSuccess, isLoading: loadingResolve, isError } = resolveOffer()
 
   const fields = [
     'id',
@@ -19,6 +20,10 @@ const OfferPendingCertificates: React.FC = (props: any) => {
     }
   ]
 
+  const handleSubmit = (resolve: { id: string; approval: boolean }) => {
+    mutate(resolve)
+  }
+
   const showClaims = (item: ApiIssuerOffers) => {
     if (item?.claims) {
       // return
@@ -27,16 +32,34 @@ const OfferPendingCertificates: React.FC = (props: any) => {
     return <td className="py-2">{'-'}</td>
   }
 
-  const showButton = () => (
+  const showButton = (item: ApiIssuerOffers) => (
     <td className="d-flex align-items-center py-2">
-      <CButton color="success" className={'text-uppercase px-3 mr-3'} shape="rounded">
+      <CButton
+        size="sm"
+        color="success"
+        className={'text-uppercase px-3 mr-3'}
+        shape="rounded"
+        onClick={() => handleSubmit({ id: item?.id, approval: true })}
+      >
         Accept
       </CButton>
-      <CButton color="danger" className={'text-uppercase px-3'} shape="rounded">
+      <CButton
+        size="sm"
+        color="danger"
+        className={'text-uppercase px-3'}
+        shape="rounded"
+        onClick={() => handleSubmit({ id: item?.id, approval: false })}
+      >
         Decline
       </CButton>
     </td>
   )
+
+  useEffect(() => {
+    if (isSuccess) {
+      refetch()
+    }
+  }, [isSuccess])
 
   return (
     <>
@@ -54,7 +77,7 @@ const OfferPendingCertificates: React.FC = (props: any) => {
         pagination
         scopedSlots={{
           claims: (item: any) => showClaims(item),
-          show_details: () => showButton()
+          show_details: (item: any) => showButton(item)
         }}
       />
     </>

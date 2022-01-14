@@ -8,13 +8,13 @@ const registerClient = async (body: ApiRegisterBody) => {
   try {
     const response = await axios.post<StackeholderResponse>(endpoints.REGISTER, { ...body })
     const newResponse = response.data
-    if ((await newResponse?.stakeholderClaim?.stakeholderDID) && newResponse?.id_token) {
-      await axios.post(endpoints.REGISTER_ORGANIZATION, <ApiOrganizationBody>{
-        organizationCreate: {},
-        stakeholderDID: newResponse?.stakeholderClaim?.stakeholderDID,
-        token: newResponse?.id_token
-      })
-    }
+    // if ((await newResponse?.stakeholderClaim?.stakeholderDID) && newResponse?.id_token) {
+    //   await axios.post(endpoints.REGISTER_ORGANIZATION, <ApiOrganizationBody>{
+    //     organizationCreate: { name: newResponse?.stakeholderClaim?.stakeholderProfile?.name },
+    //     stakeholderDID: newResponse?.stakeholderClaim?.stakeholderDID,
+    //     token: newResponse?.id_token
+    //   })
+    // }
     return newResponse
   } catch (e) {
     console.log({ e })
@@ -33,19 +33,28 @@ const registerOrganization = async (body: ApiOrganizationBody) => {
   }
 }
 
-const verifyClient = async () => {
+const deleteOrganization = async () => {
   try {
-    const response = await axios.get(endpoints.LOGIN)
-    if ((await response?.data?.[0]?.stakeholderClaim?.stakeholderDID) && response?.data?.[0]?.id_token) {
+    const response = await axios.delete(endpoints.REGISTER_ORGANIZATION)
+    return response
+  } catch (e) {}
+}
+
+const verifyClient = async (params: any, data: any) => {
+  await deleteOrganization()
+  try {
+    const response = await axios.get(endpoints.LOGIN, { params: { stakeholder_did: params !== null ? params : data } })
+
+    if ((await response?.data?.stakeholderClaim?.stakeholderDID) && response?.data?.id_token) {
       try {
         await axios.post(endpoints.REGISTER_ORGANIZATION, <ApiOrganizationBody>{
-          organizationCreate: {},
-          stakeholderDID: response?.data?.[0]?.stakeholderClaim?.stakeholderDID,
-          token: response?.data?.[0]?.id_token
+          organizationCreate: { name: response?.data?.stakeholderClaim?.stakeholderProfile?.name },
+          stakeholderDID: response?.data?.stakeholderClaim?.stakeholderDID,
+          token: response?.data?.id_token
         })
       } catch (err) {}
     }
-    return response?.data?.[0]
+    return response?.data
   } catch (e) {
     console.log({ e })
     throw new Error('error')
@@ -55,5 +64,6 @@ const verifyClient = async () => {
 export default {
   registerClient,
   verifyClient,
-  registerOrganization
+  registerOrganization,
+  deleteOrganization
 }

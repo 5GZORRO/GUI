@@ -69,8 +69,8 @@ const routes = [
   { path: '/prices', name: 'Product Offering Prices', component: ProductOfferingPrices },
 
   { path: '/certificates', name: 'Stakeholder Certificates', component: StakeholderCertificates },
-  { path: '/stakeholdercertificates', name: 'Stakeholder Certificates', component: AdminStakeholderCertificates },
-  { path: '/offercertificates', name: 'Offer Certificates', component: AdminStakeholderCertificates }
+  { path: '/stakeholdercertificates', name: 'Stakeholder Certificates', component: AdminStakeholderCertificates }
+  // { path: '/offercertificates', name: 'Offer Certificates', component: AdminStakeholderCertificates }
 ]
 
 export default routes

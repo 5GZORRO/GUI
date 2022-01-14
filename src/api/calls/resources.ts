@@ -399,7 +399,7 @@ const useAllXrmResources = async (params?: any): Promise<any[]> => {
   }
 }
 
-const translateResource = async ({ id, type }: { id: string; type: string }): Promise<any> => {
+const translateResource = async ({ id, type, input }: { id: string; type: string; input: string }): Promise<any> => {
   let endpoint = ''
   switch (type) {
     case 'VNF':
@@ -419,17 +419,43 @@ const translateResource = async ({ id, type }: { id: string; type: string }): Pr
       break
   }
 
-  try {
-    const response = await axios.post(endpoint + `${id}`, null, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        'X-Gravitee-Api-Key': XRM_TRANSLATOR_API_KEY
-      }
-    })
-    return response.data
-  } catch (err) {
-    console.log({ err })
-    throw new Error('error')
+  let paramName = ''
+  switch (type) {
+    case 'VNF':
+      paramName = 'functionType'
+      break
+    case 'NSD':
+      paramName = 'serviceType'
+      break
+  }
+
+  if (input !== '') {
+    try {
+      const response = await axios.post(endpoint + `${id}`, null, {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+          'X-Gravitee-Api-Key': XRM_TRANSLATOR_API_KEY
+        },
+        params: { [paramName]: input }
+      })
+      return response.data
+    } catch (err) {
+      console.log({ err })
+      throw new Error('error')
+    }
+  } else {
+    try {
+      const response = await axios.post(endpoint + `${id}`, null, {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+          'X-Gravitee-Api-Key': XRM_TRANSLATOR_API_KEY
+        }
+      })
+      return response.data
+    } catch (err) {
+      console.log({ err })
+      throw new Error('error')
+    }
   }
 }
 

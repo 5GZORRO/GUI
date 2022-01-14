@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { getArchivedTransactions } from 'hooks/api/ISSM'
 import { useAuthContext } from 'context/AuthContext'
-
+import { LEDGER_IDENTITY } from 'config'
 import { CRow, CCol, CButton, CContainer, CDataTable, CCard, CCardBody, CCardHeader } from '@coreui/react'
 
 const ArchivedTransactions: React.FC = () => {
   const { user } = useAuthContext()
-  // const { data, isLoading } = getArchivedTransactions(user?.stakeholderClaim?.stakeholderProfile?.name)
+  // const { data, isLoading } = getArchivedTransactions(LEDGER_IDENTITY)
 
   const fields = [
     { key: 'argoReferenceId', label: 'Transaction UUID' },

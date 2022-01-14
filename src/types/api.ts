@@ -73,9 +73,9 @@ export interface StackeholderResponse {
         notificationType: string
       }
     }
+    stakeholderRoles: [{ role: string; assets: [string] }]
   }
 
-  stakeholderRoles: [{ role: string; assets: [string] }]
   stakeholderServices: [{ type: string; endpoint: string }]
   state: string
   timestamp: string

@@ -28,10 +28,21 @@ export default [
     icon: 'cilFlagAlt'
   },
   {
-    _tag: 'CSidebarNavItem',
+    _tag: 'CSidebarNavDropdown',
     name: 'Certificates',
-    to: '/certificates/',
-    icon: 'cil-featured-playlist'
+    icon: 'cil-featured-playlist',
+    _children: [
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Stakeholder Certificates',
+        to: '/stakeholdercertificates'
+      }
+      // {
+      //   _tag: 'CSidebarNavItem',
+      //   name: 'Offer Certificates',
+      //   to: '/offercertificates/'
+      // }
+    ]
   },
   {
     _tag: 'CSidebarNavTitle',

@@ -4,7 +4,7 @@ export const endpoints = {
   MEMBERSHIPS: `${API_GOVERNANCE}/api/v1/memberships`,
   REGISTER: `${API_IPM}/holder/register_stakeholder`,
   REGISTER_ORGANIZATION: `${API_MARKET_PLACE}/party/v4/organization`,
-  LOGIN: `${API_IPM}/holder/read_stakeholder_status`,
+  LOGIN: `${API_IPM}/holder/read_stakeholder`,
   PRODUCT_SPECIFICATION: `${API_MARKET_PLACE}/productCatalogManagement/v4/productSpecification`,
   PRODUCT_OFFERING: `${API_MARKET_PLACE}/productCatalogManagement/v4/productOffering`,
   PRODUCT_OFFERING_FILTERED: `${API_MARKET_PLACE}/productCatalogManagement/v4/productOffering/filtered`,
@@ -34,12 +34,16 @@ export const endpoints = {
   ISSM_SCALE_OUT: `${API_ISSM}/transactions`,
   ISSM_ARCHIVED: `${API_ISSM_ARCHIVED}/archived-workflows/domain-`,
   ISSM_DELETE: `${API_ISSM}/transactions`,
+  CERTIFICATE_HOLDER_CERTIFICATES: `${API_IPM}/holder/read_stakeholder`,
   CERTIFICATE_HOLDER_REGISTER: `${API_IPM}/holder/register_stakeholder`,
   CERTIFICATE_HOLDER_CREATE_OFFER: `${API_IPM}/holder/create_did`,
-  CERTIFICATE_ADMIN_PENDING: `${API_IPM}/issuer/stakeholder/pending`,
+  CERTIFICATE_ADMIN_PENDING_CERTIFICATES: `${API_IPM}/issuer/stakeholder/pending`,
   CERTIFICATE_ADMIN_RESOLVE: `${API_IPM}/issuer/stakeholder/resolve`,
+  CERTIFICATE_ADMIN_REVOKE: `${API_IPM}/issuer/revoke_did`,
   CERTIFICATE_ADMIN_PENDING_OFFER: `${API_IPM}/issuer/did_offer/pending`,
   CERTIFICATE_ADMIN_RESOLVE_OFFER: `${API_IPM}/issuer/did_offer/resolve`,
   CERTIFICATE_ADMIN_ALL_OFFER: `${API_IPM}/issuer/read_issued_did/all`,
-  CERTIFICATE_ADMIN_REVOKED_OFFER: `${API_IPM}/issuer/read_did/revoked`
+  CERTIFICATE_ADMIN_REVOKED_OFFER: `${API_IPM}/issuer/read_did/revoked`,
+  CERTIFICATE_ADMIN_APPROVED_CERTIFICATES: `${API_IPM}/holder/read_stakeholder_status`
+
 }

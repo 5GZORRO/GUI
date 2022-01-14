@@ -23,8 +23,8 @@ export const transformForm = (form: InputAddCertificate) => {
   const newData = {
     key: VERIFICATION_KEY,
     governanceBoardDID: form.governanceDID,
-    stakeholderServices: [JSON.parse(form.stakeholderObject)],
-    stakeholderRoles: createStakeHolderRoles(form.roles),
+    stakeholderServices: form.stakeholderObject !== '' ? [JSON.parse(form.stakeholderObject)] : [],
+    stakeholderRoles: form.roles,
     stakeholderProfile: {
       name: form.name,
       address: form.address,
@@ -51,186 +51,124 @@ export const schemaAddCertificate = yup.object().shape({
   // handler_url: yup.string().url().required(),
   governanceDID: yup.string().required(),
   address: yup.string().required(),
-  roles: yup
-    .object()
-    .shape({
-      administrator: yup
-        .object()
-        .shape({
-          isSelect: yup.bool(),
-          informationResource: yup.bool(),
-          networkFunction: yup.bool(),
-          physicalResource: yup.bool(),
-          spectrumResource: yup.bool()
-        })
-        .test(
-          // this test is added additional to any other (build-in) tests
-          'assets',
-          'Must select at least one', // we'll return error message ourself if needed
-          (obj) => {
-            // only testing the checkboxes here
-            if (!obj.isSelect) {
-              return true
-            } else if (obj.informationResource || obj.networkFunction || obj.physicalResource || obj.spectrumResource) {
-              // put every checkbox here
-              return true
-            } else {
-              return false
-            }
+  roles: yup.object().shape({
+    administrator: yup
+      .object()
+      .shape({
+        isSelect: yup.bool(),
+        edge: yup.bool(),
+        cloud: yup.bool(),
+        spectrum: yup.bool(),
+        radioAccessNetwork: yup.bool(),
+        virtualNetworkFunction: yup.bool(),
+        networkSlice: yup.bool(),
+        networkService: yup.bool()
+      })
+      .test(
+        // this test is added additional to any other (build-in) tests
+        'assets',
+        'Must select at least one', // we'll return error message ourself if needed
+        (obj) => {
+          // only testing the checkboxes here
+          if (!obj.isSelect) {
+            return true
+          } else if (
+            obj.edge ||
+            obj.cloud ||
+            obj.spectrum ||
+            obj.radioAccessNetwork ||
+            obj.virtualNetworkFunction ||
+            obj.networkService ||
+            obj.networkSlice
+          ) {
+            // put every checkbox here
+            return true
+          } else {
+            return false
           }
-        ),
-      regulator: yup
-        .object()
-        .shape({
-          isSelect: yup.bool(),
-          informationResource: yup.bool(),
-          networkFunction: yup.bool(),
-          physicalResource: yup.bool(),
-          spectrumResource: yup.bool()
-        })
-        .test(
-          // this test is added additional to any other (build-in) tests
-          'assets',
-          'Must select at least one', // we'll return error message ourself if needed
-          (obj) => {
-            // only testing the checkboxes here
-            if (!obj.isSelect) {
-              return true
-            } else if (obj.informationResource || obj.networkFunction || obj.physicalResource || obj.spectrumResource) {
-              // put every checkbox here
-              return true
-            } else {
-              return false
-            }
-          }
-        ),
-      resourceProvider: yup
-        .object()
-        .shape({
-          isSelect: yup.bool(),
-          informationResource: yup.bool(),
-          networkFunction: yup.bool(),
-          physicalResource: yup.bool(),
-          spectrumResource: yup.bool()
-        })
-        .test(
-          // this test is added additional to any other (build-in) tests
-          'assets',
-          'Must select at least one', // we'll return error message ourself if needed
-          (obj) => {
-            // only testing the checkboxes here
-            if (!obj.isSelect) {
-              return true
-            } else if (obj.informationResource || obj.networkFunction || obj.physicalResource || obj.spectrumResource) {
-              // put every checkbox here
-              return true
-            } else {
-              return false
-            }
-          }
-        ),
-      resourceConsumer: yup
-        .object()
-        .shape({
-          isSelect: yup.bool(),
-          informationResource: yup.bool(),
-          networkFunction: yup.bool(),
-          physicalResource: yup.bool(),
-          spectrumResource: yup.bool()
-        })
-        .test(
-          // this test is added additional to any other (build-in) tests
-          'assets',
-          'Must select at least one', // we'll return error message ourself if needed
-          (obj) => {
-            // only testing the checkboxes here
-            if (!obj.isSelect) {
-              return true
-            } else if (obj.informationResource || obj.networkFunction || obj.physicalResource || obj.spectrumResource) {
-              // put every checkbox here
-              return true
-            } else {
-              return false
-            }
-          }
-        ),
-      serviceProvider: yup
-        .object()
-        .shape({
-          isSelect: yup.bool(),
-          informationResource: yup.bool(),
-          networkFunction: yup.bool(),
-          physicalResource: yup.bool(),
-          spectrumResource: yup.bool()
-        })
-        .test(
-          // this test is added additional to any other (build-in) tests
-          'assets',
-          'Must select at least one', // we'll return error message ourself if needed
-          (obj) => {
-            // only testing the checkboxes here
-            if (!obj.isSelect) {
-              return true
-            } else if (obj.informationResource || obj.networkFunction || obj.physicalResource || obj.spectrumResource) {
-              // put every checkbox here
-              return true
-            } else {
-              return false
-            }
-          }
-        ),
-      serviceConsumer: yup
-        .object()
-        .shape({
-          isSelect: yup.bool(),
-          informationResource: yup.bool(),
-          networkFunction: yup.bool(),
-          physicalResource: yup.bool(),
-          spectrumResource: yup.bool()
-        })
-        .test(
-          // this test is added additional to any other (build-in) tests
-          'assets',
-          'Must select at least one', // we'll return error message ourself if needed
-          (obj) => {
-            // only testing the checkboxes here
-            if (!obj.isSelect) {
-              return true
-            } else if (obj.informationResource || obj.networkFunction || obj.physicalResource || obj.spectrumResource) {
-              // put every checkbox here
-              return true
-            } else {
-              return false
-            }
-          }
-        )
-    })
-    .test(
-      // this test is added additional to any other (build-in) tests
-      'roles',
-      'Must select at least one', // we'll return error message ourself if needed
-      (obj) => {
-        // only testing the checkboxes here
-        if (
-          obj.administrator.isSelect ||
-          obj.regulator.isSelect ||
-          obj.resourceProvider.isSelect ||
-          obj.resourceConsumer.isSelect ||
-          obj.serviceProvider.isSelect ||
-          obj.serviceConsumer.isSelect
-        ) {
-          // put every checkbox here
-          return true
-        } else {
-          return false
         }
-      }
-    )
+      ),
+    regulator: yup
+      .object()
+      .shape({
+        isSelect: yup.bool(),
+        edge: yup.bool(),
+        cloud: yup.bool(),
+        spectrum: yup.bool(),
+        radioAccessNetwork: yup.bool(),
+        virtualNetworkFunction: yup.bool(),
+        networkSlice: yup.bool(),
+        networkService: yup.bool()
+      })
+      .test(
+        // this test is added additional to any other (build-in) tests
+        'assets',
+        'Must select at least one', // we'll return error message ourself if needed
+        (obj) => {
+          // only testing the checkboxes here
+          if (!obj.isSelect) {
+            return true
+          } else if (
+            obj.edge ||
+            obj.cloud ||
+            obj.spectrum ||
+            obj.radioAccessNetwork ||
+            obj.virtualNetworkFunction ||
+            obj.networkService ||
+            obj.networkSlice
+          ) {
+            // put every checkbox here
+            return true
+          } else {
+            return false
+          }
+        }
+      ),
+    trader: yup
+      .object()
+      .shape({
+        isSelect: yup.bool(),
+        edge: yup.bool(),
+        cloud: yup.bool(),
+        spectrum: yup.bool(),
+        radioAccessNetwork: yup.bool(),
+        virtualNetworkFunction: yup.bool(),
+        networkSlice: yup.bool(),
+        networkService: yup.bool()
+      })
+      .test(
+        // this test is added additional to any other (build-in) tests
+        'assets',
+        'Must select at least one', // we'll return error message ourself if needed
+        (obj) => {
+          // only testing the checkboxes here
+          if (!obj.isSelect) {
+            return true
+          } else if (
+            obj.edge ||
+            obj.cloud ||
+            obj.spectrum ||
+            obj.radioAccessNetwork ||
+            obj.virtualNetworkFunction ||
+            obj.networkService ||
+            obj.networkSlice
+          ) {
+            // put every checkbox here
+            return true
+          } else {
+            return false
+          }
+        }
+      )
+  })
 })
 
 export const assestsArray: Array<AssetsProps> = [
-  { label: 'Information Resource', value: false, id: 'informationResource' },
-  { label: 'Physical Resource', value: false, id: 'physicalResource' },
-  { label: 'Spectrum Resource', value: false, id: 'spectrumResource' },
-  { label: 'Network Function', value: false, id: 'networkFunction' }
+  { label: 'Edge', value: false, id: 'edge' },
+  { label: 'Cloud', value: false, id: 'cloud' },
+  { label: 'Spectrum', value: false, id: 'spectrum' },
+  { label: 'Radio Access Network', value: false, id: 'radioAccessNetwork' },
+  { label: 'Virtual Network Function', value: false, id: 'virtualNetworkFunction' },
+  { label: 'Network Slice', value: false, id: 'networkSlice' },
+  { label: 'Network Service', value: false, id: 'networkService' }
 ]

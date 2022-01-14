@@ -765,9 +765,9 @@ const NewProductOfferingPrice = () => {
                               <option value="" disabled>
                                 Select one
                               </option>
-                              <option value="SLICE">SLICE</option>
-                              <option value="NETWORK_SERVICE">NETWORK SERVICE</option>
-                              <option value="VIRTUAL_NETWORK_FUNCTION">VIRTUAL NETWORK FUNCTION</option>
+                              <option value="NS">NETWORK SERVICE</option>
+                              <option value="VNF">VIRTUAL NETWORK FUNCTION</option>
+                              <option value="CNF">CLOUD NATIVE NETWORK FUNCTION</option>
                             </CSelect>
                           )}
                         />

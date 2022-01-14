@@ -1,22 +1,36 @@
 import React, { useState } from 'react'
-import { getArchivedTransactions } from 'hooks/api/ISSM'
 import { useAuthContext } from 'context/AuthContext'
 
 import { CRow, CCol, CButton, CContainer, CDataTable, CCard, CCardBody, CCardHeader } from '@coreui/react'
+import { getAllApprovedCertificates } from 'hooks/api/Certificates'
 
 const RejectedCertificates: React.FC = (props: any) => {
   const { modal } = props
   const { user } = useAuthContext()
-  // const { data, isLoading } = getArchivedTransactions(user?.stakeholderClaim?.stakeholderProfile?.name)
+  const { data, isLoading } = getAllApprovedCertificates()
 
-  const fields = ['name', 'role', 'assets', { key: 'stakeholderDID', label: 'Stakeholder DID' }, 'company', 'status']
+  const fields = [
+    'name',
+    'role',
+    { key: 'stakeholderRoles', label: 'Assets' },
+    { key: 'stakeholderDID', label: 'Stakeholder DID' },
+    'company'
+    // 'status'
+  ]
+
+  const showCompany = (item: any) => {
+    if (item?.company) {
+      return <td className="py-2">{item?.company}</td>
+    }
+    return <td className="py-2">{'-'}</td>
+  }
 
   return (
     <>
       <CDataTable
         cleaner
         loading={false}
-        items={[]}
+        items={data?.filter((el) => el != null && el.state === 'Stakeholder Declined') ?? []}
         columnFilter
         tableFilter
         clickableRows
@@ -25,10 +39,9 @@ const RejectedCertificates: React.FC = (props: any) => {
         sorter
         hover
         pagination
-        // scopedSlots={{
-        //   category: (item: any) => arrayToStringsData(item?.category, 'name'),
-        //   productOfferingPrice: (item: any) => arrayToStringsData(item?.productOfferingPrice, 'priceType')
-        // }}
+        scopedSlots={{
+          company: (item: any) => showCompany(item)
+        }}
       />
     </>
   )

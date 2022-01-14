@@ -86,6 +86,8 @@ const createSLA = async (body: any): Promise<any> => {
 const getSLA = async (id: string, templateHref: string): Promise<any> => {
   try {
     const mySLAs = window.localStorage.getItem('mySLAs')
+    console.log(mySLAs)
+
     if (!mySLAs) {
       throw new Error('error')
     } else {

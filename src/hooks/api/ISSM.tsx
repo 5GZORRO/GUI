@@ -7,17 +7,12 @@ import { api } from 'api'
 // change later
 export const getAllTransactions = (params?: any) => {
   let operator: any
-  switch (params) {
-    case 'Operator_A':
-      operator = '/operator-a'
-      break
-    case 'Operator_B':
-      operator = '/operator-b'
-      break
-
-    case 'Operator C ':
-      operator = '/operator-c'
-      break
+  if (params.includes('OperatorA')) {
+    operator = '/operator-a'
+  } else if (params.includes('OperatorB')) {
+    operator = '/operator-b'
+  } else if (params.includes('OperatorC')) {
+    operator = '/operator-c'
   }
   return useQuery(['allTransactions', operator], () => api.issm.getAllTransactions(operator), {
     keepPreviousData: false
@@ -26,17 +21,12 @@ export const getAllTransactions = (params?: any) => {
 
 export const getArchivedTransactions = (params?: any) => {
   let operator: any
-  switch (params) {
-    case 'Operator_A':
-      operator = 'operator-a'
-      break
-    case 'Operator_B':
-      operator = 'operator-b'
-      break
-
-    case 'Operator C ':
-      operator = 'operator-c'
-      break
+  if (params.includes('OperatorA')) {
+    operator = '/operator-a'
+  } else if (params.includes('OperatorB')) {
+    operator = '/operator-b'
+  } else if (params.includes('OperatorC')) {
+    operator = '/operator-c'
   }
   return useQuery(['archivedTransactions', operator], () => api.issm.getArchivedTransactions(operator), {
     keepPreviousData: true

@@ -53,7 +53,7 @@ const StakeholdersCertificates: React.FC = () => {
                 <h5>All Stakeholder Certificates</h5>
               </CCardHeader>
               <CCardBody>
-                <CertificatesNormal {...{ modal }} />
+                <CertificatesNormal/>
               </CCardBody>
             </CCard>
           </CTabPane>

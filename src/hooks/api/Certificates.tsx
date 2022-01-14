@@ -26,3 +26,33 @@ export const getAllRejectedOffers = () => {
     keepPreviousData: true
   })
 }
+
+export const getAllApprovedCertificates = () => {
+  return useQuery('allApprovedCertificates', () => api.certificates.getAllApprovedCertificates(), {
+    keepPreviousData: true
+  })
+}
+
+export const getAllPendingCertificates = () => {
+  return useQuery('allPendingCertificates', () => api.certificates.getAllPendingCertificates(), {
+    keepPreviousData: true
+  })
+}
+
+export const getStakeholderCertificates = (params: any) => {
+  return useQuery('stakeholderCertificates', () => api.certificates.getStakeholderCertificates(params), {
+    keepPreviousData: true
+  })
+}
+
+export const resolveOffer = () => {
+  return useMutation(['resolveOffer'], (body: any) => api.certificates.resolveOffer(body))
+}
+
+export const resolveStakeholder = () => {
+  return useMutation(['resolveStakeholder'], (body: any) => api.certificates.resolveStakeholder(body))
+}
+
+export const revokeCertificate = () => {
+  return useMutation(['revokeCertificate'], (body: any) => api.certificates.revokeCertificate(body))
+}

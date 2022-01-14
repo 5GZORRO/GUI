@@ -11,7 +11,7 @@ export const RAPP_DISCOVERY_API_KEY = '17069cc2-6c4e-44ac-b9f4-a2a0bbf01be2'
 
 export const APP_ENV = 'development'
 
-export const VERIFICATION_KEY = '3yLdYwrZyxX3NoYtCAgtfNJAnVk4X98X9KtwMQDtiXMS'
+export const VERIFICATION_KEY = '5gzorroidportalnsmm' // '3yLdYwrZyxX3NoYtCAgtfNJAnVk4X98X9KtwMQDtiXMS'
 export const LEDGER_IDENTITY = 'CN=OperatorA,OU=DLT,O=DLT,L=London,C=GB'
 
 export const API_SRSD = 'http://172.28.3.42:32068'

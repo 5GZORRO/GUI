@@ -29,13 +29,11 @@ import { assestsArray, schemaAddCertificate, transformForm } from './utils'
 import { registerStakeholder } from 'hooks/api/Certificates'
 import CIcon from '@coreui/icons-react'
 import { useAuthContext } from 'context/AuthContext'
-import { useHistory } from 'react-router-dom'
 import { InputAddCertificate } from 'types/forms'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 const AddCertificate = (props: any) => {
   const { setModal } = props
-  const history = useHistory()
   const {
     handleSubmit,
     formState: { errors },
@@ -47,16 +45,16 @@ const AddCertificate = (props: any) => {
       name: '',
       governanceDID: '',
       email: '',
-      company: '',
       address: '',
       spectrumResource: '',
-      stakeholderObject: ''
-    },
-    resolver: yupResolver(schemaAddCertificate)
+      stakeholderObject: '',
+      roles: []
+    }
+    // resolver: yupResolver(schemaAddCertificate)
   })
 
-  const { user } = useAuthContext()
   const { mutate, isSuccess, isLoading, isError } = registerStakeholder()
+  const { user } = useAuthContext()
 
   const onSubmit = (data: InputAddCertificate) => {
     const newData = transformForm(data)
@@ -64,36 +62,40 @@ const AddCertificate = (props: any) => {
   }
 
   useEffect(() => {
+    if (user) {
+      setValue('name', user?.stakeholderClaim?.stakeholderProfile?.name)
+      setValue('governanceDID', user?.stakeholderClaim?.governanceBoardDID)
+      setValue('email', user?.stakeholderClaim?.stakeholderProfile?.notificationMethod?.distributionList)
+      setValue('address', user?.stakeholderClaim?.stakeholderProfile?.address)
+      setValue('roles', user?.stakeholderClaim?.stakeholderRoles)
+    }
+  }, [user])
+
+  useEffect(() => {
     if (isSuccess) {
       setModal(null)
     }
   }, [isSuccess])
 
-  const administrator = watch('roles.administrator.isSelect')
-  const regulator = watch('roles.regulator.isSelect')
-  const resourceProvider = watch('roles.resourceProvider.isSelect')
-  const resourceConsumer = watch('roles.resourceConsumer.isSelect')
-  const serviceProvider = watch('roles.serviceProvider.isSelect')
-  const serviceConsumer = watch('roles.serviceConsumer.isSelect')
+  // const administrator = watch('roles.administrator.isSelect')
+  // const regulator = watch('roles.regulator.isSelect')
+  // const trader = watch('roles.trader.isSelect')
 
   const spectrumResource = watch('spectrumResource')
 
-  const removeRemain = (currentActive: string) => {
-    const allValues = {
-      administrator: 'roles.administrator.isSelect',
-      regulator: 'roles.regulator.isSelect',
-      resourceProvider: 'roles.resourceProvider.isSelect',
-      resourceConsumer: 'roles.resourceConsumer.isSelect',
-      serviceProvider: 'roles.serviceProvider.isSelect',
-      serviceConsumer: 'roles.serviceConsumer.isSelect'
-    }
+  // const removeRemain = (currentActive: string) => {
+  //   const allValues = {
+  //     administrator: 'roles.administrator.isSelect',
+  //     regulator: 'roles.regulator.isSelect',
+  //     trader: 'roles.trader.isSelect'
+  //   }
 
-    Object.keys(allValues)
-      .filter((el) => el !== currentActive)
-      .forEach((value, index) => {
-        setValue(allValues[value], false)
-      })
-  }
+  //   Object.keys(allValues)
+  //     .filter((el) => el !== currentActive)
+  //     .forEach((value, index) => {
+  //       setValue(allValues[value], false)
+  //     })
+  // }
 
   return (
     <CContainer className={'p-0'}>
@@ -103,8 +105,8 @@ const AddCertificate = (props: any) => {
           <h5>New Stakeholder Certificate</h5>
         </CCardHeader>
         <CCardBody>
-          <CRow>
-            <CCol sm={6}>
+          {/* <CRow>
+            {/* <CCol sm={6}>
               <CFormGroup>
                 <CLabel htmlFor="governanceDID">Governance Board DID</CLabel>
                 <CInputGroup>
@@ -128,8 +130,8 @@ const AddCertificate = (props: any) => {
                   <ErrorMessage errors={errors} name="governanceDID" />
                 </CFormText>
               </CFormGroup>
-            </CCol>
-            <CCol sm={6}>
+            </CCol> */}
+          {/* <CCol sm={6}>
               <CFormGroup className={'mb-2'}>
                 <CLabel>Name</CLabel>
                 <CInputGroup>
@@ -156,8 +158,8 @@ const AddCertificate = (props: any) => {
                 )}
               </CFormGroup>
             </CCol>
-          </CRow>
-          <CRow>
+          </CRow> */}
+          {/* <CRow>
             <CCol sm={12}>
               <CFormGroup className={'mb-2'}>
                 <CLabel>Email(s)</CLabel>
@@ -190,8 +192,8 @@ const AddCertificate = (props: any) => {
                 )}
               </CFormGroup>
             </CCol>
-          </CRow>
-          <CRow className={'mt-3'}>
+          </CRow> */}
+          {/* <CRow className={'mt-3'}>
             <CCol sm={7}>
               <CLabel>Role</CLabel>
               <CRow>
@@ -254,123 +256,28 @@ const AddCertificate = (props: any) => {
               </CRow>
               <CRow>
                 <CCol sm={6}>
-                  <div
-                    className={`${resourceProvider ? 'bg-gradient' : 'bg-primary'} p-2 mb-2 rounded-sm cursor-pointer`}
-                  >
+                  <div className={`${trader ? 'bg-gradient' : 'bg-primary'} p-2 mb-2 rounded-sm cursor-pointer`}>
                     <Controller
                       control={control}
                       defaultValue={false}
-                      name={'roles.resourceProvider.isSelect'}
+                      name={'roles.trader.isSelect'}
                       data-testid={'role'}
                       render={({ field: { onChange, onBlur, value } }) => (
                         <>
                           <CInputRadio
-                            id={'resourceProvider'}
+                            id={'trader'}
                             onBlur={onBlur}
                             className={'m-0'}
                             checked={value}
                             onChange={(e: any) => {
                               onChange(e.target.checked)
                               if (e.target.checked) {
-                                removeRemain('resourceProvider')
+                                removeRemain('trader')
                               }
                             }}
                           />
-                          <CLabel className="mb-0 font-14 ml-4" htmlFor={'resourceProvider'}>
-                            Resource Provider
-                          </CLabel>
-                        </>
-                      )}
-                    />
-                  </div>
-                </CCol>
-                <CCol sm={6}>
-                  <div
-                    className={`${resourceConsumer ? 'bg-gradient' : 'bg-primary'} p-2 mb-2 rounded-sm cursor-pointer`}
-                  >
-                    <Controller
-                      control={control}
-                      defaultValue={false}
-                      name={'roles.resourceConsumer.isSelect'}
-                      data-testid={'role'}
-                      render={({ field: { onChange, onBlur, value, name, ref } }) => (
-                        <>
-                          <CInputRadio
-                            id={'resourceConsumer'}
-                            onBlur={onBlur}
-                            className={'m-0'}
-                            checked={value}
-                            onChange={(e: any) => {
-                              onChange(e.target.checked)
-                              if (e.target.checked) {
-                                removeRemain('resourceConsumer')
-                              }
-                            }}
-                          />
-                          <CLabel className="mb-0 font-14 ml-4" htmlFor={'resourceConsumer'}>
-                            Resource Consumer
-                          </CLabel>
-                        </>
-                      )}
-                    />
-                  </div>
-                </CCol>
-              </CRow>
-              <CRow>
-                <CCol sm={6}>
-                  <div
-                    className={`${serviceConsumer ? 'bg-gradient' : 'bg-primary'} p-2 mb-2 rounded-sm cursor-pointer`}
-                  >
-                    <Controller
-                      control={control}
-                      defaultValue={false}
-                      name="roles.serviceConsumer.isSelect"
-                      render={({ field: { onChange, onBlur, value } }) => (
-                        <>
-                          <CInputRadio
-                            id={'serviceConsumer'}
-                            onBlur={onBlur}
-                            checked={value}
-                            className={'m-0'}
-                            onChange={(e: any) => {
-                              onChange(e.target.checked)
-                              if (e.target.checked) {
-                                removeRemain('serviceConsumer')
-                              }
-                            }}
-                          />
-                          <CLabel className="mb-0 font-14 ml-4 ml-4" htmlFor={'serviceConsumer'}>
-                            Service Consumer
-                          </CLabel>
-                        </>
-                      )}
-                    />
-                  </div>
-                </CCol>
-                <CCol sm={6}>
-                  <div
-                    className={`${serviceProvider ? 'bg-gradient' : 'bg-primary'} p-2 mb-2 rounded-sm cursor-pointer`}
-                  >
-                    <Controller
-                      control={control}
-                      defaultValue={false}
-                      name="roles.serviceProvider.isSelect"
-                      render={({ field: { onChange, onBlur, value } }) => (
-                        <>
-                          <CInputRadio
-                            id={'serviceProvider'}
-                            onBlur={onBlur}
-                            checked={value}
-                            className={'m-0'}
-                            onChange={(e: any) => {
-                              onChange(e.target.checked)
-                              if (e.target.checked) {
-                                removeRemain('serviceProvider')
-                              }
-                            }}
-                          />
-                          <CLabel className="mb-0 font-14 ml-4 ml-4" htmlFor={'serviceProvider'}>
-                            Service Provider
+                          <CLabel className="mb-0 font-14 ml-4" htmlFor={'trader'}>
+                            Trader
                           </CLabel>
                         </>
                       )}
@@ -380,12 +287,7 @@ const AddCertificate = (props: any) => {
               </CRow>
             </CCol>
             <CCol sm={5} className={'mt-4'}>
-              {(administrator ||
-                regulator ||
-                serviceConsumer ||
-                serviceProvider ||
-                resourceConsumer ||
-                resourceProvider) && <CLabel>Assets</CLabel>}
+              {(administrator || regulator || trader) && <CLabel>Assets</CLabel>}
               {administrator && (
                 <CRow>
                   {assestsArray.map((item) => (
@@ -422,8 +324,7 @@ const AddCertificate = (props: any) => {
                   </CCol>
                 </CRow>
               )}
-
-              {resourceProvider && (
+              {trader && (
                 <CRow>
                   {assestsArray.map((item) => (
                     <CCol key={item.id} xs={6}>
@@ -454,43 +355,7 @@ const AddCertificate = (props: any) => {
                   ))}
                   <CCol>
                     <CFormText className="help-block" data-testid="error-message">
-                      <ErrorMessage errors={errors} name={'roles.provider'} />
-                    </CFormText>
-                  </CCol>
-                </CRow>
-              )}
-              {serviceProvider && (
-                <CRow>
-                  {assestsArray.map((item) => (
-                    <CCol key={item.id} xs={6}>
-                      <CFormGroup variant="checkbox" className="checkbox p-0">
-                        <Controller
-                          control={control}
-                          defaultValue={false}
-                          name={`roles.serviceProvider.${item.id}` as any}
-                          render={({ field: { onChange, onBlur } }) => (
-                            <>
-                              <CInputCheckbox
-                                id={`serviceProvider_${item.id}`}
-                                onChange={(e: any) => onChange(e.target.checked)}
-                                onBlur={onBlur}
-                              />
-                              <CLabel
-                                variant="checkbox"
-                                className="form-check-label"
-                                htmlFor={`serviceProvider_${item.id}`}
-                              >
-                                {item.label}
-                              </CLabel>
-                            </>
-                          )}
-                        />
-                      </CFormGroup>
-                    </CCol>
-                  ))}
-                  <CCol>
-                    <CFormText className="help-block" data-testid="error-message">
-                      <ErrorMessage errors={errors} name={'roles.provider'} />
+                      <ErrorMessage errors={errors} name={'roles.trader'} />
                     </CFormText>
                   </CCol>
                 </CRow>
@@ -527,81 +392,9 @@ const AddCertificate = (props: any) => {
                   </CCol>
                 </CRow>
               )}
-              {resourceConsumer && (
-                <CRow>
-                  {assestsArray.map((item) => (
-                    <CCol key={item.id} xs={6}>
-                      <CFormGroup variant="checkbox" className="checkbox p-0">
-                        <Controller
-                          control={control}
-                          defaultValue={false}
-                          name={`roles.resourceConsumer.${item.id}` as any}
-                          render={({ field: { onChange, onBlur } }) => (
-                            <>
-                              <CInputCheckbox
-                                id={`resourceConsumer_${item.id}`}
-                                onChange={(e: any) => onChange(e.target.checked)}
-                                onBlur={onBlur}
-                              />
-                              <CLabel
-                                variant="checkbox"
-                                className="form-check-label"
-                                htmlFor={`resourceConsumer_${item.id}`}
-                              >
-                                {item.label}
-                              </CLabel>
-                            </>
-                          )}
-                        />
-                      </CFormGroup>
-                    </CCol>
-                  ))}
-                  <CCol>
-                    <CFormText className="help-block" data-testid="error-message">
-                      <ErrorMessage errors={errors} name={'roles.consumer'} />
-                    </CFormText>
-                  </CCol>
-                </CRow>
-              )}
-              {serviceConsumer && (
-                <CRow>
-                  {assestsArray.map((item) => (
-                    <CCol key={item.id} xs={6}>
-                      <CFormGroup variant="checkbox" className="checkbox p-0">
-                        <Controller
-                          control={control}
-                          defaultValue={false}
-                          name={`roles.serviceConsumer.${item.id}` as any}
-                          render={({ field: { onChange, onBlur } }) => (
-                            <>
-                              <CInputCheckbox
-                                id={`serviceConsumer_${item.id}`}
-                                onChange={(e: any) => onChange(e.target.checked)}
-                                onBlur={onBlur}
-                              />
-                              <CLabel
-                                variant="checkbox"
-                                className="form-check-label"
-                                htmlFor={`serviceConsumer_${item.id}`}
-                              >
-                                {item.label}
-                              </CLabel>
-                            </>
-                          )}
-                        />
-                      </CFormGroup>
-                    </CCol>
-                  ))}
-                  <CCol>
-                    <CFormText className="help-block" data-testid="error-message">
-                      <ErrorMessage errors={errors} name={'roles.consumer'} />
-                    </CFormText>
-                  </CCol>
-                </CRow>
-              )}
             </CCol>
-          </CRow>
-          <CRow className={'mt-3'}>
+          </CRow> */}
+          {/* <CRow className={'mt-3'}>
             <CCol sm={6}>
               <CFormGroup className={'mb-4'}>
                 <CLabel>Address</CLabel>
@@ -656,7 +449,7 @@ const AddCertificate = (props: any) => {
                 )}
               </CFormGroup>
             </CCol>
-          </CRow>
+          </CRow> */}
           <CRow>
             <CCol sm={6}>
               <CFormGroup>
