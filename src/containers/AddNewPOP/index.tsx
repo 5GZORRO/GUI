@@ -21,7 +21,7 @@ import {
   CModal,
   CModalBody,
   CModalHeader,
-  CDataTable,
+  CDataTable
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { ArrowLeftIcon, PlusCircle, MinusCircle, ArrowDownIcon } from 'assets/icons/externalIcons'
@@ -400,8 +400,8 @@ const AddNewPOP = (props: any) => {
                                   }
                                   onDatesChange={({ startDate, endDate }) =>
                                     onChange({
-                                      startDateTime: moment(startDate).format(DATETIME_FORMAT),
-                                      endDateTime: moment(endDate).format(DATETIME_FORMAT)
+                                      startDateTime: moment(startDate).toISOString(),
+                                      endDateTime: moment(endDate).toISOString()
                                     })
                                   }
                                   ref={ref}
@@ -653,8 +653,9 @@ const AddNewPOP = (props: any) => {
                                   Select one
                                 </option>
                                 <option value="SLICE">SLICE</option>
-                                <option value="NETWORK_SERVICE">NETWORK SERVICE</option>
-                                <option value="VIRTUAL_NETWORK_FUNCTION">VIRTUAL NETWORK FUNCTION</option>
+                                <option value="NS">NETWORK SERVICE</option>
+                                <option value="VNF">VIRTUAL NETWORK FUNCTION</option>
+                                <option value="CNF">CLOUD-NATIVE NETWORK FUNCTION</option>
                               </CSelect>
                             )}
                           />
@@ -742,7 +743,7 @@ const AddNewPOP = (props: any) => {
                     {modal != null && (
                       <CModal show={true} onClose={() => setModal(null)} size="lg">
                         <CModalHeader closeButton>
-                          <h5>{`Legal Prose Template ${modal?.id}`}</h5>
+                          <h5>{'Legal Prose Template'}</h5>
                         </CModalHeader>
                         <CModalBody>
                           <CRow>

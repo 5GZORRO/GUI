@@ -28,6 +28,12 @@ export default [
     icon: 'cilFlagAlt'
   },
   {
+    _tag: 'CSidebarNavItem',
+    name: 'Certificates',
+    to: '/certificates/',
+    icon: 'cil-featured-playlist'
+  },
+  {
     _tag: 'CSidebarNavTitle',
     _children: ['Marketplace']
   },
@@ -54,5 +60,15 @@ export default [
     name: 'Product Offering Prices',
     to: '/prices',
     icon: 'cilDollar'
+  },
+  {
+    _tag: 'CSidebarNavTitle',
+    _children: ['Orchestration']
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'ISSM',
+    icon: 'cilPenAlt',
+    to: '/businesstransactions'
   }
 ]

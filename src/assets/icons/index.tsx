@@ -45,7 +45,10 @@ import {
   cilInstitution,
   cilCopy,
   cilLink,
-  cilNewspaper
+  cilNewspaper,
+  cilExternalLink,
+  cilFolder,
+  cilBan
 } from '@coreui/icons/js/free'
 
 export const icons = Object.assign({}, {
@@ -96,5 +99,8 @@ export const icons = Object.assign({}, {
   cilInstitution,
   cilCopy,
   cilLink,
-  cilNewspaper
+  cilNewspaper,
+  cilExternalLink,
+  cilFolder,
+  cilBan
 })

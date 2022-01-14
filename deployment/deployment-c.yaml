@@ -1,0 +1,75 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "nginx-configmap-c"
+  namespace: domain-operator-c 
+data:
+    nginx.conf: |
+      server {
+        listen 80;
+        server_name _;
+        access_log  /dev/stdout;
+        error_log  /dev/stdout;
+
+        root /operator-c/;
+        index index.html;
+        location / {
+          index index.html;
+          default_type "text/html";
+          try_files $uri.html $uri $uri/ /index.html;
+        }
+      }
+    
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: operator-dashboard-c
+  namespace: domain-operator-c 
+spec:
+  selector:
+    matchLabels:
+      component: operator-dashboard-c-frontend
+  template:
+    metadata:
+      labels:
+        component: operator-dashboard-c-frontend
+    spec:
+      volumes:
+        - name: nginx-config-c
+          configMap:
+            name: nginx-configmap-c
+        # - name: operator-a
+        #   hostPath:
+        #     path: /op-a/
+        #     type: DirectoryOrCreate
+      containers:
+      - name: nginx
+        #image: nginx
+        image: ubiwhere/5gzorro-operator-c-dashboard
+        command: ["/usr/sbin/nginx", "-g", "daemon off;"]
+        ports:
+          - containerPort: 80
+        volumeMounts:
+        - name: nginx-config-c
+          mountPath: /etc/nginx/conf.d/default.conf
+          subPath: nginx.conf
+        # - name: operator-a
+        #   mountPath: /operator-a/
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: operator-service-c
+  namespace: domain-operator-c
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+    nodePort: 30010
+  selector:
+    component: operator-dashboard-c-frontend 

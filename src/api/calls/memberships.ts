@@ -2,9 +2,9 @@ import { endpoints } from 'api/endpoints'
 import { MemberbershipAPIResponse, ApiParamsMembership } from 'types/api'
 import axios from 'api/instance'
 
-const getMembers = async (params: ApiParamsMembership): Promise<MemberbershipAPIResponse[]> => {
+const getMembers = async (): Promise<MemberbershipAPIResponse[]> => {
   try {
-    const response = await axios.get(endpoints.MEMBERSHIPS, { params })
+    const response = await axios.get(endpoints.MEMBERSHIPS)
     if (response?.data?.pagedMembers?.content) {
       return response?.data?.pagedMembers?.content
     }

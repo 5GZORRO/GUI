@@ -53,6 +53,7 @@ const NewSLAForm = () => {
         description: data.description,
         href
       },
+      status: 'ACTIVE',
       ...remain
     })
   }

@@ -1,11 +1,10 @@
 # DEPLOY_DIR should be either /operator-a/ or /operator-b/
 # SRC_DIR is the local directory where the frontend deploy files are
-# and defaults to src/
 
 FROM nginx
 
 ARG DEPLOY_DIR
-ARG SRC_DIR=src/
+ARG SRC_DIR
 
 WORKDIR /etc/nginx
 

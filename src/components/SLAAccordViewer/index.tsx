@@ -6,7 +6,7 @@ import { CSpinner } from '@coreui/react'
 const SLAAccordViewer = ({ id, readOnly, templateHref }) => {
   const { data, isLoading, isError } = useGetSLA(id, templateHref)
   if (!isLoading && data?.template) {
-    const { template, templateRef, approvalDate, id, ...remain } = data
+    const { template, templateRef, approvalDate, id, status, ...remain } = data
     return (
       <LegalTemplateEditor
         templateString={template?.templateFileData}

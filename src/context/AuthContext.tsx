@@ -1,6 +1,6 @@
 import React, { createContext, ReactNode, useContext, useState, useEffect } from 'react'
 import { StackeholderResponse } from 'types/api'
-import { SESSION_USER } from 'config'
+import { SESSION_TOKEN, SESSION_USER } from 'config'
 import { useHistory, useLocation } from 'react-router-dom'
 import { useLogin } from 'hooks/api/Auth'
 
@@ -20,15 +20,16 @@ const allowedPaths = ['/login', '/register', '/register/success', '/not-found']
 
 const ProviderAuth = ({ children }: IProps) => {
   const [user, setUser] = useState<StackeholderResponse | null>(null)
+  const key = window.localStorage.getItem(SESSION_TOKEN)
   const history = useHistory()
   const location = useLocation()
-  const { data, mutate } = useLogin()
+  const { data, mutate } = useLogin(key)
 
   useEffect(() => {
     const getUser = async (prevUser: string) => {
       const parsed = JSON.parse(prevUser)
       if (parsed?.stakeholderClaim?.stakeholderDID) {
-        await mutate()
+        await mutate(parsed?.stakeholderClaim?.stakeholderDID)
       }
     }
     const previousState = window.sessionStorage.getItem(SESSION_USER)

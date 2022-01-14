@@ -6,9 +6,16 @@ import {
   CCol,
   CContainer,
   CForm,
+  CFormGroup,
+  CFormText,
+  CInput,
+  CInputGroup,
+  CInputGroupPrepend,
+  CInputGroupText,
+  CLabel,
   CRow
 } from '@coreui/react'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 // import MaskedInput from 'react-text-mask'
 // import Input from 'components/input'
 import { LogoVerticalWhite } from 'assets/icons/logos'
@@ -17,12 +24,14 @@ import { useHistory } from 'react-router'
 /** Container */
 import { TheFooter } from 'containers'
 /** Hooks */
-import { useLogin } from 'hooks/api/Auth'
+import { useLogin, registerOrganization, deleteOrganization } from 'hooks/api/Auth'
 import { useAuthContext } from 'context/AuthContext'
 
 import { InputLogin } from 'types/forms'
 
 import LoadingWithFade from 'components/LoadingWithFade'
+import { KeyLogin } from 'assets/icons/externalIcons'
+import { SESSION_TOKEN } from 'config'
 
 const Login: React.FC = () => {
   const {
@@ -31,11 +40,13 @@ const Login: React.FC = () => {
     control
   } = useForm<InputLogin>()
   const history = useHistory()
-  const { data, mutate, isSuccess, isLoading } = useLogin()
+  const key = window.localStorage.getItem(SESSION_TOKEN)
+  const { data, mutate, isSuccess, isLoading } = useLogin(key)
   const { user, signin } = useAuthContext()
+  // deleteOrganization()
 
   const onSubmit = (data: InputLogin) => {
-    mutate()
+    mutate(data.stakeholderDID)
   }
 
   useEffect(() => {
@@ -46,6 +57,7 @@ const Login: React.FC = () => {
 
   useEffect(() => {
     if (isSuccess && data?.stakeholderClaim) {
+      window.localStorage.setItem(SESSION_TOKEN, data?.stakeholderClaim?.stakeholderDID)
       signin(data)
       history.push('/')
     }
@@ -71,38 +83,40 @@ const Login: React.FC = () => {
                       <CCardBody className={'p-0'}>
                         <h1 className={'mb-4'}>Login</h1>
                         <p className="text-muted">Sign In to your account</p>
-                        {/* <CFormGroup className={'mb-4'}>
-                        <CLabel>Stakeholder DID</CLabel>
-                        <CInputGroup>
-                          <CInputGroupPrepend>
-                            <CInputGroupText>
-                              <KeyLogin />
-                            </CInputGroupText>
-                          </CInputGroupPrepend>
-                          <Controller
-                            control={control}
-                            defaultValue={''}
-                            rules={{ required: true }}
-                            name="stakeholderDID"
-                            render={({ field: { onChange, onBlur, value } }) => (
-                              <CInput
-                                data-testid={'stakeholderDID-input'}
-                                onChange={onChange}
-                                onBlur={onBlur}
-                                value={value}
+                        {!key && (
+                          <CFormGroup className={'mb-4'}>
+                            <CLabel>Stakeholder DID</CLabel>
+                            <CInputGroup>
+                              <CInputGroupPrepend>
+                                <CInputGroupText>
+                                  <KeyLogin />
+                                </CInputGroupText>
+                              </CInputGroupPrepend>
+                              <Controller
+                                control={control}
+                                defaultValue={''}
+                                name="stakeholderDID"
+                                rules={{ required: true }}
+                                render={({ field: { onChange, onBlur, value } }) => (
+                                  <CInput
+                                    data-testid={'stakeholderDID-input'}
+                                    onChange={onChange}
+                                    onBlur={onBlur}
+                                    value={value}
+                                  />
+                                )}
                               />
+                            </CInputGroup>
+                            <CFormText color="muted" className={'mt-2'}>
+                              ex. QxacVyyX7AvLDZyqbnZL3e
+                            </CFormText>
+                            {errors.stakeholderDID && (
+                              <CFormText className="help-block" data-testid="error-message">
+                                Please enter a valid key
+                              </CFormText>
                             )}
-                          />
-                        </CInputGroup>
-                        <CFormText color="muted" className={'mt-2'}>
-                          ex. QxacVyyX7AvLDZyqbnZL3e
-                        </CFormText>
-                        {errors.stakeholderDID && (
-                          <CFormText className="help-block" data-testid="error-message">
-                            Please enter a valid key
-                          </CFormText>
+                          </CFormGroup>
                         )}
-                      </CFormGroup> */}
                         <CRow>
                           {/* <CCol xs={12} className="text-right mb-4">
                             <p

@@ -19,7 +19,8 @@ import {
   CTabPane,
   CTabs
 } from '@coreui/react'
-import { DATETIME_FORMAT, DATETIME_FORMAT_SHOW } from 'config'
+import { DATETIME_FORMAT_SHOW } from 'config'
+import { Link } from 'react-router-dom'
 
 import dayjs from 'dayjs'
 
@@ -31,6 +32,7 @@ const fields = [
   { key: 'lifecycleStatus', label: 'Status' },
   { key: 'lastUpdate', label: 'Created' },
   'type',
+  { key: 'contentType', label: 'Category' },
   {
     key: 'show_details',
     label: '',
@@ -54,6 +56,23 @@ const Resources: React.FC = () => {
       return splitted.map((el, key) => <p key={key}>{el}</p>)
     }
     return <p>{value}</p>
+  }
+
+  const showCategory = (item: any) => {
+    switch (item.category?.[0]?.name) {
+      case 'VNF':
+        return <td className="py-2">Virtual Network Function</td>
+      case 'NSD':
+        return <td className="py-2">Network Service</td>
+      case 'NS':
+        return <td className="py-2">Network Slice</td>
+      case 'SPC':
+        return <td className="py-2">Spectrum</td>
+      case 'RAD':
+        return <td className="py-2">Radio Access Network</td>
+      default:
+        return <td className="py-2">{item.category?.[0]?.name}</td>
+    }
   }
 
   return (
@@ -386,16 +405,13 @@ const Resources: React.FC = () => {
         <CCol>
           <h2>Resources & Services</h2>
         </CCol>
-        {/* <CCol className={'d-flex justify-content-end align-items-center'}>
-          <CButton
-            block={false}
-            color={'gradient'}
-            className={'text-uppercase'}
-            onClick={() => history.push('/resource/new-resource')}
-          >
-            New Resource
-          </CButton>
-        </CCol> */}
+        <CCol className={'d-flex justify-content-end align-items-center'}>
+          <Link to="/resource/translate-resources">
+            <CButton block={false} color={'gradient'} className={'text-uppercase'}>
+              Add New asset
+            </CButton>
+          </Link>
+        </CCol>
       </CRow>
       <CCard>
         <CCardHeader>
@@ -425,6 +441,7 @@ const Resources: React.FC = () => {
               lifecycleStatus: (item: any) => {
                 return <td className="py-2">{item?.lifecycleStatus ? item?.lifecycleStatus : '-'}</td>
               },
+              contentType: (item: any) => showCategory(item),
               show_details: (item: any) => {
                 return (
                   <td className="py-2">

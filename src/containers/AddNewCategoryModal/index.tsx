@@ -78,7 +78,7 @@ const AddNewCategoryModal = (props: any) => {
         </CModalHeader>
         <CModalBody>
           <FormProvider {...methods} {...{ formState: { errors, ...remain }, control, handleSubmit }}>
-            <CForm onSubmit={handleSubmit(onSubmit)}>
+            <CForm>
               <CRow>
                 <CCol sm={12}>
                   <CFormGroup>
@@ -126,8 +126,8 @@ const AddNewCategoryModal = (props: any) => {
                                 }
                                 onDatesChange={({ startDate, endDate }) =>
                                   onChange({
-                                    startDateTime: moment(startDate).format(DATETIME_FORMAT),
-                                    endDateTime: moment(endDate).format(DATETIME_FORMAT)
+                                    startDateTime: moment(startDate).toISOString(),
+                                    endDateTime: moment(endDate).toISOString()
                                   })
                                 }
                                 ref={ref}
@@ -170,7 +170,7 @@ const AddNewCategoryModal = (props: any) => {
                   >
                     Cancel
                   </CButton>
-                  <CButton className={'text-uppercase px-5'} type="submit" color={'gradient'}>
+                  <CButton className={'text-uppercase px-5'} onClick={handleSubmit(onSubmit)} color={'gradient'}>
                     Submit
                   </CButton>
                 </div>

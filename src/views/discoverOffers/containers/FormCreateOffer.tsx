@@ -37,6 +37,7 @@ import { PlusCircle } from 'assets/icons/externalIcons'
 import { Controller, useFormContext } from 'react-hook-form'
 import { useAllSLAs } from 'hooks/api/SLA'
 import { useAllProductOfferingPricesChildren, useAllCategories, useAllLocations } from 'hooks/api/Resources'
+import SLAAccordViewer from 'components/SLAAccordViewer'
 
 import DateRangePicker from 'components/DateRangePicker'
 import AddNewCategoryModal from 'containers/AddNewCategoryModal'
@@ -335,8 +336,8 @@ const FormCreateOffer: React.FC = () => {
                             }
                             onDatesChange={({ startDate, endDate }) =>
                               onChange({
-                                startDateTime: moment(startDate).format(DATETIME_FORMAT),
-                                endDateTime: moment(endDate).format(DATETIME_FORMAT)
+                                startDateTime: moment(startDate).toISOString(),
+                                endDateTime: moment(endDate).toISOString()
                               })
                             }
                             ref={ref}
@@ -378,11 +379,11 @@ const FormCreateOffer: React.FC = () => {
                       )}
                     />
                   )}
-                  <CInputGroupAppend>
+                  {/* <CInputGroupAppend>
                     <CButton type="button" color="transparent" onClick={() => setAddCategoryModal(true)}>
                       <PlusCircle />
                     </CButton>
-                  </CInputGroupAppend>
+                  </CInputGroupAppend> */}
                 </CInputGroup>
                 {errors.category && <CFormText className="help-block">Please select at least a category</CFormText>}
               </CFormGroup>
@@ -482,7 +483,7 @@ const FormCreateOffer: React.FC = () => {
           </CRow>
         </CCardBody>
       </CCard>
-      <CModal show={modalSLA != null} onClose={() => setModalSLA(null)} size="lg">
+      {modalSLA && <CModal show={modalSLA != null} onClose={() => setModalSLA(null)} size="lg">
         <CModalHeader closeButton>
           <h5>{'Legal Prose Template'}</h5>
         </CModalHeader>
@@ -495,7 +496,7 @@ const FormCreateOffer: React.FC = () => {
               <p className={'text-light mb-2'}>Last Update:</p>{' '}
               <p>
                 {dayjs(modalSLA?.statusUpdated).isValid()
-                  ? dayjs(modalSLA?.statusUpdated).format(DATETIME_FORMAT)
+                  ? dayjs(modalSLA?.statusUpdated).toISOString()
                   : '-'}
               </p>
             </CCol>
@@ -513,9 +514,12 @@ const FormCreateOffer: React.FC = () => {
               <p>{modalSLA?.status}</p>
             </CCol>
           </CRow>
+          <CRow className={'p-3'}>
+              <SLAAccordViewer id={modalSLA?.id} templateHref={modalSLA?.templateRef?.href} readOnly={true}></SLAAccordViewer>
+            </CRow>
         </CModalBody>
       </CModal>
-      {addCategoryModal && (
+      }{addCategoryModal && (
         <AddNewCategoryModal
           handleClose={() => {
             setAddCategoryModal(false)

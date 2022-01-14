@@ -19,6 +19,12 @@ const NewLegalProseTemplate = React.lazy(() => import('./views/lpts/NewTemplate'
 const NewLicence = React.lazy(() => import('./views/lpts/NewLicence'))
 const NewSLA = React.lazy(() => import('./views/lpts/NewSLA'))
 const NewSLAForm = React.lazy(() => import('./views/lpts/NewSLAForm'))
+const NewOrder = React.lazy(() => import('./views/orders/NewOrder'))
+const FormCreateOrder = React.lazy(() => import('./views/orders/FormCreateOrder'))
+const FetchResources = React.lazy(() => import('./views/resources/FetchResources'))
+const IssmBusinessTransactions = React.lazy(() => import('./views/Issm/index'))
+const StakeholderCertificates = React.lazy(() => import('./views/stakeholderCertificates/index'))
+const AdminStakeholderCertificates = React.lazy(() => import('./views/stakeholderCertificates/adminRole/index'))
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -26,10 +32,17 @@ const routes = [
   { exact: true, path: '/offers', name: 'Offers', component: DiscoverOffers },
   { path: '/offers/new-offer/:id', name: 'Detail Product Offer', component: ProductDetail },
   { path: '/offers/new-offer', name: 'New Product Offer', component: NewProduct },
-  { path: '/orders', name: 'Orders', component: Orders },
+  { exact: true, path: '/orders', name: 'Orders', component: Orders },
+  { path: '/orders/new-order/:id', name: 'Detail Product Order', component: FormCreateOrder },
+  { path: '/orders/new-order', name: 'New Product Orders', component: NewOrder },
   { exact: true, path: '/resource', name: 'Resources & Services', component: Resources },
+
+  { exact: true, path: '/resource/translate-resources', name: 'Fetch xRM', component: FetchResources },
+
   { exact: true, path: '/resource/new-resource', name: 'Create Resource & Service', component: NewResource },
   { exact: true, path: '/prices/new', name: 'New Product Offering Price', component: NewProductOfferingPrice },
+
+  { exact: true, path: '/businesstransactions', name: 'Business Transactions', component: IssmBusinessTransactions },
 
   { path: '/resource/new-resource/new-category', name: 'New Category', component: NewCategory },
   {
@@ -53,7 +66,11 @@ const routes = [
   { path: '/templates/new/', name: 'New Legal Prose Template', component: NewLegalProseTemplate },
 
   { path: '/templates', name: 'Legal Prose Templates', component: LegalProseTemplates },
-  { path: '/prices', name: 'Product Offering Prices', component: ProductOfferingPrices }
+  { path: '/prices', name: 'Product Offering Prices', component: ProductOfferingPrices },
+
+  { path: '/certificates', name: 'Stakeholder Certificates', component: StakeholderCertificates },
+  { path: '/stakeholdercertificates', name: 'Stakeholder Certificates', component: AdminStakeholderCertificates }
+  // { path: '/offercertificates', name: 'Offer Certificates', component: AdminStakeholderCertificates }
 ]
 
 export default routes

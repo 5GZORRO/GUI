@@ -9,10 +9,13 @@ export interface ResourceCreationInter {
 }
 
 interface AssetsProps {
-  informationResource: boolean
-  spectrumResource: boolean
-  physicalResource: boolean
-  networkFunction: boolean
+  edge: boolean
+  cloud: boolean
+  spectrum: boolean
+  radioAccessNetwork: boolean
+  virtualNetworkFunction: boolean
+  networkSlice: boolean
+  networkService: boolean
 }
 
 export interface RolesProps {
@@ -21,7 +24,7 @@ export interface RolesProps {
 }
 
 export interface InputLogin {
-  // stakeholderDID: string
+  stakeholderDID: string
 }
 
 export interface InputRegister {
@@ -30,7 +33,7 @@ export interface InputRegister {
   email: string
   adminGovernance: boolean
   /* eslint-disable camelcase */
-  'handler_url': string
+  handler_url: string
   company: string
   address: string
   key: string
@@ -42,45 +45,76 @@ export interface InputRegister {
   roles: {
     administrator: {
       isSelect: boolean
-      informationResource: boolean
-      networkFunction: boolean
-      physicalResource: boolean
-      spectrumResource: boolean
+      edge: boolean
+      cloud: boolean
+      spectrum: boolean
+      radioAccessNetwork: boolean
+      virtualNetworkFunction: boolean
+      networkSlice: boolean
+      networkService: boolean
     }
     regulator: {
       isSelect: boolean
-      informationResource: boolean
-      networkFunction: boolean
-      physicalResource: boolean
-      spectrumResource: boolean
+      edge: boolean
+      cloud: boolean
+      spectrum: boolean
+      radioAccessNetwork: boolean
+      virtualNetworkFunction: boolean
+      networkSlice: boolean
+      networkService: boolean
     }
-    resourceProvider: {
+    trader: {
       isSelect: boolean
-      informationResource: boolean
-      networkFunction: boolean
-      physicalResource: boolean
-      spectrumResource: boolean
-    }
-    resourceConsumer: {
-      isSelect: boolean
-      informationResource: boolean
-      networkFunction: boolean
-      physicalResource: boolean
-      spectrumResource: boolean
-    }
-    serviceProvider: {
-      isSelect: boolean
-      informationResource: boolean
-      networkFunction: boolean
-      physicalResource: boolean
-      spectrumResource: boolean
-    }
-    serviceConsumer: {
-      isSelect: boolean
-      informationResource: boolean
-      networkFunction: boolean
-      physicalResource: boolean
-      spectrumResource: boolean
+      edge: boolean
+      cloud: boolean
+      spectrum: boolean
+      radioAccessNetwork: boolean
+      virtualNetworkFunction: boolean
+      networkSlice: boolean
+      networkService: boolean
     }
   }
+}
+
+export interface InputAddCertificate {
+  governanceDID: string
+  name: string
+  // company: string
+  email: string
+  address: string
+  spectrumResource: string
+  stakeholderObject: string
+  roles: any[]
+  // roles: {
+  //   administrator: {
+  //     isSelect: boolean
+  //     edge: boolean
+  //     cloud: boolean
+  //     spectrum: boolean
+  //     radioAccessNetwork: boolean
+  //     virtualNetworkFunction: boolean
+  //     networkSlice: boolean
+  //     networkService: boolean
+  //   }
+  //   regulator: {
+  //     isSelect: boolean
+  //     edge: boolean
+  //     cloud: boolean
+  //     spectrum: boolean
+  //     radioAccessNetwork: boolean
+  //     virtualNetworkFunction: boolean
+  //     networkSlice: boolean
+  //     networkService: boolean
+  //   }
+  //   trader: {
+  //     isSelect: boolean
+  //     edge: boolean
+  //     cloud: boolean
+  //     spectrum: boolean
+  //     radioAccessNetwork: boolean
+  //     virtualNetworkFunction: boolean
+  //     networkSlice: boolean
+  //     networkService: boolean
+  //   }
+  // }
 }

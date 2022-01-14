@@ -14,12 +14,12 @@ const RegisterSuccess: React.FC = () => {
   const [token, setToken] = useState<null | string>(null)
 
   useEffect(() => {
-    const key = window.sessionStorage.getItem(SESSION_TOKEN)
+    const key = window.localStorage.getItem(SESSION_TOKEN)
     if (key != null) {
       setToken(key)
-      window.sessionStorage.removeItem(SESSION_TOKEN)
+      window.localStorage.removeItem(SESSION_TOKEN)
     } else {
-      history.push('/login/')
+      history.push('/login')
     }
   }, [])
 
