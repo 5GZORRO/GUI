@@ -66,7 +66,7 @@ $ yarn build
 
 ### Deploy to Kubernetes instance
 
-This deploy consists of three separate nginx images, each one with the files for one specific deploy (operator-a, operator-b or operator-c). These images are pushed to Ubiwhere's docker hub repo and they are used by the k8s repo.
+This deploy consists of three separate nginx images, each one with the files for one specific deploy (operator-a, operator-b, operator-c or regulator-a). These images are pushed to Ubiwhere's docker hub repo and they are used by the k8s repo.
 
 In order to deploy to the existing Kubernetes instance, you'll need to connect to the project's VPN.
 
@@ -78,6 +78,7 @@ After that, you will need to:
     * BCN testbed
         * Move/copy the platcmpk8sconfig file to the kubectl config (usually the ~/.kube/config file).
             - cp ./deployment/platcmpk8sconfig ~/.kube
+            - export KUBECONFIG=~/.kube/platcmpk8sconfig
             - kubectl config use-context platcmp-platcmp-k8s-ctrl1
     * 5tonic testbed
         * Move/copy the k8sconfig-5tonic.yaml file to the kubectl config (usually the ~/.kube/config file).  
@@ -96,9 +97,9 @@ After that, you will need to:
         ```bash
         $ docker build -f deployment/Dockerfile . --build-arg DEPLOY_DIR=/operator-a/ --build-arg SRC_DIR=build/ --tag=ubiwhere/5gzorro-operator-a-dashboard
         ```
-        - The `DEPLOY_DIR` should be either `/operator-a/`, `/operator-b/` or `/operator-c/`, and is the destination folder where the frontend files will be placed in the nginx image. 
+        - The `DEPLOY_DIR` should be either `/operator-a/`, `/operator-b/`, `/operator-c/` or `/regulator-a/`, and is the destination folder where the frontend files will be placed in the nginx image. 
         - The `SRC_DIR` is the local directory containing the frontend build files. 
-        - The `image tag` should be either `ubiwhere/5gzorro-operator-a-dashboard`, `ubiwhere/5gzorro-operator-b-dashboard` or `ubiwhere/5gzorro-operator-c-dashboard`. For the 5tonic testbed add "5tonic" to the image tag name, example: `ubiwhere/5gzorro-5tonic-operator-b-dashboard`
+        - The `image tag` should be either `ubiwhere/5gzorro-operator-a-dashboard`, `ubiwhere/5gzorro-operator-b-dashboard`, `ubiwhere/5gzorro-operator-c-dashboard` or `ubiwhere/5gzorro-regulator-a-dashboard`. For the 5tonic testbed add "5tonic" to the image tag name, example: `ubiwhere/5gzorro-5tonic-operator-b-dashboard`
 
     * Login to docker hub with an account with privileges to push images under the Ubiwhere organization: 
         ```bash
@@ -114,7 +115,7 @@ After that, you will need to:
 
     * Delete the previous deploy: `kubectl delete -f deployment/deployment-a.yaml`
     * Create a new deploy: `kubectl create -f deployment/deployment-a.yaml`
-        * Note: change the deployment files accordingly. For the 5tonic testbed use the files named `5tonic-deployment-<a|b|c>.yaml`.
+        * Note: change the deployment files accordingly. For the 5tonic testbed use the files named `5tonic-deployment-<a|b|c|d>.yaml`.
     * Check if everything is ok. A pod, service and deployment should have been created in the respective namespace, which you can test by running:
         * `kubectl get pods -n domain-operator-a` (should have a pod like `operator-dashboard-a-<random_string>`)
         * `kubectl get services -n domain-operator-a` (should have a service `operator-service-a`)
