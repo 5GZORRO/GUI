@@ -399,9 +399,9 @@ const useAllXrmResources = async (params?: any): Promise<any[]> => {
   }
 }
 
-const translateResource = async ({ id, type, input }: { id: string; type: string; input: string }): Promise<any> => {
+const translateResource = async (params: any): Promise<any> => {
   let endpoint = ''
-  switch (type) {
+  switch (params?.type) {
     case 'VNF':
       endpoint = endpoints.XRM_VNF_TRANSLATOR_ENDPOINT
       break
@@ -420,7 +420,7 @@ const translateResource = async ({ id, type, input }: { id: string; type: string
   }
 
   let paramName = ''
-  switch (type) {
+  switch (params?.type) {
     case 'VNF':
       paramName = 'functionType'
       break
@@ -429,14 +429,27 @@ const translateResource = async ({ id, type, input }: { id: string; type: string
       break
   }
 
-  if (input !== '') {
+  if (params?.input !== undefined && params?.input !== '') {
     try {
-      const response = await axios.post(endpoint + `${id}`, null, {
+      const response = await axios.post(endpoint + `${params?.id}`, null, {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
           'X-Gravitee-Api-Key': XRM_TRANSLATOR_API_KEY
         },
-        params: { [paramName]: input }
+        params: { [paramName]: params?.input }
+      })
+      return response.data
+    } catch (err) {
+      console.log({ err })
+      throw new Error('error')
+    }
+  } else if (params?.type === 'RAD') {
+    try {
+      const response = await axios.post(endpoint + `${params?.id}`, params?.body?.[0], {
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Gravitee-Api-Key': XRM_TRANSLATOR_API_KEY
+        }
       })
       return response.data
     } catch (err) {
@@ -445,7 +458,7 @@ const translateResource = async ({ id, type, input }: { id: string; type: string
     }
   } else {
     try {
-      const response = await axios.post(endpoint + `${id}`, null, {
+      const response = await axios.post(endpoint + `${params?.id}`, null, {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
           'X-Gravitee-Api-Key': XRM_TRANSLATOR_API_KEY

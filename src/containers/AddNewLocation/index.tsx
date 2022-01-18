@@ -20,6 +20,9 @@ import { useCreateLocation } from 'hooks/api/Resources'
 import LoadingWithFade from 'components/LoadingWithFade'
 
 interface formLocation {
+  lat: string
+  lon: string
+  radius: string
   submittedGeographicAddress: {
     city: string
     country: string
@@ -31,13 +34,16 @@ interface formLocation {
 }
 
 const AddNewLocation = (props: any) => {
-  const { handleClose } = props
+  const { handleClose, radio } = props
   const {
     handleSubmit,
     formState: { errors },
     control
   } = useForm<formLocation>({
     defaultValues: {
+      lat: '',
+      lon: '',
+      radius: '',
       submittedGeographicAddress: {
         city: '',
         country: '',
@@ -54,10 +60,12 @@ const AddNewLocation = (props: any) => {
   const onSubmit = (data: formLocation) => {
     mutate({
       submittedGeographicAddress: {
-        ...data,
+        city: data?.submittedGeographicAddress?.city,
+        country: data?.submittedGeographicAddress?.country,
+        locality: data?.submittedGeographicAddress?.locality,
         geographicLocation: {
-          ...data?.submittedGeographicAddress?.geographicLocation,
-          geometry: [],
+          name: data?.submittedGeographicAddress?.geographicLocation.name,
+          geometry: [{ x: data?.lat, y: data?.lon, z: data?.radius !== '' ? data?.radius : '0' }],
           geometryType: 'string'
         }
       }
@@ -143,6 +151,49 @@ const AddNewLocation = (props: any) => {
                       {errors?.submittedGeographicAddress?.country && (
                         <CFormText className="help-block">Please enter a country</CFormText>
                       )}
+                    </CFormGroup>
+                  </CCol>
+                </CRow>
+                <CRow>
+                  <CCol sm={6}>
+                    <CFormGroup>
+                      <CLabel htmlFor="lat">Latitude</CLabel>
+                      <Controller
+                        control={control}
+                        defaultValue={''}
+                        rules={{ required: true }}
+                        name="lat"
+                        render={({ field }) => <CInput placeholder={'Enter a latitude'} {...field} />}
+                      />
+                      {errors?.lat && <CFormText className="help-block">Please enter a latitude</CFormText>}
+                    </CFormGroup>
+                  </CCol>
+                  <CCol sm={6}>
+                    <CFormGroup>
+                      <CLabel htmlFor="lon">Longitude</CLabel>
+                      <Controller
+                        control={control}
+                        defaultValue={''}
+                        rules={{ required: true }}
+                        name="lon"
+                        render={({ field }) => <CInput placeholder={'Enter a longitude'} {...field} />}
+                      />
+                      {errors?.lon && <CFormText className="help-block">Please enter a longitude</CFormText>}
+                    </CFormGroup>
+                  </CCol>
+                </CRow>
+                <CRow>
+                  <CCol sm={6}>
+                    <CFormGroup>
+                      <CLabel htmlFor="radius">Radius</CLabel>
+                      <Controller
+                        control={control}
+                        defaultValue={''}
+                        rules={{ required: radio !== undefined && radio === true }}
+                        name="radius"
+                        render={({ field }) => <CInput placeholder={'Enter a radius'} {...field} />}
+                      />
+                      {errors?.radius && <CFormText className="help-block">Please enter a radius</CFormText>}
                     </CFormGroup>
                   </CCol>
                 </CRow>

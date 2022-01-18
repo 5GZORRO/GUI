@@ -20,20 +20,26 @@ import {
   CInput,
   CFormText,
   CInputCheckbox,
-  CSelect
+  CSelect,
+  CInputGroupAppend
 } from '@coreui/react'
 
 import LoadingWithFade from 'components/LoadingWithFade'
 
 import { useQueryClient } from 'react-query'
-import { useAllXrmResources, useTranslateResource } from 'hooks/api/Resources'
+import { useAllLocations, useAllXrmResources, useTranslateResource } from 'hooks/api/Resources'
 import CIcon from '@coreui/icons-react'
 import { Controller, useForm } from 'react-hook-form'
 import { ErrorMessage } from '@hookform/error-message'
+import { PlusCircle, MinusCircle } from 'assets/icons/externalIcons'
+import AddNewLocation from 'containers/AddNewLocation'
 
 const FetchResources: React.FC = () => {
   const [modal, setModal] = useState<any | null>(null)
+  const [modalRadio, setModalRadio] = useState<any | null>(null)
+  const [addNewLocation, setAddnewLocation] = useState(false)
   const [selectedItem, setSelectedItem] = useState<any | null>(null)
+  const { data: locations, isLoading: isLoadingLocations, refetch: refetchLocation } = useAllLocations()
   const history = useHistory()
 
   const queryClient = useQueryClient()
@@ -47,6 +53,7 @@ const FetchResources: React.FC = () => {
     watch
   } = useForm<any>({
     defaultValues: {
+      location: '',
       function: '',
       option: 'no'
     }
@@ -79,12 +86,32 @@ const FetchResources: React.FC = () => {
     }
   ]
 
-  const onSubmit = () => {
-    mutate({
-      id: selectedItem.id,
-      type: selectedItem.contentType,
-      input: func
-    })
+  const onSubmit = (data: any) => {
+    if (selectedItem.contentType === 'RAD') {
+      const objectData = JSON.parse(data?.location)
+      const body = [
+        {
+          name: objectData?.geographicLocation?.name,
+          city: objectData?.city,
+          country: objectData?.country,
+          locality: objectData?.locality,
+          lat: objectData?.geographicLocation?.geometry?.[0]?.x,
+          lon: objectData?.geographicLocation?.geometry?.[0]?.y,
+          radius: objectData?.geographicLocation?.geometry?.[0]?.z
+        }
+      ]
+      mutate({
+        id: selectedItem.id,
+        type: selectedItem.contentType,
+        body
+      })
+    } else {
+      mutate({
+        id: selectedItem.id,
+        type: selectedItem.contentType,
+        input: func
+      })
+    }
   }
 
   const showButton = (item: any) => (
@@ -98,6 +125,9 @@ const FetchResources: React.FC = () => {
           if (item.contentType === 'VNF' || item.contentType === 'NSD') {
             setSelectedItem(item)
             setModal(true)
+          } else if (item.contentType === 'RAD') {
+            setSelectedItem(item)
+            setModalRadio(true)
           } else {
             mutate({
               id: item?.id,
@@ -142,7 +172,87 @@ const FetchResources: React.FC = () => {
 
   return (
     <CContainer fluid={false}>
-      {modal != null && (
+      {modalRadio !== null && (
+        <CModal
+          show={true}
+          onClose={() => {
+            setModalRadio(null)
+          }}
+          size="lg"
+        >
+          <CForm onSubmit={handleSubmit(onSubmit)}>
+            <CCardHeader>Radio Access Network</CCardHeader>
+            <CCardBody>
+              <CRow>
+                <CCol sm={6}>
+                  <CFormGroup>
+                    <CLabel>Location</CLabel>
+                    <CInputGroup>
+                      {!isLoadingLocations && (
+                        <Controller
+                          control={control}
+                          defaultValue={''}
+                          rules={{ required: true }}
+                          name="location"
+                          render={({ field }) => (
+                            <CSelect {...field} id="location">
+                              <option value="" disabled>
+                                Select one
+                              </option>
+
+                              {locations?.map((el, index) => (
+                                <option value={JSON.stringify(el)} key={el?.id}>
+                                  {el?.geographicLocation?.name}
+                                </option>
+                              ))}
+                            </CSelect>
+                          )}
+                        />
+                      )}
+                      <CInputGroupAppend>
+                        <CButton type="button" color="transparent" onClick={() => setAddnewLocation(true)}>
+                          {addNewLocation ? <MinusCircle /> : <PlusCircle />}
+                        </CButton>
+                      </CInputGroupAppend>
+                    </CInputGroup>
+                    {errors.location && <CFormText className="help-block">Please select a location</CFormText>}
+                  </CFormGroup>
+                </CCol>
+              </CRow>
+            </CCardBody>
+            <div className={'mt-3 d-flex justify-content-end mb-3 mr-4'}>
+              <div className={'d-flex'}>
+                <CButton
+                  className={'text-uppercase px-5 mr-4'}
+                  type="cancel"
+                  variant="outline"
+                  color={'white'}
+                  onClick={() => {
+                    setModalRadio(null)
+                  }}
+                >
+                  Cancel
+                </CButton>
+              </div>
+              <div className={'d-flex'}>
+                <CButton className={'text-uppercase px-5'} type="submit" color={'gradient'}>
+                  Submit
+                </CButton>
+              </div>
+            </div>
+          </CForm>
+          {addNewLocation && (
+            <AddNewLocation
+              radio={true}
+              handleClose={() => {
+                setAddnewLocation(false)
+                refetchLocation()
+              }}
+            ></AddNewLocation>
+          )}
+        </CModal>
+      )}
+      {modal !== null && (
         <CModal
           show={true}
           onClose={() => {
@@ -154,12 +264,16 @@ const FetchResources: React.FC = () => {
           <CContainer className={'p-0'}>
             {false && <LoadingWithFade />}
             <CForm onSubmit={handleSubmit(onSubmit)}>
-              <CCardHeader>{selectedItem.contentType === 'VNF' ? <h5>Input Function </h5> : <h5>Service Type </h5>}</CCardHeader>
+              <CCardHeader>
+                {selectedItem.contentType === 'VNF' ? <h5>Input Function </h5> : <h5>Service Type </h5>}
+              </CCardHeader>
               <CCardBody>
                 <CRow>
                   <CCol sm={6}>
                     <CFormGroup>
-                      <CLabel htmlFor="name">{selectedItem.contentType === 'VNF' ? 'Add input function' : 'Service type'}</CLabel>
+                      <CLabel htmlFor="name">
+                        {selectedItem.contentType === 'VNF' ? 'Add input function' : 'Service type'}
+                      </CLabel>
                       <Controller
                         control={control}
                         rules={{ required: true }}
