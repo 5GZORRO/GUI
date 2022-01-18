@@ -28,7 +28,6 @@ export const transformForm = (form: InputAddCertificate) => {
     stakeholderProfile: {
       name: form.name,
       address: form.address,
-      company: '',
       ledgerIdentity: LEDGER_IDENTITY,
       notificationMethod: {
         notificationType: 'EMAIL',

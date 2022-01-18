@@ -14,19 +14,11 @@ const ApprovedCertificates: React.FC = (props: any) => {
     'role',
     { key: 'stakeholderRoles', label: 'Assets' },
     { key: 'stakeholderDID', label: 'Stakeholder DID' },
-    'company',
     { key: 'actions', label: 'Actions', filter: false, sort: false }
   ]
 
   const handleSubmit = (resolve: { 'cred_exchange_id': string }) => {
     mutate(resolve)
-  }
-
-  const showCompany = (item: any) => {
-    if (item?.company) {
-      return <td className="py-2">{item?.company}</td>
-    }
-    return <td className="py-2">{'-'}</td>
   }
 
   const showButton = (item: any) => (
@@ -65,7 +57,6 @@ const ApprovedCertificates: React.FC = (props: any) => {
         hover
         pagination
         scopedSlots={{
-          company: (item: any) => showCompany(item),
           actions: (item: any) => showButton(item)
         }}
       />

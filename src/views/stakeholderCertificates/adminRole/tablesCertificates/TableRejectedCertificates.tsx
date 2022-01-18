@@ -13,17 +13,9 @@ const RejectedCertificates: React.FC = (props: any) => {
     'name',
     'role',
     { key: 'stakeholderRoles', label: 'Assets' },
-    { key: 'stakeholderDID', label: 'Stakeholder DID' },
-    'company'
+    { key: 'stakeholderDID', label: 'Stakeholder DID' }
     // 'status'
   ]
-
-  const showCompany = (item: any) => {
-    if (item?.company) {
-      return <td className="py-2">{item?.company}</td>
-    }
-    return <td className="py-2">{'-'}</td>
-  }
 
   return (
     <>
@@ -39,9 +31,6 @@ const RejectedCertificates: React.FC = (props: any) => {
         sorter
         hover
         pagination
-        scopedSlots={{
-          company: (item: any) => showCompany(item)
-        }}
       />
     </>
   )

@@ -34,7 +34,6 @@ export interface InputRegister {
   adminGovernance: boolean
   /* eslint-disable camelcase */
   handler_url: string
-  company: string
   address: string
   key: string
   regulatorRole: boolean

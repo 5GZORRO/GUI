@@ -14,17 +14,8 @@ const CertificatesNormal: React.FC = () => {
     'role',
     { key: 'stakeholderRoles', label: 'assets' },
     { key: 'stakeholderDID', label: 'Stakeholder DID' },
-    'company',
     { key: 'state', label: 'Status' }
   ]
-
-  const showCompany = (item: any) => {
-    if (item?.company) {
-      // return
-      return <td className="py-2">{item?.company}</td>
-    }
-    return <td className="py-2">{'-'}</td>
-  }
 
   return (
     <>
@@ -40,9 +31,6 @@ const CertificatesNormal: React.FC = () => {
         sorter
         hover
         pagination
-        scopedSlots={{
-          company: (item: any) => showCompany(item)
-        }}
       />
     </>
   )

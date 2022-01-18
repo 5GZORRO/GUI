@@ -14,20 +14,11 @@ const PendingCertificates: React.FC = (props: any) => {
     'role',
     { key: 'stakeholderRoles', label: 'Assets' },
     { key: 'stakeholderDID', label: 'Stakeholder DID' },
-    'company',
     { key: 'actions', label: 'Actions', filter: false }
   ]
 
   const handleSubmit = (resolve: { 'stakeholder_did': string; approval: boolean }) => {
     mutate(resolve)
-  }
-
-  const showCompany = (item: any) => {
-    if (item?.company) {
-      // return
-      return <td className="py-2">{item?.company}</td>
-    }
-    return <td className="py-2">{'-'}</td>
   }
 
   const showButton = (item: any) => (
@@ -74,7 +65,6 @@ const PendingCertificates: React.FC = (props: any) => {
         hover
         pagination
         scopedSlots={{
-          company: (item: any) => showCompany(item),
           actions: (item: any) => showButton(item)
         }}
       />

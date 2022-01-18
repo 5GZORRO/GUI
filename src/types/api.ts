@@ -1261,7 +1261,6 @@ export interface ApiCertificatesBody {
   stakeholderProfile: {
     name: string
     address: string
-    company: string
   }
 }
 

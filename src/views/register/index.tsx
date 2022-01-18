@@ -384,7 +384,7 @@ const Register: React.FC = () => {
                             </CFormText>
                           </CCol>
                         </CRow>
-                        <CFormGroup className={'mb-2'}>
+                        {/* <CFormGroup className={'mb-2'}>
                           <CLabel>Company</CLabel>
                           <CInputGroup>
                             <CInputGroupPrepend>
@@ -413,7 +413,7 @@ const Register: React.FC = () => {
                               Please enter a valid company
                             </CFormText>
                           )}
-                        </CFormGroup>
+                        </CFormGroup> */}
                         <CFormGroup className={'mb-2'}>
                           <CLabel>Name</CLabel>
                           <CInputGroup>

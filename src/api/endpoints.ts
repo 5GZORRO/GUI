@@ -1,4 +1,4 @@
-import { API_MARKET_PLACE, API_IPM, API_SMART_CONTRACT, API_GOVERNANCE, API_LPT, XRM_ENDPOINT, API_SRSD, API_ISSM_ARCHIVED, API_ISSM } from 'config'
+import { API_MARKET_PLACE, API_IPM, API_SMART_CONTRACT, API_GOVERNANCE, API_LPT, XRM_ENDPOINT, API_SRSD, API_ISSM } from 'config'
 
 export const endpoints = {
   MEMBERSHIPS: `${API_GOVERNANCE}/api/v1/memberships`,
@@ -32,7 +32,7 @@ export const endpoints = {
   ISSM_ALL_BUSINESS_TRANSACTIONS: `${API_ISSM}/transactions`,
   ISSM_TRANSACTIONS_TYPES: `${API_ISSM}/transactions_types`,
   ISSM_SCALE_OUT: `${API_ISSM}/transactions`,
-  ISSM_ARCHIVED: `${API_ISSM_ARCHIVED}/archived-workflows/domain-`,
+  ISSM_ARCHIVED: `${API_ISSM}/archived-workflows/domain-`,
   ISSM_DELETE: `${API_ISSM}/transactions`,
   CERTIFICATE_HOLDER_CERTIFICATES: `${API_IPM}/holder/read_stakeholder`,
   CERTIFICATE_HOLDER_REGISTER: `${API_IPM}/holder/register_stakeholder`,
