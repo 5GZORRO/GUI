@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { endpoints } from 'api/endpoints'
 import axios from 'api/instance'
-import { ApiIssuerOffers, ApiCertificatesBody } from 'types/api'
+import { ApiIssuerOffers, ApiCertificatesBody, ApiOrganizationBody } from 'types/api'
 
 const registerStakeholder = async (body: ApiCertificatesBody) => {
   try {
@@ -213,9 +213,48 @@ const resolveOffer = async (body: any): Promise<any> => {
   }
 }
 
-const resolveStakeholder = async (body: any): Promise<any> => {
+const resolveStakeholder = async (body: any, params: any): Promise<any> => {
   try {
     const response = await axios.put(endpoints.CERTIFICATE_ADMIN_RESOLVE, body)
+    if (params?.stakeholderClaim?.stakeholderRoles?.[0]?.role === 'Regulator') {
+      params?.stakeholderClaim?.stakeholderRoles?.[0]?.assets.forEach(async (element: any) => {
+        let category = ''
+        switch (element) {
+          case 'Edge':
+            category = 'Edge'
+            break
+          case 'Cloud':
+            category = 'Cloud'
+            break
+          case 'Spectrum':
+            category = 'SPC'
+            break
+          case 'RadioAccessNetwork':
+            category = 'RAD'
+            break
+          case 'VirtualNetworkFunction':
+            category = 'VNF'
+            break
+          case 'NetworkSlice':
+            category = 'NS'
+            break
+          case 'NetworkService':
+            category = 'NSD'
+            break
+        }
+        try {
+          await axios.post(params?.handler_url + '/productCatalogManagement/v4/category', { name: category })
+        } catch (e) {}
+      })
+
+      try {
+        await axios.post(params?.handler_url + '/party/v4/organization', <ApiOrganizationBody>{
+          organizationCreate: { name: params?.stakeholderClaim?.stakeholderProfile?.name },
+          stakeholderDID: params?.stakeholderClaim?.stakeholderDID,
+          token: params?.id_token
+        })
+      } catch (err) {}
+    }
     return response.data
   } catch (e) {
     console.log({ e })

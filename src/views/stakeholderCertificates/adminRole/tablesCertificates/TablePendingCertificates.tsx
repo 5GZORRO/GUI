@@ -6,8 +6,11 @@ import { CRow, CCol, CButton, CContainer, CDataTable, CCard, CCardBody, CCardHea
 
 const PendingCertificates: React.FC = (props: any) => {
   const { modal } = props
+  const { user } = useAuthContext()
   const { data, isLoading, refetch } = getAllPendingCertificates()
-  const { mutate, isSuccess, isLoading: loadingResolve, isError } = resolveStakeholder()
+  const { mutate, isSuccess, isLoading: loadingResolve, isError } = resolveStakeholder(user)
+
+  console.log(user)
 
   const fields = [
     'name',

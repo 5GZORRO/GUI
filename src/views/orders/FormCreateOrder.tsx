@@ -283,11 +283,11 @@ const FormCreateOrder: React.FC = () => {
                             )}
                           />
                         )}
-                        <CInputGroupAppend>
+                        {/* <CInputGroupAppend>
                           <CButton type="button" color="transparent" onClick={() => setAddCategoryModal(true)}>
                             <PlusCircle />
                           </CButton>
-                        </CInputGroupAppend>
+                        </CInputGroupAppend> */}
                       </CInputGroup>
                       {errors.category && (
                         <CFormText className="help-block">Please select at least a category</CFormText>

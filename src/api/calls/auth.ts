@@ -45,15 +45,14 @@ const verifyClient = async (params: any, data: any) => {
   try {
     const response = await axios.get(endpoints.LOGIN, { params: { stakeholder_did: params !== null ? params : data } })
 
-    if ((await response?.data?.stakeholderClaim?.stakeholderDID) && response?.data?.id_token) {
-      try {
-        await axios.post(endpoints.REGISTER_ORGANIZATION, <ApiOrganizationBody>{
-          organizationCreate: { name: response?.data?.stakeholderClaim?.stakeholderProfile?.name },
-          stakeholderDID: response?.data?.stakeholderClaim?.stakeholderDID,
-          token: response?.data?.id_token
-        })
-      } catch (err) {}
-    }
+    // if ((await response?.data?.stakeholderClaim?.stakeholderDID) && response?.data?.id_token) {
+    //   try {
+    //     await axios.post(endpoints.REGISTER_ORGANIZATION, <ApiOrganizationBody>{
+    //       organizationCreate: { name: response?.data?.stakeholderClaim?.stakeholderProfile?.name },
+    //       stakeholderDID: response?.data?.stakeholderClaim?.stakeholderDID,
+    //       token: response?.data?.id_token
+    //     })
+    //   } catch (err) {}
     return response?.data
   } catch (e) {
     console.log({ e })

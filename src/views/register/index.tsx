@@ -34,6 +34,8 @@ import { useRegister } from 'hooks/api/Auth'
 /** Type */
 import { InputRegister } from 'types/forms'
 import LoadingWithFade from 'components/LoadingWithFade'
+import { endpoints } from 'api'
+import { API_MARKET_PLACE } from 'environments/5tonic-regulatorA'
 
 const Register: React.FC = () => {
   const {
@@ -48,7 +50,7 @@ const Register: React.FC = () => {
       governanceDID: '',
       address: '',
       email: '',
-      handler_url: ''
+      handler_url: API_MARKET_PLACE
     },
     // import from utils
     resolver: yupResolver(schemaRegister)

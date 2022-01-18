@@ -49,8 +49,8 @@ export const resolveOffer = () => {
   return useMutation(['resolveOffer'], (body: any) => api.certificates.resolveOffer(body))
 }
 
-export const resolveStakeholder = () => {
-  return useMutation(['resolveStakeholder'], (body: any) => api.certificates.resolveStakeholder(body))
+export const resolveStakeholder = (params: any) => {
+  return useMutation(['resolveStakeholder'], (body: any) => api.certificates.resolveStakeholder(body, params))
 }
 
 export const revokeCertificate = () => {

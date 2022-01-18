@@ -119,6 +119,7 @@
     "start:operatorA": "cross-env APP_ENV=operatorA node scripts/start.js",
     "start:operatorB": "cross-env APP_ENV=operatorB node scripts/start.js",
     "start:operatorC": "cross-env APP_ENV=operatorC node scripts/start.js",
+    "start:regulatorA": "cross-env APP_ENV=regulatorA node scripts/start.js",
     "build:barcelona:operatorA": "cross-env APP_ENV=operatorA NODE_OPTIONS='--max-old-space-size=8192' node scripts/build.js",
     "build:barcelona:operatorB": "cross-env APP_ENV=operatorB NODE_OPTIONS='--max-old-space-size=8192' node scripts/build.js",
     "build:barcelona:operatorC": "cross-env APP_ENV=operatorC NODE_OPTIONS='--max-old-space-size=8192' node scripts/build.js",
