@@ -6,7 +6,7 @@ export const API_SMART_CONTRACT = 'http://172.28.3.6:31080/smart-contract-lifecy
 
 export const XRM_ENDPOINT = 'http://172.28.3.126:31081'
 export const XRM_DISCOVERY_API_KEY = '7591d6b3-827c-4ac1-a2e0-046c31191910'
-export const XRM_TRANSLATOR_API_KEY = 'f9efe387-90e5-47b8-b795-08bf42c9e974'
+export const XRM_TRANSLATOR_API_KEY = 'a7622e83-2a7a-4f0c-aacd-3e01fef33c8f'
 export const RAPP_DISCOVERY_API_KEY = '17069cc2-6c4e-44ac-b9f4-a2a0bbf01be2'
 
 export const APP_ENV = 'production'
