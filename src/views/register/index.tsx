@@ -26,7 +26,7 @@ import { LogoVerticalWhite } from 'assets/icons/logos'
 import { TheFooter } from 'containers/index'
 import { useHistory } from 'react-router'
 import { transformForm, assestsArray, schemaRegister } from './utils'
-import { SESSION_TOKEN } from 'config'
+import { SESSION_TOKEN, API_MARKET_PLACE } from 'config'
 /** Hooks */
 import { useRegister } from 'hooks/api/Auth'
 /** Components */
@@ -35,7 +35,6 @@ import { useRegister } from 'hooks/api/Auth'
 import { InputRegister } from 'types/forms'
 import LoadingWithFade from 'components/LoadingWithFade'
 import { endpoints } from 'api'
-import { API_MARKET_PLACE } from 'environments/5tonic-regulatorA'
 
 const Register: React.FC = () => {
   const {

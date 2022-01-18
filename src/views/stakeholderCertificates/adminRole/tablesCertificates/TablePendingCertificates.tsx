@@ -10,8 +10,6 @@ const PendingCertificates: React.FC = (props: any) => {
   const { data, isLoading, refetch } = getAllPendingCertificates()
   const { mutate, isSuccess, isLoading: loadingResolve, isError } = resolveStakeholder(user)
 
-  console.log(user)
-
   const fields = [
     'name',
     'role',
@@ -20,7 +18,7 @@ const PendingCertificates: React.FC = (props: any) => {
     { key: 'actions', label: 'Actions', filter: false }
   ]
 
-  const handleSubmit = (resolve: { 'stakeholder_did': string; approval: boolean }) => {
+  const handleSubmit = (resolve: { user: any; approval: boolean }) => {
     mutate(resolve)
   }
 
@@ -31,7 +29,7 @@ const PendingCertificates: React.FC = (props: any) => {
         color="success"
         className={'text-uppercase px-3 mr-3'}
         shape="rounded"
-        onClick={() => handleSubmit({ stakeholder_did: item?.stakeholderDID, approval: true })}
+        onClick={() => handleSubmit({ user: item, approval: true })}
       >
         Accept
       </CButton>
@@ -40,7 +38,7 @@ const PendingCertificates: React.FC = (props: any) => {
         color="danger"
         className={'text-uppercase px-3'}
         shape="rounded"
-        onClick={() => handleSubmit({ stakeholder_did: item?.stakeholderDID, approval: false })}
+        onClick={() => handleSubmit({ user: item, approval: false })}
       >
         Decline
       </CButton>

@@ -145,6 +145,7 @@ const getAllPendingCertificates = async (): Promise<any[]> => {
     if (response) {
       response.data.forEach((element: any) => {
         newArr.push({
+          roles: element?.stakeholderClaim?.stakeholderRoles[0]?.assets,
           stakeholderDID: element?.stakeholderClaim?.stakeholderDID,
           ledgerIdentity: element?.stakeholderClaim?.stakeholderProfile?.ledgerIdentity,
           name: element?.stakeholderClaim?.stakeholderProfile?.name,
@@ -155,7 +156,8 @@ const getAllPendingCertificates = async (): Promise<any[]> => {
             })
             ?.join(', '),
           state: element?.state,
-          timestamp: element?.timestamp
+          timestamp: element?.timestamp,
+          handler_url: element?.handler_url
         })
       })
       return newArr
@@ -215,9 +217,9 @@ const resolveOffer = async (body: any): Promise<any> => {
 
 const resolveStakeholder = async (body: any, params: any): Promise<any> => {
   try {
-    const response = await axios.put(endpoints.CERTIFICATE_ADMIN_RESOLVE, body)
+    const response = await axios.put(endpoints.CERTIFICATE_ADMIN_RESOLVE, { stakeholder_did: body?.stakeholderDID })
     if (params?.stakeholderClaim?.stakeholderRoles?.[0]?.role === 'Regulator') {
-      params?.stakeholderClaim?.stakeholderRoles?.[0]?.assets.forEach(async (element: any) => {
+      body?.roles.forEach(async (element: any) => {
         let category = ''
         switch (element) {
           case 'Edge':
@@ -243,15 +245,15 @@ const resolveStakeholder = async (body: any, params: any): Promise<any> => {
             break
         }
         try {
-          await axios.post(params?.handler_url + '/productCatalogManagement/v4/category', { name: category })
+          await axios.post(body?.handler_url + '/productCatalogManagement/v4/category', { name: category })
         } catch (e) {}
       })
 
       try {
-        await axios.post(params?.handler_url + '/party/v4/organization', <ApiOrganizationBody>{
-          organizationCreate: { name: params?.stakeholderClaim?.stakeholderProfile?.name },
-          stakeholderDID: params?.stakeholderClaim?.stakeholderDID,
-          token: params?.id_token
+        await axios.post(body?.handler_url + '/party/v4/organization', <ApiOrganizationBody>{
+          organizationCreate: { name: body?.stakeholderClaim?.stakeholderProfile?.name },
+          stakeholderDID: body?.stakeholderClaim?.stakeholderDID,
+          token: body?.id_token
         })
       } catch (err) {}
     }
