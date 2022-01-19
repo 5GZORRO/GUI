@@ -265,14 +265,14 @@ const FetchResources: React.FC = () => {
             {false && <LoadingWithFade />}
             <CForm onSubmit={handleSubmit(onSubmit)}>
               <CCardHeader>
-                {selectedItem.contentType === 'VNF' ? <h5>Input Function </h5> : <h5>Service Type </h5>}
+                {selectedItem.contentType === 'VNF' ? <h5>Function Type </h5> : <h5>Service Type </h5>}
               </CCardHeader>
               <CCardBody>
                 <CRow>
                   <CCol sm={6}>
                     <CFormGroup>
                       <CLabel htmlFor="name">
-                        {selectedItem.contentType === 'VNF' ? 'Add input function' : 'Service type'}
+                        {selectedItem.contentType === 'VNF' ? 'Add function type' : 'Add service type'}
                       </CLabel>
                       <Controller
                         control={control}
