@@ -218,7 +218,7 @@ const resolveOffer = async (body: any): Promise<any> => {
 const resolveStakeholder = async (body: any, params: any): Promise<any> => {
   try {
     const response = await axios.put(endpoints.CERTIFICATE_ADMIN_RESOLVE, { stakeholder_did: body?.user?.stakeholderDID, approval: body?.approval })
-    if (params?.stakeholderClaim?.stakeholderRoles?.[0]?.role === 'Regulator' && body?.approval === true) {
+    if (params?.stakeholderClaim?.stakeholderRoles?.[0]?.role === 'Regulator' || params?.stakeholderClaim?.stakeholderRoles?.[0]?.role === 'Administrator' && body?.approval === true) {
       body?.user?.roles.forEach(async (element: any) => {
         let category = ''
         switch (element) {
