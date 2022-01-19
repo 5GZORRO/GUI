@@ -209,7 +209,32 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
   }
 
   const arrayToStringsData = (item: any, property: string) => (
-    <td>{item?.map((el: any) => el?.[property])?.join(', ')}</td>
+    <td>{item
+      ?.map((el: any) => {
+        let resp = ''
+        switch (el?.[property]) {
+          case 'VNF':
+            resp = 'Virtual Network Function'
+            break
+          case 'NSD':
+            resp = 'Network Service'
+            break
+          case 'NS':
+            resp = 'Network Slice'
+            break
+          case 'SPC':
+            resp = 'Spectrum'
+            break
+          case 'RAD':
+            resp = 'Radio Access Network'
+            break
+          default:
+            resp = el?.[property]
+            break
+        }
+        return resp
+      })
+      .join(', ')}</td>
   )
 
   const stakeholderRender = (item: any) => (
