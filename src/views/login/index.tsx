@@ -24,7 +24,7 @@ import { useHistory } from 'react-router'
 /** Container */
 import { TheFooter } from 'containers'
 /** Hooks */
-import { useLogin, registerOrganization, deleteOrganization } from 'hooks/api/Auth'
+import { useLogin, registerOrganization } from 'hooks/api/Auth'
 import { useAuthContext } from 'context/AuthContext'
 
 import { InputLogin } from 'types/forms'
@@ -43,7 +43,6 @@ const Login: React.FC = () => {
   // const key = window.localStorage.getItem(SESSION_TOKEN)
   const { data, mutate, isSuccess, isLoading } = useLogin()
   const { user, signin } = useAuthContext()
-  // deleteOrganization()
 
   const onSubmit = (data: InputLogin) => {
     mutate(data.stakeholderDID)

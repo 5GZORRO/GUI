@@ -41,7 +41,6 @@ const deleteOrganization = async () => {
 }
 
 const verifyClient = async (data: any) => {
-  await deleteOrganization()
   try {
     const response = await axios.get(endpoints.LOGIN, { params: { stakeholder_did: data } })
 

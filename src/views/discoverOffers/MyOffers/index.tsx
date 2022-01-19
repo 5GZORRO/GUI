@@ -57,7 +57,9 @@ const MyOffers = () => {
     }
   ]
 
-  const arrayToStringsData = (item: any, property: string) => <td>{item?.map((el: any) => el[property]).join(', ')}</td>
+  const arrayToStringsData = (item: any, property: string) => {
+    return <td>{item?.map((el: any) => el?.[property]).join(', ')}</td>
+  }
 
   const showButton = (item: any) => (
     <td className="py-2">

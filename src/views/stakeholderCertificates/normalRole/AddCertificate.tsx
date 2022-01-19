@@ -99,7 +99,12 @@ const AddCertificate = (props: any) => {
 
   return (
     <CContainer className={'p-0'}>
-      {false && <LoadingWithFade />}
+      {isLoading && !isError && <LoadingWithFade />}
+        {!isLoading && isError && (
+          <p style={{ color: 'red', padding: '0.5rem', background: 'rgba(255, 0, 0, 0.1)' }}>
+            An error has occurred, please try again
+          </p>
+        )}
       <CForm onSubmit={handleSubmit(onSubmit)}>
         <CCardHeader>
           <h5>New Stakeholder Certificate</h5>
@@ -450,7 +455,7 @@ const AddCertificate = (props: any) => {
               </CFormGroup>
             </CCol>
           </CRow> */}
-          <CRow>
+          {/* <CRow>
             <CCol sm={6}>
               <CFormGroup>
                 <CLabel htmlFor="name">Spectrum Resource</CLabel>
@@ -475,8 +480,7 @@ const AddCertificate = (props: any) => {
                 )}
               </CFormGroup>
             </CCol>
-          </CRow>
-          {spectrumResource === 'yes' && (
+          </CRow> */}
             <CRow>
               <CCol sm={12}>
                 <CFormGroup>
@@ -495,11 +499,10 @@ const AddCertificate = (props: any) => {
                       />
                     )}
                   />
-                  {errors.spectrumResource && <CFormText className="help-block">Please add a valid object</CFormText>}
+                  {errors.stakeholderObject && <CFormText className="help-block">Please add a valid object</CFormText>}
                 </CFormGroup>
               </CCol>
             </CRow>
-          )}
         </CCardBody>
         <div className={'mt-3 d-flex justify-content-end mb-5 mr-4'}>
           <div className={'d-flex'}>
