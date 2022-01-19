@@ -20,10 +20,10 @@ const allowedPaths = ['/login', '/register', '/register/success', '/not-found']
 
 const ProviderAuth = ({ children }: IProps) => {
   const [user, setUser] = useState<StackeholderResponse | null>(null)
-  const key = window.localStorage.getItem(SESSION_TOKEN)
+  // const key = window.localStorage.getItem(SESSION_TOKEN)
   const history = useHistory()
   const location = useLocation()
-  const { data, mutate } = useLogin(key)
+  const { data, mutate } = useLogin()
 
   useEffect(() => {
     const getUser = async (prevUser: string) => {

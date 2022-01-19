@@ -40,8 +40,8 @@ const Login: React.FC = () => {
     control
   } = useForm<InputLogin>()
   const history = useHistory()
-  const key = window.localStorage.getItem(SESSION_TOKEN)
-  const { data, mutate, isSuccess, isLoading } = useLogin(key)
+  // const key = window.localStorage.getItem(SESSION_TOKEN)
+  const { data, mutate, isSuccess, isLoading } = useLogin()
   const { user, signin } = useAuthContext()
   // deleteOrganization()
 
@@ -57,7 +57,7 @@ const Login: React.FC = () => {
 
   useEffect(() => {
     if (isSuccess && data?.stakeholderClaim) {
-      window.localStorage.setItem(SESSION_TOKEN, data?.stakeholderClaim?.stakeholderDID)
+      // window.localStorage.setItem(SESSION_TOKEN, data?.stakeholderClaim?.stakeholderDID)
       signin(data)
       history.push('/')
     }
@@ -83,40 +83,40 @@ const Login: React.FC = () => {
                       <CCardBody className={'p-0'}>
                         <h1 className={'mb-4'}>Login</h1>
                         <p className="text-muted">Sign In to your account</p>
-                        {!key && (
-                          <CFormGroup className={'mb-4'}>
-                            <CLabel>Stakeholder DID</CLabel>
-                            <CInputGroup>
-                              <CInputGroupPrepend>
-                                <CInputGroupText>
-                                  <KeyLogin />
-                                </CInputGroupText>
-                              </CInputGroupPrepend>
-                              <Controller
-                                control={control}
-                                defaultValue={''}
-                                name="stakeholderDID"
-                                rules={{ required: true }}
-                                render={({ field: { onChange, onBlur, value } }) => (
-                                  <CInput
-                                    data-testid={'stakeholderDID-input'}
-                                    onChange={onChange}
-                                    onBlur={onBlur}
-                                    value={value}
-                                  />
-                                )}
-                              />
-                            </CInputGroup>
-                            <CFormText color="muted" className={'mt-2'}>
-                              ex. QxacVyyX7AvLDZyqbnZL3e
+
+                        <CFormGroup className={'mb-4'}>
+                          <CLabel>Stakeholder DID</CLabel>
+                          <CInputGroup>
+                            <CInputGroupPrepend>
+                              <CInputGroupText>
+                                <KeyLogin />
+                              </CInputGroupText>
+                            </CInputGroupPrepend>
+                            <Controller
+                              control={control}
+                              defaultValue={''}
+                              name="stakeholderDID"
+                              rules={{ required: true }}
+                              render={({ field: { onChange, onBlur, value } }) => (
+                                <CInput
+                                  data-testid={'stakeholderDID-input'}
+                                  onChange={onChange}
+                                  onBlur={onBlur}
+                                  value={value}
+                                />
+                              )}
+                            />
+                          </CInputGroup>
+                          <CFormText color="muted" className={'mt-2'}>
+                            ex. QxacVyyX7AvLDZyqbnZL3e
+                          </CFormText>
+                          {errors.stakeholderDID && (
+                            <CFormText className="help-block" data-testid="error-message">
+                              Please enter a valid key
                             </CFormText>
-                            {errors.stakeholderDID && (
-                              <CFormText className="help-block" data-testid="error-message">
-                                Please enter a valid key
-                              </CFormText>
-                            )}
-                          </CFormGroup>
-                        )}
+                          )}
+                        </CFormGroup>
+
                         <CRow>
                           {/* <CCol xs={12} className="text-right mb-4">
                             <p

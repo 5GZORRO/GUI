@@ -40,10 +40,10 @@ const deleteOrganization = async () => {
   } catch (e) {}
 }
 
-const verifyClient = async (params: any, data: any) => {
+const verifyClient = async (data: any) => {
   await deleteOrganization()
   try {
-    const response = await axios.get(endpoints.LOGIN, { params: { stakeholder_did: params !== null ? params : data } })
+    const response = await axios.get(endpoints.LOGIN, { params: { stakeholder_did: data } })
 
     // if ((await response?.data?.stakeholderClaim?.stakeholderDID) && response?.data?.id_token) {
     //   try {
