@@ -28,7 +28,7 @@ const RegisterSuccess: React.FC = () => {
       <div className="c-wrapper">
         <div className="c-body flex-row align-items-center position-relative">
           <CContainer>
-            <Spline className="register-success__background" scene={SPLINE_EXPORTED_SCENE} />
+            {/* <Spline className="register-success__background" scene={SPLINE_EXPORTED_SCENE} /> */}
             <CRow className="justify-content-center">
               <CCol xs="5">
                 <CCard>
