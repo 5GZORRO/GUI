@@ -372,7 +372,31 @@ const FormCreateOffer: React.FC = () => {
                           isMulti
                           closeMenuOnSelect={false}
                           ref={ref}
-                          options={categories?.map((el) => ({ value: el, label: el?.name }))}
+                          options={categories?.map((el) => {
+                            let resp = ''
+                            switch (el?.name) {
+                              case 'VNF':
+                                resp = 'Virtual Network Function'
+                                break
+                              case 'NSD':
+                                resp = 'Network Service'
+                                break
+                              case 'NS':
+                                resp = 'Network Slice'
+                                break
+                              case 'SPC':
+                                resp = 'Spectrum'
+                                break
+                              case 'RAD':
+                                resp = 'Radio Access Network'
+                                break
+                              default:
+                                resp = el?.name
+                                break
+                            }
+
+                            return { value: el, label: resp }
+                          })}
                           className={'select'}
                           styles={colourStyles}
                         ></Select>
@@ -483,43 +507,45 @@ const FormCreateOffer: React.FC = () => {
           </CRow>
         </CCardBody>
       </CCard>
-      {modalSLA && <CModal show={modalSLA != null} onClose={() => setModalSLA(null)} size="lg">
-        <CModalHeader closeButton>
-          <h5>{'Legal Prose Template'}</h5>
-        </CModalHeader>
-        <CModalBody>
-          <CRow>
-            <CCol xs="6">
-              <p className={'text-light mb-2'}>Name:</p> <p>{modalSLA?.name}</p>
-            </CCol>
-            <CCol xs="6">
-              <p className={'text-light mb-2'}>Last Update:</p>{' '}
-              <p>
-                {dayjs(modalSLA?.statusUpdated).isValid()
-                  ? dayjs(modalSLA?.statusUpdated).toISOString()
-                  : '-'}
-              </p>
-            </CCol>
-          </CRow>
-          <CRow>
-            <CCol xs="12">
-              <p className={'text-light mb-2'}>Description</p>
-              <p>{modalSLA?.description}</p>
-            </CCol>
-          </CRow>
-          <CRow>
-            <CCol xs="6">
-              <p className={'text-light mb-2'}>Status:</p>
-
-              <p>{modalSLA?.status}</p>
-            </CCol>
-          </CRow>
-          <CRow className={'p-3'}>
-              <SLAAccordViewer id={modalSLA?.id} templateHref={modalSLA?.templateRef?.href} readOnly={true}></SLAAccordViewer>
+      {modalSLA && (
+        <CModal show={modalSLA != null} onClose={() => setModalSLA(null)} size="lg">
+          <CModalHeader closeButton>
+            <h5>{'Legal Prose Template'}</h5>
+          </CModalHeader>
+          <CModalBody>
+            <CRow>
+              <CCol xs="6">
+                <p className={'text-light mb-2'}>Name:</p> <p>{modalSLA?.name}</p>
+              </CCol>
+              <CCol xs="6">
+                <p className={'text-light mb-2'}>Last Update:</p>{' '}
+                <p>{dayjs(modalSLA?.statusUpdated).isValid() ? dayjs(modalSLA?.statusUpdated).toISOString() : '-'}</p>
+              </CCol>
             </CRow>
-        </CModalBody>
-      </CModal>
-      }{addCategoryModal && (
+            <CRow>
+              <CCol xs="12">
+                <p className={'text-light mb-2'}>Description</p>
+                <p>{modalSLA?.description}</p>
+              </CCol>
+            </CRow>
+            <CRow>
+              <CCol xs="6">
+                <p className={'text-light mb-2'}>Status:</p>
+
+                <p>{modalSLA?.status}</p>
+              </CCol>
+            </CRow>
+            <CRow className={'p-3'}>
+              <SLAAccordViewer
+                id={modalSLA?.id}
+                templateHref={modalSLA?.templateRef?.href}
+                readOnly={true}
+              ></SLAAccordViewer>
+            </CRow>
+          </CModalBody>
+        </CModal>
+      )}
+      {addCategoryModal && (
         <AddNewCategoryModal
           handleClose={() => {
             setAddCategoryModal(false)
@@ -530,139 +556,139 @@ const FormCreateOffer: React.FC = () => {
       {modalProductOfferingPrice && (
         <CModal show={modalProductOfferingPrice != null} onClose={() => setModalProductOfferingPrice(null)} size="lg">
           <CModalHeader closeButton>
-          <h5>{'Product Offer Price'}</h5>
-        </CModalHeader>
-        <CModalBody>
-          <CTabs activeTab="description">
-            <CNav variant="pills">
-              <CNavItem>
-                <CNavLink className={'pl-0 mb-4'} data-tab="description" color={'#6C6E7E'}>
-                  Description
-                </CNavLink>
-              </CNavItem>
-              <CNavItem>
-                {modalProductOfferingPrice?.prodSpecCharValueUse?.length > 0 && (
-                  <CNavLink className={'pl-0 mb-4'} data-tab="advanced" color={'#6C6E7E'}>
-                    Advanced
+            <h5>{'Product Offer Price'}</h5>
+          </CModalHeader>
+          <CModalBody>
+            <CTabs activeTab="description">
+              <CNav variant="pills">
+                <CNavItem>
+                  <CNavLink className={'pl-0 mb-4'} data-tab="description" color={'#6C6E7E'}>
+                    Description
                   </CNavLink>
-                )}
-              </CNavItem>
-            </CNav>
-            <CTabContent className={'mt-4'}>
-              <CTabPane data-tab="description">
-                <CRow className={'mt-4'}>
-                  <CCol xs="6">
-                    <p className={'text-light mb-2'}>Name:</p> <p>{modalProductOfferingPrice?.name}</p>
-                  </CCol>
-                </CRow>
-                <CRow className={'mt-4'}>
-                  <CCol xs="12">
-                    <p className={'text-light mb-2'}>Description</p>
-                    <p>{modalProductOfferingPrice?.description}</p>
-                  </CCol>
-                </CRow>
-                <CRow className={'mt-4'}>
-                  <CCol xs="6">
-                    <p className={'text-light mb-2'}>Price:</p>
-                    <p>{modalProductOfferingPrice?.price?.value}</p>
-                  </CCol>
-                  <CCol xs="6">
-                    <p className={'text-light mb-2'}>Price Unit:</p>
-                    <p>{modalProductOfferingPrice?.price?.unit}</p>
-                  </CCol>
-                </CRow>
-                <CRow className={'mt-4'}>
-                  <CCol xs="6">
-                    <p className={'text-light mb-2'}>Price Type:</p>
-                    <p>{modalProductOfferingPrice?.priceType}</p>
-                  </CCol>
-                </CRow>
-
-                {modalProductOfferingPrice?.unitOfMeasure?.units != null &&
-                  modalProductOfferingPrice?.unitOfMeasure?.units !== '' &&
-                  modalProductOfferingPrice?.unitOfMeasure?.amount != null && (
-                    <CRow className={'mt-4'}>
-                      <CCol xs="6">
-                        <p className={'text-light mb-2'}>Unit Of Measure:</p>
-                        <p>{modalProductOfferingPrice?.unitOfMeasure?.units}</p>
-                      </CCol>
-                      <CCol xs="6">
-                        <p className={'text-light mb-2'}>Unit Of Measure Length:</p>
-                        <p>{modalProductOfferingPrice?.unitOfMeasure?.amount}</p>
-                      </CCol>
-                    </CRow>
-                )}
-                {modalProductOfferingPrice?.recurringChargePeriodType != null &&
-                  modalProductOfferingPrice?.recurringChargePeriodType !== '' &&
-                  modalProductOfferingPrice?.recurringChargePeriodLength != null && (
-                    <CRow className={'mt-4'}>
-                      <CCol xs="6">
-                        <p className={'text-light mb-2'}>Recurring Charge Period Type:</p>
-                        <p>{modalProductOfferingPrice?.recurringChargePeriodType}</p>
-                      </CCol>
-                      <CCol xs="6">
-                        <p className={'text-light mb-2'}>Recurring Charge Period Length:</p>
-                        <p>{modalProductOfferingPrice?.recurringChargePeriodLength}</p>
-                      </CCol>
-                    </CRow>
-                )}
-                <CRow className={'p-3 mt-4'}>
-                  <p className={'text-light mb-2'}>Valid for: </p>
-                </CRow>
-                {modalProductOfferingPrice?.validFor && (
-                  <CRow className={'pl-3 pr-3'}>
+                </CNavItem>
+                <CNavItem>
+                  {modalProductOfferingPrice?.prodSpecCharValueUse?.length > 0 && (
+                    <CNavLink className={'pl-0 mb-4'} data-tab="advanced" color={'#6C6E7E'}>
+                      Advanced
+                    </CNavLink>
+                  )}
+                </CNavItem>
+              </CNav>
+              <CTabContent className={'mt-4'}>
+                <CTabPane data-tab="description">
+                  <CRow className={'mt-4'}>
                     <CCol xs="6">
-                      <p className={'text-light mb-2'}>From:</p>{' '}
-                      <p>
-                        {dayjs(modalProductOfferingPrice?.validFor?.startDateTime).isValid()
-                          ? dayjs(modalProductOfferingPrice?.validFor?.startDateTime).format(DATETIME_FORMAT_SHOW)
-                          : '-'}
-                      </p>
-                    </CCol>
-                    <CCol xs="6">
-                      <p className={'text-light mb-2'}>To:</p>{' '}
-                      <p>
-                        {dayjs(modalProductOfferingPrice?.validFor?.endDateTime).isValid()
-                          ? dayjs(modalProductOfferingPrice?.validFor?.endDateTime).format(DATETIME_FORMAT_SHOW)
-                          : '-'}
-                      </p>
+                      <p className={'text-light mb-2'}>Name:</p> <p>{modalProductOfferingPrice?.name}</p>
                     </CCol>
                   </CRow>
-                )}
-              </CTabPane>
-              <CTabPane data-tab="advanced">
-                {modalProductOfferingPrice?.prodSpecCharValueUse?.length > 0 &&
-                  modalProductOfferingPrice?.prodSpecCharValueUse.map((el, index) => (
-                    <CContainer
-                      key={`modalProductOfferingPrice?.prodSpecCharValueUse-${index}`}
-                      className={'pb-4'}
-                      style={{ borderBottom: '1px solid #6C6E7E' }}
-                    >
+                  <CRow className={'mt-4'}>
+                    <CCol xs="12">
+                      <p className={'text-light mb-2'}>Description</p>
+                      <p>{modalProductOfferingPrice?.description}</p>
+                    </CCol>
+                  </CRow>
+                  <CRow className={'mt-4'}>
+                    <CCol xs="6">
+                      <p className={'text-light mb-2'}>Price:</p>
+                      <p>{modalProductOfferingPrice?.price?.value}</p>
+                    </CCol>
+                    <CCol xs="6">
+                      <p className={'text-light mb-2'}>Price Unit:</p>
+                      <p>{modalProductOfferingPrice?.price?.unit}</p>
+                    </CCol>
+                  </CRow>
+                  <CRow className={'mt-4'}>
+                    <CCol xs="6">
+                      <p className={'text-light mb-2'}>Price Type:</p>
+                      <p>{modalProductOfferingPrice?.priceType}</p>
+                    </CCol>
+                  </CRow>
+
+                  {modalProductOfferingPrice?.unitOfMeasure?.units != null &&
+                    modalProductOfferingPrice?.unitOfMeasure?.units !== '' &&
+                    modalProductOfferingPrice?.unitOfMeasure?.amount != null && (
                       <CRow className={'mt-4'}>
                         <CCol xs="6">
-                          <p className={'text-light mb-2'}>Name:</p> <p>{el?.name}</p>
+                          <p className={'text-light mb-2'}>Unit Of Measure:</p>
+                          <p>{modalProductOfferingPrice?.unitOfMeasure?.units}</p>
+                        </CCol>
+                        <CCol xs="6">
+                          <p className={'text-light mb-2'}>Unit Of Measure Length:</p>
+                          <p>{modalProductOfferingPrice?.unitOfMeasure?.amount}</p>
                         </CCol>
                       </CRow>
+                  )}
+                  {modalProductOfferingPrice?.recurringChargePeriodType != null &&
+                    modalProductOfferingPrice?.recurringChargePeriodType !== '' &&
+                    modalProductOfferingPrice?.recurringChargePeriodLength != null && (
                       <CRow className={'mt-4'}>
-                        <CCol xs="12">
-                          <p className={'text-light mb-2'}>Description</p>
-                          <p>{el?.description}</p>
+                        <CCol xs="6">
+                          <p className={'text-light mb-2'}>Recurring Charge Period Type:</p>
+                          <p>{modalProductOfferingPrice?.recurringChargePeriodType}</p>
+                        </CCol>
+                        <CCol xs="6">
+                          <p className={'text-light mb-2'}>Recurring Charge Period Length:</p>
+                          <p>{modalProductOfferingPrice?.recurringChargePeriodLength}</p>
                         </CCol>
                       </CRow>
-                      <CContainer className={'mt-4 p-0'}>
-                        <CRow>
-                          <CCol xs="12">
-                            <p className={'text-light mb-2'}>Value</p>
-                            <p>{el?.productSpecCharacteristicValue?.map((prod) => prod?.value?.value).join(', ')}</p>
+                  )}
+                  <CRow className={'p-3 mt-4'}>
+                    <p className={'text-light mb-2'}>Valid for: </p>
+                  </CRow>
+                  {modalProductOfferingPrice?.validFor && (
+                    <CRow className={'pl-3 pr-3'}>
+                      <CCol xs="6">
+                        <p className={'text-light mb-2'}>From:</p>{' '}
+                        <p>
+                          {dayjs(modalProductOfferingPrice?.validFor?.startDateTime).isValid()
+                            ? dayjs(modalProductOfferingPrice?.validFor?.startDateTime).format(DATETIME_FORMAT_SHOW)
+                            : '-'}
+                        </p>
+                      </CCol>
+                      <CCol xs="6">
+                        <p className={'text-light mb-2'}>To:</p>{' '}
+                        <p>
+                          {dayjs(modalProductOfferingPrice?.validFor?.endDateTime).isValid()
+                            ? dayjs(modalProductOfferingPrice?.validFor?.endDateTime).format(DATETIME_FORMAT_SHOW)
+                            : '-'}
+                        </p>
+                      </CCol>
+                    </CRow>
+                  )}
+                </CTabPane>
+                <CTabPane data-tab="advanced">
+                  {modalProductOfferingPrice?.prodSpecCharValueUse?.length > 0 &&
+                    modalProductOfferingPrice?.prodSpecCharValueUse.map((el, index) => (
+                      <CContainer
+                        key={`modalProductOfferingPrice?.prodSpecCharValueUse-${index}`}
+                        className={'pb-4'}
+                        style={{ borderBottom: '1px solid #6C6E7E' }}
+                      >
+                        <CRow className={'mt-4'}>
+                          <CCol xs="6">
+                            <p className={'text-light mb-2'}>Name:</p> <p>{el?.name}</p>
                           </CCol>
                         </CRow>
+                        <CRow className={'mt-4'}>
+                          <CCol xs="12">
+                            <p className={'text-light mb-2'}>Description</p>
+                            <p>{el?.description}</p>
+                          </CCol>
+                        </CRow>
+                        <CContainer className={'mt-4 p-0'}>
+                          <CRow>
+                            <CCol xs="12">
+                              <p className={'text-light mb-2'}>Value</p>
+                              <p>{el?.productSpecCharacteristicValue?.map((prod) => prod?.value?.value).join(', ')}</p>
+                            </CCol>
+                          </CRow>
+                        </CContainer>
                       </CContainer>
-                    </CContainer>
-                  ))}
-              </CTabPane>
-            </CTabContent>
-          </CTabs>
-        </CModalBody>
+                    ))}
+                </CTabPane>
+              </CTabContent>
+            </CTabs>
+          </CModalBody>
         </CModal>
       )}
       {addLocation && (
