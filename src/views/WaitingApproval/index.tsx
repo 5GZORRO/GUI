@@ -1,30 +1,45 @@
 import React from 'react'
-import { CCard, CCardBody, CCol, CContainer, CRow } from '@coreui/react'
+import { CButton, CCard, CCardBody, CCol, CContainer, CRow } from '@coreui/react'
 import { TheFooter, TheHeader } from 'containers/index'
+import { useHistory } from 'react-router-dom'
+import CIcon from '@coreui/icons-react'
+import { useAuthContext } from 'context/AuthContext'
 
-const WaitingApproval = (props: any) => (
-  <div className="c-app c-default-layout">
-    <div className="c-wrapper">
-      <TheHeader />
-      <div className="c-body flex-row align-items-center position-relative">
-        <CContainer>
-          <CRow className="justify-content-center">
-            <CCol xs="5">
-              <CCard>
-                <CCardBody className={'p-5'}>
-                  <h1 className={'text-center mb-5'}>Waiting for approval</h1>
-                  <p className={'mb-4 text-gray-500'}>
-                    <b className="text-white">Your account is not approved. Wait until someone activates it.</b>
-                  </p>
-                </CCardBody>
-              </CCard>
-            </CCol>
-          </CRow>
-        </CContainer>
+const WaitingApproval = (props: any) => {
+  const { signout } = useAuthContext()
+  return (
+    <div className="c-app c-default-layout">
+      <div className="c-wrapper">
+        <div className="c-body flex-row align-items-center position-relative">
+          <CContainer>
+            <CRow className="justify-content-center">
+              <CCol xs="5">
+                <CCard>
+                  <CCardBody className={'p-5'}>
+                    <h1 className={'text-center mb-5'}>Waiting for approval</h1>
+                    <p className={'mb-4 text-gray-500'}>
+                      <b className="text-white">Your account is not approved. Wait until someone activates it.</b>
+                    </p>
+                    <div className={'d-flex justify-content-center'}>
+                      <CButton
+                        variant={'outline'}
+                        color={'light'}
+                        className={'px-5 text-uppercase'}
+                        onClick={() => signout()}
+                      >
+                        <CIcon name="cilArrowLeft" style={{ marginRight: '10px' }} />
+                        back to login
+                      </CButton>
+                    </div>
+                  </CCardBody>
+                </CCard>
+              </CCol>
+            </CRow>
+          </CContainer>
+        </div>
       </div>
-      <TheFooter />
     </div>
-  </div>
-)
+  )
+}
 
 export default WaitingApproval
