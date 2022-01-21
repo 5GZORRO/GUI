@@ -217,7 +217,6 @@ const resolveOffer = async (body: any): Promise<any> => {
 
 const resolveStakeholder = async (body: any, params: any): Promise<any> => {
   try {
-    await axios.delete(body?.user?.handler_url + '/party/v4/organization')
     const response = await axios.put(endpoints.CERTIFICATE_ADMIN_RESOLVE, { stakeholder_did: body?.user?.stakeholderDID, approval: body?.approval })
     if ((params?.stakeholderClaim?.stakeholderRoles?.[0]?.role === 'Regulator' || params?.stakeholderClaim?.stakeholderRoles?.[0]?.role === 'Administrator') && body?.approval === true) {
       body?.user?.roles.forEach(async (element: any) => {
