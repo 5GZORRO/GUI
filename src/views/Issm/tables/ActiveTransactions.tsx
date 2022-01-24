@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import { CButton, CDataTable } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { LEDGER_IDENTITY } from 'config'
+import { DATETIME_FORMAT_SHOW, LEDGER_IDENTITY } from 'config'
 import { ApiBusinessTransactions } from 'types/api'
 
 import { deleteTransaction, getAllTransactions } from 'hooks/api/ISSM'
 import { Link } from 'react-router-dom'
+import dayjs from 'dayjs'
 
 const fields = [
   { key: 'transaction_uuid', label: 'Transaction UUID', filter: true },
   { key: 'status', label: 'Status', filter: true },
   { key: 'transaction_type', label: 'Transaction Type', filter: true },
+  { key: 'created', label: 'Created' },
   { key: 'actions', label: 'Actions', filter: false },
   {
     key: 'show_details',
@@ -55,6 +57,12 @@ export const ActiveTransactions: React.FC = (props: any) => {
           <CIcon name="cilExternalLink" className="ml-2" size="sm" />
         </CButton>
       </Link>
+    </td>
+  )
+
+  const showDate = (item: ApiBusinessTransactions) => (
+    <td className="py-2">
+      {dayjs(item?.created)?.isValid() ? dayjs(item?.created).format(DATETIME_FORMAT_SHOW) : '-'}
     </td>
   )
 
@@ -117,7 +125,8 @@ export const ActiveTransactions: React.FC = (props: any) => {
         status: (item: ApiBusinessTransactions) => showStatus(item),
         transactionType: (item: ApiBusinessTransactions) => showTransactionType(item),
         actions: (item: ApiBusinessTransactions) => showActions(item),
-        show_details: (item: ApiBusinessTransactions) => showButton(item)
+        show_details: (item: ApiBusinessTransactions) => showButton(item),
+        created: (item: ApiBusinessTransactions) => showDate(item)
       }}
     />
   )

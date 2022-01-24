@@ -49,7 +49,38 @@ const SelectedOffers = ({ data, isLoading }) => {
     }
   ]
 
-  const arrayToStringsData = (item: any, property: string) => <td>{item?.map((el: any) => el?.[property])?.join(', ')}</td>
+  const arrayToStringsData = (item: any, property: string) => {
+    return (
+      <td>
+        {item
+          ?.map((el: any) => {
+            let resp = ''
+            switch (el?.[property]) {
+              case 'VNF':
+                resp = 'Virtual Network Function'
+                break
+              case 'Network Service':
+                resp = 'Network Service'
+                break
+              case 'Slice':
+                resp = 'Network Slice'
+                break
+              case 'Spectrum':
+                resp = 'Spectrum'
+                break
+              case 'RAN':
+                resp = 'Radio Access Network'
+                break
+              default:
+                resp = el?.[property]
+                break
+            }
+            return resp
+          })
+          .join(', ')}
+      </td>
+    )
+  }
 
   const showButton = (item: any) => (
     <td className="py-2">

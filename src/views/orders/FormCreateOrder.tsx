@@ -264,7 +264,6 @@ const FormCreateOrder: React.FC = () => {
                     <CFormGroup>
                       <CLabel htmlFor="category">Category</CLabel>
                       <CInputGroup style={{ display: 'grid', gridTemplateColumns: '1fr 2.5rem', columnGap: '0.5rem' }}>
-                        {!isLoadingCategories && (
                           <Controller
                             control={control}
                             defaultValue={null}
@@ -276,13 +275,42 @@ const FormCreateOrder: React.FC = () => {
                                 }}
                                 value={JSON.parse(value)}
                                 ref={ref}
-                                options={categories?.map((el) => ({ value: el?.name, label: el?.name }))}
+                                /* eslint-disable */
+                                options={!isLoadingCategories ? categories?.map((el) => {
+                                  let resp = ''
+                                  switch (el?.name) {
+                                    case 'VNF':
+                                      resp = 'Virtual Network Function'
+                                      break
+                                    case 'Network Service':
+                                      resp = 'Network Service'
+                                      break
+                                    case 'Slice':
+                                      resp = 'Network Slice'
+                                      break
+                                    case 'Spectrum':
+                                      resp = 'Spectrum'
+                                      break
+                                    case 'RAN':
+                                      resp = 'Radio Access Network'
+                                      break
+                                    case 'Edge':
+                                      resp = 'Edge'
+                                      break
+                                    case 'Cloud':
+                                      resp = 'Cloud'
+                                      break
+                                    default:
+                                      resp = el?.name
+                                      break
+                                  }
+                                  return { value: el, label: resp }
+                                }) : []}
                                 className={'select'}
                                 styles={colourStyles}
                               ></Select>
                             )}
                           />
-                        )}
                         {/* <CInputGroupAppend>
                           <CButton type="button" color="transparent" onClick={() => setAddCategoryModal(true)}>
                             <PlusCircle />

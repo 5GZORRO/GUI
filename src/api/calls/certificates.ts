@@ -6,8 +6,7 @@ import { ApiIssuerOffers, ApiCertificatesBody, ApiOrganizationBody } from 'types
 
 const registerStakeholder = async (body: ApiCertificatesBody) => {
   try {
-    const response = await axios.post(endpoints.CERTIFICATE_HOLDER_REGISTER, { ...body })
-    console.log(response)
+    await axios.post(endpoints.CERTIFICATE_HOLDER_REGISTER, { ...body })
   } catch (e) {
     console.log({ e })
     throw new Error('error')
@@ -81,7 +80,6 @@ const getAllPendingOffers = async (): Promise<ApiIssuerOffers[]> => {
 const getAllRejectedOffers = async (): Promise<ApiIssuerOffers[]> => {
   try {
     const response = await axios.get(endpoints.CERTIFICATE_ADMIN_REVOKED_OFFER)
-    console.log(response.data)
     const newArr: { type: any; id: any; claims: any; timestamp: any; 'credential_definition_id': any }[] = []
     if (response) {
       response.data.forEach(
@@ -217,8 +215,18 @@ const resolveOffer = async (body: any): Promise<any> => {
 
 const resolveStakeholder = async (body: any, params: any): Promise<any> => {
   try {
-    const response = await axios.put(endpoints.CERTIFICATE_ADMIN_RESOLVE, { stakeholder_did: body?.user?.stakeholderDID, approval: body?.approval })
-    if ((params?.stakeholderClaim?.stakeholderRoles?.[0]?.role === 'Regulator' || params?.stakeholderClaim?.stakeholderRoles?.[0]?.role === 'Administrator') && body?.approval === true) {
+    await axios.delete(body?.user?.handler_url + '/party/v4/organization')
+  } catch (e) {}
+  try {
+    const response = await axios.put(endpoints.CERTIFICATE_ADMIN_RESOLVE, {
+      stakeholder_did: body?.user?.stakeholderDID,
+      approval: body?.approval
+    })
+    if (
+      (params?.stakeholderClaim?.stakeholderRoles?.[0]?.role === 'Regulator' ||
+        params?.stakeholderClaim?.stakeholderRoles?.[0]?.role === 'Administrator') &&
+      body?.approval === true
+    ) {
       body?.user?.roles.forEach(async (element: any) => {
         let category = ''
         switch (element) {
@@ -229,19 +237,19 @@ const resolveStakeholder = async (body: any, params: any): Promise<any> => {
             category = 'Cloud'
             break
           case 'Spectrum':
-            category = 'SPC'
+            category = 'Spectrum'
             break
           case 'RadioAccessNetwork':
-            category = 'RAD'
+            category = 'RAN'
             break
           case 'VirtualNetworkFunction':
             category = 'VNF'
             break
           case 'NetworkSlice':
-            category = 'NS'
+            category = 'Slice'
             break
           case 'NetworkService':
-            category = 'NSD'
+            category = 'Network Service'
             break
         }
         try {

@@ -378,17 +378,23 @@ const FormCreateOffer: React.FC = () => {
                               case 'VNF':
                                 resp = 'Virtual Network Function'
                                 break
-                              case 'NSD':
+                              case 'Network Service':
                                 resp = 'Network Service'
                                 break
-                              case 'NS':
+                              case 'Slice':
                                 resp = 'Network Slice'
                                 break
-                              case 'SPC':
+                              case 'Spectrum':
                                 resp = 'Spectrum'
                                 break
-                              case 'RAD':
+                              case 'RAN':
                                 resp = 'Radio Access Network'
+                                break
+                              case 'Edge':
+                                resp = 'Edge'
+                                break
+                              case 'Cloud':
+                                resp = 'Cloud'
                                 break
                               default:
                                 resp = el?.name

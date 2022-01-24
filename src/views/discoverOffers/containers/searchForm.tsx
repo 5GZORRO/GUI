@@ -68,7 +68,8 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
     handleSubmit,
     formState: { errors },
     control,
-    reset
+    reset,
+    setValue
   } = useForm<Search>({
     defaultValues: {
       category: '',
@@ -140,7 +141,38 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
     if (form.search !== '' && advancedSearch) {
       mutateAdvanced(form.search)
     } else {
-      mutate(form)
+      const data = {
+        category: form?.category,
+        location: form?.location,
+        maxPrice: form?.maxPrice,
+        minPrice: form?.minPrice,
+        currency: form?.currency,
+        stakeholder: form?.stakeholder
+      }
+      switch (data?.category) {
+        case 'Edge':
+          data.category = 'Edge'
+          break
+        case 'Cloud':
+          data.category = 'Cloud'
+          break
+        case 'Spectrum':
+          data.category = 'Spectrum'
+          break
+        case 'Radio Access Network':
+          data.category = 'RAN'
+          break
+        case 'Virtual Network Function':
+          data.category = 'VNF'
+          break
+        case 'Network Slice':
+          data.category = 'Slice'
+          break
+        case 'Network Service':
+          data.category = 'Network Service'
+          break
+      }
+      mutate(data)
     }
   }
 
@@ -160,12 +192,44 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
     }
   }, [query, data])
 
+  /* eslint-disable */
   const getSuggestions = (value: any) => {
     const escapedValue = escapeRegexCharacters(value?.trim())
 
     const regex = new RegExp('^' + escapedValue, 'i')
+    const results = categories?.filter((category: any) => regex.test(category?.name))
+    console.log(results)
+    let allCategories: string[] = []
 
-    return !isLoadingCategories ? categories?.filter((category) => regex.test(category?.name)) : []
+    results?.forEach((category: any) => {
+      switch (category?.name) {
+        case 'Edge':
+          allCategories.push('Edge')
+          break
+        case 'Cloud':
+          allCategories.push('Cloud')
+          break
+        case 'Spectrum':
+          allCategories.push('Spectrum')
+          break
+        case 'RAN':
+          allCategories.push('Radio Access Network')
+          break
+        case 'VNF':
+          allCategories.push('Virtual Network Function')
+          break
+        case 'Slice':
+          allCategories.push('Network Slice')
+          break
+        case 'Network Service':
+          allCategories.push('Network Service')
+          break
+      }
+    })
+
+    console.log(allCategories)
+
+    return !isLoadingCategories ? allCategories : []
   }
 
   const getSuggestionsLocation = (value: any) => {
@@ -209,32 +273,34 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
   }
 
   const arrayToStringsData = (item: any, property: string) => (
-    <td>{item
-      ?.map((el: any) => {
-        let resp = ''
-        switch (el?.[property]) {
-          case 'VNF':
-            resp = 'Virtual Network Function'
-            break
-          case 'NSD':
-            resp = 'Network Service'
-            break
-          case 'NS':
-            resp = 'Network Slice'
-            break
-          case 'SPC':
-            resp = 'Spectrum'
-            break
-          case 'RAD':
-            resp = 'Radio Access Network'
-            break
-          default:
-            resp = el?.[property]
-            break
-        }
-        return resp
-      })
-      .join(', ')}</td>
+    <td>
+      {item
+        ?.map((el: any) => {
+          let resp = ''
+          switch (el?.[property]) {
+            case 'VNF':
+              resp = 'Virtual Network Function'
+              break
+            case 'NSD':
+              resp = 'Network Service'
+              break
+            case 'NS':
+              resp = 'Network Slice'
+              break
+            case 'SPC':
+              resp = 'Spectrum'
+              break
+            case 'RAD':
+              resp = 'Radio Access Network'
+              break
+            default:
+              resp = el?.[property]
+              break
+          }
+          return resp
+        })
+        .join(', ')}
+    </td>
   )
 
   const stakeholderRender = (item: any) => (
@@ -293,8 +359,8 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                       suggestions={suggestions ?? categories ?? []}
                       onSuggestionsFetchRequested={onSuggestionsFetchRequested}
                       onSuggestionsClearRequested={onSuggestionsClearRequested}
-                      getSuggestionValue={(selected: any) => selected?.name}
-                      renderSuggestion={(sugg: any) => <span>{sugg?.name}</span>}
+                      getSuggestionValue={(selected: any) => selected}
+                      renderSuggestion={(sugg: any) => <span>{sugg}</span>}
                       id={'category-autosuggestion'}
                       shouldRenderSuggestions={(value: string, reason: string) => true}
                       inputProps={{
@@ -508,7 +574,7 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
         </CButton>
       </CForm>
 
-      {((isLoading || data) || (isLoadingAdvanced || dataAdvanced)) && (
+      {(isLoading || data || isLoadingAdvanced || dataAdvanced) && (
         <CContainer className={'p-0 mt-4 '}>
           <CDataTable
             cleaner
@@ -635,7 +701,7 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                             <p className={'text-light mb-2'}>Status</p>
                             <p className={'font-16 mb-4'}>{modal?.productSpecification?.lifecycleStatus}</p>
                           </CCol>
-                      )}
+                        )}
                     </CRow>
                     {modal?.productSpecification?.description != null &&
                       modal?.productSpecification?.description !== '' && (
@@ -645,7 +711,7 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                             <p className={'font-16 mb-4'}>{modal?.productSpecification?.description}</p>
                           </CCol>
                         </CRow>
-                    )}
+                      )}
                   </CContainer>
                   {modal?.productSpecification?.serviceSpecification?.length > 0 && (
                     <CContainer
@@ -808,9 +874,7 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                                   {!resource?.unitOfMeasure && (
                                     <CCol>
                                       <p className={'text-light mb-2'}>Processors</p>
-                                      <div className={'font-16 mb-4'}>
-                                        {resource?.value?.value}
-                                      </div>
+                                      <div className={'font-16 mb-4'}>{resource?.value?.value}</div>
                                     </CCol>
                                   )}
                                   {resource?.value?.alias && (
@@ -888,7 +952,7 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                               <p>{el?.unitOfMeasure?.amount}</p>
                             </CCol>
                           </CRow>
-                      )}
+                        )}
                       {el?.recurringChargePeriodType != null &&
                         el?.recurringChargePeriodType !== '' &&
                         el?.recurringChargePeriodLength != null && (
@@ -902,7 +966,7 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                               <p>{el?.recurringChargePeriodLength}</p>
                             </CCol>
                           </CRow>
-                      )}
+                        )}
                       <CRow className={'p-3 mt-4'}>
                         <p className={'text-light mb-2'}>Valid for: </p>
                       </CRow>

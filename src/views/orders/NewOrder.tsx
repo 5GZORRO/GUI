@@ -79,9 +79,38 @@ const NewOrder: React.FC = () => {
     }
   }
 
-  const arrayToStringsData = (item: any, property: string) => (
-    <td>{item?.map((el: any) => el?.[property])?.join(', ')}</td>
-  )
+  const arrayToStringsData = (item: any, property: string) => {
+    return (
+      <td>
+        {item
+          ?.map((el: any) => {
+            let resp = ''
+            switch (el?.[property]) {
+              case 'VNF':
+                resp = 'Virtual Network Function'
+                break
+              case 'Network Service':
+                resp = 'Network Service'
+                break
+              case 'Slice':
+                resp = 'Network Slice'
+                break
+              case 'Spectrum':
+                resp = 'Spectrum'
+                break
+              case 'RAN':
+                resp = 'Radio Access Network'
+                break
+              default:
+                resp = el?.[property]
+                break
+            }
+            return resp
+          })
+          .join(', ')}
+      </td>
+    )
+  }
   const stakeholderRender = (item: any) => (
     <td>{item?.productSpecification?.relatedParty?.map((el) => el.name)?.join(', ')}</td>
   )
@@ -148,7 +177,6 @@ const NewOrder: React.FC = () => {
               productOfferingPrice: (item: any) => arrayToStringsData(item?.productOfferingPrice, 'priceType'),
               show_details: (item: any) => showButton(item)
             }}
-            onColumnFilterChange={(state) => console.log(state)}
           />
         </CCardBody>
       </CCard>
