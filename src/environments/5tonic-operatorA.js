@@ -11,5 +11,9 @@ export const RAPP_DISCOVERY_API_KEY = 'f63f9926-62f4-449f-9e73-f4d71b2d08b2'
 
 export const APP_ENV = 'development'
 
-export const VERIFICATION_KEY = '5gzorroidportalnsmm' // '2EFc9aK5aH4cE2CdJk3dCB4A9Tj4wqZu1D7d6nRyKQTB'
+export const VERIFICATION_KEY = '5gzorroidportalnsmm'
 export const LEDGER_IDENTITY = 'CN=OperatorA,OU=DLT,O=DLT,L=London,C=GB'
+
+export const API_SRSD = ''
+
+export const API_ISSM = 'http://10.4.2.126:30080'

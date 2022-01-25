@@ -11,5 +11,9 @@ export const RAPP_DISCOVERY_API_KEY = 'f63f9926-62f4-449f-9e73-f4d71b2d08b2'
 
 export const APP_ENV = 'development'
 
-export const VERIFICATION_KEY = '5gzorroidportalnsmm' // '6t73BCngyjGy5FSWYAJmh2XS9gzBTVo2Kdvm4Ny8eWf5'
+export const VERIFICATION_KEY = '5gzorroidportalnsmm'
 export const LEDGER_IDENTITY = 'O=OperatorC,OU=Barcelona,L=Barcelona,C=ES'
+
+export const API_SRSD = ''
+
+export const API_ISSM = 'http://10.4.2.126:30080'
