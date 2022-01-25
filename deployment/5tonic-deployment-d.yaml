@@ -52,7 +52,7 @@ spec:
         ports:
           - containerPort: 80
         volumeMounts:
-        - name: nginx-config-c
+        - name: nginx-config-d
           mountPath: /etc/nginx/conf.d/default.conf
           subPath: nginx.conf
         # - name: operator-a
