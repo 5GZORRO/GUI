@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import axios from 'api/instance'
 import { endpoints } from 'api/endpoints'
-import { XRM_DISCOVERY_API_KEY, XRM_TRANSLATOR_API_KEY, RAPP_DISCOVERY_API_KEY } from 'config'
+import { XRM_DISCOVERY_API_KEY, XRM_TRANSLATOR_API_KEY, RAPP_DISCOVERY_API_KEY, API_MARKET_PLACE } from 'config'
 
 /** Types */
 import { ApiProductSpecification, ApiResourceSpecification, ApiProductOfferPrice, ApiCategory } from 'types/api'
@@ -246,8 +246,8 @@ const useAllResourceAndServiceSpecifications = async (params?: any): Promise<any
     const serviceCandidateRequest = axios.get(endpoints.SERVICE_CANDIDATE, { params })
 
     const [resourceCandidates, serviceCandidates] = await axios.all([resourceCandidateRequest, serviceCandidateRequest])
-    resourceCandidatesResults = resourceCandidates?.data
-    serviceCandidatesResults = serviceCandidates?.data
+    resourceCandidatesResults = resourceCandidates?.data.filter((el: any) => el?.href.includes(API_MARKET_PLACE))
+    serviceCandidatesResults = serviceCandidates?.data.filter((el: any) => el?.href.includes(API_MARKET_PLACE))
   } catch (e) {
     console.log({ e })
   }
@@ -257,9 +257,9 @@ const useAllResourceAndServiceSpecifications = async (params?: any): Promise<any
     const serviceRequest = axios.get(endpoints.SERVICE_SPECIFICATION, { params })
 
     const responses = await axios.all([resourceRequest, serviceRequest])
-
+    const resourceRequestResult = responses?.[1]?.data.filter((el: any) => el?.href.includes(API_MARKET_PLACE))
     const nestedResourcesResponse = await Promise.allSettled(
-      responses?.[1]?.data
+      resourceRequestResult
         ?.map((ss) =>
           ss?.resourceSpecification
             ?.map((rs) => rs?.href != null && rs?.href !== 'string' && axios.get(rs?.href, { params }))
@@ -282,8 +282,9 @@ const useAllResourceAndServiceSpecifications = async (params?: any): Promise<any
     return [].concat.apply(
       [],
       responses.map((el, index) => {
+        const filteredResp = el?.data.filter((el: any) => el?.href.includes(API_MARKET_PLACE))
         if (index === 1) {
-          return el?.data?.map((serv) => ({
+          return filteredResp.map((serv) => ({
             ...serv,
             isService: true,
             category: serviceCandidatesResults?.find((cand) => cand?.serviceSpecification?.id === serv?.id)?.category,
@@ -292,7 +293,7 @@ const useAllResourceAndServiceSpecifications = async (params?: any): Promise<any
             )
           }))
         }
-        return el?.data?.map((res) => ({
+        return filteredResp.map((res) => ({
           ...res,
           category: resourceCandidatesResults?.find((cand) => cand?.resourceSpecification?.id === res?.id)?.category
         }))
@@ -317,7 +318,8 @@ const getResourceSpecificationsById = async (id: string): Promise<ApiResourceSpe
 const getProductPrices = async (params?: any, onlyChildren = false): Promise<ApiProductOfferPrice[]> => {
   try {
     const response = await axios.get(endpoints.PRODUCT_OFFER_PRICE, { params })
-    return onlyChildren ? response.data.filter((el: any) => !el?.isBundle) : response.data
+    // return onlyChildren ? response.data.filter((el: any) => !el?.isBundle) : response.data
+    return response?.data.filter((el: any) => el?.href.includes(API_MARKET_PLACE))
   } catch (e) {
     console.log({ e })
     throw new Error('error')
@@ -337,7 +339,8 @@ const createProductOfferingPrice = async (body: any): Promise<ApiProductOfferPri
 const useAllLocations = async (params?: any): Promise<any[]> => {
   try {
     const response = await axios.get(endpoints.LOCATIONS, { params })
-    return response.data
+    const filteredResp = response?.data.filter((loc: any) => loc?.href.includes(API_MARKET_PLACE))
+    return filteredResp
   } catch (e) {
     console.log({ e })
     throw new Error('error')
