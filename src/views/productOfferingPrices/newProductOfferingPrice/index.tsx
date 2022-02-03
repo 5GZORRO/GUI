@@ -267,7 +267,9 @@ const NewProductOfferingPrice = () => {
     { key: 'select', label: '', filter: false, sorter: false },
     'name',
     'description',
-    'lastUpdate'
+    { key: 'lifecycleStatus', label: 'Status' },
+    { key: 'lastUpdate', label: 'Created' },
+    'type'
   ]
 
   const onSubmit = (data: formProductOfferingPriceCreation) => {
@@ -436,6 +438,7 @@ const NewProductOfferingPrice = () => {
         style={{ opacity: 1 }}
         type={'checkbox'}
         name={`selectedResourceService[${item?.id}]`}
+        required={typeSelected === 'NS' || typeSelected === 'VNF'}
         defaultValue={JSON.stringify(item)}
         checked={selectedResourceService.find((resourceService: any) => resourceService?.id === item?.id)}
         onChange={() => checkResourceService(item)}
@@ -865,6 +868,9 @@ const NewProductOfferingPrice = () => {
                               itemsPerPage={5}
                               scopedSlots={{
                                 select: (item: any) => resourceServiceAlgorithmSelectComponent(item),
+                                type: (item: any) => {
+                                  return <td className="py-2">{item?.isService ? 'Service' : 'Resource'}</td>
+                                },
                                 lastUpdate: (item: any) => renderLastUpdated(item)
                               }}
                               sorter
