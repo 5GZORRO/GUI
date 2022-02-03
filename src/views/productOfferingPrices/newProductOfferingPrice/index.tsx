@@ -33,7 +33,11 @@ import { useHistory } from 'react-router-dom'
 
 import { ArrowLeftIcon, PlusCircle, MinusCircle, ArrowDownIcon } from 'assets/icons/externalIcons'
 
-import { useCreateProductOfferingPrice } from 'hooks/api/Resources'
+import {
+  useAllResourceSpecifications,
+  useAllServicesSpecifications,
+  useCreateProductOfferingPrice
+} from 'hooks/api/Resources'
 import { schemaRegister, TransformFormData } from './util'
 import LoadingWithFade from 'components/LoadingWithFade'
 
@@ -163,6 +167,7 @@ interface formProductOfferingPriceCreation {
       ]
     }
   ]
+  selectedResourceService: []
 }
 
 const NewProductOfferingPrice = () => {
@@ -229,15 +234,19 @@ const NewProductOfferingPrice = () => {
         {
           productSpecCharacteristicValue: []
         }
-      ]
+      ],
+      selectedResourceService: []
     }
   })
   const [modal, setModal] = useState<any | null>(null)
   const { mutate, isSuccess, isLoading } = useCreateProductOfferingPrice()
   const { data: licences, isLoading: isLoadingLicences } = useAllLicences()
+  const { data: allResources, isLoading: isLoadingAllresources } = useAllResourceSpecifications()
+  const { data: allServices, isLoading: isLoadingAllservices } = useAllServicesSpecifications()
 
   const priceType = watch('priceType')
   const priceLogicValue = watch('prodSpecCharValueUse.2.productSpecCharacteristicValue.0.value')
+  const typeSelected = watch('prodSpecCharValueUse.1.productSpecCharacteristicValue.0.value')
 
   const fields = [
     { key: 'select', label: '', filter: false, sorter: false },
@@ -254,9 +263,17 @@ const NewProductOfferingPrice = () => {
     }
   ]
 
+  const fieldsResourceService = [
+    { key: 'select', label: '', filter: false, sorter: false },
+    'name',
+    'description',
+    'lastUpdate'
+  ]
+
   const onSubmit = (data: formProductOfferingPriceCreation) => {
     const newData = TransformFormData(data)
-    mutate(newData)
+    const { selectedResourceService, ...filtered } = newData
+    mutate(filtered)
   }
 
   useEffect(() => {
@@ -314,9 +331,9 @@ const NewProductOfferingPrice = () => {
 
   useEffect(() => {
     if (priceType !== 'usage') {
-      setValue('prodSpecCharValueUse.2.productSpecCharacteristicValue.0.value', 'SIMPLE')
+      setValue('prodSpecCharValueUse.3.productSpecCharacteristicValue.0.value', 'SIMPLE')
     } else {
-      setValue('prodSpecCharValueUse.2.productSpecCharacteristicValue.0.value', '')
+      setValue('prodSpecCharValueUse.3.productSpecCharacteristicValue.0.value', '')
     }
   }, [priceType])
 
@@ -385,6 +402,54 @@ const NewProductOfferingPrice = () => {
       />
     </td>
   )
+
+  const [selectedResourceService, setSelectedResourceService] = useState<any>([])
+
+  useEffect(() => {
+    setSelectedResourceService(() => [])
+    setValue('prodSpecCharValueUse.0.productSpecCharacteristicValue.0.value', '')
+  }, [typeSelected])
+
+  useEffect(() => {
+    setValue('selectedResourceService', selectedResourceService)
+    if (typeSelected === 'NS') {
+      setValue(
+        'prodSpecCharValueUse.0.productSpecCharacteristicValue.0.value',
+        selectedResourceService?.[0]?.serviceSpecCharacteristic?.[0]?.serviceSpecCharacteristicValue?.[0]?.value?.value
+      )
+    } else if (typeSelected === 'VNF') {
+      setValue(
+        'prodSpecCharValueUse.0.productSpecCharacteristicValue.0.value',
+        selectedResourceService?.[0]?.resourceSpecCharacteristic?.[0]?.resourceSpecCharacteristicValue?.[0]?.value
+          ?.value
+      )
+    }
+  }, [selectedResourceService])
+
+  const checkResourceService = (item: any) => {
+    setSelectedResourceService(() => [item])
+  }
+
+  const resourceServiceAlgorithmSelectComponent = (item: any) => (
+    <td>
+      <input
+        style={{ opacity: 1 }}
+        type={'checkbox'}
+        name={`selectedResourceService[${item?.id}]`}
+        defaultValue={JSON.stringify(item)}
+        checked={selectedResourceService.find((resourceService: any) => resourceService?.id === item?.id)}
+        onChange={() => checkResourceService(item)}
+      />
+    </td>
+  )
+
+  const renderLastUpdated = (item: any) => {
+    return (
+      <td className="py-2">
+        {dayjs(item?.lastUpdated).isValid() ? dayjs(item?.lastUpdated).format(DATETIME_FORMAT_SHOW) : '-'}
+      </td>
+    )
+  }
 
   return (
     <>
@@ -735,7 +800,7 @@ const NewProductOfferingPrice = () => {
                     </CRow>
                   )}
                   <CRow>
-                    <CCol sm={6}>
+                    {/* <CCol sm={6}>
                       <CFormGroup>
                         <CLabel htmlFor="prodSpecCharValueUse.0.productSpecCharacteristicValue.0.value">
                           Function Descriptor ID
@@ -750,7 +815,7 @@ const NewProductOfferingPrice = () => {
                           <CFormText className="help-block">Please enter a function descriptor ID</CFormText>
                         )}
                       </CFormGroup>
-                    </CCol>
+                    </CCol> */}
                     <CCol sm={6}>
                       <CFormGroup>
                         <CLabel htmlFor="prodSpecCharValueUse.1.productSpecCharacteristicValue.0.value">
@@ -777,6 +842,43 @@ const NewProductOfferingPrice = () => {
                       </CFormGroup>
                     </CCol>
                   </CRow>
+                  {(typeSelected === 'NS' || typeSelected === 'VNF') && (
+                    <CRow>
+                      <CFormGroup className={'p-3 w-100'}>
+                        <CLabel className={'pb-2'}>
+                          {typeSelected === 'NS' ? 'Network Service' : 'Virtual Network Function'}
+                        </CLabel>
+                        <CInputGroup>
+                          <CCard className={'p-4'} style={{ width: '100%' }}>
+                            <CDataTable
+                              cleaner
+                              loading={typeSelected === 'NS' ? isLoadingAllresources : isLoadingAllservices}
+                              items={
+                                typeSelected === 'NS'
+                                  ? allServices?.filter((el) => el != null) ?? []
+                                  : allResources?.filter((el) => el != null) ?? []
+                              }
+                              columnFilter
+                              tableFilter
+                              clickableRows
+                              fields={fieldsResourceService}
+                              itemsPerPage={5}
+                              scopedSlots={{
+                                select: (item: any) => resourceServiceAlgorithmSelectComponent(item),
+                                lastUpdate: (item: any) => renderLastUpdated(item)
+                              }}
+                              sorter
+                              hover
+                              pagination
+                            />
+                          </CCard>
+                        </CInputGroup>
+                        {errors.pricingLogicAlgorithm && (
+                          <CFormText className="help-block">Please select a licence</CFormText>
+                        )}
+                      </CFormGroup>
+                    </CRow>
+                  )}
                   <CRow>
                     <CFormGroup className={'p-3 w-100'}>
                       <CLabel className={'pb-2'}>Licence</CLabel>

@@ -5,7 +5,7 @@ import { endpoints } from 'api/endpoints'
 import { XRM_DISCOVERY_API_KEY, XRM_TRANSLATOR_API_KEY, RAPP_DISCOVERY_API_KEY, API_MARKET_PLACE } from 'config'
 
 /** Types */
-import { ApiProductSpecification, ApiResourceSpecification, ApiProductOfferPrice, ApiCategory } from 'types/api'
+import { ApiProductSpecification, ApiResourceSpecification, ApiProductOfferPrice, ApiCategory, ApiServiceSpecification } from 'types/api'
 
 const useAllProductSpecification = async (params?: any): Promise<ApiProductSpecification[]> => {
   try {
@@ -229,7 +229,21 @@ const useAllCategories = async (params?: any): Promise<ApiCategory[]> => {
 const useAllResourceSpecifications = async (params?: any): Promise<ApiResourceSpecification[]> => {
   try {
     const response = await axios.get(endpoints.RESOURCE_SPECIFICATION, { params })
-    return response.data
+    const filteredData = response?.data.filter((el: any) => el?.href.includes(API_MARKET_PLACE))
+    const filteredFunction = filteredData.filter((el: any) => el?.resourceSpecCharacteristic?.[0]?.resourceSpecCharacteristicValue?.[0]?.value?.alias === 'vnfdId')
+    return filteredFunction
+  } catch (e) {
+    console.log({ e })
+    throw new Error('error')
+  }
+}
+
+const useAllServicesSpecifications = async (params?: any): Promise<ApiServiceSpecification[]> => {
+  try {
+    const response = await axios.get(endpoints.SERVICE_SPECIFICATION, { params })
+    const filteredData = response?.data.filter((el: any) => el?.href.includes(API_MARKET_PLACE))
+    const filteredFunction = filteredData.filter((el: any) => el?.serviceSpecCharacteristic?.[0]?.serviceSpecCharacteristicValue?.[0]?.value?.alias === 'nsdId')
+    return filteredFunction
   } catch (e) {
     console.log({ e })
     throw new Error('error')
@@ -479,6 +493,7 @@ export default {
   useAllProductSpecification,
   getProductSpecificationById,
   useAllResourceSpecifications,
+  useAllServicesSpecifications,
   getResourceSpecificationsById,
   getProductPrices,
   createProductOfferingPrice,

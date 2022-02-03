@@ -394,6 +394,112 @@ export interface ApiResourceSpecification {
   version: string
 }
 
+export interface ApiServiceSpecification {
+  id: string
+  attachment: [
+    {
+      description: string
+      id: string
+      name: string
+      url: string
+    }
+  ]
+  category: string
+  description: string
+  feature: [
+    {
+      id: string
+      isBundle: true
+      isEnabled: true
+      name: string
+      validFor: {
+        endDateTime: string
+        startDateTime: string
+      }
+      version: string
+    }
+  ]
+  isBundle: boolean
+  lastUpdate: string
+  lifecycleStatus: string
+  name: string
+  relatedParty: [
+    {
+      extendedInfo: string
+      id: string
+      name: string
+      role: string
+    }
+  ]
+  serviceSpecCharacteristic: [
+    {
+      configurable: true
+      description: string
+      extensible: true
+      isUnique: boolean
+      maxCardinality: number
+      minCardinality: number
+      name: string
+      regex: string
+      serviceSpecCharRelationship: [
+        {
+          id: string
+          name: string
+          relationshipType: string
+          validFor: {
+            endDateTime: string
+            startDateTime: string
+          }
+        }
+      ]
+      serviceSpecCharacteristicValue: [
+        {
+          isDefault: boolean
+          rangeInterval: string
+          regex: string
+          unitOfMeasure: string
+          validFor: {
+            endDateTime: string
+            startDateTime: string
+          }
+          value: {
+            alias: string
+            value: string
+          }
+          valueFrom: number
+          valueTo: number
+          valueType: string
+        }
+      ]
+      validFor: {
+        endDateTime: string
+        startDateTime: string
+      }
+      valueType: string
+    }
+  ]
+  serviceSpecRelationship: [
+    {
+      id: string
+      name: string
+      relationshipType: string
+      role: string
+      validFor: {
+        endDateTime: string
+        startDateTime: string
+      }
+    }
+  ]
+  targetResourceSchema: {
+    href: string
+  }
+  validFor: {
+    endDateTime: string
+    startDateTime: string
+  }
+  version: string
+}
+
 export interface ApiProductOfferPrice {
   id: string
   bundledPopRelationship: [

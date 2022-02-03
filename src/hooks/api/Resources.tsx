@@ -40,6 +40,12 @@ export const useAllResourceSpecifications = (params?: any) => {
   })
 }
 
+export const useAllServicesSpecifications = (params?: any) => {
+  return useQuery(['useAllServicesSpecifications', params], () => api.resources.useAllServicesSpecifications(params), {
+    keepPreviousData: true
+  })
+}
+
 export const useResourceSpecifications = (id: string) => {
   return useQuery(['resourceSpecifications', id], () => api.resources.getResourceSpecificationsById(id), {
     keepPreviousData: true
