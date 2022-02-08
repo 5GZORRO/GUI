@@ -43,6 +43,7 @@ const NewBusinessTransaction = (props: any) => {
     handleSubmit,
     formState: { errors },
     control,
+    watch,
     setValue
   } = useForm<formNewTransaction>({
     defaultValues: {
@@ -55,6 +56,8 @@ const NewBusinessTransaction = (props: any) => {
   const { user } = useAuthContext()
   const { data, isLoading: types } = getTransactionsTypes()
   const { mutate, isSuccess, isLoading } = scaleOutOp()
+
+  const fileControl = watch('file')
 
   useEffect(() => {
     let operator: any
@@ -97,7 +100,7 @@ const NewBusinessTransaction = (props: any) => {
       reader.readAsDataURL(file)
     }
   }
-
+  /* eslint-disable */
   return (
     <CContainer className={'p-0'}>
       {false && <LoadingWithFade />}
@@ -166,7 +169,13 @@ const NewBusinessTransaction = (props: any) => {
                         </label>
 
                         <CFormGroup className="d-flex flex-column align-items-flex-start m-0 ml-2">
-                          <CLabel className="m-0">UPLOAD FILE</CLabel>
+                          {fileControl !== null ? (
+                            <CLabel className="m-0" style={{ color: 'green' }}>
+                              FILE UPLOADED
+                            </CLabel>
+                          ) : (
+                            <CLabel className="m-0">UPLOAD FILE</CLabel>
+                          )}
                           <CLabel className="m-0 pt-1" style={{ fontSize: 12, color: '#8A93A2' }}>
                             Type File: <span style={{ fontWeight: 'bold' }}>.yaml</span>
                           </CLabel>
