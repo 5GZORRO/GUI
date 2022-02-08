@@ -33,7 +33,7 @@ import { InputAddCertificate } from 'types/forms'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 const AddCertificate = (props: any) => {
-  const { setModal } = props
+  const { setModal, refetch } = props
   const {
     handleSubmit,
     formState: { errors },

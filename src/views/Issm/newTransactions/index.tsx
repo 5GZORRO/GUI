@@ -28,6 +28,7 @@ import { getTransactionsTypes, scaleOutOp } from 'hooks/api/ISSM'
 import CIcon from '@coreui/icons-react'
 import { useAuthContext } from 'context/AuthContext'
 import { useHistory } from 'react-router-dom'
+import { LEDGER_IDENTITY } from 'config'
 
 interface formNewTransaction {
   transactionType: string
@@ -56,23 +57,16 @@ const NewBusinessTransaction = (props: any) => {
   const { mutate, isSuccess, isLoading } = scaleOutOp()
 
   useEffect(() => {
-    if (user) {
-      let operator: any
-      switch (user?.stakeholderClaim?.stakeholderProfile?.name) {
-        case 'Operator_A':
-          operator = 'operator-a'
-          break
-        case 'Operator_B':
-          operator = 'operator-b'
-          break
-
-        case 'Operator C ':
-          operator = 'operator-c'
-          break
-      }
-      setValue('operator', operator)
+    let operator: any
+    if (LEDGER_IDENTITY.includes('OperatorA')) {
+      operator = 'operator-a'
+    } else if (LEDGER_IDENTITY.includes('OperatorB')) {
+      operator = 'operator-b'
+    } else if (LEDGER_IDENTITY.includes('OperatorC')) {
+      operator = 'operator-c'
     }
-  }, [user])
+    setValue('operator', operator)
+  }, [])
 
   const onSubmit = (data: formNewTransaction) => {
     // const newData = TransformFormData(data)
