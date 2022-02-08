@@ -1,16 +1,11 @@
+/* eslint-disable react/display-name */
 import React, { useEffect, useState } from 'react'
 import { getAllLicenceCertificates } from 'hooks/api/Certificates'
-import { useAuthContext } from 'context/AuthContext'
-
 import {
   CRow,
   CCol,
   CButton,
-  CContainer,
   CDataTable,
-  CCard,
-  CCardBody,
-  CCardHeader,
   CModal,
   CModalHeader,
   CModalBody,

@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import React, { useEffect, useState } from 'react'
 import { getAllApprovedCertificatesRegulator } from 'hooks/api/Certificates'
 import { CRow, CCol, CButton, CDataTable, CModal, CModalHeader, CModalBody, CTextarea } from '@coreui/react'
