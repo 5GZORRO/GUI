@@ -15,9 +15,9 @@ import {
   CModal,
   CButton
 } from '@coreui/react'
-import ApprovedCertificates from './tablesCertificates/TableApprovedCertificates'
-import RejectedCertificates from './tablesCertificates/TableRejectedCertificates'
-import PendingCertificates from './tablesCertificates/TablePendingCertificates'
+import ApprovedCertificates from './tablesOnboardingCertificates/TableApprovedCertificates'
+import RejectedCertificates from './tablesOnboardingCertificates/TableRejectedCertificates'
+import PendingCertificates from './tablesOnboardingCertificates/TablePendingCertificates'
 import { useLocation } from 'react-router-dom'
 import OfferApprovedCertificates from './tablesOffers/TableApprovedCertificates'
 import OfferPendingCertificates from './tablesOffers/TablePendingCertificates'
@@ -26,25 +26,14 @@ import AddCertificate from '../normalRole/AddCertificate'
 
 const AdminCertificates: React.FC = () => {
   const location = useLocation()
-  const [modal, setModal] = useState<any | null>(null)
 
   return (
     <CContainer>
-       {modal != null && (
-        <CModal show={true} onClose={() => setModal(null)} size="lg">
-          <AddCertificate {...{ setModal }} />
-        </CModal>
-       )}
       <CRow className={'mb-5'}>
         <CCol>
-          {location.pathname === '/Acertificates'
+          {location.pathname === '/Acertificates/onboarding'
             ? (<h2>Stakeholder Certificates</h2>)
             : (<h2>Offer Certificates</h2>)}
-        </CCol>
-        <CCol className={'d-flex justify-content-end align-items-center'}>
-          <CButton block={false} color={'gradient'} className={'text-uppercase px-4'} onClick={() => setModal(true)}>
-            Add Certificate
-          </CButton>
         </CCol>
       </CRow>
       <CTabs activeTab="approvedCertificates">
@@ -69,12 +58,12 @@ const AdminCertificates: React.FC = () => {
           <CTabPane data-tab="approvedCertificates">
             <CCard className={'mt-4'}>
               <CCardHeader>
-                {location.pathname === '/Acertificates'
+                {location.pathname === '/Acertificates/onboarding'
                   ? (<h5>Approved Stakeholder Certificates</h5>)
                   : (<h5>Approved Offer Certificates</h5>)}
               </CCardHeader>
               <CCardBody>
-                {location.pathname === '/Acertificates'
+                {location.pathname === '/Acertificates/onboarding'
                   ? (<ApprovedCertificates />)
                   : (<OfferApprovedCertificates />)}
               </CCardBody>
@@ -83,12 +72,12 @@ const AdminCertificates: React.FC = () => {
           <CTabPane data-tab="pendingCertificates">
             <CCard className={'mt-4'}>
               <CCardHeader>
-                {location.pathname === '/Acertificates'
+                {location.pathname === '/Acertificates/onboarding'
                   ? (<h5>Pending Stakeholder Certificates</h5>)
                   : (<h5>Pending Offer Certificates</h5>)}
               </CCardHeader>
               <CCardBody>
-                {location.pathname === '/Acertificates'
+                {location.pathname === '/Acertificates/onboarding'
                   ? (<PendingCertificates />)
                   : (<OfferPendingCertificates />)}
               </CCardBody>
@@ -97,12 +86,12 @@ const AdminCertificates: React.FC = () => {
           <CTabPane data-tab="rejectedCertificates">
             <CCard className={'mt-4'}>
               <CCardHeader>
-                {location.pathname === '/Acertificates'
+                {location.pathname === '/Acertificates/onboarding'
                   ? (<h5>Rejected Stakeholder Certificates</h5>)
                   : (<h5>Rejected Offer Certificates</h5>)}
               </CCardHeader>
               <CCardBody>
-                {location.pathname === '/Acertificates'
+                {location.pathname === '/Acertificates/onboarding'
                   ? (<RejectedCertificates />)
                   : (<OfferRejectedCertificates />)}
               </CCardBody>

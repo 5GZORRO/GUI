@@ -28,22 +28,21 @@ export default [
     icon: 'cilFlagAlt'
   },
   {
-    _tag: 'CSidebarNavItem',
+    _tag: 'CSidebarNavDropdown',
     name: 'Certificates',
     icon: 'cil-featured-playlist',
-    to: '/Acertificates'
-    // _children: [
-    //   {
-    //     _tag: 'CSidebarNavItem',
-    //     name: 'Stakeholder Certificates',
-    //     to: '/stakeholdercertificates'
-    //   }
-    //   {
-    //     _tag: 'CSidebarNavItem',
-    //     name: 'Offer Certificates',
-    //     to: '/offercertificates/'
-    //   }
-    // ]
+    _children: [
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Onboarding Certificates',
+        to: '/Acertificates/onboarding'
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Licences Certificates',
+        to: '/Acertificates/licences'
+      }
+    ]
   },
   {
     _tag: 'CSidebarNavTitle',

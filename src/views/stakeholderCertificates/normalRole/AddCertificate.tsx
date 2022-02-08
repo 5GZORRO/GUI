@@ -479,7 +479,7 @@ const AddCertificate = (props: any) => {
             <CRow>
               <CCol sm={12}>
                 <CFormGroup>
-                  <CLabel htmlFor="stakeholderObject">Spectrum License Object</CLabel>
+                  <CLabel htmlFor="stakeholderObject">Spectrum Licence Object</CLabel>
                   <Controller
                     control={control}
                     defaultValue={''}

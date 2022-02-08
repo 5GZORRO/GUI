@@ -109,15 +109,27 @@ const getAllRejectedOffers = async (): Promise<ApiIssuerOffers[]> => {
 
 const getAllApprovedCertificatesRegulator = async (): Promise<any[]> => {
   try {
-    const response = await axios.get(endpoints.CERTIFICATE_REGULATOR_APPROVED_LICENSE)
+    const responseApproved = await axios.get(endpoints.CERTIFICATE_REGULATOR_APPROVED_LICENSE)
+    const responseRejected = await axios.get(endpoints.CERTIFICATE_REGULATOR_REJECTED_LICENSE)
+    const response = await axios.all([responseApproved, responseRejected])
     const newArr: any[] | PromiseLike<any[]> = []
     if (response) {
-      response.data.forEach((element: any) => {
+      response?.[0]?.data.forEach((element: any) => {
         newArr.push({
           idToken: element?.id_token,
           licenseDID: element?.licenseDID,
           stakeholderServices: element?.stakeholderServices?.[0],
-          timestamp: element?.timestamp
+          timestamp: element?.timestamp,
+          state: element?.state
+        })
+      })
+      response?.[1]?.data.forEach((element: any) => {
+        newArr.push({
+          idToken: element?.id_token,
+          licenseDID: element?.licenseDID,
+          stakeholderServices: element?.stakeholderServices?.[0],
+          timestamp: element?.timestamp,
+          state: element?.state
         })
       })
       return newArr

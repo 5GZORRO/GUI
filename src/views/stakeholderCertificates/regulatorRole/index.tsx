@@ -31,7 +31,7 @@ const RegulatorCertificates: React.FC = () => {
         <CNav variant="tabs">
           <CNavItem>
             <CNavLink data-tab="approvedCertificates" className={'text-uppercase'}>
-              Approved certificates
+              All certificates
             </CNavLink>
           </CNavItem>
           <CNavItem>
@@ -39,17 +39,17 @@ const RegulatorCertificates: React.FC = () => {
               Pending certificates
             </CNavLink>
           </CNavItem>
-          <CNavItem>
+          {/* <CNavItem>
             <CNavLink data-tab="rejectedCertificates" className={'text-uppercase'}>
               Rejected certificates
             </CNavLink>
-          </CNavItem>
+          </CNavItem> */}
         </CNav>
         <CTabContent>
           <CTabPane data-tab="approvedCertificates">
             <CCard className={'mt-4'}>
               <CCardHeader>
-                <h5>Approved Licences Certificates</h5>
+                <h5>All Licences Certificates</h5>
               </CCardHeader>
               <CCardBody>
                 <ApprovedCertificates {...{ triggerRefetch }}/>
@@ -66,7 +66,7 @@ const RegulatorCertificates: React.FC = () => {
               </CCardBody>
             </CCard>
           </CTabPane>
-          <CTabPane data-tab="rejectedCertificates">
+          {/* <CTabPane data-tab="rejectedCertificates">
             <CCard className={'mt-4'}>
               <CCardHeader>
                 <h5>Rejected Licences Certificates</h5>
@@ -75,7 +75,7 @@ const RegulatorCertificates: React.FC = () => {
                 <RejectedCertificates {...{ triggerRefetch }} />
               </CCardBody>
             </CCard>
-          </CTabPane>
+          </CTabPane> */}
         </CTabContent>
       </CTabs>
     </CContainer>
