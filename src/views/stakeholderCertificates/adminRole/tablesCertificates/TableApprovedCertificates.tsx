@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
 import { useAuthContext } from 'context/AuthContext'
-import { getAllApprovedCertificates, revokeCertificate } from 'hooks/api/Certificates'
+import { getAllApprovedCertificatesAdmin, revokeCertificate } from 'hooks/api/Certificates'
 
 import { CRow, CCol, CButton, CContainer, CDataTable, CCard, CCardBody, CCardHeader } from '@coreui/react'
 
 const ApprovedCertificates: React.FC = (props: any) => {
   const { modal } = props
-  const { data, isLoading, refetch } = getAllApprovedCertificates()
+  const { data, isLoading, refetch } = getAllApprovedCertificatesAdmin()
   const { mutate, isSuccess, isLoading: loadingRevoke, isError } = revokeCertificate()
 
   const fields = [
@@ -47,7 +47,7 @@ const ApprovedCertificates: React.FC = (props: any) => {
       <CDataTable
         cleaner
         loading={isLoading || loadingRevoke}
-        items={data?.filter((el) => el != null && el.state === 'Stakeholder Registered') ?? []}
+        items={data?.filter((el) => el != null) ?? []}
         columnFilter
         tableFilter
         clickableRows

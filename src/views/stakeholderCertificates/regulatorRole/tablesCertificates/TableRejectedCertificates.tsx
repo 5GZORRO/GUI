@@ -1,39 +1,23 @@
 import React, { useEffect, useState } from 'react'
-import { getAllLicenceCertificates } from 'hooks/api/Certificates'
-import { useAuthContext } from 'context/AuthContext'
-
-import {
-  CRow,
-  CCol,
-  CButton,
-  CContainer,
-  CDataTable,
-  CCard,
-  CCardBody,
-  CCardHeader,
-  CModal,
-  CModalHeader,
-  CModalBody,
-  CTextarea
-} from '@coreui/react'
+import { CButton, CCol, CDataTable, CModal, CModalBody, CModalHeader, CRow, CTextarea } from '@coreui/react'
+import { getAllRejectedCertificatesRegulator } from 'hooks/api/Certificates'
 import dayjs from 'dayjs'
 import { DATETIME_FORMAT_SHOW } from 'config'
 
-const CertificatesNormal: React.FC = (props: any) => {
-  const { modal } = props
-  const { data, isLoading, refetch } = getAllLicenceCertificates()
-  const [modalDetails, setModalDetails] = useState<any>(null)
+const RejectedCertificates: React.FC = (props: any) => {
+  const { triggerRefetch } = props
+  const { data, isLoading, refetch } = getAllRejectedCertificatesRegulator()
+  const [modal, setModal] = useState<any>(null)
 
   const fields = [
     { key: 'licenseDID', label: 'Licence DID' },
     { key: 'timestamp', label: 'Creation Date' },
-    { key: 'state', label: 'Status' },
     { key: 'actions', label: 'Actions', filter: false, sort: false }
   ]
 
   const showButton = (item: any) => (
     <td className="d-flex align-items-center py-2">
-      <CButton color="primary" className={'text-uppercase'} shape="square" onClick={() => setModalDetails(item)}>
+      <CButton color="primary" className={'text-uppercase'} shape="square" onClick={() => setModal(item)}>
         {'Show'}
       </CButton>
     </td>
@@ -41,22 +25,18 @@ const CertificatesNormal: React.FC = (props: any) => {
 
   useEffect(() => {
     refetch()
-  }, [modal])
+  }, [triggerRefetch])
 
   return (
     <>
-      <CModal show={modalDetails != null} onClose={() => setModalDetails(null)} size="lg">
+      <CModal show={modal != null} onClose={() => setModal(null)} size="lg">
         <CModalHeader closeButton>
           <h5>{'Stakeholder Services Details'}</h5>
         </CModalHeader>
         <CModalBody>
           <CRow className={'mt-2'}>
             <CCol xs="12">
-              <CTextarea
-                readOnly={true}
-                rows={22}
-                value={JSON.stringify(modalDetails?.stakeholderServices, null, '\t')}
-              />
+              <CTextarea readOnly={true} rows={22} value={JSON.stringify(modal?.stakeholderServices, null, '\t')} />
             </CCol>
           </CRow>
         </CModalBody>
@@ -88,4 +68,4 @@ const CertificatesNormal: React.FC = (props: any) => {
   )
 }
 
-export default CertificatesNormal
+export default RejectedCertificates

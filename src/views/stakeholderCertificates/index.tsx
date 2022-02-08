@@ -30,7 +30,7 @@ const StakeholdersCertificates: React.FC = () => {
       )}
       <CRow className={'mb-5'}>
         <CCol>
-          <h2>Stakeholder Certificates</h2>
+          <h2>Certificates</h2>
         </CCol>
         <CCol className={'d-flex justify-content-end align-items-center'}>
           <CButton block={false} color={'gradient'} className={'text-uppercase px-4'} onClick={() => setModal(true)}>
@@ -42,7 +42,7 @@ const StakeholdersCertificates: React.FC = () => {
         <CNav variant="tabs">
           <CNavItem>
             <CNavLink data-tab="activeTransactions" className={'text-uppercase'}>
-              Stakeholder certificates
+              Licence certificates
             </CNavLink>
           </CNavItem>
         </CNav>
@@ -50,10 +50,10 @@ const StakeholdersCertificates: React.FC = () => {
           <CTabPane data-tab="activeTransactions">
             <CCard className={'mt-4'}>
               <CCardHeader>
-                <h5>All Stakeholder Certificates</h5>
+                <h5>All Licence Certificates</h5>
               </CCardHeader>
               <CCardBody>
-                <CertificatesNormal/>
+                <CertificatesNormal {...{ modal }} />
               </CCardBody>
             </CCard>
           </CTabPane>

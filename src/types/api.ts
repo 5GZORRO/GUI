@@ -1361,14 +1361,15 @@ export interface ApiBusinessTransactions {
 }
 
 export interface ApiCertificatesBody {
-  key: string
-  governanceBoardDID: string
-  stakeholderRoles: stakeholderProfileProps[]
+  // key: string
+  id_token: string
+  // governanceBoardDID: string
+  // stakeholderRoles: stakeholderProfileProps[]
   stakeholderServices: any[]
-  stakeholderProfile: {
-    name: string
-    address: string
-  }
+  // stakeholderProfile: {
+  //   name: string
+  //   address: string
+  // }
 }
 
 export interface ApiIssuerOffers {

@@ -21,20 +21,21 @@ const createStakeHolderRoles = (data: any) => {
 
 export const transformForm = (form: InputAddCertificate) => {
   const newData = {
-    key: VERIFICATION_KEY,
-    governanceBoardDID: form.governanceDID,
-    stakeholderServices: form.stakeholderObject !== '' ? [JSON.parse(form.stakeholderObject)] : [],
-    stakeholderRoles: form.roles,
-    stakeholderProfile: {
-      name: form.name,
-      address: form.address,
-      ledgerIdentity: LEDGER_IDENTITY,
-      notificationMethod: {
-        notificationType: 'EMAIL',
-        distributionList: form.email
-      }
-    },
-    handler_url: ''
+    // key: VERIFICATION_KEY,
+    id_token: form.id_token,
+    // governanceBoardDID: form.governanceDID,
+    stakeholderServices: form.stakeholderObject !== '' ? [JSON.parse(form.stakeholderObject)] : []
+    // stakeholderRoles: form.roles,
+    // stakeholderProfile: {
+    //   name: form.name,
+    //   address: form.address,
+    //   ledgerIdentity: LEDGER_IDENTITY,
+    //   notificationMethod: {
+    //     notificationType: 'EMAIL',
+    //     distributionList: form.email
+    //   }
+    // },
+    // handler_url: ''
   }
   return newData
 }

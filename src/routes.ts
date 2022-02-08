@@ -25,6 +25,7 @@ const FetchResources = React.lazy(() => import('./views/resources/FetchResources
 const IssmBusinessTransactions = React.lazy(() => import('./views/Issm/index'))
 const StakeholderCertificates = React.lazy(() => import('./views/stakeholderCertificates/index'))
 const AdminStakeholderCertificates = React.lazy(() => import('./views/stakeholderCertificates/adminRole/index'))
+const RegulatorCertificates = React.lazy(() => import('./views/stakeholderCertificates/regulatorRole/index'))
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -68,8 +69,9 @@ const routes = [
   { path: '/templates', name: 'Legal Prose Templates', component: LegalProseTemplates },
   { path: '/prices', name: 'Product Offering Prices', component: ProductOfferingPrices },
 
-  { path: '/certificates', name: 'Stakeholder Certificates', component: StakeholderCertificates },
-  { path: '/stakeholdercertificates', name: 'Stakeholder Certificates', component: AdminStakeholderCertificates }
+  { path: '/approved/certificates', name: 'Certificates', component: StakeholderCertificates },
+  { exact: true, path: '/Acertificates', name: 'Admin Certificates', component: AdminStakeholderCertificates },
+  { exact: true, path: '/Rcertificates', name: 'Regulator Certificates', component: RegulatorCertificates }
   // { path: '/offercertificates', name: 'Offer Certificates', component: AdminStakeholderCertificates }
 ]
 

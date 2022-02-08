@@ -31,7 +31,7 @@ export default [
     _tag: 'CSidebarNavItem',
     name: 'Certificates',
     icon: 'cil-featured-playlist',
-    to: '/Acertificates'
+    to: '/Rcertificates'
     // _children: [
     //   {
     //     _tag: 'CSidebarNavItem',

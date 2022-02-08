@@ -37,7 +37,7 @@ const AdminCertificates: React.FC = () => {
        )}
       <CRow className={'mb-5'}>
         <CCol>
-          {location.pathname === '/stakeholdercertificates'
+          {location.pathname === '/Acertificates'
             ? (<h2>Stakeholder Certificates</h2>)
             : (<h2>Offer Certificates</h2>)}
         </CCol>
@@ -69,12 +69,12 @@ const AdminCertificates: React.FC = () => {
           <CTabPane data-tab="approvedCertificates">
             <CCard className={'mt-4'}>
               <CCardHeader>
-                {location.pathname === '/stakeholdercertificates'
+                {location.pathname === '/Acertificates'
                   ? (<h5>Approved Stakeholder Certificates</h5>)
                   : (<h5>Approved Offer Certificates</h5>)}
               </CCardHeader>
               <CCardBody>
-                {location.pathname === '/stakeholdercertificates'
+                {location.pathname === '/Acertificates'
                   ? (<ApprovedCertificates />)
                   : (<OfferApprovedCertificates />)}
               </CCardBody>
@@ -83,12 +83,12 @@ const AdminCertificates: React.FC = () => {
           <CTabPane data-tab="pendingCertificates">
             <CCard className={'mt-4'}>
               <CCardHeader>
-                {location.pathname === '/stakeholdercertificates'
+                {location.pathname === '/Acertificates'
                   ? (<h5>Pending Stakeholder Certificates</h5>)
                   : (<h5>Pending Offer Certificates</h5>)}
               </CCardHeader>
               <CCardBody>
-                {location.pathname === '/stakeholdercertificates'
+                {location.pathname === '/Acertificates'
                   ? (<PendingCertificates />)
                   : (<OfferPendingCertificates />)}
               </CCardBody>
@@ -97,12 +97,12 @@ const AdminCertificates: React.FC = () => {
           <CTabPane data-tab="rejectedCertificates">
             <CCard className={'mt-4'}>
               <CCardHeader>
-                {location.pathname === '/stakeholdercertificates'
+                {location.pathname === '/Acertificates'
                   ? (<h5>Rejected Stakeholder Certificates</h5>)
                   : (<h5>Rejected Offer Certificates</h5>)}
               </CCardHeader>
               <CCardBody>
-                {location.pathname === '/stakeholdercertificates'
+                {location.pathname === '/Acertificates'
                   ? (<RejectedCertificates />)
                   : (<OfferRejectedCertificates />)}
               </CCardBody>

@@ -107,9 +107,75 @@ const getAllRejectedOffers = async (): Promise<ApiIssuerOffers[]> => {
   }
 }
 
-const getAllApprovedCertificates = async (): Promise<any[]> => {
+const getAllApprovedCertificatesRegulator = async (): Promise<any[]> => {
   try {
-    const response = await axios.get(endpoints.CERTIFICATE_ADMIN_APPROVED_CERTIFICATES)
+    const response = await axios.get(endpoints.CERTIFICATE_REGULATOR_APPROVED_LICENSE)
+    const newArr: any[] | PromiseLike<any[]> = []
+    if (response) {
+      response.data.forEach((element: any) => {
+        newArr.push({
+          idToken: element?.id_token,
+          licenseDID: element?.licenseDID,
+          stakeholderServices: element?.stakeholderServices?.[0],
+          timestamp: element?.timestamp
+        })
+      })
+      return newArr
+    }
+    return []
+  } catch (e) {
+    console.log({ e })
+    throw new Error('error')
+  }
+}
+
+const getAllPendingCertificatesRegulator = async (): Promise<any[]> => {
+  try {
+    const response = await axios.get(endpoints.CERTIFICATE_REGULATOR_PENDING_LICENSE)
+    const newArr: any[] | PromiseLike<any[]> = []
+    if (response) {
+      response?.data.forEach((element: any) => {
+        newArr.push({
+          idToken: element?.id_token,
+          licenseDID: element?.licenseDID,
+          stakeholderServices: element?.stakeholderServices?.[0],
+          timestamp: element?.timestamp
+        })
+      })
+      return newArr
+    }
+    return []
+  } catch (e) {
+    console.log({ e })
+    throw new Error('error')
+  }
+}
+
+const getAllRejectedCertificatesRegulator = async (): Promise<any[]> => {
+  try {
+    const response = await axios.get(endpoints.CERTIFICATE_REGULATOR_REJECTED_LICENSE)
+    const newArr: any[] | PromiseLike<any[]> = []
+    if (response) {
+      response?.data.forEach((element: any) => {
+        newArr.push({
+          idToken: element?.id_token,
+          licenseDID: element?.licenseDID,
+          stakeholderServices: element?.stakeholderServices?.[0],
+          timestamp: element?.timestamp
+        })
+      })
+      return newArr
+    }
+    return []
+  } catch (e) {
+    console.log({ e })
+    throw new Error('error')
+  }
+}
+
+const getAllApprovedCertificatesAdmin = async (): Promise<any[]> => {
+  try {
+    const response = await axios.get(endpoints.CERTIFICATE_ADMIN_APPROVED)
     const newArr: any[] | PromiseLike<any[]> = []
     if (response) {
       response.data.forEach((element: any) => {
@@ -123,7 +189,6 @@ const getAllApprovedCertificates = async (): Promise<any[]> => {
               return el
             })
             ?.join(', '),
-          state: element?.state,
           timestamp: element?.timestamp
         })
       })
@@ -136,7 +201,7 @@ const getAllApprovedCertificates = async (): Promise<any[]> => {
   }
 }
 
-const getAllPendingCertificates = async (): Promise<any[]> => {
+const getAllPendingCertificatesAdmin = async (): Promise<any[]> => {
   try {
     const response = await axios.get(endpoints.CERTIFICATE_ADMIN_PENDING_CERTIFICATES)
     const newArr: any[] | PromiseLike<any[]> = []
@@ -156,6 +221,60 @@ const getAllPendingCertificates = async (): Promise<any[]> => {
           state: element?.state,
           timestamp: element?.timestamp,
           handler_url: element?.handler_url
+        })
+      })
+      return newArr
+    }
+    return []
+  } catch (e) {
+    console.log({ e })
+    throw new Error('error')
+  }
+}
+
+const getAllRejectedCertificatesAdmin = async (): Promise<any[]> => {
+  try {
+    const response = await axios.get(endpoints.CERTIFICATE_ADMIN_REJECTED)
+    const newArr: any[] | PromiseLike<any[]> = []
+    if (response) {
+      response?.data.forEach((element: any) => {
+        newArr.push({
+          roles: element?.stakeholderClaim?.stakeholderRoles[0]?.assets,
+          stakeholderDID: element?.stakeholderClaim?.stakeholderDID,
+          ledgerIdentity: element?.stakeholderClaim?.stakeholderProfile?.ledgerIdentity,
+          name: element?.stakeholderClaim?.stakeholderProfile?.name,
+          role: element?.stakeholderClaim?.stakeholderRoles[0]?.role,
+          stakeholderRoles: element?.stakeholderClaim?.stakeholderRoles[0]?.assets
+            ?.map((el: any) => {
+              return el
+            })
+            ?.join(', '),
+          state: element?.state,
+          timestamp: element?.timestamp,
+          handler_url: element?.handler_url
+        })
+      })
+      return newArr
+    }
+    return []
+  } catch (e) {
+    console.log({ e })
+    throw new Error('error')
+  }
+}
+
+const getAllLicenceCertificates = async (): Promise<any[]> => {
+  try {
+    const response = await axios.get(endpoints.CERTIFICATE_ALL_LICENSE)
+    const newArr: any[] | PromiseLike<any[]> = []
+    if (response) {
+      response?.data.forEach((element: any) => {
+        newArr.push({
+          idToken: element?.id_token,
+          licenseDID: element?.licenseDID,
+          stakeholderServices: element?.stakeholderServices?.[0],
+          timestamp: element?.timestamp,
+          state: element?.state
         })
       })
       return newArr
@@ -272,6 +391,22 @@ const resolveStakeholder = async (body: any, params: any): Promise<any> => {
   }
 }
 
+const resolveLicense = async (body: any, params: any): Promise<any> => {
+  try {
+    console.log(body)
+    const response = await axios.put(endpoints.CERTIFICATE_REGULATOR_RESOLVE, {
+      id_token: params,
+      license_did: body?.license_did,
+      approval: body?.approval
+    })
+
+    return response.data
+  } catch (e) {
+    console.log({ e })
+    throw new Error('error')
+  }
+}
+
 const revokeCertificate = async (body: any): Promise<any> => {
   try {
     const response = await axios.put(endpoints.CERTIFICATE_ADMIN_REVOKE, body)
@@ -287,10 +422,16 @@ export default {
   getAllApprovedOffers,
   getAllPendingOffers,
   getAllRejectedOffers,
-  getAllApprovedCertificates,
-  getAllPendingCertificates,
+  getAllApprovedCertificatesAdmin,
+  getAllPendingCertificatesAdmin,
+  getAllRejectedCertificatesAdmin,
   getStakeholderCertificates,
   resolveOffer,
   resolveStakeholder,
-  revokeCertificate
+  revokeCertificate,
+  resolveLicense,
+  getAllApprovedCertificatesRegulator,
+  getAllPendingCertificatesRegulator,
+  getAllRejectedCertificatesRegulator,
+  getAllLicenceCertificates
 }

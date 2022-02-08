@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useTypedSelector } from '../store'
 import {
@@ -15,6 +15,7 @@ import {
 // sidebar nav config
 import navigation from './_nav'
 import navigationAdmin from './_navAdmin'
+import navigationRegulator from './_navRegulator'
 
 import { LogoHorizontalWhite } from 'assets/icons/logos'
 import { useAuthContext } from 'context/AuthContext'
@@ -23,6 +24,25 @@ const TheSidebar = () => {
   const dispatch = useDispatch()
   const show = useTypedSelector((state) => state.sidebarShow)
   const { user } = useAuthContext()
+  const [nav, setNav] = useState<any>([])
+
+  useEffect(() => {
+    if (user) {
+      switch (user?.stakeholderClaim?.stakeholderRoles[0]?.role) {
+        case 'Administrator':
+          setNav(navigationAdmin)
+          break
+        case 'Regulator':
+          setNav(navigationRegulator)
+          break
+        default:
+          setNav(navigation)
+          break
+      }
+    } else {
+      setNav([])
+    }
+  }, [user])
 
   return (
     <CSidebar show={show} unfoldable onShowChange={(val: boolean) => dispatch({ type: 'set', sidebarShow: val })}>
@@ -31,12 +51,7 @@ const TheSidebar = () => {
       </CSidebarBrand>
       <CSidebarNav>
         <CCreateElement
-          items={
-            user?.stakeholderClaim?.stakeholderRoles[0]?.role === 'Administrator' ||
-            user?.stakeholderClaim?.stakeholderRoles[0]?.role === 'Regulator'
-              ? navigationAdmin
-              : navigation
-          }
+          items={nav}
           components={{
             CSidebarNavDivider,
             CSidebarNavDropdown,

@@ -76,14 +76,15 @@ export interface InputRegister {
 }
 
 export interface InputAddCertificate {
-  governanceDID: string
-  name: string
+  id_token: string
+  // governanceDID: string
+  // name: string
   // company: string
-  email: string
-  address: string
-  spectrumResource: string
+  // email: string
+  // address: string
+  // spectrumResource: string
   stakeholderObject: string
-  roles: any[]
+  // roles: any[]
   // roles: {
   //   administrator: {
   //     isSelect: boolean

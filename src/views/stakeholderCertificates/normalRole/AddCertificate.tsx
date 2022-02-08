@@ -42,13 +42,8 @@ const AddCertificate = (props: any) => {
     watch
   } = useForm<InputAddCertificate>({
     defaultValues: {
-      name: '',
-      governanceDID: '',
-      email: '',
-      address: '',
-      spectrumResource: '',
-      stakeholderObject: '',
-      roles: []
+      id_token: '',
+      stakeholderObject: ''
     }
     // resolver: yupResolver(schemaAddCertificate)
   })
@@ -63,11 +58,11 @@ const AddCertificate = (props: any) => {
 
   useEffect(() => {
     if (user) {
-      setValue('name', user?.stakeholderClaim?.stakeholderProfile?.name)
-      setValue('governanceDID', user?.stakeholderClaim?.governanceBoardDID)
-      setValue('email', user?.stakeholderClaim?.stakeholderProfile?.notificationMethod?.distributionList)
-      setValue('address', user?.stakeholderClaim?.stakeholderProfile?.address)
-      setValue('roles', user?.stakeholderClaim?.stakeholderRoles)
+      setValue('id_token', user?.id_token)
+      // setValue('governanceDID', user?.stakeholderClaim?.governanceBoardDID)
+      // setValue('email', user?.stakeholderClaim?.stakeholderProfile?.notificationMethod?.distributionList)
+      // setValue('address', user?.stakeholderClaim?.stakeholderProfile?.address)
+      // setValue('roles', user?.stakeholderClaim?.stakeholderRoles)
     }
   }, [user])
 
@@ -81,7 +76,7 @@ const AddCertificate = (props: any) => {
   // const regulator = watch('roles.regulator.isSelect')
   // const trader = watch('roles.trader.isSelect')
 
-  const spectrumResource = watch('spectrumResource')
+  // const spectrumResource = watch('spectrumResource')
 
   // const removeRemain = (currentActive: string) => {
   //   const allValues = {
@@ -107,7 +102,7 @@ const AddCertificate = (props: any) => {
         )}
       <CForm onSubmit={handleSubmit(onSubmit)}>
         <CCardHeader>
-          <h5>New Stakeholder Certificate</h5>
+          <h5>New Licence Certificate</h5>
         </CCardHeader>
         <CCardBody>
           {/* <CRow>

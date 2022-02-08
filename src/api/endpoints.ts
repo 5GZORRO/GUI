@@ -35,15 +35,21 @@ export const endpoints = {
   ISSM_ARCHIVED: `${API_ISSM}/archived-workflows/domain-`,
   ISSM_DELETE: `${API_ISSM}/transactions`,
   CERTIFICATE_HOLDER_CERTIFICATES: `${API_IPM}/holder/read_stakeholder`,
-  CERTIFICATE_HOLDER_REGISTER: `${API_IPM}/holder/register_stakeholder`,
+  CERTIFICATE_HOLDER_REGISTER: `${API_IPM}/holder/license`,
   CERTIFICATE_HOLDER_CREATE_OFFER: `${API_IPM}/holder/create_did`,
-  CERTIFICATE_ADMIN_PENDING_CERTIFICATES: `${API_IPM}/issuer/stakeholder/pending`,
+  CERTIFICATE_ADMIN_PENDING_CERTIFICATES: `${API_IPM}/issuer/stakeholder?state=pending`,
+  CERTIFICATE_ADMIN_APPROVED: `${API_IPM}/issuer/stakeholder?state=approved`,
+  CERTIFICATE_ADMIN_REJECTED: `${API_IPM}/issuer/stakeholder?state=rejected`,
   CERTIFICATE_ADMIN_RESOLVE: `${API_IPM}/issuer/stakeholder/resolve`,
   CERTIFICATE_ADMIN_REVOKE: `${API_IPM}/issuer/revoke_did`,
   CERTIFICATE_ADMIN_PENDING_OFFER: `${API_IPM}/issuer/did_offer/pending`,
   CERTIFICATE_ADMIN_RESOLVE_OFFER: `${API_IPM}/issuer/did_offer/resolve`,
   CERTIFICATE_ADMIN_ALL_OFFER: `${API_IPM}/issuer/read_issued_did/all`,
   CERTIFICATE_ADMIN_REVOKED_OFFER: `${API_IPM}/issuer/read_did/revoked`,
-  CERTIFICATE_ADMIN_APPROVED_CERTIFICATES: `${API_IPM}/holder/read_stakeholder_status`
-
+  CERTIFICATE_ADMIN_APPROVED_CERTIFICATES: `${API_IPM}/holder/read_stakeholder_status`,
+  CERTIFICATE_REGULATOR_APPROVED_LICENSE: `${API_IPM}/regulator/license?state=approved`,
+  CERTIFICATE_REGULATOR_PENDING_LICENSE: `${API_IPM}/regulator/license?state=pending`,
+  CERTIFICATE_REGULATOR_REJECTED_LICENSE: `${API_IPM}/regulator/license?state=rejected`,
+  CERTIFICATE_ALL_LICENSE: `${API_IPM}/holder/license/all`,
+  CERTIFICATE_REGULATOR_RESOLVE: `${API_IPM}/regulator/license/resolve`
 }

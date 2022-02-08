@@ -2,12 +2,12 @@ import React, { useState } from 'react'
 import { useAuthContext } from 'context/AuthContext'
 
 import { CRow, CCol, CButton, CContainer, CDataTable, CCard, CCardBody, CCardHeader } from '@coreui/react'
-import { getAllApprovedCertificates } from 'hooks/api/Certificates'
+import { getAllRejectedCertificatesAdmin } from 'hooks/api/Certificates'
 
 const RejectedCertificates: React.FC = (props: any) => {
   const { modal } = props
   const { user } = useAuthContext()
-  const { data, isLoading } = getAllApprovedCertificates()
+  const { data, isLoading } = getAllRejectedCertificatesAdmin()
 
   const fields = [
     'name',
@@ -21,8 +21,8 @@ const RejectedCertificates: React.FC = (props: any) => {
     <>
       <CDataTable
         cleaner
-        loading={false}
-        items={data?.filter((el) => el != null && el.state === 'Stakeholder Declined') ?? []}
+        loading={isLoading}
+        items={data?.filter((el) => el != null) ?? []}
         columnFilter
         tableFilter
         clickableRows
