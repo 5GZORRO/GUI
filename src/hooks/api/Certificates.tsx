@@ -29,7 +29,7 @@ export const getAllRejectedOffers = () => {
 
 export const getAllApprovedCertificatesAdmin = () => {
   return useQuery('allApprovedCertificatesAdmin', () => api.certificates.getAllApprovedCertificatesAdmin(), {
-    keepPreviousData: true
+    keepPreviousData: false
   })
 }
 
@@ -41,7 +41,7 @@ export const getAllPendingCertificatesAdmin = () => {
 
 export const getAllRejectedCertificatesAdmin = () => {
   return useQuery('allRejectedCertificatesAdmin', () => api.certificates.getAllRejectedCertificatesAdmin(), {
-    keepPreviousData: true
+    keepPreviousData: false
   })
 }
 

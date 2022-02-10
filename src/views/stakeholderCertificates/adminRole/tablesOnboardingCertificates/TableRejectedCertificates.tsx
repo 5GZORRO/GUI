@@ -1,13 +1,17 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAuthContext } from 'context/AuthContext'
 
 import { CRow, CCol, CButton, CContainer, CDataTable, CCard, CCardBody, CCardHeader } from '@coreui/react'
 import { getAllRejectedCertificatesAdmin } from 'hooks/api/Certificates'
 
 const RejectedCertificates: React.FC = (props: any) => {
-  const { modal } = props
+  const { triggerRefetch } = props
   const { user } = useAuthContext()
-  const { data, isLoading } = getAllRejectedCertificatesAdmin()
+  const { data, isLoading, refetch } = getAllRejectedCertificatesAdmin()
+
+  useEffect(() => {
+    refetch()
+  }, [triggerRefetch])
 
   const fields = [
     'name',

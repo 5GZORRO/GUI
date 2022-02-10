@@ -5,7 +5,7 @@ import { getAllPendingCertificatesAdmin, resolveStakeholder } from 'hooks/api/Ce
 import { CRow, CCol, CButton, CContainer, CDataTable, CCard, CCardBody, CCardHeader } from '@coreui/react'
 
 const PendingCertificates: React.FC = (props: any) => {
-  const { modal } = props
+  const { triggerRefetch, setTriggerRefetch } = props
   const { user } = useAuthContext()
   const { data, isLoading, refetch } = getAllPendingCertificatesAdmin()
   const { mutate, isSuccess, isLoading: loadingResolve, isError } = resolveStakeholder(user)
@@ -48,6 +48,7 @@ const PendingCertificates: React.FC = (props: any) => {
   useEffect(() => {
     if (isSuccess) {
       refetch()
+      setTriggerRefetch(!triggerRefetch)
     }
   }, [isSuccess])
 

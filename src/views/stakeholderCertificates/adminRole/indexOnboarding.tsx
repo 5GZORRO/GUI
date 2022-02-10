@@ -11,9 +11,7 @@ import {
   CNavItem,
   CNavLink,
   CTabContent,
-  CTabPane,
-  CModal,
-  CButton
+  CTabPane
 } from '@coreui/react'
 import ApprovedCertificates from './tablesOnboardingCertificates/TableApprovedCertificates'
 import RejectedCertificates from './tablesOnboardingCertificates/TableRejectedCertificates'
@@ -22,10 +20,10 @@ import { useLocation } from 'react-router-dom'
 import OfferApprovedCertificates from './tablesOffers/TableApprovedCertificates'
 import OfferPendingCertificates from './tablesOffers/TablePendingCertificates'
 import OfferRejectedCertificates from './tablesOffers/TableRejectedCertificates'
-import AddCertificate from '../normalRole/AddCertificate'
 
 const AdminCertificates: React.FC = () => {
   const location = useLocation()
+  const [triggerRefetch, setTriggerRefetch] = useState(false)
 
   return (
     <CContainer>
@@ -64,7 +62,7 @@ const AdminCertificates: React.FC = () => {
               </CCardHeader>
               <CCardBody>
                 {location.pathname === '/Acertificates/onboarding'
-                  ? (<ApprovedCertificates />)
+                  ? (<ApprovedCertificates {...{ triggerRefetch }} />)
                   : (<OfferApprovedCertificates />)}
               </CCardBody>
             </CCard>
@@ -78,7 +76,7 @@ const AdminCertificates: React.FC = () => {
               </CCardHeader>
               <CCardBody>
                 {location.pathname === '/Acertificates/onboarding'
-                  ? (<PendingCertificates />)
+                  ? (<PendingCertificates {...{ triggerRefetch, setTriggerRefetch }}/>)
                   : (<OfferPendingCertificates />)}
               </CCardBody>
             </CCard>
@@ -92,7 +90,7 @@ const AdminCertificates: React.FC = () => {
               </CCardHeader>
               <CCardBody>
                 {location.pathname === '/Acertificates/onboarding'
-                  ? (<RejectedCertificates />)
+                  ? (<RejectedCertificates {...{ triggerRefetch }}/>)
                   : (<OfferRejectedCertificates />)}
               </CCardBody>
             </CCard>

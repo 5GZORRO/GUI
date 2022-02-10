@@ -5,9 +5,13 @@ import { getAllApprovedCertificatesAdmin, revokeCertificate } from 'hooks/api/Ce
 import { CRow, CCol, CButton, CContainer, CDataTable, CCard, CCardBody, CCardHeader } from '@coreui/react'
 
 const ApprovedCertificates: React.FC = (props: any) => {
-  const { modal } = props
+  const { triggerRefetch } = props
   const { data, isLoading, refetch } = getAllApprovedCertificatesAdmin()
   const { mutate, isSuccess, isLoading: loadingRevoke, isError } = revokeCertificate()
+
+  useEffect(() => {
+    refetch()
+  }, [triggerRefetch])
 
   const fields = [
     'name',
