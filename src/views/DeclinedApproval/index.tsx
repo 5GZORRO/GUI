@@ -16,9 +16,9 @@ const WaitingApproval = (props: any) => {
               <CCol xs="5">
                 <CCard>
                   <CCardBody className={'p-5'}>
-                    <h1 className={'text-center mb-4'}>Waiting for approval</h1>
+                    <h1 className={'text-center mb-4'}>Approval Declined</h1>
                     <p className={'text-center mb-4 text-gray-500'}>
-                      <b className="text-white">Your account is not approved. Wait until someone activates it.</b>
+                      <b className={'text-white'}>Your account has been declined.</b>
                     </p>
                     <div className={'d-flex justify-content-center'}>
                       <CButton

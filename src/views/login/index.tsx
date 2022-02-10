@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   CButton,
   CCard,
@@ -13,6 +13,8 @@ import {
   CInputGroupPrepend,
   CInputGroupText,
   CLabel,
+  CModal,
+  CModalBody,
   CRow
 } from '@coreui/react'
 import { Controller, useForm } from 'react-hook-form'
@@ -32,6 +34,7 @@ import { InputLogin } from 'types/forms'
 import LoadingWithFade from 'components/LoadingWithFade'
 import { KeyLogin } from 'assets/icons/externalIcons'
 import { SESSION_TOKEN } from 'config'
+import NotFoundApproval from 'views/NotFoundApproval'
 
 const Login: React.FC = () => {
   const {
@@ -41,8 +44,9 @@ const Login: React.FC = () => {
   } = useForm<InputLogin>()
   const history = useHistory()
   // const key = window.localStorage.getItem(SESSION_TOKEN)
-  const { data, mutate, isSuccess, isLoading } = useLogin()
+  const { data, mutate, isSuccess, isLoading, isError } = useLogin()
   const { user, signin } = useAuthContext()
+  const [showModal, setShowModal] = useState(false)
 
   const onSubmit = (data: InputLogin) => {
     mutate(data.stakeholderDID)
@@ -63,8 +67,19 @@ const Login: React.FC = () => {
     // SET ERROR
   }, [isSuccess])
 
+  useEffect(() => {
+    if (isError) {
+      setShowModal(true)
+    }
+  }, [isError])
+
   return (
     <>
+      {showModal && (
+        <CModal show={showModal} onClose={() => setShowModal(false)} >
+          <NotFoundApproval {...{ setShowModal }} />
+        </CModal>
+      )}
       {isLoading && <LoadingWithFade />}
       <div className="c-app c-default-layout">
         <div className="c-wrapper">

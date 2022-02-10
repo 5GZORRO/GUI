@@ -41,6 +41,8 @@ export const ActiveTransactions: React.FC = (props: any) => {
       operator = 'operator-b'
     } else if (LEDGER_IDENTITY.includes('OperatorC')) {
       operator = 'operator-c'
+    } else if (LEDGER_IDENTITY.includes('RegulatorA')) {
+      operator = 'regulator'
     }
     const params = {
       operator,
