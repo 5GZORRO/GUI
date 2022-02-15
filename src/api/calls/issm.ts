@@ -34,19 +34,26 @@ const getTransactionTypes = async (): Promise<any> => {
 }
 
 const scaleOut = async (params: any): Promise<any> => {
-  const formData = new FormData()
+  // const formData = new FormData()
 
-  Object.keys(params).forEach((key) => {
-    if (Object.prototype.hasOwnProperty.call(params, key)) {
-      if (key === 'file') {
-        formData.append(key, params[key])
-      }
-    }
-  })
+  // Object.keys(params).forEach((key) => {
+  //   if (Object.prototype.hasOwnProperty.call(params, key)) {
+  //     if (key === 'file') {
+  //       // formData.append(key, params[key])
+  //       console.log(params[key])
+  //     }
+  //   }
+  // })
+  const data = JSON.stringify(params.file)
   try {
     const response = await axios.post(
       endpoints.ISSM_SCALE_OUT + `/${params.operator}` + `/${params.transactionType}`,
-      formData
+      data,
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
     )
     return response?.data
   } catch (e) {

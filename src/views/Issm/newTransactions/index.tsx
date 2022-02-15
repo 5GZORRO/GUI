@@ -30,6 +30,9 @@ import { useAuthContext } from 'context/AuthContext'
 import { useHistory } from 'react-router-dom'
 import { LEDGER_IDENTITY } from 'config'
 
+const yaml = require('js-yaml')
+const fs = require('fs')
+
 interface formNewTransaction {
   transactionType: string
   file: any
@@ -86,20 +89,20 @@ const NewBusinessTransaction = (props: any) => {
 
   const handleFileUpload = (e: any, onChange: any, name: any) => {
     e.preventDefault()
-
-    const reader = new FileReader()
     const file = e.target.files[0]
 
-    reader.onloadend = () => {
+    const reader = new FileReader()
+
+    reader.onloadend = (e: any) => {
       onChange({
         target: {
-          value: file
+          value: JSON.parse(e.target.result)
         }
       })
     }
 
     if (file) {
-      reader.readAsDataURL(file)
+      reader.readAsText(file)
     }
   }
   /* eslint-disable */
@@ -162,7 +165,7 @@ const NewBusinessTransaction = (props: any) => {
                             id="file-input"
                             type="file"
                             name="file"
-                            accept=".yaml"
+                            accept=".json"
                             style={{ display: 'none' }}
                             onChange={(e: any) => {
                               handleFileUpload(e, onChange, 'file')
@@ -179,7 +182,7 @@ const NewBusinessTransaction = (props: any) => {
                             <CLabel className="m-0">UPLOAD FILE</CLabel>
                           )}
                           <CLabel className="m-0 pt-1" style={{ fontSize: 12, color: '#8A93A2' }}>
-                            Type File: <span style={{ fontWeight: 'bold' }}>.yaml</span>
+                            Type File: <span style={{ fontWeight: 'bold' }}>.json</span>
                           </CLabel>
                         </CFormGroup>
                         <label
@@ -196,7 +199,7 @@ const NewBusinessTransaction = (props: any) => {
                             id="file-input"
                             type="file"
                             name="file"
-                            accept=".yaml"
+                            accept=".json"
                             style={{ display: 'none' }}
                             onChange={(e: any) => {
                               handleFileUpload(e, onChange, 'file')
@@ -207,7 +210,7 @@ const NewBusinessTransaction = (props: any) => {
                     )}
                   />
                 </CInputGroup>
-                {errors?.file && <CFormText className="help-block">Please insert a template file (.cta)</CFormText>}
+                {errors?.file && <CFormText className="help-block">Please insert a template file (.json)</CFormText>}
               </CFormGroup>
             </CCol>
           </CRow>
