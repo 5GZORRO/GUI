@@ -44,8 +44,6 @@ const fields = [
 const Resources: React.FC = () => {
   const { data, isLoading } = useAllResourceAndServiceSpecifications()
 
-  console.log(data)
-
   const [modal, setModal] = useState<any | null>(null)
 
   const openModal = (data: any) => {
@@ -64,10 +62,10 @@ const Resources: React.FC = () => {
     switch (item.category?.[0]?.name) {
       case 'VNF':
         return <td className="py-2">Virtual Network Function</td>
-      case 'NSD':
-        return <td className="py-2">Network Service</td>
       case 'NS':
-        return <td className="py-2">Network Slice</td>
+        return <td className="py-2">Network Service</td>
+      // case 'NS':
+      //   return <td className="py-2">Network Slice</td>
       case 'SPC':
         return <td className="py-2">Spectrum</td>
       case 'RAD':
