@@ -90,8 +90,8 @@ function ModalAddLocation (props: any) {
         country: loc?.country,
         locality: loc?.locality,
         name: loc?.geographicLocation?.name,
-        lat: loc?.geographicLocation?.geometry?.[0]?.x,
-        lon: loc?.geographicLocation?.geometry?.[0]?.y,
+        lat: loc?.geographicLocation?.geometry?.[0]?.y,
+        lon: loc?.geographicLocation?.geometry?.[0]?.x,
         radius: loc?.geographicLocation?.geometry?.[0]?.z
       }
       translate({

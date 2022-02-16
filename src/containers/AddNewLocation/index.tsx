@@ -65,7 +65,7 @@ const AddNewLocation = (props: any) => {
         locality: data?.submittedGeographicAddress?.locality,
         geographicLocation: {
           name: data?.submittedGeographicAddress?.geographicLocation.name,
-          geometry: [{ x: data?.lat, y: data?.lon, z: data?.radius !== '' ? data?.radius : '0' }],
+          geometry: [{ x: data?.lon, y: data?.lat, z: data?.radius !== '' ? data?.radius : '0' }],
           geometryType: 'string'
         }
       }
