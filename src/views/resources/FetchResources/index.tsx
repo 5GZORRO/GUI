@@ -95,8 +95,8 @@ const FetchResources: React.FC = () => {
           city: objectData?.city,
           country: objectData?.country,
           locality: objectData?.locality,
-          lat: objectData?.geographicLocation?.geometry?.[0]?.x,
-          lon: objectData?.geographicLocation?.geometry?.[0]?.y,
+          lat: objectData?.geographicLocation?.geometry?.[0]?.y,
+          lon: objectData?.geographicLocation?.geometry?.[0]?.x,
           radius: objectData?.geographicLocation?.geometry?.[0]?.z
         }
       ]
