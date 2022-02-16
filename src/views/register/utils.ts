@@ -56,42 +56,42 @@ export const schemaRegister = yup.object().shape({
   governanceDID: yup.string().required(),
   address: yup.string().required(),
   roles: yup.object().shape({
-    administrator: yup
-      .object()
-      .shape({
-        isSelect: yup.bool(),
-        edge: yup.bool(),
-        cloud: yup.bool(),
-        spectrum: yup.bool(),
-        radioAccessNetwork: yup.bool(),
-        virtualNetworkFunction: yup.bool(),
-        networkSlice: yup.bool(),
-        networkService: yup.bool()
-      })
-      .test(
-        // this test is added additional to any other (build-in) tests
-        'assets',
-        'Must select at least one', // we'll return error message ourself if needed
-        (obj) => {
-          // only testing the checkboxes here
-          if (!obj.isSelect) {
-            return true
-          } else if (
-            obj.edge ||
-            obj.cloud ||
-            obj.spectrum ||
-            obj.radioAccessNetwork ||
-            obj.virtualNetworkFunction ||
-            obj.networkService ||
-            obj.networkSlice
-          ) {
-            // put every checkbox here
-            return true
-          } else {
-            return false
-          }
-        }
-      ),
+    // administrator: yup
+    //   .object()
+    //   .shape({
+    //     isSelect: yup.bool(),
+    //     edge: yup.bool(),
+    //     cloud: yup.bool(),
+    //     spectrum: yup.bool(),
+    //     radioAccessNetwork: yup.bool(),
+    //     virtualNetworkFunction: yup.bool(),
+    //     networkSlice: yup.bool(),
+    //     networkService: yup.bool()
+    //   })
+    //   .test(
+    //     // this test is added additional to any other (build-in) tests
+    //     'assets',
+    //     'Must select at least one', // we'll return error message ourself if needed
+    //     (obj) => {
+    //       // only testing the checkboxes here
+    //       if (!obj.isSelect) {
+    //         return true
+    //       } else if (
+    //         obj.edge ||
+    //         obj.cloud ||
+    //         obj.spectrum ||
+    //         obj.radioAccessNetwork ||
+    //         obj.virtualNetworkFunction ||
+    //         obj.networkService ||
+    //         obj.networkSlice
+    //       ) {
+    //         // put every checkbox here
+    //         return true
+    //       } else {
+    //         return false
+    //       }
+    //     }
+    //   ),
     regulator: yup
       .object()
       .shape({

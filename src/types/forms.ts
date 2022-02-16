@@ -42,16 +42,16 @@ export interface InputRegister {
   serviceProviderRole: boolean
   serviceConsumerRole: boolean
   roles: {
-    administrator: {
-      isSelect: boolean
-      edge: boolean
-      cloud: boolean
-      spectrum: boolean
-      radioAccessNetwork: boolean
-      virtualNetworkFunction: boolean
-      networkSlice: boolean
-      networkService: boolean
-    }
+    // administrator: {
+    //   isSelect: boolean
+    //   edge: boolean
+    //   cloud: boolean
+    //   spectrum: boolean
+    //   radioAccessNetwork: boolean
+    //   virtualNetworkFunction: boolean
+    //   networkSlice: boolean
+    //   networkService: boolean
+    // }
     regulator: {
       isSelect: boolean
       edge: boolean

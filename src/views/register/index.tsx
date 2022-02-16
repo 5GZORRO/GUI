@@ -55,13 +55,11 @@ const Register: React.FC = () => {
     resolver: yupResolver(schemaRegister)
   })
 
-  const administrator = watch('roles.administrator.isSelect')
   const regulator = watch('roles.regulator.isSelect')
   const trader = watch('roles.trader.isSelect')
 
   const removeRemain = (currentActive: string) => {
     const allValues = {
-      administrator: 'roles.administrator.isSelect',
       regulator: 'roles.regulator.isSelect',
       trader: 'roles.trader.isSelect'
     }
@@ -156,79 +154,6 @@ const Register: React.FC = () => {
                               </CFormText>
                             </CFormGroup>
                           </CCol>
-                        </CRow>
-                        <CRow>
-                          <CCol xs="5" className={'mb-2'}>
-                            <div
-                              className={`${
-                                administrator ? 'bg-gradient' : 'bg-primary'
-                              } p-2 mb-2 rounded-sm cursor-pointer`}
-                            >
-                              <Controller
-                                control={control}
-                                defaultValue={false}
-                                name="roles.administrator.isSelect"
-                                render={({ field: { onChange, onBlur, value } }) => (
-                                  <>
-                                    <CInputRadio
-                                      id={'administrator'}
-                                      onBlur={onBlur}
-                                      checked={value}
-                                      className={'m-0'}
-                                      onChange={(e: any) => {
-                                        onChange(e.target.checked)
-                                        if (e.target.checked) {
-                                          removeRemain('administrator')
-                                        }
-                                      }}
-                                    />
-                                    <CLabel className="mb-0 font-14 ml-4 ml-4" htmlFor={'administrator'}>
-                                      Administrator
-                                    </CLabel>
-                                  </>
-                                )}
-                              />
-                            </div>
-                          </CCol>
-                          {administrator && (
-                            <CCol xs="10" className="ml-3">
-                              <CLabel>Assets</CLabel>
-                              <CRow>
-                                {assestsArray.map((item) => (
-                                  <CCol key={item.id} xs={6}>
-                                    <CFormGroup variant="checkbox" className="checkbox p-0">
-                                      <Controller
-                                        control={control}
-                                        defaultValue={false}
-                                        name={`roles.administrator.${item.id}` as any}
-                                        render={({ field: { onChange, onBlur } }) => (
-                                          <>
-                                            <CInputCheckbox
-                                              id={`administrator_${item.id}`}
-                                              onChange={(e: any) => onChange(e.target.checked)}
-                                              onBlur={onBlur}
-                                            />
-                                            <CLabel
-                                              variant="checkbox"
-                                              className="form-check-label"
-                                              htmlFor={`administrator_${item.id}`}
-                                            >
-                                              {item.label}
-                                            </CLabel>
-                                          </>
-                                        )}
-                                      />
-                                    </CFormGroup>
-                                  </CCol>
-                                ))}
-                                <CCol>
-                                  <CFormText className="help-block" data-testid="error-message">
-                                    <ErrorMessage errors={errors} name={'roles.administrator'} />
-                                  </CFormText>
-                                </CCol>
-                              </CRow>
-                            </CCol>
-                          )}
                         </CRow>
                         <CRow>
                           <CCol xs="5" className={'mb-2'}>

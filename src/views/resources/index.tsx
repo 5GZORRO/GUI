@@ -44,6 +44,8 @@ const fields = [
 const Resources: React.FC = () => {
   const { data, isLoading } = useAllResourceAndServiceSpecifications()
 
+  console.log(data)
+
   const [modal, setModal] = useState<any | null>(null)
 
   const openModal = (data: any) => {
