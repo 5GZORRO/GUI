@@ -48,6 +48,7 @@ spec:
       - name: nginx
         #image: nginx
         image: ubiwhere/5gzorro-operator-a-dashboard
+        imagePullPolicy: Always
         command: ["/usr/sbin/nginx", "-g", "daemon off;"]
         ports:
           - containerPort: 80
