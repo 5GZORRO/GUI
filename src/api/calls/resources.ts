@@ -523,6 +523,17 @@ const translateResource = async (params: any): Promise<any> => {
   }
 }
 
+const registerNewSpectrumResource = async (body: any): Promise<any> => {
+  try {
+    console.log(body)
+    const response = await axios.post(endpoints.RADD_REGISTER_RESOURCE, body)
+    return response.data
+  } catch (err) {
+    console.log({ err })
+    throw new Error('error')
+  }
+}
+
 export default {
   useAllProductSpecification,
   getProductSpecificationById,
@@ -539,5 +550,6 @@ export default {
   useAllResourceAndServiceSpecifications,
   getProductOffersBatch,
   useAllXrmResources,
-  translateResource
+  translateResource,
+  registerNewSpectrumResource
 }

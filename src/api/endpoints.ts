@@ -1,4 +1,4 @@
-import { API_MARKET_PLACE, API_IPM, API_SMART_CONTRACT, API_GOVERNANCE, API_LPT, XRM_ENDPOINT, API_SRSD, API_ISSM } from 'config'
+import { API_MARKET_PLACE, API_IPM, API_SMART_CONTRACT, API_GOVERNANCE, API_LPT, XRM_ENDPOINT, API_SRSD, API_ISSM, API_RAPP } from 'config'
 
 export const endpoints = {
   MEMBERSHIPS: `${API_GOVERNANCE}/api/v1/memberships`,
@@ -51,5 +51,6 @@ export const endpoints = {
   CERTIFICATE_REGULATOR_PENDING_LICENSE: `${API_IPM}/regulator/license?state=pending`,
   CERTIFICATE_REGULATOR_REJECTED_LICENSE: `${API_IPM}/regulator/license?state=rejected`,
   CERTIFICATE_ALL_LICENSE: `${API_IPM}/holder/license/all`,
-  CERTIFICATE_REGULATOR_RESOLVE: `${API_IPM}/regulator/license/resolve`
+  CERTIFICATE_REGULATOR_RESOLVE: `${API_IPM}/regulator/license/resolve`,
+  RADD_REGISTER_RESOURCE: `${API_RAPP}/SpectrumWallet/registerSpectrumResource`
 }

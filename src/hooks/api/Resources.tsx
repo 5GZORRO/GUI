@@ -111,3 +111,6 @@ export const useAllXrmResources = (params?: any) =>
 
 export const useTranslateResource = (options?: any) =>
   useMutation((params: any) => api.resources.translateResource(params), options)
+
+export const registerNewSpectrumResource = () =>
+  useMutation<any, any, any>((body?: any) => api.resources.registerNewSpectrumResource(body))

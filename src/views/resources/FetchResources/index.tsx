@@ -33,10 +33,14 @@ import { Controller, useForm } from 'react-hook-form'
 import { ErrorMessage } from '@hookform/error-message'
 import { PlusCircle, MinusCircle } from 'assets/icons/externalIcons'
 import AddNewLocation from 'containers/AddNewLocation'
+import { Link } from 'react-router-dom'
+import RegisterNewResource from 'containers/RegisterNewResource'
+import { HOST } from 'config'
 
 const FetchResources: React.FC = () => {
   const [modal, setModal] = useState<any | null>(null)
   const [modalRadio, setModalRadio] = useState<any | null>(null)
+  const [modalNewSpectrumResource, setModalNewSpectrumResource] = useState<boolean>(false)
   const [addNewLocation, setAddnewLocation] = useState(false)
   const [selectedItem, setSelectedItem] = useState<any | null>(null)
   const { data: locations, isLoading: isLoadingLocations, refetch: refetchLocation } = useAllLocations()
@@ -172,6 +176,7 @@ const FetchResources: React.FC = () => {
 
   return (
     <CContainer fluid={false}>
+      {modalNewSpectrumResource && <RegisterNewResource {...{ setModalNewSpectrumResource }} />}
       {modalRadio !== null && (
         <CModal
           show={true}
@@ -355,6 +360,18 @@ const FetchResources: React.FC = () => {
         <CCol>
           <h2>Translate xRM Resources</h2>
         </CCol>
+        {HOST === 'BCN' && (
+          <CCol className={'d-flex justify-content-end align-items-center'}>
+            <CButton
+              block={false}
+              color={'gradient'}
+              className={'text-uppercase'}
+              onClick={() => setModalNewSpectrumResource(true)}
+            >
+              Register New Spectrum Resource
+            </CButton>
+          </CCol>
+        )}
       </CRow>
       <CCard>
         {isMutating && !isError && <LoadingWithFade />}

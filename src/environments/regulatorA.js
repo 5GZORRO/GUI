@@ -13,7 +13,10 @@ export const APP_ENV = 'development'
 
 export const VERIFICATION_KEY = '5gzorroidportalnsmm' // '7xiHGWTGfWhxrA92RSqaX5QTajGadKNZLrdwHq2YqHA8'
 export const LEDGER_IDENTITY = 'O=RegulatorA,OU=Haifa,L=Haifa,C=IL'
+export const HOST = 'BCN'
 
 export const API_SRSD = 'http://172.28.3.42:32068'
 
 export const API_ISSM = 'http://172.28.3.42:30080'
+
+export const API_RAPP = 'http://172.28.3.242:2626'
