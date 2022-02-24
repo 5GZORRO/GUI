@@ -2,10 +2,22 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import axios from 'api/instance'
 import { endpoints } from 'api/endpoints'
-import { XRM_DISCOVERY_API_KEY, XRM_TRANSLATOR_API_KEY, RAPP_DISCOVERY_API_KEY, API_MARKET_PLACE } from 'config'
+import {
+  XRM_DISCOVERY_API_KEY,
+  XRM_TRANSLATOR_API_KEY,
+  RAPP_DISCOVERY_API_KEY,
+  API_MARKET_PLACE,
+  XRM_ENDPOINT
+} from 'config'
 
 /** Types */
-import { ApiProductSpecification, ApiResourceSpecification, ApiProductOfferPrice, ApiCategory, ApiServiceSpecification } from 'types/api'
+import {
+  ApiProductSpecification,
+  ApiResourceSpecification,
+  ApiProductOfferPrice,
+  ApiCategory,
+  ApiServiceSpecification
+} from 'types/api'
 
 const useAllProductSpecification = async (params?: any): Promise<ApiProductSpecification[]> => {
   try {
@@ -230,7 +242,9 @@ const useAllResourceSpecifications = async (params?: any): Promise<ApiResourceSp
   try {
     const response = await axios.get(endpoints.RESOURCE_SPECIFICATION, { params })
     const filteredData = response?.data.filter((el: any) => el?.href.includes(API_MARKET_PLACE))
-    const filteredFunction = filteredData.filter((el: any) => el?.resourceSpecCharacteristic?.[0]?.resourceSpecCharacteristicValue?.[0]?.value?.alias === 'vnfdId')
+    const filteredFunction = filteredData.filter(
+      (el: any) => el?.resourceSpecCharacteristic?.[0]?.resourceSpecCharacteristicValue?.[0]?.value?.alias === 'vnfdId'
+    )
     return filteredFunction
   } catch (e) {
     console.log({ e })
@@ -242,7 +256,9 @@ const useAllServicesSpecifications = async (params?: any): Promise<ApiServiceSpe
   try {
     const response = await axios.get(endpoints.SERVICE_SPECIFICATION, { params })
     const filteredData = response?.data.filter((el: any) => el?.href.includes(API_MARKET_PLACE))
-    const filteredFunction = filteredData.filter((el: any) => el?.serviceSpecCharacteristic?.[0]?.serviceSpecCharacteristicValue?.[0]?.value?.alias === 'nsdId')
+    const filteredFunction = filteredData.filter(
+      (el: any) => el?.serviceSpecCharacteristic?.[0]?.serviceSpecCharacteristicValue?.[0]?.value?.alias === 'nsdId'
+    )
     return filteredFunction
   } catch (e) {
     console.log({ e })
@@ -383,33 +399,51 @@ const createLocation = async (body: any): Promise<any> => {
 
 const useAllXrmResources = async (params?: any): Promise<any[]> => {
   try {
-    const vnfRequest = axios.get(endpoints.XRM_VNF_DISCOVERY_ENDPOINT, {
-      params,
-      headers: { 'X-Gravitee-Api-Key': XRM_DISCOVERY_API_KEY }
-    })
-    const nsdRequest = axios.get(endpoints.XRM_NSD_DISCOVERY_ENDPOINT, {
-      params,
-      headers: { 'X-Gravitee-Api-Key': XRM_DISCOVERY_API_KEY }
-    })
+    if (XRM_ENDPOINT !== 'http://10.4.2.240:31081') {
+      const vnfRequest = axios.get(endpoints.XRM_VNF_DISCOVERY_ENDPOINT, {
+        params,
+        headers: { 'X-Gravitee-Api-Key': XRM_DISCOVERY_API_KEY }
+      })
+      const nsdRequest = axios.get(endpoints.XRM_NSD_DISCOVERY_ENDPOINT, {
+        params,
+        headers: { 'X-Gravitee-Api-Key': XRM_DISCOVERY_API_KEY }
+      })
 
-    const spcRequest = axios.get(endpoints.RAPP_SPC_DISCOVERY_ENDPOINT, {
-      params,
-      headers: { 'X-Gravitee-Api-Key': RAPP_DISCOVERY_API_KEY }
-    })
+      const spcRequest = axios.get(endpoints.RAPP_SPC_DISCOVERY_ENDPOINT, {
+        params,
+        headers: { 'X-Gravitee-Api-Key': RAPP_DISCOVERY_API_KEY }
+      })
 
-    const radRequest = axios.get(endpoints.RAPP_RAD_DISCOVERY_ENDPOINT, {
-      params,
-      headers: { 'X-Gravitee-Api-Key': RAPP_DISCOVERY_API_KEY }
-    })
+      const radRequest = axios.get(endpoints.RAPP_RAD_DISCOVERY_ENDPOINT, {
+        params,
+        headers: { 'X-Gravitee-Api-Key': RAPP_DISCOVERY_API_KEY }
+      })
 
-    const responses = await axios.all([vnfRequest, nsdRequest, spcRequest, radRequest])
+      const responses = await axios.all([vnfRequest, nsdRequest, spcRequest, radRequest])
 
-    return [
-      ...responses[0]?.data?.map((el) => ({ ...el, contentType: 'VNF' })),
-      ...responses[1]?.data?.map((el) => ({ ...el, contentType: 'NSD' })),
-      ...responses[2]?.data?.map((el) => ({ ...el, contentType: 'SPC' })),
-      ...responses[3]?.data?.radios?.map((el) => ({ ...el, contentType: 'RAD' }))
-    ]
+      return [
+        ...responses[0]?.data?.map((el) => ({ ...el, contentType: 'VNF' })),
+        ...responses[1]?.data?.map((el) => ({ ...el, contentType: 'NSD' })),
+        ...responses[2]?.data?.map((el) => ({ ...el, contentType: 'SPC' })),
+        ...responses[3]?.data?.radios?.map((el) => ({ ...el, contentType: 'RAD' }))
+      ]
+    } else {
+      const vnfRequest = axios.get(endpoints.XRM_VNF_DISCOVERY_ENDPOINT, {
+        params,
+        headers: { 'X-Gravitee-Api-Key': XRM_DISCOVERY_API_KEY }
+      })
+      const nsdRequest = axios.get(endpoints.XRM_NSD_DISCOVERY_ENDPOINT, {
+        params,
+        headers: { 'X-Gravitee-Api-Key': XRM_DISCOVERY_API_KEY }
+      })
+
+      const responses = await axios.all([vnfRequest, nsdRequest])
+
+      return [
+        ...responses[0]?.data?.map((el) => ({ ...el, contentType: 'VNF' })),
+        ...responses[1]?.data?.map((el) => ({ ...el, contentType: 'NSD' }))
+      ]
+    }
   } catch (e) {
     console.log({ e })
     throw new Error('error')

@@ -10,7 +10,6 @@ const getMembers = async (): Promise<MemberbershipAPIResponse[]> => {
     }
     return []
   } catch (e) {
-    console.log({ e })
     throw new Error('error')
   }
 }

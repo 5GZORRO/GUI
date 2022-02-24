@@ -1,6 +1,6 @@
 {
   "name": "5gzorro",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Dashboard 5G Zorro",
   "dependencies": {
     "@accordproject/cicero-core": "^0.22.0",
@@ -120,6 +120,10 @@
     "start:operatorB": "cross-env APP_ENV=operatorB node scripts/start.js",
     "start:operatorC": "cross-env APP_ENV=operatorC node scripts/start.js",
     "start:regulatorA": "cross-env APP_ENV=regulatorA node scripts/start.js",
+    "start:5tonic:operatorA": "cross-env APP_ENV=5tonic-operatorA node scripts/start.js",
+    "start:5tonic:operatorB": "cross-env APP_ENV=5tonic-operatorB node scripts/start.js",
+    "start:5tonic:operatorC": "cross-env APP_ENV=5tonic-operatorC node scripts/start.js",
+    "start:5tonic:regulatorA": "cross-env APP_ENV=5tonic-regulatorA node scripts/start.js",
     "build:barcelona:operatorA": "cross-env APP_ENV=operatorA NODE_OPTIONS='--max-old-space-size=8192' node scripts/build.js",
     "build:barcelona:operatorB": "cross-env APP_ENV=operatorB NODE_OPTIONS='--max-old-space-size=8192' node scripts/build.js",
     "build:barcelona:operatorC": "cross-env APP_ENV=operatorC NODE_OPTIONS='--max-old-space-size=8192' node scripts/build.js",
