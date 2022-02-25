@@ -437,16 +437,22 @@ const useAllXrmResources = async (params?: any): Promise<any[]> => {
         headers: { 'X-Gravitee-Api-Key': XRM_DISCOVERY_API_KEY }
       })
 
-      const responses = await axios.all([vnfRequest, nsdRequest])
+      const spcRequest = axios.get(endpoints.RAPP_SPC_DISCOVERY_ENDPOINT, {
+        params,
+        headers: { 'X-Gravitee-Api-Key': RAPP_DISCOVERY_API_KEY }
+      })
+
+      const responses = await axios.all([vnfRequest, nsdRequest, spcRequest])
 
       return [
         ...responses[0]?.data?.map((el) => ({ ...el, contentType: 'VNF' })),
-        ...responses[1]?.data?.map((el) => ({ ...el, contentType: 'NSD' }))
+        ...responses[1]?.data?.map((el) => ({ ...el, contentType: 'NSD' })),
+        ...responses[2]?.data?.map((el) => ({ ...el, contentType: 'SPC' }))
       ]
     }
   } catch (e) {
     console.log({ e })
-    throw new Error('error')
+    // throw new Error('error')
   }
 }
 

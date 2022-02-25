@@ -65,7 +65,8 @@ const RegisterNewResource = (props: any) => {
       startDlFreq: parseInt(data.startDlFreq),
       endDlFreq: parseInt(data.endDlFreq),
       startUlFreq: parseInt(data.startUlFreq),
-      endUlFreq: parseInt(data.endUlFreq)
+      endUlFreq: parseInt(data.endUlFreq),
+      area: JSON.parse(data.area)
     }
     mutate(newData)
   }
