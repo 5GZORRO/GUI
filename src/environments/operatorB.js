@@ -1,5 +1,5 @@
 export const API_MARKET_PLACE = 'http://172.28.3.126:32080/tmf-api'
-export const API_LPT = 'http://172.28.3.6:31086'
+export const API_LPT = 'http://172.28.3.6:31084'
 export const API_GOVERNANCE = 'http://172.28.3.6:31084'
 export const API_IPM = 'http://172.28.3.153:6800'
 export const API_SMART_CONTRACT = 'http://172.28.3.6:31081/smart-contract-lifecycle-manager/'

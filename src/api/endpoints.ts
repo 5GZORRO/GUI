@@ -9,7 +9,7 @@ export const endpoints = {
   PRODUCT_OFFERING: `${API_MARKET_PLACE}/productCatalogManagement/v4/productOffering`,
   PRODUCT_OFFERING_FILTERED: `${API_MARKET_PLACE}/productCatalogManagement/v4/productOffering/filtered`,
   PRODUCT_ORDERS: `${API_MARKET_PLACE}/productOrderingManagement/v4/productOrder`,
-  LEGAL_PROSE_TEMPLATES: `${API_LPT}/api/v1/legal-prose-templates`,
+  LEGAL_PROSE_TEMPLATES: `${API_LPT}/legal-prose-repository/api/v1/legal-prose-templates`,
   RESOURCE_SPECIFICATION: `${API_MARKET_PLACE}/resourceCatalogManagement/v2/resourceSpecification`,
   SERVICE_SPECIFICATION: `${API_MARKET_PLACE}/serviceCatalogManagement/v4/serviceSpecification`,
   PRODUCT_OFFER_PRICE: `${API_MARKET_PLACE}/productCatalogManagement/v4/productOfferingPrice`,
