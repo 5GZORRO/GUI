@@ -19,4 +19,4 @@ export const API_SRSD = 'http://172.28.3.42:32068'
 
 export const API_ISSM = 'http://172.28.3.42:30080'
 
-export const API_RAPP = 'http://172.28.3.242:2626'
+export const API_RAPP = 'http://172.28.3.242:2627'
