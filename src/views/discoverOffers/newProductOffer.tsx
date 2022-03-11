@@ -40,9 +40,24 @@ const fields = [
   }
 ]
 
+const fieldsOrder = [
+  { key: 'select', label: '', filter: false, sorter: false },
+  'name',
+  'description',
+  { key: 'provider', label: 'Provider' },
+  { key: 'validity', label: 'Validity' },
+  {
+    key: 'show_details',
+    label: '',
+    _style: { width: '1%' },
+    filter: false
+  }
+]
+
 const NewProductOffer: React.FC = () => {
   const history = useHistory()
   const [selected, setSelected] = useState<string[]>([])
+  const [selectedOrderedItem, setSelectedOrderedItem] = useState<string[]>([])
   const { data, isLoading } = useAllResourceAndServiceSpecifications()
   const [modal, setModal] = useState<any | null>(null)
 
@@ -53,6 +68,16 @@ const NewProductOffer: React.FC = () => {
       setSelected((previous: any) => [...previous, item?.id])
     } else {
       setSelected((previous: any) => previous.filter((rs: any) => rs !== item?.id))
+    }
+  }
+
+  const checkOrderedItem = (item: any) => {
+    const found = selectedOrderedItem.find((rs: any) => rs === item?.id)
+
+    if (!found) {
+      setSelectedOrderedItem((previous: any) => [...previous, item?.id])
+    } else {
+      setSelectedOrderedItem((previous: any) => previous.filter((rs: any) => rs !== item?.id))
     }
   }
 
@@ -455,6 +480,56 @@ const NewProductOffer: React.FC = () => {
           />
         </CCardBody>
       </CCard>
+      {/* <CCard>
+        <CCardHeader>
+          <h5>Product Order Item</h5>
+        </CCardHeader>
+        <CCardBody>
+          <CDataTable
+            cleaner
+            loading={isLoading}
+            items={[]}
+            columnFilter
+            tableFilter
+            clickableRows
+            fields={fieldsOrder}
+            itemsPerPage={5}
+            scopedSlots={{
+              select: (item: { id: any; _selectedOrderedItem: boolean | undefined }) => {
+                return (
+                  <td>
+                    <input
+                      className={'product-offer--checkbox'}
+                      type="checkbox"
+                      checked={selectedOrderedItem?.find((el) => item?.id === el) != null}
+                      onChange={() => checkOrderedItem(item)}
+                    />
+                  </td>
+                )
+              },
+              validity: (item: any) => {
+                return (
+                  <td className="py-2">
+                    {dayjs(item?.lastUpdate).isValid() ? dayjs(item?.lastUpdate).format(DATETIME_FORMAT_SHOW) : '-'}
+                  </td>
+                )
+              },
+              show_details: (item: any) => {
+                return (
+                  <td className="py-2">
+                    <CButton color="primary" className={'shadow-none text-uppercase'} onClick={() => openModal(item)}>
+                      {'Show'}
+                    </CButton>
+                  </td>
+                )
+              }
+            }}
+            sorter
+            hover
+            pagination
+          />
+        </CCardBody>
+      </CCard> */}
       <div className={'d-flex flex-row-reverse mb-5'}>
         <CButton
           className={'text-uppercase px-5'}

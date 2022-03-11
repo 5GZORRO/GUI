@@ -33,7 +33,7 @@ export const transformForm = (form: any, additionalData: any) => {
     billingAccount: null,
     cancellationDate: null,
     cancellationReason: null,
-    category: form?.category != null ? JSON.parse(form?.category)?.value : '',
+    category: form?.category !== null ? JSON.parse(form?.category)?.value?.name : '',
     channel: [],
     description: form?.description,
     externalId: form?.externalId,
@@ -41,7 +41,7 @@ export const transformForm = (form: any, additionalData: any) => {
     notificationContact: null,
     orderTotalPrice: [],
     payment: [],
-    priority: '' + form?.priority,
+    priority: form?.priority,
     productOfferingQualification: [],
     productOrderItem: additionalData?.productOrderItem?.map(el => ({
       action: 'add',
@@ -66,7 +66,7 @@ export const transformForm = (form: any, additionalData: any) => {
       state: 'acknowledged'
     })),
     quote: [],
-    // relatedParty: [],
+    relatedParty: [],
     requestedCompletionDate: moment(form?.requestedCompletionDate).format(SLA_OUTPUT_DATETIME_FORMAT),
     requestedStartDate: moment(form?.requestedStartDate).format(SLA_OUTPUT_DATETIME_FORMAT)
   }

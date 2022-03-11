@@ -146,7 +146,7 @@ const FormCreateOrder: React.FC = () => {
     <>
       {isLoading && <LoadingWithFade />}
       <CContainer>
-        <h1 className={'mb-5'}>New Product Offer</h1>
+        <h1 className={'mb-5'}>New Product Order</h1>
         <FormProvider {...methods}>
           <CForm onSubmit={handleSubmit(onSubmit)}>
             <CCard>

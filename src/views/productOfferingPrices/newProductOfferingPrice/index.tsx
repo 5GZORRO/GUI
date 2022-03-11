@@ -166,6 +166,20 @@ interface formProductOfferingPriceCreation {
           value: string
         }
       ]
+    },
+    {
+      name: string
+      description: string
+      valueType: string
+      configurable: boolean
+      isUnique: boolean
+      productSpecCharacteristicValue: [
+        {
+          isDefault: boolean
+          valueType: string
+          value: string
+        }
+      ]
     }
   ]
   selectedResourceService: []
@@ -208,8 +222,6 @@ const NewProductOfferingPrice = () => {
         {
           productSpecCharacteristicValue: [
             {
-              isDefault: true,
-              valueType: 'string',
               value: ''
             }
           ]
@@ -217,8 +229,6 @@ const NewProductOfferingPrice = () => {
         {
           productSpecCharacteristicValue: [
             {
-              isDefault: true,
-              valueType: 'string',
               value: ''
             }
           ]
@@ -226,14 +236,19 @@ const NewProductOfferingPrice = () => {
         {
           productSpecCharacteristicValue: [
             {
-              isDefault: true,
-              valueType: 'string',
               value: ''
             }
           ]
         },
         {
           productSpecCharacteristicValue: []
+        },
+        {
+          productSpecCharacteristicValue: [
+            {
+              value: ''
+            }
+          ]
         }
       ],
       selectedResourceService: []
@@ -778,7 +793,7 @@ const NewProductOfferingPrice = () => {
                 onClick={() => setAdvancedSearch((previous) => !previous)}
                 className={'btn btn-link d-flex search-offers--advanced align-items-center'}
               >
-                <p>Advanced Fields</p>
+                <p>License Related Fields</p>
                 <ArrowDownIcon height={'1.5rem'} />
               </button>
               <CCollapse show={advancedSearch}>
@@ -842,6 +857,22 @@ const NewProductOfferingPrice = () => {
                         />
                         {errors.prodSpecCharValueUse?.[1]?.productSpecCharacteristicValue?.[0]?.value && (
                           <CFormText className="help-block">Please select a type</CFormText>
+                        )}
+                      </CFormGroup>
+                    </CCol>
+                    <CCol sm={6}>
+                      <CFormGroup>
+                        <CLabel htmlFor="prodSpecCharValueUse.4.productSpecCharacteristicValue.0.value">
+                          Max number of licenses
+                        </CLabel>
+                        <Controller
+                          control={control}
+                          defaultValue={''}
+                          name="prodSpecCharValueUse.4.productSpecCharacteristicValue.0.value"
+                          render={({ field }) => <CInput type="number" placeholder={'Enter a number (opcional)'} {...field} />}
+                        />
+                        {errors.prodSpecCharValueUse?.[4]?.productSpecCharacteristicValue?.[0]?.value && (
+                          <CFormText className="help-block">Please enter a valid number</CFormText>
                         )}
                       </CFormGroup>
                     </CCol>
