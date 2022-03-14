@@ -177,7 +177,7 @@ interface formProductOfferingPriceCreation {
         {
           isDefault: boolean
           valueType: string
-          value: string
+          value: number
         }
       ]
     }
@@ -246,7 +246,9 @@ const NewProductOfferingPrice = () => {
         {
           productSpecCharacteristicValue: [
             {
-              value: ''
+              value: 0,
+              isDefault: true,
+              valueType: 'integer'
             }
           ]
         }
@@ -869,7 +871,9 @@ const NewProductOfferingPrice = () => {
                           control={control}
                           defaultValue={''}
                           name="prodSpecCharValueUse.4.productSpecCharacteristicValue.0.value"
-                          render={({ field }) => <CInput type="number" placeholder={'Enter a number (opcional)'} {...field} />}
+                          render={({ field }) => (
+                            <CInput type="number" placeholder={'Enter a number (opcional)'} {...field} />
+                          )}
                         />
                         {errors.prodSpecCharValueUse?.[4]?.productSpecCharacteristicValue?.[0]?.value && (
                           <CFormText className="help-block">Please enter a valid number</CFormText>

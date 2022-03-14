@@ -33,9 +33,9 @@ const getInfo = (index) => {
       }
     case 4:
       return {
-        name: 'MaxNumberLicenses',
-        description: 'Define the max number of licenses associated to the selected SW.',
-        valueType: 'string'
+        name: 'MaxNumberInstances',
+        description: 'Maximum Number of Licensed Instances.',
+        valueType: 'integer'
       }
   }
 }
@@ -47,7 +47,11 @@ export const TransformFormData = (data) => {
       productSpecCharacteristicValue: el?.productSpecCharacteristicValue
         .filter((caract) => caract?.value != null && caract?.value !== '')
         .map((cara) => {
-          return { value: { ...cara }, isDefault: true, valueType: 'string' }
+          if (cara?.valueType === 'integer') {
+            return { ...cara, value: { value: parseInt(cara.value) } }
+          } else {
+            return { value: { ...cara }, isDefault: true, valueType: 'string' }
+          }
         })
     }))
     ?.filter((el) => el?.productSpecCharacteristicValue?.length > 0)
