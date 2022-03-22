@@ -23,7 +23,31 @@ const createOrder = async (body: any): Promise<any> => {
   }
 }
 
+const getOrderedItems = async (params: any): Promise<ApiOrders[]> => {
+  // console.log(params && JSON.parse(params))
+  try {
+    if (params) {
+      const responses: any[] | PromiseLike<ApiOrders[]> = []
+      params.map(async (el: any) => {
+        try {
+          const response = await axios.get(endpoints.PRODUCT_ORDERS + '/' + { el })
+          responses.push(response.data)
+        } catch (error) {}
+      })
+      return responses
+    } else {
+      const response = await axios.get(endpoints.PRODUCT_ORDERS)
+      console.log(response)
+      return response.data
+    }
+  } catch (e) {
+    console.log({ e })
+    throw new Error('error')
+  }
+}
+
 export default {
   getMyOrders,
-  createOrder
+  createOrder,
+  getOrderedItems
 }

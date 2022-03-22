@@ -99,10 +99,10 @@ export const schemaRegister = yup.object().shape({
         edge: yup.bool(),
         cloud: yup.bool(),
         spectrum: yup.bool(),
-        radioAccessNetwork: yup.bool(),
-        virtualNetworkFunction: yup.bool(),
-        networkSlice: yup.bool(),
-        networkService: yup.bool()
+        RAN: yup.bool(),
+        VNF: yup.bool(),
+        Slice: yup.bool(),
+        'Network Service': yup.bool()
       })
       .test(
         // this test is added additional to any other (build-in) tests
@@ -135,10 +135,10 @@ export const schemaRegister = yup.object().shape({
         edge: yup.bool(),
         cloud: yup.bool(),
         spectrum: yup.bool(),
-        radioAccessNetwork: yup.bool(),
-        virtualNetworkFunction: yup.bool(),
-        networkSlice: yup.bool(),
-        networkService: yup.bool()
+        RAN: yup.bool(),
+        VNF: yup.bool(),
+        Slice: yup.bool(),
+        'Network Service': yup.bool()
       })
       .test(
         // this test is added additional to any other (build-in) tests
@@ -171,8 +171,8 @@ export const assestsArray: Array<AssetsProps> = [
   { label: 'Edge', value: false, id: 'edge' },
   { label: 'Cloud', value: false, id: 'cloud' },
   { label: 'Spectrum', value: false, id: 'spectrum' },
-  { label: 'Radio Access Network', value: false, id: 'radioAccessNetwork' },
-  { label: 'Virtual Network Function', value: false, id: 'virtualNetworkFunction' },
-  { label: 'Network Slice', value: false, id: 'networkSlice' },
-  { label: 'Network Service', value: false, id: 'networkService' }
+  { label: 'Radio Access Network', value: false, id: 'RAN' },
+  { label: 'Virtual Network Function', value: false, id: 'VNF' },
+  { label: 'Network Slice', value: false, id: 'Slice' },
+  { label: 'Network Service', value: false, id: 'Network Service' }
 ]

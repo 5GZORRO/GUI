@@ -18,6 +18,7 @@ import { useGetResourceSpecificationsBundle } from 'hooks/api/Resources'
 import { ApiResourceSpecification } from 'types/api'
 import LoadingWithFade from 'components/LoadingWithFade'
 import { useAuthContext } from 'context/AuthContext'
+import { getOrderedItems } from 'hooks/api/Orders'
 
 interface formOfferCreation {
   name: string
@@ -61,10 +62,14 @@ const ProductDetail: React.FC = () => {
 
   const { mutate, isSuccess, isLoading, isError } = useCreateOffering()
   const servicesIndex = useQuery().get('services')
+  const orderItemsIndex = useQuery().get('orderItems')
   const { data: resourcesData, isLoading: resourceLoading } = useGetResourceSpecificationsBundle(
     id,
     servicesIndex != null ? JSON.parse(servicesIndex) : []
   )
+  // const { data: orderedItems, isLoading: loadingOrders } = getOrderedItems(
+  //   orderItemsIndex != null ? orderItemsIndex : null
+  // )
 
   useEffect(() => {
     if (isSuccess) {
@@ -80,9 +85,9 @@ const ProductDetail: React.FC = () => {
     <>
       {isLoading && <LoadingWithFade />}
       {!isLoading && isError && (
-          <p style={{ color: 'red', padding: '0.5rem', background: 'rgba(255, 0, 0, 0.1)' }}>
-            An error has occurred, please try again later
-          </p>
+        <p style={{ color: 'red', padding: '0.5rem', background: 'rgba(255, 0, 0, 0.1)' }}>
+          An error has occurred, please try again later
+        </p>
       )}
       <CContainer>
         <h1 className={'mb-5'}>New Product Offer</h1>

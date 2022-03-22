@@ -5,3 +5,6 @@ export const useMyOrders = (params?: any) =>
   useQuery(['myOrders', params], () => api.orders.getMyOrders(params), { keepPreviousData: true })
 
 export const useCreateOrder = () => useMutation(['createOrder'], (body: any) => api.orders.createOrder(body))
+
+export const getOrderedItems = (params?: any) =>
+  useQuery(['orderedItems', params], () => api.orders.getOrderedItems(params), { keepPreviousData: true })
