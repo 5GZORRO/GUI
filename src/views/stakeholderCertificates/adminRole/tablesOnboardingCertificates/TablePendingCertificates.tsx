@@ -9,7 +9,6 @@ const PendingCertificates: React.FC = (props: any) => {
   const { user } = useAuthContext()
   const { data, isLoading, refetch } = getAllPendingCertificatesAdmin()
   const { mutate, isSuccess, isLoading: loadingResolve, isError } = resolveStakeholder(user)
-
   const fields = [
     'name',
     'role',

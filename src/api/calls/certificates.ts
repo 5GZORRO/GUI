@@ -370,16 +370,16 @@ const resolveStakeholder = async (body: any, params: any): Promise<any> => {
           case 'Spectrum':
             category = 'Spectrum'
             break
-          case 'RadioAccessNetwork':
+          case 'RAN':
             category = 'RAN'
             break
-          case 'VirtualNetworkFunction':
+          case 'VNF':
             category = 'VNF'
             break
-          case 'NetworkSlice':
+          case 'Slice':
             category = 'Slice'
             break
-          case 'NetworkService':
+          case 'Network Service':
             category = 'Network Service'
             break
         }

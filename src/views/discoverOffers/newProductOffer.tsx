@@ -24,8 +24,8 @@ import dayjs from 'dayjs'
 import { useAllResourceAndServiceSpecifications } from 'hooks/api/Resources'
 import { useHistory, Link } from 'react-router-dom'
 import { DATETIME_FORMAT, DATETIME_FORMAT_SHOW } from 'config'
-import { getOrderedItems, useMyOrders } from 'hooks/api/Orders'
-import { ApiOrders } from 'types/api'
+import { getProductOrderItems } from 'hooks/api/Orders'
+import SLAAccordViewer from 'components/SLAAccordViewer'
 
 const fields = [
   { key: 'select', label: '', filter: false, sorter: false },
@@ -44,15 +44,27 @@ const fields = [
 
 const fieldsOrder = [
   { key: 'select', label: '', filter: false, sorter: false },
-  { key: 'requestedStartDate', label: 'Start Date' },
-  { key: 'requestedCompletionDate', label: 'Completion Date' },
-  'category',
+  'name',
   'description',
+  'category',
+  {
+    key: 'place',
+    label: 'Location'
+  },
+  {
+    key: 'stakeholder',
+    label: 'Stakeholder'
+  },
+  {
+    key: 'productOfferingPrice',
+    label: 'Price Type'
+  },
   {
     key: 'show_details',
     label: '',
     _style: { width: '1%' },
-    filter: false
+    filter: false,
+    sort: false
   }
 ]
 
@@ -63,8 +75,9 @@ const NewProductOffer: React.FC = () => {
   const { data, isLoading } = useAllResourceAndServiceSpecifications()
   const [modal, setModal] = useState<any | null>(null)
   const [modalOrderItem, setModalOrderItem] = useState<any | null>(null)
-  const { data: ordersData, isLoading: isLoadingOrders } = getOrderedItems()
-
+  // const { data: ordersData, isLoading: isLoadingOrders } = getProductOrderItems()
+  const ordersData: any[] = []
+  const isLoadingOrders = false
   const check = (item: any) => {
     const found = selected.find((rs: any) => rs === item?.id)
 
@@ -95,18 +108,6 @@ const NewProductOffer: React.FC = () => {
     } else {
       setSelectedOrderedItem((previous: any) => previous.filter((rs: any) => rs !== item?.id))
     }
-  }
-
-  const showProductOffering = (item: ApiOrders) => {
-    if (item?.productOrderItem?.length) {
-      // return
-      return <td className="py-2">{item?.productOrderItem?.map((el) => el?.productOffering?.name)?.join(', ')}</td>
-    }
-    return <td className="py-2">{'-'}</td>
-  }
-
-  const showDate = (item: ApiOrders, field: any) => {
-    return <td>{dayjs(item?.[field])?.isValid() ? dayjs(item?.[field]).format(DATETIME_FORMAT_SHOW) : '-'}</td>
   }
 
   const arrayToStringsData = (item: any, property: string) => {
@@ -141,6 +142,19 @@ const NewProductOffer: React.FC = () => {
       </td>
     )
   }
+
+  const stakeholderRender = (item: any) => (
+    <td>{item?.productSpecification?.relatedParty?.map((el) => { return el?.name ? el?.name : '---' })?.join(', ')}</td>
+  )
+  const locationRender = (item: any) => (
+    <td>
+      {item?.place
+        ?.map((el) => {
+          return el?.geographicLocation?.name ? el?.geographicLocation?.name : '---'
+        })
+        ?.join(', ')}
+    </td>
+  )
 
   const selectRender = (item) => {
     return (
@@ -569,9 +583,10 @@ const NewProductOffer: React.FC = () => {
             pagination
             scopedSlots={{
               select: (item: { id: any; _selected: boolean | undefined }) => selectRender(item),
-              requestedStartDate: (item: ApiOrders) => showDate(item, 'requestedStartDate'),
-              requestedCompletionDate: (item: ApiOrders) => showDate(item, 'requestedCompletionDate'),
-              productItem: (item: ApiOrders) => showProductOffering(item),
+              category: (item: any) => arrayToStringsData(item?.category, 'name'),
+              place: (item: any) => locationRender(item),
+              stakeholder: (item: any) => stakeholderRender(item),
+              productOfferingPrice: (item: any) => arrayToStringsData(item?.productOfferingPrice, 'priceType'),
               show_details: (item: any) => showButton(item)
             }}
           />
@@ -590,104 +605,293 @@ const NewProductOffer: React.FC = () => {
                 </CNavLink>
               </CNavItem>
               <CNavItem>
-                <CNavLink className={'pl-0 mb-4'} data-tab="products" color={'#6C6E7E'}>
-                  Product Offering
+                <CNavLink className={'pl-0 mb-4'} data-tab="specifications" color={'#6C6E7E'}>
+                  Specifications
                 </CNavLink>
               </CNavItem>
-              <CNavItem>
-                <CNavLink className={'pl-0 mb-4'} data-tab="price" color={'#6C6E7E'}>
-                  Total Price
-                </CNavLink>
-              </CNavItem>
+              {modalOrderItem?.productOfferingPrice?.length > 0 && (
+                <CNavItem>
+                  <CNavLink className={'pl-0 mb-4'} data-tab="price" color={'#6C6E7E'}>
+                    Price
+                  </CNavLink>
+                </CNavItem>
+              )}
+              {modalOrderItem?.serviceLevelAgreement && (
+                <CNavItem>
+                  <CNavLink className={'pl-0 mb-4'} data-tab="sla" color={'#6C6E7E'}>
+                    SLA
+                  </CNavLink>
+                </CNavItem>
+              )}
             </CNav>
             <CTabContent className={'mt-4'}>
               <CTabPane data-tab="description">
                 <CRow className={'mt-2'}>
                   <CCol xs="6">
-                    <p className={'text-light mb-2'}>External Id:</p> <p>{modalOrderItem?.externalId}</p>
-                  </CCol>
-                  <CCol xs="6">
-                    <p className={'text-light mb-2'}>Category:</p> <p>{modalOrderItem?.category}</p>
+                    <p className={'text-light mb-2'}>Name:</p> <p>{modalOrderItem?.name}</p>
                   </CCol>
                 </CRow>
                 <CRow className={'mt-2'}>
                   <CCol xs="12">
-                    <p className={'text-light mb-2'}>Description:</p> <p>{modalOrderItem?.description}</p>
+                    <p className={'text-light mb-2'}>Description</p>
+                    <p>{modalOrderItem?.description}</p>
                   </CCol>
                 </CRow>
-                <CRow className={'mt-2'}>
+                <CRow>
                   <CCol xs="6">
-                    <p className={'text-light mb-2'}>Priority:</p> <p>{modalOrderItem?.priority}</p>
+                    <p className={'text-light mb-2'}>Location:</p>{' '}
+                    <p>
+                      {modalOrderItem?.place
+                        ?.map((el) => {
+                          return el?.geographicLocation?.name
+                        })
+                        ?.join(', ')}
+                    </p>
+                  </CCol>
+                  <CCol xs="6">
+                    <p className={'text-light mb-2'}>Category</p>
+                    <p> {modalOrderItem?.category?.map((el: any) => el?.name)?.join(', ')}</p>
                   </CCol>
                 </CRow>
-                <CRow className={' mt-2'}>
-                  {modalOrderItem?.requestedStartDate && (
-                    <CCol xs="6">
-                      <p className={'text-light mb-2'}>Start Date:</p>{' '}
-                      <p>
-                        {dayjs(modalOrderItem?.requestedStartDate).isValid()
-                          ? dayjs(modalOrderItem?.requestedStartDate).format(DATETIME_FORMAT_SHOW)
-                          : '-'}
-                      </p>
-                    </CCol>
-                  )}
-                  {modalOrderItem?.requestedCompletionDate && (
-                    <CCol xs="6">
-                      <p className={'text-light mb-2'}>Completion Date:</p>{' '}
-                      <p>
-                        {dayjs(modalOrderItem?.requestedCompletionDate).isValid()
-                          ? dayjs(modalOrderItem?.requestedCompletionDate).format(DATETIME_FORMAT_SHOW)
-                          : '-'}
-                      </p>
-                    </CCol>
-                  )}
+                <CRow className={'p-3 mt-4'}>
+                  <p className={'text-light mb-2'}>Valid for: </p>
                 </CRow>
-                {modalOrderItem?.cancellationDate && (
-                  <CRow className={' mt-2'}>
-                    {modalOrderItem?.cancellationDate && (
-                      <CCol xs="6">
-                        <p className={'text-light mb-2'}>Cancellation Date:</p>{' '}
-                        <p>
-                          {dayjs(modalOrderItem?.cancellationDate).isValid()
-                            ? dayjs(modalOrderItem?.cancellationDate).format(DATETIME_FORMAT_SHOW)
-                            : '-'}
-                        </p>
-                      </CCol>
-                    )}
-                    {modalOrderItem?.cancellationReason && (
-                      <CCol xs="6">
-                        <p className={'text-light mb-2'}>Cancellation Reason:</p>{' '}
-                        <p>{modalOrderItem?.cancellationReason}</p>
-                      </CCol>
-                    )}
+                {modalOrderItem?.validFor && (
+                  <CRow className={'pl-3 pr-3'}>
+                    <CCol xs="6">
+                      <p className={'text-light mb-2'}>From:</p>{' '}
+                      <p>
+                        {dayjs(modalOrderItem?.validFor?.startDateTime).isValid()
+                          ? dayjs(modalOrderItem?.validFor?.startDateTime).format(DATETIME_FORMAT_SHOW)
+                          : '-'}
+                      </p>
+                    </CCol>
+                    <CCol xs="6">
+                      <p className={'text-light mb-2'}>To:</p>{' '}
+                      <p>
+                        {dayjs(modalOrderItem?.validFor?.endDateTime).isValid()
+                          ? dayjs(modalOrderItem?.validFor?.endDateTime).format(DATETIME_FORMAT_SHOW)
+                          : '-'}
+                      </p>
+                    </CCol>
                   </CRow>
                 )}
               </CTabPane>
-              <CTabPane data-tab="products">
-                {modalOrderItem?.productOrderItem != null && modalOrderItem?.productOrderItem?.length > 0 && (
-                  <CContainer className={'pl-0 pr-0'}>
-                    {modalOrderItem?.productOrderItem?.map((el, index) => (
-                      <>
-                        <h4>{el?.productOffering?.name}</h4>
-                        <p>
-                          {el?.productOffering?.id && (
-                            <>
-                              <Link to={{ pathname: '/offers', search: `?id=${el?.productOffering?.id}` }}>
-                                See details
-                              </Link>
-                            </>
-                          )}
-                        </p>
-                      </>
-                    ))}
+              <CTabPane data-tab="specifications">
+                <CContainer>
+                  <CContainer
+                    className={'pl-0 pr-0'}
+                    style={{ borderBottom: '1px solid #6C6E7E', marginBottom: '1rem' }}
+                  >
+                    <CRow className={'mt-4'}>
+                      <CCol>
+                        <p className={'text-light mb-2'}>Name</p>
+                        <p className={'font-18 mb-4'}>{modalOrderItem?.productSpecification?.name}</p>
+                      </CCol>
+                      {modalOrderItem?.productSpecification?.lifecycleStatus != null &&
+                        modalOrderItem?.productSpecification?.lifecycleStatus !== '' && (
+                          <CCol>
+                            <p className={'text-light mb-2'}>Status</p>
+                            <p className={'font-16 mb-4'}>{modalOrderItem?.productSpecification?.lifecycleStatus}</p>
+                          </CCol>
+                      )}
+                    </CRow>
+                    {modalOrderItem?.productSpecification?.description != null &&
+                      modalOrderItem?.productSpecification?.description !== '' && (
+                        <CRow className={'mt-2'}>
+                          <CCol>
+                            <p className={'text-light mb-2'}>Description</p>
+                            <p className={'font-16 mb-4'}>{modalOrderItem?.productSpecification?.description}</p>
+                          </CCol>
+                        </CRow>
+                    )}
                   </CContainer>
-                )}
+                  {modalOrderItem?.productSpecification?.serviceSpecification?.length > 0 && (
+                    <CContainer
+                      className={'pl-0 pr-0'}
+                      style={
+                        modalOrderItem?.productSpecification?.resourceSpecification?.length > 0
+                          ? { borderBottom: '1px solid #6C6E7E', marginBottom: '1rem' }
+                          : {}
+                      }
+                    >
+                      <h5>Service Specification</h5>
+                      {modalOrderItem?.productSpecification?.serviceSpecification?.map((ss: any, index: number) => (
+                        <CContainer key={`serviceSpecification-${index}`} className={'pl-0 pr-0'}>
+                          <CRow className={'mt-2'}>
+                            <CCol>
+                              <p className={'text-light mb-2'}>Name</p>
+                              <p className={'font-16 mb-4'}>{ss?.name}</p>
+                            </CCol>
+                          </CRow>
+                          <CRow className={'mt-2'}>
+                            <CCol>
+                              <p className={'text-light mb-2'}>Description</p>
+                              <p className={'font-16 mb-4'}>{ss?.description}</p>
+                            </CCol>
+                          </CRow>
+                          {ss?.serviceSpecCharacteristic?.length > 0 && <h5>Service Characteristics</h5>}
+                          {ss?.serviceSpecCharacteristic?.map((el, index) => (
+                            <CContainer key={`serviceSpecCharacteristic-${index}`} className={''}>
+                              <CRow className={'mt-2'}>
+                                <CCol>
+                                  <p className={'text-light mb-2'}>Name</p>
+                                  <p className={'font-16 mb-4'}>{el?.name}</p>
+                                </CCol>
+                              </CRow>
+                              <CRow className={'mt-2'}>
+                                <CCol>
+                                  <p className={'text-light mb-2'}>Description</p>
+                                  <p className={'font-16 mb-4'}>{el?.description}</p>
+                                </CCol>
+                              </CRow>
+                              {el?.serviceSpecCharacteristicValue?.map((resource, index) => (
+                                <CRow className={'mt-2'} key={`serviceSpecCharacteristicValue-${index}`}>
+                                  {resource?.value?.alias && (
+                                    <CCol>
+                                      <p className={'text-light mb-2'}>{resource?.value?.alias}</p>
+                                      <div className={'font-16 mb-4'}>
+                                        {splitResourceCaract(resource?.value?.value)}
+                                      </div>
+                                    </CCol>
+                                  )}
+                                  {resource?.unitOfMeasure && (
+                                    <CCol>
+                                      <p className={'text-light mb-2'}>Unit Of Measure</p>
+                                      <p className={'font-16 mb-4'}>{resource?.unitOfMeasure}</p>
+                                    </CCol>
+                                  )}
+                                </CRow>
+                              ))}
+                            </CContainer>
+                          ))}
+
+                          {ss?.resourceSpecification?.length > 0 && (
+                            <CContainer style={{ borderTop: '1px solid #6C6E7E', paddingTop: '1rem' }}>
+                              <h5>Resource Specification</h5>
+
+                              {ss?.resourceSpecification?.map((rs: any, rsIndex: number) => (
+                                <CContainer key={`offer-rs-${rsIndex}`}>
+                                  <CRow className={'mt-2'}>
+                                    <CCol>
+                                      <p className={'text-light mb-2'}>Name</p>
+                                      <p className={'font-18 mb-4'}>{rs?.name}</p>
+                                    </CCol>
+                                  </CRow>
+                                  <CRow className={'mt-2'}>
+                                    <CCol>
+                                      <p className={'text-light mb-2'}>Description</p>
+                                      <p className={'font-16 mb-4'}>{rs?.description}</p>
+                                    </CCol>
+                                  </CRow>
+                                  {rs?.resourceSpecCharacteristic?.length && <h5>Resource Characteristics</h5>}
+
+                                  {rs?.resourceSpecCharacteristic?.map((el: any, index: number) => (
+                                    <CContainer key={`resourceCharacteristics-${index}`} className={''}>
+                                      <CRow className={'mt-2'}>
+                                        <CCol>
+                                          <p className={'text-light mb-2'}>Name</p>
+                                          <p className={'font-16 mb-4'}>{el?.name}</p>
+                                        </CCol>
+                                      </CRow>
+                                      <CRow className={'mt-2'}>
+                                        <CCol>
+                                          <p className={'text-light mb-2'}>Description</p>
+                                          <p className={'font-16 mb-4'}>{el?.description}</p>
+                                        </CCol>
+                                      </CRow>
+                                      {el?.resourceSpecCharacteristicValue?.map((resource, index) => (
+                                        <CRow className={'mt-2'} key={`resourceSpecCharacteristicValue-${index}`}>
+                                          {resource?.value?.alias && (
+                                            <CCol>
+                                              <p className={'text-light mb-2'}>{resource?.value?.alias}</p>
+                                              <div className={'font-16 mb-4'}>
+                                                {splitResourceCaract(resource?.value?.value)}
+                                              </div>
+                                            </CCol>
+                                          )}
+                                          {resource?.unitOfMeasure && (
+                                            <CCol>
+                                              <p className={'text-light mb-2'}>Unit Of Measure</p>
+                                              <p className={'font-16 mb-4'}>{resource?.unitOfMeasure}</p>
+                                            </CCol>
+                                          )}
+                                        </CRow>
+                                      ))}
+                                    </CContainer>
+                                  ))}
+                                </CContainer>
+                              ))}
+                            </CContainer>
+                          )}
+                        </CContainer>
+                      ))}
+                    </CContainer>
+                  )}
+                  {modalOrderItem?.productSpecification?.resourceSpecification?.length > 0 && (
+                    <CContainer className={'pl-0 pr-0'}>
+                      <h5>Resource Specification</h5>
+                      {modalOrderItem?.productSpecification?.resourceSpecification?.map((rs: any, rsIndex: number) => (
+                        <CContainer key={`offer-rs-${rsIndex}`}>
+                          <CRow className={'mt-2'}>
+                            <CCol>
+                              <p className={'text-light mb-2'}>Name</p>
+                              <p className={'font-18 mb-4'}>{rs?.name}</p>
+                            </CCol>
+                          </CRow>
+                          <CRow className={'mt-2'}>
+                            <CCol>
+                              <p className={'text-light mb-2'}>Description</p>
+                              <p className={'font-16 mb-4'}>{rs?.description}</p>
+                            </CCol>
+                          </CRow>
+                          {rs?.resourceSpecCharacteristic?.length && <h5>Resource Characteristics</h5>}
+
+                          {rs?.resourceSpecCharacteristic?.map((el: any, index: number) => (
+                            <CContainer key={`resourceCharacteristics-${index}`} className={''}>
+                              <CRow className={'mt-2'}>
+                                <CCol>
+                                  <p className={'text-light mb-2'}>Name</p>
+                                  <p className={'font-16 mb-4'}>{el?.name}</p>
+                                </CCol>
+                              </CRow>
+                              <CRow className={'mt-2'}>
+                                <CCol>
+                                  <p className={'text-light mb-2'}>Description</p>
+                                  <p className={'font-16 mb-4'}>{el?.description}</p>
+                                </CCol>
+                              </CRow>
+                              {el?.resourceSpecCharacteristicValue?.map((resource, index) => (
+                                <CRow className={'mt-2'} key={`resourceSpecCharacteristicValue-${index}`}>
+                                  {resource?.value?.alias && (
+                                    <CCol>
+                                      <p className={'text-light mb-2'}>{resource?.value?.alias}</p>
+                                      <div className={'font-16 mb-4'}>
+                                        {splitResourceCaract(resource?.value?.value)}
+                                      </div>
+                                    </CCol>
+                                  )}
+                                  {resource?.unitOfMeasure && (
+                                    <CCol>
+                                      <p className={'text-light mb-2'}>Unit Of Measure</p>
+                                      <p className={'font-16 mb-4'}>{resource?.unitOfMeasure}</p>
+                                    </CCol>
+                                  )}
+                                </CRow>
+                              ))}
+                            </CContainer>
+                          ))}
+                        </CContainer>
+                      ))}
+                    </CContainer>
+                  )}
+                </CContainer>
               </CTabPane>
-              {modalOrderItem?.orderTotalPrice != null && modalOrderItem?.orderTotalPrice?.length > 0 && (
+              {modalOrderItem?.productOfferingPrice?.length > 0 && (
                 <CTabPane data-tab="price">
-                  {modalOrderItem?.orderTotalPrice?.map((el: any) => (
-                    <CContainer key={`priceOffer-${el?.id}`} className={'pl-0 pr-0'}>
-                      <CRow className={'mt-2'}>
+                  {modalOrderItem?.productOfferingPrice?.map((el: any) => (
+                    <CContainer key={`priceOffer-${el?.id}`}>
+                      <CRow className={'mt-4'}>
                         <CCol xs="6">
                           <p className={'text-light mb-2'}>Name:</p> <p>{el?.name}</p>
                         </CCol>
@@ -700,12 +904,12 @@ const NewProductOffer: React.FC = () => {
                       </CRow>
                       <CRow className={'mt-4'}>
                         <CCol xs="6">
-                          <p className={'text-light mb-2'}>Price (Tax Included):</p>
-                          <p>{el?.price?.taxIncludedAmount?.value}</p>
+                          <p className={'text-light mb-2'}>Price:</p>
+                          <p>{el?.price?.value}</p>
                         </CCol>
                         <CCol xs="6">
                           <p className={'text-light mb-2'}>Price Unit:</p>
-                          <p>{el?.price?.taxIncludedAmount?.unit}</p>
+                          <p>{el?.price?.unit}</p>
                         </CCol>
                       </CRow>
                       <CRow className={'mt-4'}>
@@ -715,57 +919,96 @@ const NewProductOffer: React.FC = () => {
                         </CCol>
                       </CRow>
 
-                      <CRow className={'mt-4'}>
-                        <CCol xs="6">
-                          <p className={'text-light mb-2'}>Unit Of Measure:</p>
-                          <p>{el?.unitOfMeasure}</p>
-                        </CCol>
-                        <CCol xs="6">
-                          <p className={'text-light mb-2'}>Recurring Charge Period:</p>
-                          <p>{el?.recurringChargePeriod}</p>
-                        </CCol>
-                      </CRow>
-                      <CContainer className={'mt-4 pl-0 pr-0'}>
-                        <h4>Product Offering Price</h4>
-                        <CRow className={'mt-4'}>
-                          <CCol xs="6">
-                            <p className={'text-light mb-2'}>Name:</p> <p>{el?.productOfferingPrice?.name}</p>
-                          </CCol>
-                        </CRow>
-                        <CRow className={'mt-4'}>
-                          <CCol xs="12">
-                            <p className={'text-light mb-2'}>Description</p>
-                            <p>{el?.productOfferingPrice?.description}</p>
-                          </CCol>
-                        </CRow>
-                        <CRow className={'p-3 mt-4'}>
-                          <p className={'text-light mb-2'}>Valid for: </p>
-                        </CRow>
-                        {el?.productOfferingPrice?.validFor && (
-                          <CRow className={'pl-3 pr-3'}>
+                      {el?.unitOfMeasure?.units != null &&
+                        el?.unitOfMeasure?.units !== '' &&
+                        el?.unitOfMeasure?.amount != null && (
+                          <CRow className={'mt-4'}>
                             <CCol xs="6">
-                              <p className={'text-light mb-2'}>From:</p>{' '}
-                              <p>
-                                {dayjs(el?.productOfferingPrice?.validFor?.startDateTime).isValid()
-                                  ? dayjs(el?.productOfferingPrice?.validFor?.startDateTime).format(
-                                    DATETIME_FORMAT_SHOW
-                                  )
-                                  : '-'}
-                              </p>
+                              <p className={'text-light mb-2'}>Unit Of Measure:</p>
+                              <p>{el?.unitOfMeasure?.units}</p>
                             </CCol>
                             <CCol xs="6">
-                              <p className={'text-light mb-2'}>To:</p>{' '}
-                              <p>
-                                {dayjs(el?.productOfferingPrice?.validFor?.endDateTime).isValid()
-                                  ? dayjs(el?.productOfferingPrice?.validFor?.endDateTime).format(DATETIME_FORMAT_SHOW)
-                                  : '-'}
-                              </p>
+                              <p className={'text-light mb-2'}>Unit Of Measure Length:</p>
+                              <p>{el?.unitOfMeasure?.amount}</p>
                             </CCol>
                           </CRow>
-                        )}
-                      </CContainer>
+                      )}
+                      {el?.recurringChargePeriodType != null &&
+                        el?.recurringChargePeriodType !== '' &&
+                        el?.recurringChargePeriodLength != null && (
+                          <CRow className={'mt-4'}>
+                            <CCol xs="6">
+                              <p className={'text-light mb-2'}>Recurring Charge Period Type:</p>
+                              <p>{el?.recurringChargePeriodType}</p>
+                            </CCol>
+                            <CCol xs="6">
+                              <p className={'text-light mb-2'}>Recurring Charge Period Length:</p>
+                              <p>{el?.recurringChargePeriodLength}</p>
+                            </CCol>
+                          </CRow>
+                      )}
+                      <CRow className={'p-3 mt-4'}>
+                        <p className={'text-light mb-2'}>Valid for: </p>
+                      </CRow>
+                      {el?.validFor && (
+                        <CRow className={'pl-3 pr-3'}>
+                          <CCol xs="6">
+                            <p className={'text-light mb-2'}>From:</p>{' '}
+                            <p>
+                              {dayjs(el?.validFor?.startDateTime).isValid()
+                                ? dayjs(el?.validFor?.startDateTime).format(DATETIME_FORMAT_SHOW)
+                                : '-'}
+                            </p>
+                          </CCol>
+                          <CCol xs="6">
+                            <p className={'text-light mb-2'}>To:</p>{' '}
+                            <p>
+                              {dayjs(el?.validFor?.endDateTime).isValid()
+                                ? dayjs(el?.validFor?.endDateTime).format(DATETIME_FORMAT_SHOW)
+                                : '-'}
+                            </p>
+                          </CCol>
+                        </CRow>
+                      )}
                     </CContainer>
                   ))}
+                </CTabPane>
+              )}
+              {modalOrderItem?.serviceLevelAgreement != null && (
+                <CTabPane data-tab="sla">
+                  <CRow>
+                    <CCol xs="6">
+                      <p className={'text-light mb-2'}>Name:</p> <p>{modalOrderItem?.serviceLevelAgreement?.name}</p>
+                    </CCol>
+                    <CCol xs="6">
+                      <p className={'text-light mb-2'}>Last Update:</p>{' '}
+                      <p>
+                        {dayjs(modalOrderItem?.serviceLevelAgreement?.statusUpdated).isValid()
+                          ? dayjs(modalOrderItem?.serviceLevelAgreement?.statusUpdated).format(DATETIME_FORMAT_SHOW)
+                          : '-'}
+                      </p>
+                    </CCol>
+                  </CRow>
+                  <CRow>
+                    <CCol xs="12">
+                      <p className={'text-light mb-2'}>Description</p>
+                      <p>{modalOrderItem?.serviceLevelAgreement?.description}</p>
+                    </CCol>
+                  </CRow>
+                  <CRow>
+                    <CCol xs="6">
+                      <p className={'text-light mb-2'}>Status:</p>
+
+                      <p>{modalOrderItem?.serviceLevelAgreement?.status}</p>
+                    </CCol>
+                  </CRow>
+                  <CRow className={'p-3'}>
+                    <SLAAccordViewer
+                      id={modalOrderItem?.serviceLevelAgreement?.id}
+                      templateHref={modalOrderItem?.serviceLevelAgreement?.templateRef?.href}
+                      readOnly={true}
+                    ></SLAAccordViewer>
+                  </CRow>
                 </CTabPane>
               )}
             </CTabContent>
