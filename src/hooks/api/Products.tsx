@@ -16,7 +16,11 @@ export const useCreateOffering = () => {
 // change later
 export const useSearchOffers = () => useMutation<any, any, any>((params?: any) => api.products.getProductOffers(params))
 
-export const useSearchOffersAdvanced = () => useMutation<any, any, any>((params?: any) => api.products.getProductOffersAdvanced(params))
+export const useSearchOffersAdvanced = () =>
+  useMutation<any, any, any>((params?: any) => api.products.getProductOffersAdvanced(params))
 
 export const useSearchOffersNoParams = (params?: any) =>
   useQuery(['searchOffers', params], () => api.products.getProductOffers(params), { keepPreviousData: true })
+
+export const useSearchOffersById = () =>
+  useMutation<any, any, any>((params?: any) => api.products.getProductOffersById(params))

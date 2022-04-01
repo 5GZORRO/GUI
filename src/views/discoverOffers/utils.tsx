@@ -46,11 +46,11 @@ const IsJsonString = (str: string) => {
   return true
 }
 
-export const transformForm = (form: any, resourcesData: any) => {
+export const transformForm = (form: any, resourcesData: any, bundledItems: any) => {
   const newData = {
     agreement: [],
     attachment: [],
-    bundledProductOffering: [],
+    bundledProductOffering: bundledItems,
     category: form?.category?.map((el: any) => el?.value),
     channel: [],
     description: form?.description,

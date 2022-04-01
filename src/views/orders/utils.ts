@@ -4,8 +4,6 @@ import moment from 'moment'
 import { SLA_OUTPUT_DATETIME_FORMAT } from 'config'
 export const schemaRegister = yup.object().shape({
   description: yup.string(),
-  externalId: yup.string(),
-  category: yup.string(),
   requestedStartDate: yup
     .string()
     .required()
@@ -33,15 +31,12 @@ export const transformForm = (form: any, additionalData: any) => {
     billingAccount: null,
     cancellationDate: null,
     cancellationReason: null,
-    category: form?.category !== null ? JSON.parse(form?.category)?.value?.name : '',
     channel: [],
     description: form?.description,
-    externalId: form?.externalId,
     note: [],
     notificationContact: null,
     orderTotalPrice: [],
     payment: [],
-    priority: form?.priority,
     productOfferingQualification: [],
     productOrderItem: additionalData?.productOrderItem?.map(el => ({
       action: 'add',

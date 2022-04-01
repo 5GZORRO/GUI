@@ -97,11 +97,8 @@ const FormCreateOrder: React.FC = () => {
   const methods = useForm<formOrderCreation>({
     defaultValues: {
       description: '',
-      category: null,
       requestedStartDate: null,
-      requestedCompletionDate: null,
-      externalId: '',
-      priority: 0
+      requestedCompletionDate: null
     },
     resolver: yupResolver(schemaRegister)
   })
@@ -120,22 +117,6 @@ const FormCreateOrder: React.FC = () => {
       history.push('/orders/')
     }
   }, [isSuccess])
-
-  useEffect(() => {
-    setValue('priority', priorityState)
-  }, [priorityState])
-
-  const handleMinus = () => {
-    if (priorityState > 0) {
-      setPriorityState((previous) => previous - 1)
-    }
-  }
-
-  const handlePlus = () => {
-    if (priorityState < 5) {
-      setPriorityState((previous) => previous + 1)
-    }
-  }
 
   const onSubmit = (data: formOrderCreation) => {
     const formData = transformForm(data, { productOrderItem: offersData })
@@ -245,119 +226,6 @@ const FormCreateOrder: React.FC = () => {
                       </CInputGroup>
                       {errors.description && <CFormText className="help-block">Please insert a description</CFormText>}
                     </CFormGroup>
-                  </CCol>
-                </CRow>
-                <CRow>
-                  <CCol sm={6}>
-                    <CFormGroup>
-                      <CLabel htmlFor="externalId">External Id</CLabel>
-                      <Controller
-                        control={control}
-                        defaultValue={''}
-                        rules={{}}
-                        name="externalId"
-                        render={({ field }) => <CInput placeholder={'Enter an external id'} {...field} />}
-                      />
-                    </CFormGroup>
-                  </CCol>
-                  <CCol sm={6}>
-                    <CFormGroup>
-                      <CLabel htmlFor="category">Category</CLabel>
-                      <CInputGroup style={{ display: 'grid', gridTemplateColumns: '1fr 2.5rem', columnGap: '0.5rem' }}>
-                          <Controller
-                            control={control}
-                            defaultValue={null}
-                            name="category"
-                            render={({ field: { onChange, onBlur, value, ref } }) => (
-                              <Select
-                                onChange={(e: any) => {
-                                  onChange(JSON.stringify(e))
-                                }}
-                                value={JSON.parse(value)}
-                                ref={ref}
-                                /* eslint-disable */
-                                options={!isLoadingCategories ? categories?.map((el) => {
-                                  let resp = ''
-                                  switch (el?.name) {
-                                    case 'VNF':
-                                      resp = 'Virtual Network Function'
-                                      break
-                                    case 'Network Service':
-                                      resp = 'Network Service'
-                                      break
-                                    case 'Slice':
-                                      resp = 'Network Slice'
-                                      break
-                                    case 'Spectrum':
-                                      resp = 'Spectrum'
-                                      break
-                                    case 'RAN':
-                                      resp = 'Radio Access Network'
-                                      break
-                                    case 'Edge':
-                                      resp = 'Edge'
-                                      break
-                                    case 'Cloud':
-                                      resp = 'Cloud'
-                                      break
-                                    default:
-                                      resp = el?.name
-                                      break
-                                  }
-                                  return { value: el, label: resp }
-                                }) : []}
-                                className={'select'}
-                                styles={colourStyles}
-                              ></Select>
-                            )}
-                          />
-                        {/* <CInputGroupAppend>
-                          <CButton type="button" color="transparent" onClick={() => setAddCategoryModal(true)}>
-                            <PlusCircle />
-                          </CButton>
-                        </CInputGroupAppend> */}
-                      </CInputGroup>
-                      {errors.category && (
-                        <CFormText className="help-block">Please select at least a category</CFormText>
-                      )}
-                    </CFormGroup>
-                  </CCol>
-                </CRow>
-                <CRow>
-                  <CCol sm={12}>
-                    <CLabel>Priority</CLabel>
-                    <CRow>
-                      <CCol sm="6" className="pl-1 pr-1">
-                        <CInputGroup>
-                          <CInputGroupPrepend>
-                            <CButton type="button" color="transparent" onClick={handleMinus}>
-                              <MinusCircle />
-                            </CButton>
-                          </CInputGroupPrepend>
-                          <Controller
-                            control={control}
-                            defaultValue={''}
-                            name="priority"
-                            render={({ field }) => (
-                              <CInput
-                                placeholder={'0'}
-                                {...field}
-                                value={priorityState}
-                                min={0}
-                                onChange={(e: any) => setPriorityState(Number(e?.target?.value))}
-                              />
-                            )}
-                          />
-
-                          <CInputGroupAppend>
-                            <CButton type="button" color="transparent" onClick={() => handlePlus()}>
-                              <PlusCircle />
-                            </CButton>
-                          </CInputGroupAppend>
-                          {errors.priority && <CFormText className="help-block">Please enter a number</CFormText>}
-                        </CInputGroup>
-                      </CCol>
-                    </CRow>
                   </CCol>
                 </CRow>
               </CCardBody>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { CButton, CContainer, CForm } from '@coreui/react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useHistory, useParams, useLocation } from 'react-router-dom'
@@ -13,7 +13,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { schemaRegister, transformForm } from './utils'
 
 /** hooks */
-import { useCreateOffering } from 'hooks/api/Products'
+import { useCreateOffering, useSearchOffers, useSearchOffersById } from 'hooks/api/Products'
 import { useGetResourceSpecificationsBundle } from 'hooks/api/Resources'
 import { ApiResourceSpecification } from 'types/api'
 import LoadingWithFade from 'components/LoadingWithFade'
@@ -59,7 +59,7 @@ const ProductDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>()
 
   const { user } = useAuthContext()
-
+  const { data: dataOffer, mutate: mutateOffer, isLoading: isLoadingMutate } = useSearchOffers()
   const { mutate, isSuccess, isLoading, isError } = useCreateOffering()
   const servicesIndex = useQuery().get('services')
   const orderItemsIndex = useQuery().get('orderItems')
@@ -67,9 +67,22 @@ const ProductDetail: React.FC = () => {
     id,
     servicesIndex != null ? JSON.parse(servicesIndex) : []
   )
-  // const { data: orderedItems, isLoading: loadingOrders } = getOrderedItems(
-  //   orderItemsIndex != null ? orderItemsIndex : null
-  // )
+
+  const [bundledItems, setBundledItems] = useState<any>([])
+
+  useEffect(() => {
+    mutateOffer({})
+  }, [])
+
+  useEffect(() => {
+    if (orderItemsIndex != null && dataOffer) {
+      const newArr: any[] = []
+      JSON.parse(orderItemsIndex)?.forEach((item) => {
+        newArr.push(dataOffer.find((el) => el?.id === item))
+      })
+      setBundledItems(newArr)
+    }
+  }, [orderItemsIndex, dataOffer])
 
   useEffect(() => {
     if (isSuccess) {
@@ -78,7 +91,7 @@ const ProductDetail: React.FC = () => {
   }, [isSuccess])
 
   const onSubmit = (data: formOfferCreation) => {
-    const formData = transformForm(data, resourcesData)
+    const formData = transformForm(data, resourcesData, bundledItems)
     mutate({ ...formData, resourceSpecifications: resourcesData, currentUser: user })
   }
   return (

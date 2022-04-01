@@ -24,7 +24,7 @@ import dayjs from 'dayjs'
 import { useAllResourceAndServiceSpecifications } from 'hooks/api/Resources'
 import { useHistory, Link } from 'react-router-dom'
 import { DATETIME_FORMAT, DATETIME_FORMAT_SHOW } from 'config'
-import { getProductOrderItems } from 'hooks/api/Orders'
+import { getAllProductOrders } from 'hooks/api/Orders'
 import SLAAccordViewer from 'components/SLAAccordViewer'
 
 const fields = [
@@ -75,9 +75,10 @@ const NewProductOffer: React.FC = () => {
   const { data, isLoading } = useAllResourceAndServiceSpecifications()
   const [modal, setModal] = useState<any | null>(null)
   const [modalOrderItem, setModalOrderItem] = useState<any | null>(null)
-  // const { data: ordersData, isLoading: isLoadingOrders } = getProductOrderItems()
-  const ordersData: any[] = []
-  const isLoadingOrders = false
+  const { data: ordersData, isLoading: isLoadingOrders } = getAllProductOrders()
+
+  console.log(selectedOrderedItem)
+
   const check = (item: any) => {
     const found = selected.find((rs: any) => rs === item?.id)
 
@@ -564,7 +565,7 @@ const NewProductOffer: React.FC = () => {
           />
         </CCardBody>
       </CCard>
-      {/* <CCard>
+      <CCard>
         <CCardHeader>
           <h5>Product Order Item</h5>
         </CCardHeader>
@@ -591,7 +592,7 @@ const NewProductOffer: React.FC = () => {
             }}
           />
         </CCardBody>
-      </CCard> */}
+      </CCard>
       <CModal show={modalOrderItem != null} onClose={() => setModalOrderItem(null)} size="lg">
         <CModalHeader closeButton>
           <h5>{'Product Offer'}</h5>
@@ -1027,7 +1028,7 @@ const NewProductOffer: React.FC = () => {
                   data?.find((resourceOrService) => resourceOrService.id === el).isService ? index : null
                 )
                 .filter((el) => el != null)}]&orderItems=[${selectedOrderedItem?.map((el, index) => {
-                return `${el}`
+                return JSON.stringify(el)
               })}]`
             )
           }

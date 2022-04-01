@@ -51,7 +51,7 @@ const RegisterNewResource = (props: any) => {
     }
   })
 
-  const { mutate, isSuccess, isLoading } = registerNewSpectrumResource()
+  const { mutate, isSuccess, isLoading, isError } = registerNewSpectrumResource()
 
   const onSubmit = (data: formSepctrumResource) => {
     try {
@@ -88,6 +88,11 @@ const RegisterNewResource = (props: any) => {
           <CForm>
             <CCard>
               <CCardBody>
+                {isError && (
+                  <p style={{ color: 'red', padding: '0.5rem', background: 'rgba(255, 0, 0, 0.1)' }}>
+                    The registration of the spectrum resource was unsuccessful. Please verify that you have a valid matching spectrum license certificate.
+                  </p>
+                )}
                 <CRow>
                   <CCol sm={6}>
                     <CFormGroup>
