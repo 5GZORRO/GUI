@@ -1,4 +1,4 @@
-export const API_MARKET_PLACE = 'http://172.28.3.126:31180/tmf-api'
+export const API_MARKET_PLACE = 'http://172.28.3.15:31180/tmf-api'
 export const API_LPT = 'http://172.28.3.6:31087'
 export const API_GOVERNANCE = 'http://172.28.3.6:31085'
 export const API_IPM = 'http://172.28.3.153:6300'
