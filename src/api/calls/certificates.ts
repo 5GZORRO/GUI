@@ -1,3 +1,4 @@
+/* eslint-disable */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { endpoints } from 'api/endpoints'
@@ -18,14 +19,14 @@ const getAllApprovedOffers = async (): Promise<ApiIssuerOffers[]> => {
     const response = await axios.get(endpoints.CERTIFICATE_ADMIN_ALL_OFFER)
     const newArr:
       | PromiseLike<ApiIssuerOffers[]>
-      | { type: any; id: any; claims: any; timestamp: any; 'credential_definition_id': any }[] = []
+      | { type: any; id: any; claims: any; timestamp: any; credential_definition_id: any }[] = []
     if (response) {
       response.data.forEach(
         (element: {
           type: any
           credentialSubject: { id: any; claims: any[] }
           timestamp: any
-          'credential_definition_id': any
+          credential_definition_id: any
         }) => {
           newArr.push({
             type: element?.type,
@@ -50,14 +51,14 @@ const getAllPendingOffers = async (): Promise<ApiIssuerOffers[]> => {
     const response = await axios.get(endpoints.CERTIFICATE_ADMIN_PENDING_OFFER)
     const newArr:
       | PromiseLike<ApiIssuerOffers[]>
-      | { type: any; id: any; claims: any; timestamp: any; 'credential_definition_id': any }[] = []
+      | { type: any; id: any; claims: any; timestamp: any; credential_definition_id: any }[] = []
     if (response) {
       response.data.forEach(
         (element: {
           type: any
           credentialSubject: { id: any; claims: any[] }
           timestamp: any
-          'credential_definition_id': any
+          credential_definition_id: any
         }) => {
           newArr.push({
             type: element?.type,
@@ -80,14 +81,14 @@ const getAllPendingOffers = async (): Promise<ApiIssuerOffers[]> => {
 const getAllRejectedOffers = async (): Promise<ApiIssuerOffers[]> => {
   try {
     const response = await axios.get(endpoints.CERTIFICATE_ADMIN_REVOKED_OFFER)
-    const newArr: { type: any; id: any; claims: any; timestamp: any; 'credential_definition_id': any }[] = []
+    const newArr: { type: any; id: any; claims: any; timestamp: any; credential_definition_id: any }[] = []
     if (response) {
       response.data.forEach(
         (element: {
           type: any
           credentialSubject: { id: any; claims: any[] }
           timestamp: any
-          'credential_definition_id': any
+          credential_definition_id: any
         }) => {
           newArr.push({
             type: element?.type,
@@ -353,49 +354,6 @@ const resolveStakeholder = async (body: any, params: any): Promise<any> => {
       stakeholder_did: body?.user?.stakeholderDID,
       approval: body?.approval
     })
-    if (
-      (params?.stakeholderClaim?.stakeholderRoles?.[0]?.role === 'Regulator' ||
-        params?.stakeholderClaim?.stakeholderRoles?.[0]?.role === 'Administrator') &&
-      body?.approval === true
-    ) {
-      body?.user?.roles.forEach(async (element: any) => {
-        let category = ''
-        switch (element) {
-          case 'Edge':
-            category = 'Edge'
-            break
-          case 'Cloud':
-            category = 'Cloud'
-            break
-          case 'Spectrum':
-            category = 'Spectrum'
-            break
-          case 'RAN':
-            category = 'RAN'
-            break
-          case 'VNF':
-            category = 'VNF'
-            break
-          case 'Slice':
-            category = 'Slice'
-            break
-          case 'Network Service':
-            category = 'Network Service'
-            break
-        }
-        try {
-          await axios.post(body?.user?.handler_url + '/productCatalogManagement/v4/category', { name: category })
-        } catch (e) {}
-      })
-
-      try {
-        await axios.post(body?.user?.handler_url + '/party/v4/organization', <ApiOrganizationBody>{
-          organizationCreate: { name: body?.user?.name },
-          stakeholderDID: body?.user?.stakeholderDID,
-          token: response?.data?.id_token
-        })
-      } catch (err) {}
-    }
     return response.data
   } catch (e) {
     console.log({ e })
@@ -405,7 +363,6 @@ const resolveStakeholder = async (body: any, params: any): Promise<any> => {
 
 const resolveLicense = async (body: any, params: any): Promise<any> => {
   try {
-    console.log(body)
     const response = await axios.put(endpoints.CERTIFICATE_REGULATOR_RESOLVE, {
       id_token: params,
       license_did: body?.license_did,

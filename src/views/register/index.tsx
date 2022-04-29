@@ -49,7 +49,7 @@ const Register: React.FC = () => {
       governanceDID: '',
       address: '',
       email: '',
-      handler_url: API_MARKET_PLACE
+      handler_url: API_MARKET_PLACE + '/onboardHandler'
     },
     // import from utils
     resolver: yupResolver(schemaRegister)
