@@ -61,6 +61,7 @@ const NewTemplate = () => {
   }, [isSuccess])
 
   const onSubmit = (data: templateForm) => {
+    console.log(data)
     mutate({ ...data })
   }
 
@@ -69,7 +70,6 @@ const NewTemplate = () => {
 
     const reader = new FileReader()
     const file = e.target.files[0]
-
     reader.onloadend = () => {
       onChange({
         target: {
@@ -171,7 +171,7 @@ const NewTemplate = () => {
                             <input
                               ref={ref}
                               type={'file'}
-                              accept={'.cta'}
+                              accept={'.zip'}
                               onChange={(e: any) => {
                                 handleFileUpload(e, onChange, 'templateFile')
                               }}
@@ -180,7 +180,7 @@ const NewTemplate = () => {
                         />
                       </CInputGroup>
                       {errors?.templateFile && (
-                        <CFormText className="help-block">Please insert a template file (.cta)</CFormText>
+                        <CFormText className="help-block">Please insert a template file in a .zip</CFormText>
                       )}
                     </CFormGroup>
                   </CCol>

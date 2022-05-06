@@ -35,6 +35,7 @@ const LegalTemplateEditor = ({ getDataCallback, triggerCallback, prefilledData, 
     if (editor && templateString) {
       Template.fromArchive(Buffer.from(templateString, 'base64'))
         .then(async (template: any) => {
+          console.log(template)
           const clause = new Clause(template)
           clause.parse(template.getMetadata().getSample())
           const sampleData = clause.getData()

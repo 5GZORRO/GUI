@@ -10291,6 +10291,16 @@ jszip@3.2.1:
     readable-stream "~2.3.6"
     set-immediate-shim "~1.0.1"
 
+jszip@^3.9.1:
+  version "3.9.1"
+  resolved "https://registry.yarnpkg.com/jszip/-/jszip-3.9.1.tgz#784e87f328450d1e8151003a9c67733e2b901051"
+  integrity sha512-H9A60xPqJ1CuC4Ka6qxzXZeU8aNmgOeP5IFqwJbQQwtu2EUYxota3LdsiZWplF7Wgd9tkAd0mdu36nceSaPuYw==
+  dependencies:
+    lie "~3.3.0"
+    pako "~1.0.2"
+    readable-stream "~2.3.6"
+    set-immediate-shim "~1.0.1"
+
 jszip@~2.5.0:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/jszip/-/jszip-2.5.0.tgz#7444fd8551ddf3e5da7198fea0c91bc8308cc274"
