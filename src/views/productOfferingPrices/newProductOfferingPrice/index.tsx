@@ -905,7 +905,7 @@ const NewProductOfferingPrice = () => {
                               scopedSlots={{
                                 select: (item: any) => resourceServiceAlgorithmSelectComponent(item),
                                 type: (item: any) => {
-                                  return <td className="py-2">{item?.isService ? 'Service' : 'Resource'}</td>
+                                  return <td className="py-2">{typeSelected === 'NS' ? 'Service' : 'Resource'}</td>
                                 },
                                 lastUpdate: (item: any) => renderLastUpdated(item)
                               }}
