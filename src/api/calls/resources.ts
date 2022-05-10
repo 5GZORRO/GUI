@@ -7,7 +7,8 @@ import {
   XRM_TRANSLATOR_API_KEY,
   RAPP_DISCOVERY_API_KEY,
   API_MARKET_PLACE,
-  XRM_ENDPOINT
+  XRM_ENDPOINT,
+  SLICE_DISCOVERY_API_KEY
 } from 'config'
 
 /** Types */
@@ -419,13 +420,33 @@ const useAllXrmResources = async (params?: any): Promise<any[]> => {
         headers: { 'X-Gravitee-Api-Key': RAPP_DISCOVERY_API_KEY }
       })
 
-      const responses = await axios.all([vnfRequest, nsdRequest, spcRequest, radRequest])
+      const sliceRequest = axios.get(endpoints.XRM_SLICE_DISCOVERY_ENDPOINT, {
+        params,
+        headers: { 'X-Gravitee-Api-Key': SLICE_DISCOVERY_API_KEY }
+      })
+
+      const responses = await axios.all([vnfRequest, nsdRequest, spcRequest, radRequest, sliceRequest])
 
       return [
         ...responses[0]?.data?.map((el) => ({ ...el, contentType: 'VNF' })),
         ...responses[1]?.data?.map((el) => ({ ...el, contentType: 'NSD' })),
         ...responses[2]?.data?.map((el) => ({ ...el, contentType: 'SPC' })),
-        ...responses[3]?.data?.radios?.map((el) => ({ ...el, contentType: 'RAD' }))
+        ...responses[3]?.data?.radios?.map((el) => ({ ...el, contentType: 'RAD' })),
+        ...responses[4]?.data?.map((el) => {
+          let type = ''
+          switch (el.nest_type) {
+            case 'edge':
+              type = 'Edge'
+              break
+            case 'cloud':
+              type = 'Cloud'
+              break
+            case 'slice':
+              type = 'Slice'
+              break
+          }
+          return { ...el, contentType: type }
+        })
       ]
     } else {
       const vnfRequest = axios.get(endpoints.XRM_VNF_DISCOVERY_ENDPOINT, {
@@ -442,12 +463,32 @@ const useAllXrmResources = async (params?: any): Promise<any[]> => {
         headers: { 'X-Gravitee-Api-Key': RAPP_DISCOVERY_API_KEY }
       })
 
-      const responses = await axios.all([vnfRequest, nsdRequest, spcRequest])
+      const sliceRequest = axios.get(endpoints.XRM_SLICE_DISCOVERY_ENDPOINT, {
+        params,
+        headers: { 'X-Gravitee-Api-Key': SLICE_DISCOVERY_API_KEY }
+      })
+
+      const responses = await axios.all([vnfRequest, nsdRequest, spcRequest, sliceRequest])
 
       return [
         ...responses[0]?.data?.map((el) => ({ ...el, contentType: 'VNF' })),
         ...responses[1]?.data?.map((el) => ({ ...el, contentType: 'NSD' })),
-        ...responses[2]?.data?.map((el) => ({ ...el, contentType: 'SPC' }))
+        ...responses[2]?.data?.map((el) => ({ ...el, contentType: 'SPC' })),
+        ...responses[3]?.data?.map((el) => {
+          let type = ''
+          switch (el.nest_type) {
+            case 'edge':
+              type = 'Edge'
+              break
+            case 'cloud':
+              type = 'Cloud'
+              break
+            case 'slice':
+              type = 'Slice'
+              break
+          }
+          return { ...el, contentType: type }
+        })
       ]
     }
   } catch (e) {
@@ -470,6 +511,15 @@ const translateResource = async (params: any): Promise<any> => {
       break
     case 'RAD':
       endpoint = endpoints.XRM_RAD_TRANSLATOR_ENDPOINT
+      break
+    case 'Edge':
+      endpoint = endpoints.XRM_EDGE_TRANSLATOR_ENDPOINT
+      break
+    case 'Cloud':
+      endpoint = endpoints.XRM_CLOUD_TRANSLATOR_ENDPOINT
+      break
+    case 'Slice':
+      endpoint = endpoints.XRM_SLICE_TRANSLATOR_ENDPOINT
       break
     default:
       endpoint = endpoints.XRM_NSD_TRANSLATOR_ENDPOINT

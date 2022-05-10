@@ -59,17 +59,22 @@ const Resources: React.FC = () => {
   }
 
   const showCategory = (item: any) => {
+    console.log(item.category?.[0]?.name)
     switch (item.category?.[0]?.name) {
       case 'VNF':
         return <td className="py-2">Virtual Network Function</td>
       case 'NS':
         return <td className="py-2">Network Service</td>
-      // case 'NS':
-      //   return <td className="py-2">Network Slice</td>
       case 'SPC':
         return <td className="py-2">Spectrum</td>
       case 'RAD':
         return <td className="py-2">Radio Access Network</td>
+      case 'NETWORK_SLICE':
+        return <td className="py-2">Network Slice</td>
+      case 'EDGE':
+        return <td className="py-2">Edge</td>
+      case 'CLOUD':
+        return <td className="py-2">Cloud</td>
       default:
         return <td className="py-2">{item.category?.[0]?.name}</td>
     }

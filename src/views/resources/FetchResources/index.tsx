@@ -33,7 +33,6 @@ import { Controller, useForm } from 'react-hook-form'
 import { ErrorMessage } from '@hookform/error-message'
 import { PlusCircle, MinusCircle } from 'assets/icons/externalIcons'
 import AddNewLocation from 'containers/AddNewLocation'
-import { Link } from 'react-router-dom'
 import RegisterNewResource from 'containers/RegisterNewResource'
 import { HOST } from 'config'
 
@@ -146,7 +145,7 @@ const FetchResources: React.FC = () => {
     </td>
   )
 
-  const showByType = (item: any, key: string, keyNSD?: string, keySPC?: string, keyRAD?: string) => {
+  const showByType = (item: any, key: string, keyNSD?: string, keySPC?: string, keyRAD?: string, keySlice?: string) => {
     switch (item.contentType) {
       case 'VNF':
         return <td className="py-2">{item?.[`vnf${key}`] ?? item?.[`${key}`] ?? '-'}</td>
@@ -156,6 +155,12 @@ const FetchResources: React.FC = () => {
         return <td className="py-2">{item?.[`${keySPC ?? key}`] ?? '-'}</td>
       case 'RAD':
         return <td className="py-2">{item?.[`${keyRAD ?? key}`] ?? '-'}</td>
+      case 'Edge':
+        return <td className="py-2">{item?.[`${keySlice ?? key}`] ?? '-'}</td>
+      case 'Cloud':
+        return <td className="py-2">{item?.[`${keySlice ?? key}`] ?? '-'}</td>
+      case 'Slice':
+        return <td className="py-2">{item?.[`${keySlice ?? key}`] ?? '-'}</td>
       default:
         return <td className="py-2">{item?.[key] ?? '-'}</td>
     }
@@ -171,6 +176,12 @@ const FetchResources: React.FC = () => {
         return <td className="py-2">Spectrum</td>
       case 'RAD':
         return <td className="py-2">Radio Access Network</td>
+      case 'Edge':
+        return <td className="py-2">Edge</td>
+      case 'Cloud':
+        return <td className="py-2">Cloud</td>
+      case 'Slice':
+        return <td className="py-2">Network Slice</td>
     }
   }
 
@@ -395,7 +406,7 @@ const FetchResources: React.FC = () => {
             pagination
             scopedSlots={{
               // band and technology no the correct fields to show name
-              name: (item: any) => showByType(item, 'ProductName', 'Name', 'band', 'technology'),
+              name: (item: any) => showByType(item, 'ProductName', 'Name', 'band', 'technology', 'name'),
               description: (item: any) => showByType(item, 'description'),
               fetch_details: (item: any) => showButton(item),
               contentType: (item: any) => showCategory(item)

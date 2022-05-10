@@ -589,14 +589,24 @@ const NewProductOfferingPrice = () => {
                 <CCol sm="4">
                   <CFormGroup>
                     <CLabel htmlFor="priceUnit">Price Unit</CLabel>
-
                     <Controller
                       control={control}
                       defaultValue={''}
                       rules={{ required: true }}
                       name="price.unit"
-                      render={({ field }) => <CInput placeholder={'Enter a price unit'} id="priceUnit" {...field} />}
+                      render={({ field }) => (
+                        <CSelect {...field} id="price.unit">
+                          <option value="" disabled>
+                            Select one
+                          </option>
+
+                          <option value="Euro">Euro</option>
+                          <option value="Usd">Usd</option>
+                          <option value="Pound">Pound</option>
+                        </CSelect>
+                      )}
                     />
+
                     {errors?.price?.unit && <CFormText className="help-block">Please enter a price unit</CFormText>}
                   </CFormGroup>
                 </CCol>

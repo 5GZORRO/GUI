@@ -16,7 +16,10 @@ export const AllTemplates: React.FC = () => {
   const fields = [
     'id',
     'name',
-    'status',
+    {
+      key: 'state',
+      label: 'Status'
+    },
     'created',
     {
       key: 'show_details',
@@ -93,7 +96,7 @@ export const AllTemplates: React.FC = () => {
               </CCol>
             </CRow>
             <CRow className={'p-3'}>
-              <SLAAccordViewer id={modal?.id} templateHref={modal?.templateRef?.href} readOnly={true}></SLAAccordViewer>
+              <SLAAccordViewer id={modal?.id} templateHref={modal?.templateRef?.href}></SLAAccordViewer>
             </CRow>
           </CModalBody>
         </CModal>

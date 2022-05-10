@@ -8,6 +8,7 @@ export const XRM_ENDPOINT = 'http://172.28.3.15:31081'
 export const XRM_DISCOVERY_API_KEY = 'ce0b0017-843c-4811-bb76-1005733cf3ec'
 export const XRM_TRANSLATOR_API_KEY = 'fe6d588b-1d6b-4954-9e26-a334d0d09eed'
 export const RAPP_DISCOVERY_API_KEY = 'fc7def3f-0490-4c17-931f-6f6e4c759890'
+export const SLICE_DISCOVERY_API_KEY = '685be7dc-6ed3-46de-90da-bc21747568a1'
 
 export const APP_ENV = 'development'
 

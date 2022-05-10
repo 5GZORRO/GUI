@@ -3,7 +3,6 @@ import { useParams, useHistory } from 'react-router-dom'
 import { useGetLegalTemplate } from 'hooks/api/Resources'
 import { endpoints } from 'api/endpoints'
 import { FormProvider, useForm } from 'react-hook-form'
-import fs from 'fs'
 
 import {
   CCard,
@@ -21,13 +20,9 @@ import {
 } from '@coreui/react'
 import { ArrowLeftIcon } from 'assets/icons/externalIcons'
 
-import { DATETIME_FORMAT } from 'config'
-import { useCreateSLA, useCreateTemplate } from 'hooks/api/SLA'
+import { useCreateSLA } from 'hooks/api/SLA'
 
 import LoadingWithFade from 'components/LoadingWithFade'
-import LegalTemplateEditor from 'components/LegalTemplateEditor'
-import { useAuthContext } from 'context/AuthContext'
-import dayjs from 'dayjs'
 import JSZip from 'jszip'
 import ReactMarkdown from 'react-markdown'
 
@@ -63,7 +58,6 @@ interface NewSLA {
   ]
   rule: [
     {
-      id: string
       metric: string
       unit: string
       referenceValue: string
@@ -74,7 +68,6 @@ interface NewSLA {
   ]
   relatedParty: [
     {
-      href: string
       role: string
       name: string
       validFor: {
@@ -89,7 +82,6 @@ const NewSLAForm = () => {
   const { id } = useParams<{ id: string }>()
   const { data, isLoading } = useGetLegalTemplate(id)
   const href = `${endpoints.LEGAL_PROSE_TEMPLATES}/${id}`
-  const { user } = useAuthContext()
 
   const {
     formState: { errors, ...remain },
@@ -105,10 +97,8 @@ const NewSLAForm = () => {
   const history = useHistory()
   const [values, setValues] = useState<any>({})
   const [flag, setFlag] = useState({})
-  const [newString, setNewString] = useState('')
+  const [renderTemplateText, setNewTemplateText] = useState('')
   const [json, setJson] = useState(null)
-
-  console.log(values)
 
   useEffect(() => {
     if (isSuccess) {
@@ -119,15 +109,21 @@ const NewSLAForm = () => {
   useEffect(() => {
     if (data && data?.templateFileData) {
       const zip = new JSZip()
-
       zip.loadAsync(data?.templateFileData, { base64: true }).then(function (zip) {
-        if (zip) {
+        if (zip !== null) {
           zip
             .file(Object.keys(zip.files)[0])
             .async('string')
             .then(function (data) {
-              const json = JSON.parse(data)
-              setJson(json)
+              try {
+                const json = JSON.parse(data)
+                setJson(json)
+                setFlag((currentPageData) => {
+                  return Object.assign({}, currentPageData)
+                })
+              } catch (e) {
+                setJson({})
+              }
             })
         }
       })
@@ -167,7 +163,6 @@ const NewSLAForm = () => {
       ],
       rule: [
         {
-          id: values?.['{{id}}'],
           metric: (values?.['{{metric}}']).toString(),
           unit: (values?.['{{unit}}']).toString(),
           referenceValue: (values?.['{{referenceValue}}']).toString(),
@@ -178,7 +173,6 @@ const NewSLAForm = () => {
       ],
       relatedParty: [
         {
-          href: (values?.['{{href}}']).toString(),
           role: (values?.['{{role}}']).toString(),
           name: (values?.['{{name_party}}']).toString(),
           validFor: {
@@ -206,7 +200,7 @@ const NewSLAForm = () => {
       str = str.replace(key, values[key])
     })
 
-    setNewString(str)
+    setNewTemplateText(str)
   }, [flag, json])
 
   useEffect(() => {
@@ -214,7 +208,7 @@ const NewSLAForm = () => {
       return
     }
     setValues((currentValues) => {
-      const newValues = json.data.reduce((obj, field) => {
+      const newValues = json?.data?.reduce((obj, field) => {
         obj[field.id] = ''
         return obj
       }, {})
@@ -236,21 +230,6 @@ const NewSLAForm = () => {
 
   const onSubmit = () => {
     mutateData()
-    // const data = JSON.stringify(json)
-    // const blob = new Blob([data], { type: 'application/json' })
-    // const file = new File([blob], 'file.json')
-
-    // const zip = new JSZip()
-    // const allZip = zip.file(file.name, file, { createFolders: false })
-
-    // allZip
-    //   .generateAsync({ type: 'blob' }) // blob -> nodebuffer
-    //   .then(function (content) {
-    //     const file = new File([content], 'file.json', {
-    //       type: 'application/x-zip-compressed'
-    //     })
-    //     mutateData(file)
-    //   })
   }
 
   if (!isLoading && json && data?.templateFileData) {
@@ -272,28 +251,29 @@ const NewSLAForm = () => {
                         </CCardHeader>
                         <CCardBody>
                           <div style={{ width: '100%' }}>
-                            {json.data.map((field) => {
-                              return (
-                                <CRow key={field.id} className={'mb-2 '}>
-                                  <CCol>
-                                    <CLabel htmlFor={field.id}>{field.label}</CLabel>
+                            {json.data !== undefined &&
+                              json?.data?.map((field) => {
+                                return (
+                                  <CRow key={field.id} className={'mb-2 '}>
+                                    <CCol>
+                                      <CLabel htmlFor={field.id}>{field.label}</CLabel>
 
-                                    <CInputGroup>
-                                      <CInput
-                                        type={field.type}
-                                        id={field.id}
-                                        name={field.id}
-                                        value={values[field.id]}
-                                        onChange={(e) => {
-                                          // Notify the main state list of the new value
-                                          fieldChanged(field.id, e.target.value)
-                                        }}
-                                      />
-                                    </CInputGroup>
-                                  </CCol>
-                                </CRow>
-                              )
-                            })}
+                                      <CInputGroup>
+                                        <CInput
+                                          type={field.type}
+                                          id={field.id}
+                                          name={field.id}
+                                          value={values[field.id]}
+                                          onChange={(e) => {
+                                            // Notify the main state list of the new value
+                                            fieldChanged(field.id, e.target.value)
+                                          }}
+                                        />
+                                      </CInputGroup>
+                                    </CCol>
+                                  </CRow>
+                                )
+                              })}
                           </div>
                         </CCardBody>
                       </CCard>
@@ -304,7 +284,7 @@ const NewSLAForm = () => {
                           <h2>Preview</h2>
                         </CCardHeader>
                         <CCardBody>
-                          <ReactMarkdown>{newString}</ReactMarkdown>
+                          {renderTemplateText !== '' ? <ReactMarkdown>{renderTemplateText}</ReactMarkdown> : <div />}
                         </CCardBody>
                       </CCard>
                     </CCol>
