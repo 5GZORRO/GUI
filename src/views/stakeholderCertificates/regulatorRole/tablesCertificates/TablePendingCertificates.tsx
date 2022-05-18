@@ -33,7 +33,7 @@ const PendingCertificates: React.FC = (props: any) => {
   ]
 
   /*eslint-disable */
-  const handleSubmit = (resolve: { license_did: any; approval: boolean }) => {
+  const handleSubmit = (resolve: { license_did: any; approval: boolean; licenseObject: any }) => {
     mutate(resolve)
   }
 
@@ -46,7 +46,9 @@ const PendingCertificates: React.FC = (props: any) => {
         color="success"
         className={'text-uppercase px-2 mr-3'}
         shape="rounded"
-        onClick={() => handleSubmit({ license_did: item.licenseDID, approval: true })}
+        onClick={() =>
+          handleSubmit({ license_did: item.licenseDID, approval: true, licenseObject: item?.stakeholderServices })
+        }
       >
         Accept
       </CButton>
@@ -54,7 +56,9 @@ const PendingCertificates: React.FC = (props: any) => {
         color="danger"
         className={'text-uppercase px-2'}
         shape="rounded"
-        onClick={() => handleSubmit({ license_did: item.licenseDID, approval: false })}
+        onClick={() =>
+          handleSubmit({ license_did: item.licenseDID, approval: false, licenseObject: item?.stakeholderServices })
+        }
       >
         Decline
       </CButton>

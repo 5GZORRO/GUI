@@ -15,5 +15,8 @@ export enum TEMPLATE_FIELDS {
   START_DATE_TIME = '{{startDateTime}}',
   TOLERANCE = '{{tolerance}}',
   UNIT = '{{unit}}',
-  VERSION = '{{version}}'
+  VERSION = '{{version}}',
+  STAKEHOLDERNAME = '{{stakeholderName}}',
+  ALLOW_THIRD_PARTY_DEPLOYMENT = '{{allowThirdPartyDeployment}}',
+  EXCLUDED_THIRD_PARTIES = '{{excludedThirdParties}}'
 }

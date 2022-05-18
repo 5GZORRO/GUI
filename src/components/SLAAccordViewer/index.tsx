@@ -4,8 +4,10 @@ import { CCardBody, CSpinner } from '@coreui/react'
 import JSZip from 'jszip'
 import ReactMarkdown from 'react-markdown'
 import { TEMPLATE_FIELDS } from './TemplateEnum'
+import { useAuthContext } from 'context/AuthContext'
 
 const SLAAccordViewer = ({ id, templateHref }) => {
+  const { user } = useAuthContext()
   const { data, isLoading, isError } = useGetSLA(id, templateHref)
   const [json, setJson] = useState<any>({})
   const [values, setValues] = useState({})
@@ -27,6 +29,14 @@ const SLAAccordViewer = ({ id, templateHref }) => {
                   const obj: any = {}
                   json?.data?.forEach((el: any) => {
                     switch (el.id) {
+                      case TEMPLATE_FIELDS.ALLOW_THIRD_PARTY_DEPLOYMENT:
+                        obj[TEMPLATE_FIELDS.ALLOW_THIRD_PARTY_DEPLOYMENT] =
+                          (data?.autoscalingPolicies[0]?.allowThirdPartyDeployment).toString()
+                        break
+                      case TEMPLATE_FIELDS.EXCLUDED_THIRD_PARTIES:
+                        obj[TEMPLATE_FIELDS.EXCLUDED_THIRD_PARTIES] =
+                          data?.autoscalingPolicies[0]?.excludedThirdParties[0]
+                        break
                       case TEMPLATE_FIELDS.CONSEQUENCE:
                         obj[TEMPLATE_FIELDS.CONSEQUENCE] = data?.rule?.[0]?.consequence
                         break

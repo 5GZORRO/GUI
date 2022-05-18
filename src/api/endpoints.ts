@@ -27,6 +27,7 @@ export const endpoints = {
   SERVICE_CANDIDATE: `${API_MARKET_PLACE}/serviceCatalogManagement/v4/serviceCandidate`,
   CATEGORIES: `${API_MARKET_PLACE}/productCatalogManagement/v4/category`,
   SERVICE_LEGAL_AGREEMENT: `${API_SMART_CONTRACT}/api/v1/service-level-agreement`,
+  SPECTOKEN_PRIMITIVE: `${API_SMART_CONTRACT}/spectoken/primitive`,
   LICENCES: `${API_SMART_CONTRACT}/api/v1/licences`,
   LOCATIONS: `${API_MARKET_PLACE}/geographicAddressManagement/v4/geographicAddress`,
   LOCATION_CREATE: `${API_MARKET_PLACE}/geographicAddressManagement/v4/geographicAddressValidation`,

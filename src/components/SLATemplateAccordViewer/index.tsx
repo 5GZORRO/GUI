@@ -3,9 +3,11 @@ import { useGetLegalTemplate } from 'hooks/api/Resources'
 import { CCardBody, CSpinner } from '@coreui/react'
 import JSZip from 'jszip'
 import ReactMarkdown from 'react-markdown'
+import { useAuthContext } from 'context/AuthContext'
 
 const SLATemplateAccordViewer = ({ id, readOnly = false }) => {
   const { data, isLoading } = useGetLegalTemplate(id)
+  const { user } = useAuthContext()
   const [renderTemplateText, setRenderTemplateText] = useState('')
 
   useEffect(() => {
@@ -19,7 +21,11 @@ const SLATemplateAccordViewer = ({ id, readOnly = false }) => {
             .then(function (data) {
               try {
                 const json = JSON.parse(data)
-                setRenderTemplateText(json?.text)
+                const replace = json?.text.replace(
+                  '{{stakeholderName}}',
+                  user?.stakeholderClaim?.stakeholderProfile?.name
+                )
+                setRenderTemplateText(replace)
               } catch (e) {
                 setRenderTemplateText('')
               }

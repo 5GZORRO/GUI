@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useState } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { useGetLegalTemplate } from 'hooks/api/Resources'
@@ -16,7 +17,8 @@ import {
   CCardHeader,
   CInputGroup,
   CLabel,
-  CInput
+  CInput,
+  CSelect
 } from '@coreui/react'
 import { ArrowLeftIcon } from 'assets/icons/externalIcons'
 
@@ -25,6 +27,7 @@ import { useCreateSLA } from 'hooks/api/SLA'
 import LoadingWithFade from 'components/LoadingWithFade'
 import JSZip from 'jszip'
 import ReactMarkdown from 'react-markdown'
+import { useAuthContext } from 'context/AuthContext'
 
 interface NewSLA {
   id: string
@@ -79,6 +82,7 @@ interface NewSLA {
 }
 
 const NewSLAForm = () => {
+  const { user } = useAuthContext()
   const { id } = useParams<{ id: string }>()
   const { data, isLoading } = useGetLegalTemplate(id)
   const href = `${endpoints.LEGAL_PROSE_TEMPLATES}/${id}`
@@ -136,19 +140,19 @@ const NewSLAForm = () => {
       href: '',
       name: values?.['{{name}}'],
       description: values?.['{{description}}'],
-      version: (values?.['{{version}}']).toString(),
+      version: '',
       validFor: {
-        endDateTime: (values?.['{{endDateTime}}']).toString(),
-        startDateTime: (values?.['{{startDateTime}}']).toString()
+        endDateTime: values?.['{{endDateTime}}']?.toString(),
+        startDateTime: values?.['{{startDateTime}}']?.toString()
       },
       templateRef: {
         href,
-        name: (data?.name).toString(),
-        description: (data?.description).toString()
+        name: data?.name?.toString(),
+        description: data?.description?.toString()
       },
       state: 'ACTIVE',
       approved: true,
-      approvalDate: (data?.created).toString(),
+      approvalDate: data?.created?.toString(),
       autoscalingPolicies: [
         {
           id: '',
@@ -157,27 +161,27 @@ const NewSLAForm = () => {
           referenceValue: '',
           operator: '',
           consequence: '',
-          allowThirdPartyDeployment: true,
-          excludedThirdParties: []
+          allowThirdPartyDeployment: values?.['{{allowThirdPartyDeployment}}']?.toString(),
+          excludedThirdParties: [values?.['{{excludedThirdParties}}']?.toString()]
         }
       ],
       rule: [
         {
-          metric: (values?.['{{metric}}']).toString(),
-          unit: (values?.['{{unit}}']).toString(),
-          referenceValue: (values?.['{{referenceValue}}']).toString(),
-          operator: (values?.['{{operator}}']).toString(),
-          tolerance: (values?.['{{tolerance}}']).toString(),
-          consequence: (values?.['{{consequence}}']).toString()
+          metric: values?.['{{metric}}']?.toString(),
+          unit: values?.['{{unit}}']?.toString(),
+          referenceValue: values?.['{{referenceValue}}']?.toString(),
+          operator: values?.['{{operator}}']?.toString(),
+          tolerance: values?.['{{tolerance}}']?.toString(),
+          consequence: values?.['{{consequence}}']?.toString()
         }
       ],
       relatedParty: [
         {
-          role: (values?.['{{role}}']).toString(),
-          name: (values?.['{{name_party}}']).toString(),
+          role: user?.stakeholderClaim?.stakeholderRoles[0]?.role,
+          name: user?.stakeholderClaim?.stakeholderProfile?.name,
           validFor: {
-            endDateTime: (values?.['{{endDateTime_party}}']).toString(),
-            startDateTime: (values?.['{{startDateTime_party}}']).toString()
+            endDateTime: '',
+            startDateTime: ''
           }
         }
       ]
@@ -209,13 +213,30 @@ const NewSLAForm = () => {
     }
     setValues((currentValues) => {
       const newValues = json?.data?.reduce((obj, field) => {
-        obj[field.id] = ''
+        if (field.id === '{{stakeholderName}}') {
+          obj[field.id] = user?.stakeholderClaim?.stakeholderProfile?.name
+        } else {
+          obj[field.id] = ''
+        }
         return obj
       }, {})
 
       return Object.assign({}, newValues, currentValues)
     })
   }, [json])
+
+  const fieldChangedSelect = (fieldId: any, value: any) => {
+    setValues((currentValues) => {
+      currentValues[fieldId] = value === 'true' ? true : false
+      return currentValues
+    })
+
+    setFlag((currentPageData) => {
+      return Object.assign({}, currentPageData)
+    })
+  }
+
+  console.log(values)
 
   const fieldChanged = (fieldId: any, value: any) => {
     setValues((currentValues) => {
@@ -252,28 +273,45 @@ const NewSLAForm = () => {
                         <CCardBody>
                           <div style={{ width: '100%' }}>
                             {json.data !== undefined &&
-                              json?.data?.map((field) => {
-                                return (
-                                  <CRow key={field.id} className={'mb-2 '}>
-                                    <CCol>
-                                      <CLabel htmlFor={field.id}>{field.label}</CLabel>
+                              json?.data
+                                ?.filter((field) => field.id !== '{{stakeholderName}}')
+                                .map((field) => {
+                                  return (
+                                    <CRow key={field.id} className={'mb-2 '}>
+                                      <CCol>
+                                        <CLabel htmlFor={field.id}>{field.label}</CLabel>
 
-                                      <CInputGroup>
-                                        <CInput
-                                          type={field.type}
-                                          id={field.id}
-                                          name={field.id}
-                                          value={values[field.id]}
-                                          onChange={(e) => {
-                                            // Notify the main state list of the new value
-                                            fieldChanged(field.id, e.target.value)
-                                          }}
-                                        />
-                                      </CInputGroup>
-                                    </CCol>
-                                  </CRow>
-                                )
-                              })}
+                                        <CInputGroup>
+                                          {field.type === 'boolean' ? (
+                                            <CSelect
+                                              {...field}
+                                              id="allowThirdPartyDeployment"
+                                              onChange={(e) => fieldChangedSelect(field.id, e.target.value)}
+                                            >
+                                              <option value="" disabled>
+                                                Select one
+                                              </option>
+
+                                              <option value="true">True</option>
+                                              <option value="false">False</option>
+                                            </CSelect>
+                                          ) : (
+                                            <CInput
+                                              type={field.type}
+                                              id={field.id}
+                                              name={field.id}
+                                              value={values[field.id]}
+                                              onChange={(e) => {
+                                                // Notify the main state list of the new value
+                                                fieldChanged(field.id, e.target.value)
+                                              }}
+                                            />
+                                          )}
+                                        </CInputGroup>
+                                      </CCol>
+                                    </CRow>
+                                  )
+                                })}
                           </div>
                         </CCardBody>
                       </CCard>
