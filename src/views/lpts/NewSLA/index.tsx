@@ -75,6 +75,15 @@ const NewSLA: React.FC = () => {
               fields={fields}
               itemsPerPage={5}
               scopedSlots={{
+                created: (item: any) => {
+                  return (
+                    <td className="py-2">
+                      {dayjs(item?.created).isValid()
+                        ? dayjs(item?.created).subtract(1, 'day').format(DATETIME_FORMAT_SHOW)
+                        : '-'}
+                    </td>
+                  )
+                },
                 select: (item: { id: any; _selected: boolean | undefined }) => {
                   return (
                     <td>
@@ -141,7 +150,7 @@ const NewSLA: React.FC = () => {
                 <p className={'text-light mb-2'}>Last Update:</p>{' '}
                 <p>
                   {dayjs(modal?.statusUpdated).isValid()
-                    ? dayjs(modal?.statusUpdated).format(DATETIME_FORMAT_SHOW)
+                    ? dayjs(modal?.statusUpdated).subtract(1, 'day').format(DATETIME_FORMAT_SHOW)
                     : '-'}
                 </p>
               </CCol>

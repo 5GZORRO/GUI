@@ -79,7 +79,7 @@ export const AllTemplates: React.FC = () => {
                 <p className={'text-light mb-2'}>Last Update:</p>{' '}
                 <p>
                   {dayjs(modal?.statusUpdated).isValid()
-                    ? dayjs(modal?.statusUpdated).format(DATETIME_FORMAT_SHOW)
+                    ? dayjs(modal?.statusUpdated).subtract(1, 'day').format(DATETIME_FORMAT_SHOW)
                     : '-'}
                 </p>
               </CCol>
