@@ -59,27 +59,11 @@ const createTemplate = async (body: any): Promise<any> => {
 const createSLA = async (body: any): Promise<any> => {
   try {
     const response = await axios.post(endpoints.SERVICE_LEGAL_AGREEMENT, body)
-    const mySLAs = window.localStorage.getItem('mySLAs')
-    if (!mySLAs) {
-      window.localStorage.setItem('mySLAs', JSON.stringify([response?.data]))
-    } else {
-      window.localStorage.setItem('mySLAs', JSON.stringify([...JSON.parse(mySLAs), response?.data]))
-    }
+
     return response.data
   } catch (err) {
     console.log({ err })
     // throw new Error('error')
-
-    const mySLAs = window.localStorage.getItem('mySLAs')
-
-    if (!mySLAs) {
-      window.localStorage.setItem('mySLAs', JSON.stringify([{ ...body, id: uuidv4(), status: 'ACTIVE' }]))
-    } else {
-      window.localStorage.setItem(
-        'mySLAs',
-        JSON.stringify([...JSON.parse(mySLAs), { ...body, id: uuidv4(), status: 'ACTIVE' }])
-      )
-    }
   }
 }
 
