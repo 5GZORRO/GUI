@@ -29,6 +29,10 @@ const SLAAccordViewer = ({ id, templateHref }) => {
                   const obj: any = {}
                   json?.data?.forEach((el: any) => {
                     switch (el.id) {
+                      case TEMPLATE_FIELDS.STAKEHOLDER_NAME:
+                        obj[TEMPLATE_FIELDS.STAKEHOLDER_NAME] = (data?.relatedParty[0]?.name).toString()
+                        break
+
                       case TEMPLATE_FIELDS.ALLOW_THIRD_PARTY_DEPLOYMENT:
                         obj[TEMPLATE_FIELDS.ALLOW_THIRD_PARTY_DEPLOYMENT] =
                           (data?.autoscalingPolicies[0]?.allowThirdPartyDeployment).toString()

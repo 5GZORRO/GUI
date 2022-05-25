@@ -25,7 +25,7 @@ const Issm: React.FC = () => {
   return (
     <CContainer>
       {modal != null && (
-        <CModal show={true} onClose={() => setModal(null)} size="lg">
+        <CModal show={true} onClose={() => setModal(null)} size="xl">
           <NewBusinessTransaction {...{ setModal }} />
         </CModal>
       )}

@@ -369,62 +369,65 @@ const resolveLicense = async (body: any, params: any): Promise<any> => {
       approval: body?.approval
     })
 
-    // if (response && body?.approval === true) {
-    //   if (body?.licenseObject) {
-    //     const obj = {
-    //       startDl: 0,
-    //       endDl: 0,
-    //       startUl: 0,
-    //       endUl: 0,
-    //       startDate: '',
-    //       endDate: '',
-    //       duplexMode: '',
-    //       band: 0,
-    //       technology: '',
-    //       country: '',
-    //       ownerDid: '',
-    //       license: body?.license_did
-    //     }
-    //     Object.entries(body?.licenseObject).forEach((el: any, index) => {
-    //       switch (el[0]) {
-    //         case 'Commencement Date':
-    //           obj.startDate = el[1]
-    //           break
-    //         case 'Expiry Date':
-    //           obj.endDate = el[1]
-    //           break
-    //         case 'Radio Spectrum - Start UL Frequency':
-    //           obj.startUl = Number(el[1].replace(/\D/g, ''))
-    //           break
-    //         case 'Radio Spectrum - End UL Frequency':
-    //           obj.endUl = Number(el[1].replace(/\D/g, ''))
-    //           break
-    //         case 'Radio Spectrum - Start DL Frequency':
-    //           obj.startDl = Number(el[1].replace(/\D/g, ''))
-    //           break
-    //         case 'Radio Spectrum - End DL Frequency':
-    //           obj.endDl = Number(el[1].replace(/\D/g, ''))
-    //           break
-    //         case 'Duplex Mode Of Operation':
-    //           obj.duplexMode = el[1]
-    //           break
-    //         case 'Country':
-    //           obj.country = el[1]
-    //           break
-    //         case 'Band':
-    //           obj.band = Number(el[1].replace(/\D/g, ''))
-    //           break
-    //         case 'Technology':
-    //           obj.technology = el[1]
-    //           break
-    //         case 'ownerdid':
-    //           obj.ownerDid = el[1]
-    //           break
-    //       }
-    //     })
-    //     await axios.post(endpoints.SPECTOKEN_PRIMITIVE, obj)
-    //   }
-    // }
+    if (response && body?.approval === true) {
+      if (body?.licenseObject) {
+        const obj = {
+          startDl: 0,
+          endDl: 0,
+          startUl: 0,
+          endUl: 0,
+          startDate: '',
+          endDate: '',
+          duplexMode: '',
+          band: 0,
+          technology: '',
+          country: '',
+          ownerDid: '',
+          license: body?.license_did
+        }
+        Object.entries(body?.licenseObject).forEach((el: any, index) => {
+          {
+            console.log(el)
+          }
+          switch (el[0]) {
+            case 'Commencement Date':
+              obj.startDate = el[1]
+              break
+            case 'Expiry Date':
+              obj.endDate = el[1]
+              break
+            case 'Radio Spectrum - Start UL Frequency':
+              obj.startUl = Number(el[1].replace(/\D/g, ''))
+              break
+            case 'Radio Spectrum - End UL Frequency':
+              obj.endUl = Number(el[1].replace(/\D/g, ''))
+              break
+            case 'Radio Spectrum - Start DL Frequency':
+              obj.startDl = Number(el[1].replace(/\D/g, ''))
+              break
+            case 'Radio Spectrum - End DL Frequency':
+              obj.endDl = Number(el[1].replace(/\D/g, ''))
+              break
+            case 'Duplex Mode Of Operation':
+              obj.duplexMode = el[1]
+              break
+            case 'Country':
+              obj.country = el[1]
+              break
+            case 'Band':
+              obj.band = Number(el[1].replace(/\D/g, ''))
+              break
+            case 'Technology':
+              obj.technology = el[1]
+              break
+            case 'ownerDid':
+              obj.ownerDid = el[1]
+              break
+          }
+        })
+        await axios.post(endpoints.SPECTOKEN_PRIMITIVE, obj)
+      }
+    }
 
     return response.data
   } catch (e) {

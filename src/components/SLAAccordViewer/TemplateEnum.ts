@@ -2,6 +2,7 @@ export enum TEMPLATE_FIELDS {
   CONSEQUENCE = '{{consequence}}',
   DESCRIPTION = '{{description}}',
   END_DATE_TIME_PARTY = '{{endDateTime_party}}',
+  STAKEHOLDER_NAME = '{{stakeholderName}}',
   END_DATE_TIME = '{{endDateTime}}',
   HREF = '{{href}}',
   ID = '{{id}}',
@@ -16,7 +17,6 @@ export enum TEMPLATE_FIELDS {
   TOLERANCE = '{{tolerance}}',
   UNIT = '{{unit}}',
   VERSION = '{{version}}',
-  STAKEHOLDERNAME = '{{stakeholderName}}',
   ALLOW_THIRD_PARTY_DEPLOYMENT = '{{allowThirdPartyDeployment}}',
   EXCLUDED_THIRD_PARTIES = '{{excludedThirdParties}}'
 }

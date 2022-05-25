@@ -2,7 +2,7 @@ export const API_MARKET_PLACE = 'http://172.28.3.15:31180/tmf-api'
 export const API_LPT = 'http://172.28.3.6:31087'
 export const API_GOVERNANCE = 'http://172.28.3.6:31085'
 export const API_IPM = 'http://172.28.3.153:6300'
-export const API_SMART_CONTRACT = 'http://172.28.3.6:31083/smart-contract-lifecycle-manager/'
+export const API_SMART_CONTRACT = 'http://172.28.3.6:31083/smart-contract-lifecycle-manager'
 
 export const XRM_ENDPOINT = 'http://172.28.3.15:31081'
 export const XRM_DISCOVERY_API_KEY = 'ce0b0017-843c-4811-bb76-1005733cf3ec'

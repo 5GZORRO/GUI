@@ -53,7 +53,7 @@ const AddCertificate = (props: any) => {
 
   const onSubmit = (data: InputAddCertificate) => {
     const newData = transformForm(data)
-    newData.stakeholderServices[0].ownerdid = user?.stakeholderClaim?.stakeholderDID
+    newData.stakeholderServices[0].ownerDid = user?.stakeholderClaim?.stakeholderDID
     mutate(newData)
   }
 

@@ -96,6 +96,7 @@ const NewSLAForm = () => {
   } = useForm<NewSLA>({
     defaultValues: {}
   })
+
   const { mutate, isSuccess, isLoading: isLoadingCreate } = useCreateSLA()
 
   const history = useHistory()

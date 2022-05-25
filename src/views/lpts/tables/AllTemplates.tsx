@@ -26,6 +26,7 @@ export const AllTemplates: React.FC = () => {
       sort: false
     }
   ]
+
   return (
     <>
       <CDataTable
@@ -41,7 +42,9 @@ export const AllTemplates: React.FC = () => {
           created: (item: any) => {
             return (
               <td className="py-2">
-                {dayjs(item?.created).isValid() ? dayjs(item?.created).format(DATETIME_FORMAT_SHOW) : '-'}
+                {dayjs(item?.created).isValid()
+                  ? dayjs(item?.created).subtract(1, 'day').format(DATETIME_FORMAT_SHOW)
+                  : '-'}
               </td>
             )
           },
