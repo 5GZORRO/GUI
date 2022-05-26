@@ -42,9 +42,7 @@ export const AllTemplates: React.FC = () => {
           created: (item: any) => {
             return (
               <td className="py-2">
-                {dayjs(item?.created).isValid()
-                  ? dayjs(item?.created).subtract(1, 'day').format(DATETIME_FORMAT_SHOW)
-                  : '-'}
+                {dayjs(item?.created).isValid() ? dayjs(item?.created).format(DATETIME_FORMAT_SHOW) : '-'}
               </td>
             )
           },
@@ -79,7 +77,7 @@ export const AllTemplates: React.FC = () => {
                 <p className={'text-light mb-2'}>Last Update:</p>{' '}
                 <p>
                   {dayjs(modal?.statusUpdated).isValid()
-                    ? dayjs(modal?.statusUpdated).subtract(1, 'day').format(DATETIME_FORMAT_SHOW)
+                    ? dayjs(modal?.statusUpdated).format(DATETIME_FORMAT_SHOW)
                     : '-'}
                 </p>
               </CCol>

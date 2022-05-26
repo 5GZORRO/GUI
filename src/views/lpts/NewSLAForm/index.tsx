@@ -103,7 +103,7 @@ const NewSLAForm = () => {
   const [values, setValues] = useState<any>({})
   const [flag, setFlag] = useState({})
   const [renderTemplateText, setNewTemplateText] = useState('')
-  const [json, setJson] = useState(null)
+  const [json, setJson] = useState<any>(null)
 
   useEffect(() => {
     if (isSuccess) {
@@ -136,6 +136,27 @@ const NewSLAForm = () => {
   }, [data])
 
   const mutateData = () => {
+    const rulesArray = []
+
+    const results = json?.data.filter((el: any) => el.category && el.category === 'rule')
+    for (let i = 0; i < results.length / 4; i++) {
+      if (i > 0) {
+        rulesArray.push({
+          metric: values?.[`{{metric${'_' + (i + 1)}}}`]?.toString(),
+          referenceValue: values?.[`{{referenceValue${'_' + (i + 1)}}}`]?.toString(),
+          operator: values?.[`{{operator${'_' + (i + 1)}}}`]?.toString(),
+          tolerance: values?.[`{{tolerance${'_' + (i + 1)}}}`]?.toString()
+        })
+      } else {
+        rulesArray.push({
+          metric: values?.['{{metric}}']?.toString(),
+          referenceValue: values?.['{{referenceValue}}']?.toString(),
+          operator: values?.['{{operator}}']?.toString(),
+          tolerance: values?.['{{tolerance}}']?.toString()
+        })
+      }
+    }
+
     const form = {
       id: data?.id,
       href: '',
@@ -166,16 +187,7 @@ const NewSLAForm = () => {
           excludedThirdParties: [values?.['{{excludedThirdParties}}']?.toString()]
         }
       ],
-      rule: [
-        {
-          metric: values?.['{{metric}}']?.toString(),
-          unit: values?.['{{unit}}']?.toString(),
-          referenceValue: values?.['{{referenceValue}}']?.toString(),
-          operator: values?.['{{operator}}']?.toString(),
-          tolerance: values?.['{{tolerance}}']?.toString(),
-          consequence: values?.['{{consequence}}']?.toString()
-        }
-      ],
+      rule: rulesArray,
       relatedParty: [
         {
           role: user?.stakeholderClaim?.stakeholderRoles[0]?.role,
@@ -236,8 +248,6 @@ const NewSLAForm = () => {
       return Object.assign({}, currentPageData)
     })
   }
-
-  console.log(values)
 
   const fieldChanged = (fieldId: any, value: any) => {
     setValues((currentValues) => {
