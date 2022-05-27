@@ -1,6 +1,6 @@
 // ! Do not remove the env comments they are used for building the correct environemnt
 // env
-export * from 'environments/regulatorA'
+export * from 'environments/operatorB'
 // env
 
 // Core Constants

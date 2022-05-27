@@ -1025,8 +1025,7 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                   <CRow className={'p-3'}>
                     <SLAAccordViewer
                       id={modal?.serviceLevelAgreement?.id}
-                      templateHref={modal?.serviceLevelAgreement?.templateRef?.href}
-                      readOnly={true}
+                      templateHref={modal?.serviceLevelAgreement?.href}
                     ></SLAAccordViewer>
                   </CRow>
                 </CTabPane>

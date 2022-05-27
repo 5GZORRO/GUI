@@ -27,6 +27,18 @@ const SLAAccordViewer = ({ id, templateHref }) => {
                 try {
                   const json = JSON.parse(file)
                   const obj: any = {}
+                  if (data?.rule.length > 1) {
+                    for (let i = 1; i < data.rule.length; i++) {
+                      const index = i + 1
+                      obj[`{{metric_${index}}}`] = data.rule[i].metric
+                      obj[`{{operator_${index}}}`] = data.rule[i].operator
+                      obj[`{{referenceValue_${index}}}`] = data.rule[i].referenceValue
+                      obj[`{{tolerance_${index}}}`] = data.rule[i].tolerance
+                    }
+                  }
+
+                  console.log(obj)
+
                   json?.data?.forEach((el: any) => {
                     switch (el.id) {
                       case TEMPLATE_FIELDS.STAKEHOLDER_NAME:

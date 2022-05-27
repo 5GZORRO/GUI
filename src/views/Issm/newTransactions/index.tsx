@@ -26,7 +26,8 @@ import {
   CNavItem,
   CNavLink,
   CModalHeader,
-  CNav
+  CNav,
+  CInput
 } from '@coreui/react'
 
 import { Controller, useForm } from 'react-hook-form'
@@ -44,6 +45,7 @@ import { useMyOrders } from 'hooks/api/Orders'
 import { ApiOrders } from 'types/api'
 import dayjs from 'dayjs'
 import { useSearchOffersById } from 'hooks/api/Products'
+import { useAllCategories, useAllLocations } from 'hooks/api/Resources'
 
 const yaml = require('js-yaml')
 const fs = require('fs')
@@ -52,6 +54,9 @@ interface formNewTransaction {
   transactionType: string
   file: any
   operator: string
+  location: any
+  relatedParty: string
+  category: string
 }
 
 const fields = [
@@ -73,8 +78,11 @@ const NewBusinessTransaction = (props: any) => {
   const [modalOffer, setModalOffer] = useState<any | null>(null)
   const [modal, setModalOrder] = useState<ApiOrders | null>(null)
   const [id, setId] = useState<any>(null)
+  const [customError, setCustomError] = useState<boolean>(false)
   const { data: ordersData, isLoading: isLoadindOrderData } = useMyOrders()
   const { data: dataOffer, mutate: mutateOffer, isLoading: isLoadingMutate } = useSearchOffersById()
+  const { data: locations, isLoading: isLoadingLocations, refetch: refetchLocation } = useAllLocations()
+  const { data: categories, isLoading: isLoadingCategories } = useAllCategories()
   const {
     handleSubmit,
     formState: { errors },
@@ -85,7 +93,10 @@ const NewBusinessTransaction = (props: any) => {
     defaultValues: {
       transactionType: '',
       file: null,
-      operator: ''
+      operator: '',
+      location: '',
+      relatedParty: '',
+      category: ''
     }
   })
 
@@ -94,6 +105,7 @@ const NewBusinessTransaction = (props: any) => {
   const { mutate, isSuccess, isLoading } = scaleOutOp()
 
   const fileControl = watch('file')
+  const transactionType = watch('transactionType')
 
   useEffect(() => {
     if (id) {
@@ -120,11 +132,36 @@ const NewBusinessTransaction = (props: any) => {
       operator = 'regulator'
     }
     setValue('operator', operator)
+    setValue('relatedParty', operator.charAt(0).toUpperCase() + operator.slice(1))
   }, [])
 
   const onSubmit = (data: formNewTransaction) => {
+    setCustomError(false)
+    if (selectedOrderedItem.length <= 0) {
+      setCustomError(true)
+      return
+    }
+
+    const obj = {
+      operation: transactionType,
+      category: data.category,
+      order_id: selectedOrderedItem,
+      related_party: data.relatedParty
+    }
+
+    if (data.location !== '') {
+      const locationJSon = JSON.parse(data.location)
+      delete locationJSon.id
+      delete locationJSon.href
+      Object.assign(obj, { place: locationJSon })
+    }
+
+    if (fileControl !== null) {
+      Object.assign(obj, fileControl)
+    }
+
     // const newData = TransformFormData(data)
-    mutate(data)
+    mutate(obj)
   }
 
   useEffect(() => {
@@ -132,6 +169,12 @@ const NewBusinessTransaction = (props: any) => {
       setModal(null)
     }
   }, [isSuccess])
+
+  useEffect(() => {
+    if (transactionType === 'instantiate') {
+      setValue('location', '')
+    }
+  }, [transactionType])
 
   const handleFileUpload = (e: any, onChange: any, name: any) => {
     e.preventDefault()
@@ -309,13 +352,93 @@ const NewBusinessTransaction = (props: any) => {
               </CFormGroup>
             </CCol>
           </CRow>
-          {/* <CRow>
+          <CRow>
+            <CCol sm={6}>
+              <CFormGroup>
+                <CLabel>Operator Name</CLabel>
+                <CInputGroup>
+                  <Controller
+                    control={control}
+                    name="relatedParty"
+                    render={({ field }) => <CInput placeholder={'Operator name'} {...field} />}
+                  />
+                  {errors.relatedParty && <CFormText className="help-block">Please enter the operator name</CFormText>}
+                </CInputGroup>
+                {errors.location && <CFormText className="help-block">Please select a location</CFormText>}
+              </CFormGroup>
+            </CCol>
+            <CCol sm={6}>
+              <CFormGroup>
+                <CLabel htmlFor="name">Category</CLabel>
+                <Controller
+                  control={control}
+                  defaultValue={''}
+                  rules={{ required: true }}
+                  name="category"
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <CSelect onChange={onChange} onBlur={onBlur} value={value}>
+                      <option value="" disabled>
+                        Category
+                      </option>
+                      {categories?.map((type: any) => {
+                        return (
+                          <option value={type?.name} key={type.name}>
+                            {type.name}
+                          </option>
+                        )
+                      })}
+                    </CSelect>
+                  )}
+                />
+                {errors.category && <CFormText className="help-block">Please choose a category</CFormText>}
+              </CFormGroup>
+            </CCol>
+          </CRow>
+          {transactionType === 'scaleout' && (
+            <CRow>
+              <CCol sm={6}>
+                <CFormGroup>
+                  <CLabel>Location</CLabel>
+                  <CInputGroup>
+                    {!isLoadingLocations && (
+                      <Controller
+                        control={control}
+                        defaultValue={''}
+                        name="location"
+                        rules={{ required: transactionType === 'scaleout' }}
+                        render={({ field }) => (
+                          <CSelect {...field} id="location">
+                            <option value="" disabled>
+                              Select one
+                            </option>
+
+                            {locations?.map((el, index) => (
+                              <option value={JSON.stringify(el)} key={el?.id}>
+                                {el?.geographicLocation?.name}
+                              </option>
+                            ))}
+                          </CSelect>
+                        )}
+                      />
+                    )}
+                  </CInputGroup>
+                  {errors.location && <CFormText className="help-block">Please select a location</CFormText>}
+                </CFormGroup>
+              </CCol>
+            </CRow>
+          )}
+          <CRow>
             <CCol sm={12}>
               <CCard>
                 <CCardHeader>
                   <h5>Orders</h5>
                 </CCardHeader>
                 <CCardBody>
+                  {customError && (
+                    <p style={{ color: 'red', padding: '0.5rem', background: 'rgba(255, 0, 0, 0.1)' }}>
+                      Please select at least one order
+                    </p>
+                  )}
                   <CDataTable
                     cleaner
                     loading={isLoadindOrderData}
@@ -339,7 +462,7 @@ const NewBusinessTransaction = (props: any) => {
                 </CCardBody>
               </CCard>
             </CCol>
-          </CRow> */}
+          </CRow>
         </CCardBody>
         <div className={'mt-3 d-flex justify-content-end mb-5 mr-4'}>
           <div className={'d-flex'}>
