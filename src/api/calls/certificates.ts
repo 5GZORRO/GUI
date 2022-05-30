@@ -27,7 +27,10 @@ const getAllApprovedCertificatesRegulator = async (): Promise<any[]> => {
           licenseDID: element?.licenseDID,
           stakeholderServices: element?.stakeholderServices?.[0],
           timestamp: element?.timestamp,
-          state: element?.state
+          state: element?.state,
+          stakeholderDID: element?.stakeholderDID,
+          connection_id: element?.connection_id,
+          credential_definition_id: element?.credential_definition_id
         })
       })
       response?.[1]?.data.forEach((element: any) => {
@@ -36,7 +39,10 @@ const getAllApprovedCertificatesRegulator = async (): Promise<any[]> => {
           licenseDID: element?.licenseDID,
           stakeholderServices: element?.stakeholderServices?.[0],
           timestamp: element?.timestamp,
-          state: element?.state
+          state: element?.state,
+          stakeholderDID: element?.stakeholderDID,
+          connection_id: element?.connection_id,
+          credential_definition_id: element?.credential_definition_id
         })
       })
       return newArr
@@ -58,7 +64,10 @@ const getAllPendingCertificatesRegulator = async (): Promise<any[]> => {
           idToken: element?.id_token,
           licenseDID: element?.licenseDID,
           stakeholderServices: element?.stakeholderServices?.[0],
-          timestamp: element?.timestamp
+          timestamp: element?.timestamp,
+          stakeholderDID: element?.stakeholderDID,
+          connection_id: element?.connection_id,
+          credential_definition_id: element?.credential_definition_id
         })
       })
       return newArr
@@ -80,7 +89,10 @@ const getAllRejectedCertificatesRegulator = async (): Promise<any[]> => {
           idToken: element?.id_token,
           licenseDID: element?.licenseDID,
           stakeholderServices: element?.stakeholderServices?.[0],
-          timestamp: element?.timestamp
+          timestamp: element?.timestamp,
+          stakeholderDID: element?.stakeholderDID,
+          connection_id: element?.connection_id,
+          credential_definition_id: element?.credential_definition_id
         })
       })
       return newArr
@@ -264,13 +276,10 @@ const resolveLicense = async (body: any, params: any): Promise<any> => {
           band: 0,
           technology: '',
           country: '',
-          ownerDid: '',
+          ownerDid: body?.stakeholderDID,
           license: body?.license_did
         }
         Object.entries(body?.licenseObject).forEach((el: any, index) => {
-          {
-            console.log(el)
-          }
           switch (el[0]) {
             case 'Commencement Date':
               obj.startDate = el[1]
@@ -301,9 +310,6 @@ const resolveLicense = async (body: any, params: any): Promise<any> => {
               break
             case 'Technology':
               obj.technology = el[1]
-              break
-            case 'ownerDid':
-              obj.ownerDid = el[1]
               break
           }
         })

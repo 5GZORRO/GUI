@@ -33,9 +33,11 @@ const PendingCertificates: React.FC = (props: any) => {
   ]
 
   /*eslint-disable */
-  const handleSubmit = (resolve: { license_did: any; approval: boolean; licenseObject: any }) => {
+  const handleSubmit = (resolve: { license_did: any; approval: boolean; licenseObject: any; stakeholderDID: any }) => {
     mutate(resolve)
   }
+
+  console.log(data)
 
   const showButton = (item: any) => (
     <td className="d-flex align-items-center py-2">
@@ -47,7 +49,12 @@ const PendingCertificates: React.FC = (props: any) => {
         className={'text-uppercase px-2 mr-3'}
         shape="rounded"
         onClick={() =>
-          handleSubmit({ license_did: item.licenseDID, approval: true, licenseObject: item?.stakeholderServices })
+          handleSubmit({
+            license_did: item.licenseDID,
+            approval: true,
+            licenseObject: item?.stakeholderServices,
+            stakeholderDID: item?.stakeholderDID
+          })
         }
       >
         Accept
@@ -57,7 +64,12 @@ const PendingCertificates: React.FC = (props: any) => {
         className={'text-uppercase px-2'}
         shape="rounded"
         onClick={() =>
-          handleSubmit({ license_did: item.licenseDID, approval: false, licenseObject: item?.stakeholderServices })
+          handleSubmit({
+            license_did: item.licenseDID,
+            approval: false,
+            licenseObject: item?.stakeholderServices,
+            stakeholderDID: item?.stakeholderDID
+          })
         }
       >
         Decline
