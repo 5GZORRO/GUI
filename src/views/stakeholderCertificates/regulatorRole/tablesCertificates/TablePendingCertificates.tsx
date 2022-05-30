@@ -37,8 +37,6 @@ const PendingCertificates: React.FC = (props: any) => {
     mutate(resolve)
   }
 
-  console.log(data)
-
   const showButton = (item: any) => (
     <td className="d-flex align-items-center py-2">
       <CButton color="primary" className={'text-uppercase px-2 mr-3'} shape="rounded" onClick={() => setModal(item)}>
