@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { CButton, CDataTable } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { DATETIME_FORMAT_SHOW, LEDGER_IDENTITY } from 'config'
@@ -74,12 +74,6 @@ export const ActiveTransactions: React.FC = (props: any) => {
 
   const showStatus = (item: ApiBusinessTransactions) => {
     return <td className="py-2">{item?.status}</td>
-    // switch (item?.status) {
-    //   case 'Succeeded':
-    //     return <td className="py-2">Completed</td>
-    //   case 'Failed':
-    //     return <td className="py-2">Failed</td>
-    // }
   }
 
   const showActions = (item: ApiBusinessTransactions) => {

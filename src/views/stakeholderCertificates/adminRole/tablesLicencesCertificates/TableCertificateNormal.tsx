@@ -1,21 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { getAllLicenceCertificates } from 'hooks/api/Certificates'
-import { useAuthContext } from 'context/AuthContext'
-
-import {
-  CRow,
-  CCol,
-  CButton,
-  CContainer,
-  CDataTable,
-  CCard,
-  CCardBody,
-  CCardHeader,
-  CModal,
-  CModalHeader,
-  CModalBody,
-  CTextarea
-} from '@coreui/react'
+import { CRow, CCol, CButton, CDataTable, CModal, CModalHeader, CModalBody, CTextarea } from '@coreui/react'
 import dayjs from 'dayjs'
 import { DATETIME_FORMAT_SHOW } from 'config'
 

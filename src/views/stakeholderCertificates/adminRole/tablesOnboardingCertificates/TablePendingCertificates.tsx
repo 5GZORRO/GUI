@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useAuthContext } from 'context/AuthContext'
 import { getAllPendingCertificatesAdmin, resolveStakeholder } from 'hooks/api/Certificates'
 
-import { CRow, CCol, CButton, CContainer, CDataTable, CCard, CCardBody, CCardHeader } from '@coreui/react'
+import { CButton, CDataTable } from '@coreui/react'
 
 const PendingCertificates: React.FC = (props: any) => {
   const { triggerRefetch, setTriggerRefetch } = props

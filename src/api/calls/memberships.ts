@@ -1,5 +1,5 @@
 import { endpoints } from 'api/endpoints'
-import { MemberbershipAPIResponse, ApiParamsMembership } from 'types/api'
+import { MemberbershipAPIResponse } from 'types/api'
 import axios from 'api/instance'
 
 const getMembers = async (): Promise<MemberbershipAPIResponse[]> => {

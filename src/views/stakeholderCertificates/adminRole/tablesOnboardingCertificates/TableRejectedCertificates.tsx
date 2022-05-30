@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { useAuthContext } from 'context/AuthContext'
-
-import { CRow, CCol, CButton, CContainer, CDataTable, CCard, CCardBody, CCardHeader } from '@coreui/react'
+import React, { useEffect } from 'react'
+import { CDataTable } from '@coreui/react'
 import { getAllRejectedCertificatesAdmin } from 'hooks/api/Certificates'
 
 const RejectedCertificates: React.FC = (props: any) => {
   const { triggerRefetch } = props
-  const { user } = useAuthContext()
   const { data, isLoading, refetch } = getAllRejectedCertificatesAdmin()
 
   useEffect(() => {
@@ -18,7 +15,6 @@ const RejectedCertificates: React.FC = (props: any) => {
     'role',
     { key: 'stakeholderRoles', label: 'Assets' },
     { key: 'stakeholderDID', label: 'Stakeholder DID' }
-    // 'status'
   ]
 
   return (

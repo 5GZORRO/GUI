@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   CButton,
   CContainer,
@@ -11,11 +11,8 @@ import {
   CLabel,
   CRow,
   CInputGroup,
-  CInputCheckbox,
   CCardSubtitle,
   CSelect,
-  CSwitch,
-  CInputFile,
   CCard,
   CDataTable,
   CTabPane,
@@ -32,23 +29,16 @@ import {
 
 import { Controller, useForm } from 'react-hook-form'
 
-// import { TransformFormData } from './util'
 import LoadingWithFade from 'components/LoadingWithFade'
 
-import { assestsArray } from './utils'
 import { getTransactionsTypes, scaleOutOp } from 'hooks/api/ISSM'
 import CIcon from '@coreui/icons-react'
-import { useAuthContext } from 'context/AuthContext'
-import { useHistory } from 'react-router-dom'
 import { DATETIME_FORMAT_SHOW, LEDGER_IDENTITY } from 'config'
 import { useMyOrders } from 'hooks/api/Orders'
 import { ApiOrders } from 'types/api'
 import dayjs from 'dayjs'
 import { useSearchOffersById } from 'hooks/api/Products'
 import { useAllCategories, useAllLocations } from 'hooks/api/Resources'
-
-const yaml = require('js-yaml')
-const fs = require('fs')
 
 interface formNewTransaction {
   transactionType: string
@@ -81,8 +71,8 @@ const NewBusinessTransaction = (props: any) => {
   const [customError, setCustomError] = useState<boolean>(false)
   const { data: ordersData, isLoading: isLoadindOrderData } = useMyOrders()
   const { data: dataOffer, mutate: mutateOffer, isLoading: isLoadingMutate } = useSearchOffersById()
-  const { data: locations, isLoading: isLoadingLocations, refetch: refetchLocation } = useAllLocations()
-  const { data: categories, isLoading: isLoadingCategories } = useAllCategories()
+  const { data: locations, isLoading: isLoadingLocations } = useAllLocations()
+  const { data: categories } = useAllCategories()
   const {
     handleSubmit,
     formState: { errors },
@@ -100,9 +90,8 @@ const NewBusinessTransaction = (props: any) => {
     }
   })
 
-  const { user } = useAuthContext()
-  const { data, isLoading: types } = getTransactionsTypes()
-  const { mutate, isSuccess, isLoading } = scaleOutOp()
+  const { data } = getTransactionsTypes()
+  const { mutate, isSuccess } = scaleOutOp()
 
   const fileControl = watch('file')
   const transactionType = watch('transactionType')

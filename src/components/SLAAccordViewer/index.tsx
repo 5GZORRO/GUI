@@ -7,7 +7,6 @@ import { TEMPLATE_FIELDS } from './TemplateEnum'
 import { useAuthContext } from 'context/AuthContext'
 
 const SLAAccordViewer = ({ id, templateHref }) => {
-  const { user } = useAuthContext()
   const { data, isLoading, isError } = useGetSLA(id, templateHref)
   const [json, setJson] = useState<any>({})
   const [values, setValues] = useState({})

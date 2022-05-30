@@ -5,27 +5,8 @@ import { ApiCertificatesBody } from 'types/api'
 import { api } from 'api'
 import { AxiosError } from 'axios'
 
-// Define a default query function that will receive the query key
 export const registerStakeholder = () =>
   useMutation<any, AxiosError, ApiCertificatesBody>((data) => api.certificates.registerStakeholder(data))
-
-export const getAllApprovedOffers = () => {
-  return useQuery('allApprovedOffers', () => api.certificates.getAllApprovedOffers(), {
-    keepPreviousData: true
-  })
-}
-
-export const getAllPendingOffers = () => {
-  return useQuery('allPendingOffers', () => api.certificates.getAllPendingOffers(), {
-    keepPreviousData: true
-  })
-}
-
-export const getAllRejectedOffers = () => {
-  return useQuery('allRevokedOffers', () => api.certificates.getAllRejectedOffers(), {
-    keepPreviousData: true
-  })
-}
 
 export const getAllApprovedCertificatesAdmin = () => {
   return useQuery('allApprovedCertificatesAdmin', () => api.certificates.getAllApprovedCertificatesAdmin(), {
@@ -67,16 +48,6 @@ export const getAllLicenceCertificates = () => {
   return useQuery('allLicenceCertificates', () => api.certificates.getAllLicenceCertificates(), {
     keepPreviousData: true
   })
-}
-
-export const getStakeholderCertificates = (params: any) => {
-  return useQuery('stakeholderCertificates', () => api.certificates.getStakeholderCertificates(params), {
-    keepPreviousData: true
-  })
-}
-
-export const resolveOffer = () => {
-  return useMutation(['resolveOffer'], (body: any) => api.certificates.resolveOffer(body))
 }
 
 export const resolveStakeholder = (params: any) => {

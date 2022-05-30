@@ -15,21 +15,19 @@ import {
   CModal,
   CButton
 } from '@coreui/react'
-import { useLocation } from 'react-router-dom'
 import AddCertificate from '../normalRole/AddCertificate'
 import CertificatesNormal from '../normalRole/TableCertificateNormal'
 
 const AdminCertificates: React.FC = () => {
-  const location = useLocation()
   const [modal, setModal] = useState<any | null>(null)
 
   return (
     <CContainer>
-       {modal != null && (
+      {modal != null && (
         <CModal show={true} onClose={() => setModal(null)} size="lg">
           <AddCertificate {...{ setModal }} />
         </CModal>
-       )}
+      )}
       <CRow className={'mb-5'}>
         <CCol>
           <h2>Licence Certificates</h2>

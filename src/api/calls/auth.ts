@@ -8,13 +8,6 @@ const registerClient = async (body: ApiRegisterBody) => {
   try {
     const response = await axios.post<StackeholderResponse>(endpoints.REGISTER, { ...body })
     const newResponse = response.data
-    // if ((await newResponse?.stakeholderClaim?.stakeholderDID) && newResponse?.id_token) {
-    //   await axios.post(endpoints.REGISTER_ORGANIZATION, <ApiOrganizationBody>{
-    //     organizationCreate: { name: newResponse?.stakeholderClaim?.stakeholderProfile?.name },
-    //     stakeholderDID: newResponse?.stakeholderClaim?.stakeholderDID,
-    //     token: newResponse?.id_token
-    //   })
-    // }
     return newResponse
   } catch (e) {
     console.log({ e })
@@ -42,16 +35,7 @@ const deleteOrganization = async () => {
 
 const verifyClient = async (data: any) => {
   try {
-    const response = await axios.get(endpoints.LOGIN, { params: { stakeholder_did: data } })
-
-    // if ((await response?.data?.stakeholderClaim?.stakeholderDID) && response?.data?.id_token) {
-    //   try {
-    //     await axios.post(endpoints.REGISTER_ORGANIZATION, <ApiOrganizationBody>{
-    //       organizationCreate: { name: response?.data?.stakeholderClaim?.stakeholderProfile?.name },
-    //       stakeholderDID: response?.data?.stakeholderClaim?.stakeholderDID,
-    //       token: response?.data?.id_token
-    //     })
-    //   } catch (err) {}
+    const response = await axios.get(endpoints.LOGIN + '/' + data)
     return response?.data
   } catch (e) {
     console.log({ e })

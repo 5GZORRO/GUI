@@ -4,7 +4,6 @@ import { useMutation, useQuery } from 'react-query'
 
 import { api } from 'api'
 
-// change later
 export const getAllTransactions = (params?: any) => {
   let operator: any
   if (params.includes('OperatorA')) {

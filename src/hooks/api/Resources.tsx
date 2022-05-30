@@ -2,10 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useQuery, useMutation } from 'react-query'
 import { api } from 'api'
-/** Types */
-// import { ApiResourceCandidate } from 'types/api'
 
-// Define a default query function that will receive the query key
 export const useAllProductSpecification = (params?: any) => {
   return useQuery(['allProductSpecification', params], () => api.resources.useAllProductSpecification(params), {
     keepPreviousData: true

@@ -23,13 +23,11 @@ import {
   CModal,
   CModalBody,
   CModalHeader,
-  CDataTable,
-  CInputCheckbox
+  CDataTable
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 
 import { Controller, useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
 import { useHistory } from 'react-router-dom'
 
 import { ArrowLeftIcon, PlusCircle, MinusCircle, ArrowDownIcon } from 'assets/icons/externalIcons'
@@ -39,7 +37,7 @@ import {
   useAllServicesSpecifications,
   useCreateProductOfferingPrice
 } from 'hooks/api/Resources'
-import { schemaRegister, TransformFormData } from './util'
+import { TransformFormData } from './util'
 import LoadingWithFade from 'components/LoadingWithFade'
 
 import DateRangePicker from 'components/DateRangePicker'
@@ -48,47 +46,6 @@ import { DATETIME_FORMAT, DATETIME_FORMAT_SHOW } from 'config'
 import { useAllLicences } from 'hooks/api/SLA'
 import dayjs from 'dayjs'
 import SLATemplateAccordViewer from 'components/SLATemplateAccordViewer'
-
-const colourStyles = {
-  control: (styles: any) => ({ ...styles, backgroundColor: '#3C3C43', borderColor: '#3C3C43' }),
-  option: (styles: any, { data, isDisabled, isFocused, isSelected }) => {
-    return {
-      ...styles,
-      color: '#3C3C43',
-      backgroundColor: 'white',
-      cursor: isDisabled ? 'not-allowed' : 'default',
-
-      ':hover': {
-        backgroundColor: '#3C3C43',
-        color: 'white'
-      },
-
-      ':active': {
-        ...styles[':active'],
-        backgroundColor: '#3C3C43'
-      }
-    }
-  },
-  multiValue: (styles: any, { data }) => {
-    return {
-      ...styles,
-      backgroundColor: '#32333A'
-    }
-  },
-  multiValueLabel: (styles, { data }) => ({
-    ...styles,
-    color: data.color
-  }),
-  multiValueRemove: (styles, { data }) => ({
-    ...styles,
-    color: data.color,
-    backgroundColor: data.color,
-    ':hover': {
-      backgroundColor: data.color,
-      color: 'white'
-    }
-  })
-}
 
 interface formProductOfferingPriceCreation {
   name: string

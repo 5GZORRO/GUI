@@ -26,14 +26,13 @@ import { useHistory } from 'react-router'
 /** Container */
 import { TheFooter } from 'containers'
 /** Hooks */
-import { useLogin, registerOrganization } from 'hooks/api/Auth'
+import { useLogin } from 'hooks/api/Auth'
 import { useAuthContext } from 'context/AuthContext'
 
 import { InputLogin } from 'types/forms'
 
 import LoadingWithFade from 'components/LoadingWithFade'
 import { KeyLogin } from 'assets/icons/externalIcons'
-import { SESSION_TOKEN } from 'config'
 import NotFoundApproval from 'views/NotFoundApproval'
 
 const Login: React.FC = () => {
@@ -43,7 +42,6 @@ const Login: React.FC = () => {
     control
   } = useForm<InputLogin>()
   const history = useHistory()
-  // const key = window.localStorage.getItem(SESSION_TOKEN)
   const { data, mutate, isSuccess, isLoading, isError } = useLogin()
   const { user, signin } = useAuthContext()
   const [showModal, setShowModal] = useState(false)
@@ -60,11 +58,9 @@ const Login: React.FC = () => {
 
   useEffect(() => {
     if (isSuccess && data?.stakeholderClaim) {
-      // window.localStorage.setItem(SESSION_TOKEN, data?.stakeholderClaim?.stakeholderDID)
       signin(data)
       history.push('/')
     }
-    // SET ERROR
   }, [isSuccess])
 
   useEffect(() => {
@@ -76,7 +72,7 @@ const Login: React.FC = () => {
   return (
     <>
       {showModal && (
-        <CModal show={showModal} onClose={() => setShowModal(false)} >
+        <CModal show={showModal} onClose={() => setShowModal(false)}>
           <NotFoundApproval {...{ setShowModal }} />
         </CModal>
       )}
@@ -132,14 +128,6 @@ const Login: React.FC = () => {
                         </CFormGroup>
 
                         <CRow>
-                          {/* <CCol xs={12} className="text-right mb-4">
-                            <p
-                              className={'px-0 text-uppercase font-12 text-light cursor-pointer'}
-                              onClick={() => console.log('did something')}
-                            >
-                              <u>did you have any problem?</u>
-                            </p>
-                          </CCol> */}
                           <CCol xs={12}>
                             <CButton
                               color={'gradient'}

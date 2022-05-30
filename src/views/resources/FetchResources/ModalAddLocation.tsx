@@ -3,9 +3,6 @@ import { useHistory } from 'react-router'
 
 import {
   CButton,
-  CDataTable,
-  CContainer,
-  CCard,
   CCardBody,
   CRow,
   CCol,
@@ -15,21 +12,14 @@ import {
   CFormGroup,
   CLabel,
   CInputGroup,
-  CInputGroupPrepend,
-  CInputGroupText,
   CInput,
   CFormText,
-  CInputCheckbox,
   CSelect,
   CInputGroupAppend
 } from '@coreui/react'
 
-import LoadingWithFade from 'components/LoadingWithFade'
-
 import { useAllLocations, useCreateLocation, useTranslateResource } from 'hooks/api/Resources'
-import CIcon from '@coreui/icons-react'
 import { Controller, useForm } from 'react-hook-form'
-import { ErrorMessage } from '@hookform/error-message'
 import { PlusCircle, MinusCircle } from 'assets/icons/externalIcons'
 import { useQueryClient } from 'react-query'
 
@@ -44,8 +34,8 @@ interface formLocation {
   radius: string
 }
 
-function ModalAddLocation (props: any) {
-  const { modalRadio, setModalRadio, selectedItem } = props
+function ModalAddLocation(props: any) {
+  const { setModalRadio, selectedItem } = props
   const [addLocation, setAddLocation] = useState<any>(false)
   const { data: locations, isLoading: isLoadingLocations, refetch: refetchLocation } = useAllLocations()
   const history = useHistory()
@@ -54,8 +44,7 @@ function ModalAddLocation (props: any) {
   const {
     handleSubmit,
     formState: { errors },
-    control,
-    watch
+    control
   } = useForm<formLocation>({
     defaultValues: {
       location: '',
@@ -69,13 +58,9 @@ function ModalAddLocation (props: any) {
     }
   })
 
-  const { mutate, isSuccess, isLoading } = useCreateLocation()
+  const { mutate, isSuccess } = useCreateLocation()
 
-  const {
-    mutate: translate,
-    isLoading: isMutating,
-    isError
-  } = useTranslateResource({
+  const { mutate: translate } = useTranslateResource({
     onSuccess: () => {
       queryClient.refetchQueries('useAllXrmResources')
       history.push('/resource')

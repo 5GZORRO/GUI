@@ -6,14 +6,7 @@ import { TransformDataTemplates } from 'api/utils'
 
 const getAllTemplates = async (params?: any): Promise<any[]> => {
   try {
-    // const response = await axios.get(endpoints.LICENCES_TEMPLATES, { params })
-    // if (response?.data?.pagedTemplates?.content) {
-    //   return response?.data?.pagedTemplates?.content
-    // } else {
-    //   throw new Error('error')
-    // }
     return new Promise((resolve, reject) => resolve([]))
-    // return response.data
   } catch (e) {
     console.log({ e })
     throw new Error('error')

@@ -3,105 +3,11 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { endpoints } from 'api/endpoints'
 import axios from 'api/instance'
-import { ApiIssuerOffers, ApiCertificatesBody, ApiOrganizationBody } from 'types/api'
+import { ApiCertificatesBody } from 'types/api'
 
 const registerStakeholder = async (body: ApiCertificatesBody) => {
   try {
     await axios.post(endpoints.CERTIFICATE_HOLDER_REGISTER, { ...body })
-  } catch (e) {
-    console.log({ e })
-    throw new Error('error')
-  }
-}
-
-const getAllApprovedOffers = async (): Promise<ApiIssuerOffers[]> => {
-  try {
-    const response = await axios.get(endpoints.CERTIFICATE_ADMIN_ALL_OFFER)
-    const newArr:
-      | PromiseLike<ApiIssuerOffers[]>
-      | { type: any; id: any; claims: any; timestamp: any; credential_definition_id: any }[] = []
-    if (response) {
-      response.data.forEach(
-        (element: {
-          type: any
-          credentialSubject: { id: any; claims: any[] }
-          timestamp: any
-          credential_definition_id: any
-        }) => {
-          newArr.push({
-            type: element?.type,
-            id: element?.credentialSubject?.id,
-            claims: element?.credentialSubject?.claims?.map((el) => el)?.join(', '),
-            timestamp: element?.timestamp,
-            credential_definition_id: element?.credential_definition_id
-          })
-        }
-      )
-      return newArr
-    }
-    return []
-  } catch (e) {
-    console.log({ e })
-    throw new Error('error')
-  }
-}
-
-const getAllPendingOffers = async (): Promise<ApiIssuerOffers[]> => {
-  try {
-    const response = await axios.get(endpoints.CERTIFICATE_ADMIN_PENDING_OFFER)
-    const newArr:
-      | PromiseLike<ApiIssuerOffers[]>
-      | { type: any; id: any; claims: any; timestamp: any; credential_definition_id: any }[] = []
-    if (response) {
-      response.data.forEach(
-        (element: {
-          type: any
-          credentialSubject: { id: any; claims: any[] }
-          timestamp: any
-          credential_definition_id: any
-        }) => {
-          newArr.push({
-            type: element?.type,
-            id: element?.credentialSubject?.id,
-            claims: element?.credentialSubject?.claims?.map((el) => el)?.join(', '),
-            timestamp: element?.timestamp,
-            credential_definition_id: element?.credential_definition_id
-          })
-        }
-      )
-      return newArr
-    }
-    return []
-  } catch (e) {
-    console.log({ e })
-    throw new Error('error')
-  }
-}
-
-const getAllRejectedOffers = async (): Promise<ApiIssuerOffers[]> => {
-  try {
-    const response = await axios.get(endpoints.CERTIFICATE_ADMIN_REVOKED_OFFER)
-    const newArr: { type: any; id: any; claims: any; timestamp: any; credential_definition_id: any }[] = []
-    if (response) {
-      response.data.forEach(
-        (element: {
-          type: any
-          credentialSubject: { id: any; claims: any[] }
-          timestamp: any
-          credential_definition_id: any
-        }) => {
-          newArr.push({
-            type: element?.type,
-            id: element?.credentialSubject?.id,
-            claims: element?.credentialSubject?.claims?.map((el) => el)?.join(', '),
-            timestamp: element?.timestamp,
-            credential_definition_id: element?.credential_definition_id
-          })
-        }
-      )
-      return newArr
-    }
-    return []
   } catch (e) {
     console.log({ e })
     throw new Error('error')
@@ -278,10 +184,32 @@ const getAllRejectedCertificatesAdmin = async (): Promise<any[]> => {
 
 const getAllLicenceCertificates = async (): Promise<any[]> => {
   try {
-    const response = await axios.get(endpoints.CERTIFICATE_ALL_LICENSE)
+    const responseApproved = await axios.get(endpoints.CERTIFICATE_APPROVED_LICENSE)
+    const responsePending = await axios.get(endpoints.CERTIFICATE_PENDING_LICENSE)
+    const responseRejected = await axios.get(endpoints.CERTIFICATE_REJECTED_LICENSE)
+
+    const response = await axios.all([responseApproved, responseRejected, responsePending])
     const newArr: any[] | PromiseLike<any[]> = []
     if (response) {
-      response?.data.forEach((element: any) => {
+      response?.[0]?.data.forEach((element: any) => {
+        newArr.push({
+          idToken: element?.id_token,
+          licenseDID: element?.licenseDID,
+          stakeholderServices: element?.stakeholderServices?.[0],
+          timestamp: element?.timestamp,
+          state: element?.state
+        })
+      })
+      response?.[1]?.data.forEach((element: any) => {
+        newArr.push({
+          idToken: element?.id_token,
+          licenseDID: element?.licenseDID,
+          stakeholderServices: element?.stakeholderServices?.[0],
+          timestamp: element?.timestamp,
+          state: element?.state
+        })
+      })
+      response?.[2]?.data.forEach((element: any) => {
         newArr.push({
           idToken: element?.id_token,
           licenseDID: element?.licenseDID,
@@ -293,52 +221,6 @@ const getAllLicenceCertificates = async (): Promise<any[]> => {
       return newArr
     }
     return []
-  } catch (e) {
-    console.log({ e })
-    throw new Error('error')
-  }
-}
-
-const getStakeholderCertificates = async (params: any): Promise<any[]> => {
-  try {
-    const response = await axios.get(endpoints.CERTIFICATE_HOLDER_CERTIFICATES, { params: { stakeholder_did: params } })
-    if (response) {
-      let status = ''
-      switch (response.data?.state) {
-        case 'Stakeholder Registered':
-          status = 'Approved'
-          break
-        case 'Stakeholder Registration Requested':
-          status = 'Pending'
-          break
-      }
-      return [
-        {
-          stakeholderDID: response.data?.stakeholderClaim?.stakeholderDID,
-          ledgerIdentity: response.data?.stakeholderClaim?.stakeholderProfile?.ledgerIdentity,
-          name: response.data?.stakeholderClaim?.stakeholderProfile?.name,
-          role: response.data?.stakeholderClaim?.stakeholderRoles[0]?.role,
-          stakeholderRoles: response.data?.stakeholderClaim?.stakeholderRoles[0]?.assets
-            ?.map((el: any) => {
-              return el
-            })
-            ?.join(', '),
-          state: status,
-          timestamp: response.data?.timestamp
-        }
-      ]
-    }
-    return []
-  } catch (e) {
-    console.log({ e })
-    throw new Error('error')
-  }
-}
-
-const resolveOffer = async (body: any): Promise<any> => {
-  try {
-    const response = await axios.post(endpoints.CERTIFICATE_ADMIN_RESOLVE_OFFER, body)
-    return response.data
   } catch (e) {
     console.log({ e })
     throw new Error('error')
@@ -448,14 +330,9 @@ const revokeCertificate = async (body: any): Promise<any> => {
 
 export default {
   registerStakeholder,
-  getAllApprovedOffers,
-  getAllPendingOffers,
-  getAllRejectedOffers,
   getAllApprovedCertificatesAdmin,
   getAllPendingCertificatesAdmin,
   getAllRejectedCertificatesAdmin,
-  getStakeholderCertificates,
-  resolveOffer,
   resolveStakeholder,
   revokeCertificate,
   resolveLicense,

@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react'
-import { useAuthContext } from 'context/AuthContext'
 import { getAllApprovedCertificatesAdmin, revokeCertificate } from 'hooks/api/Certificates'
 
-import { CRow, CCol, CButton, CContainer, CDataTable, CCard, CCardBody, CCardHeader } from '@coreui/react'
+import { CButton, CDataTable } from '@coreui/react'
 
 const ApprovedCertificates: React.FC = (props: any) => {
   const { triggerRefetch } = props
@@ -21,7 +20,7 @@ const ApprovedCertificates: React.FC = (props: any) => {
     { key: 'actions', label: 'Actions', filter: false, sort: false }
   ]
 
-  const handleSubmit = (resolve: { 'cred_exchange_id': string }) => {
+  const handleSubmit = (resolve: { credExchangeId: string }) => {
     mutate(resolve)
   }
 

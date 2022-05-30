@@ -19,7 +19,6 @@ import {
   CInputGroupText,
   CInput,
   CFormText,
-  CInputCheckbox,
   CSelect,
   CInputGroupAppend
 } from '@coreui/react'

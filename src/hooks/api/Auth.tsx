@@ -5,7 +5,6 @@ import { ApiOrganizationBody, ApiRegisterBody, StackeholderResponse } from 'type
 import { api } from 'api'
 import { AxiosError } from 'axios'
 
-// Define a default query function that will receive the query key
 export const useRegister = () =>
   useMutation<StackeholderResponse, AxiosError, ApiRegisterBody>((data) => api.auth.registerClient(data))
 
