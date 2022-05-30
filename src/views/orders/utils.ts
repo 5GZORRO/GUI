@@ -24,7 +24,8 @@ export const schemaRegister = yup.object().shape({
     })
 })
 
-export const transformForm = (form: any, additionalData: any) => {
+export const transformForm = (form: any, additionalData: any, user: any) => {
+  console.log(additionalData)
   const newData = {
     // agreement: additionalData?.productOrderItem?.map((el) => el?.serviceLevelAgreement),
     agreement: [],
@@ -38,7 +39,7 @@ export const transformForm = (form: any, additionalData: any) => {
     orderTotalPrice: [],
     payment: [],
     productOfferingQualification: [],
-    productOrderItem: additionalData?.productOrderItem?.map(el => ({
+    productOrderItem: additionalData?.productOrderItem?.map((el) => ({
       action: 'add',
       appointment: null,
       billingAccount: null,
@@ -61,7 +62,16 @@ export const transformForm = (form: any, additionalData: any) => {
       state: 'acknowledged'
     })),
     quote: [],
-    relatedParty: [],
+    relatedParty: [
+      {
+        name: user,
+        role: 'Buyer'
+      },
+      {
+        name: additionalData?.productOrderItem[0]?.productSpecification?.relatedParty?.map((el) => el.name)?.join(', '),
+        role: 'Seller'
+      }
+    ],
     requestedCompletionDate: moment(form?.requestedCompletionDate).format(SLA_OUTPUT_DATETIME_FORMAT),
     requestedStartDate: moment(form?.requestedStartDate).format(SLA_OUTPUT_DATETIME_FORMAT)
   }

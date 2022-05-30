@@ -12,6 +12,8 @@ const SLAAccordViewer = ({ id, templateHref }) => {
   const [values, setValues] = useState({})
   const [renderTemplateText, setRenderTemplateText] = useState('')
 
+  console.log(data)
+
   useEffect(() => {
     if (data) {
       const { template } = data

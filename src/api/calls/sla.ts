@@ -69,29 +69,6 @@ const createSLA = async (body: any): Promise<any> => {
 
 const getSLA = async (id: string, templateHref: string): Promise<any> => {
   try {
-    const mySLAs = window.localStorage.getItem('mySLAs')
-    console.log(mySLAs)
-
-    if (!mySLAs) {
-      throw new Error('error')
-    } else {
-      const parsedSLAs = JSON.parse(mySLAs)
-      const found = parsedSLAs.find((el) => el.id === id)
-      if (found) {
-        const response = await axios.get(found?.templateRef?.href ?? templateHref)
-        return {
-          ...found,
-          template: {
-            templateFileData: response?.data?.templateFileData
-          }
-        }
-      }
-    }
-  } catch (error) {
-    console.log(error)
-  }
-
-  try {
     const response = await axios.get(`${endpoints.SERVICE_LEGAL_AGREEMENT}/${id}`, { params: { size: 9999 } })
 
     if (response?.data?.templateRef?.href) {

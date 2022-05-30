@@ -10,67 +10,30 @@ import {
   CCol,
   CFormGroup,
   CFormText,
-  CInput,
   CInputGroup,
   CLabel,
   CRow,
-  CDataTable,
   CTextarea,
   CInputGroupPrepend,
-  CInputGroupText,
-  CModal,
-  CModalBody,
-  CModalHeader,
-  CInputGroupAppend,
-  CTabs,
-  CNavItem,
-  CNavLink,
-  CNav,
-  CTabContent,
-  CTabPane,
-  CSelect
+  CInputGroupText
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { DATETIME_FORMAT } from 'config'
 import moment from 'moment'
 
 import { FormProvider, useForm, Controller } from 'react-hook-form'
-import { useAuthContext } from 'context/AuthContext'
 import { useGetProductOffersBundle, useAllCategories } from 'hooks/api/Resources'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useCreateOrder } from 'hooks/api/Orders'
 
-import { PlusCircle, MinusCircle, ArrowLeftIcon } from 'assets/icons/externalIcons'
+import { ArrowLeftIcon } from 'assets/icons/externalIcons'
 import AddNewCategoryModal from 'containers/AddNewCategoryModal'
 import SingleDatePicker from 'components/SingleDatePicker'
 
 import SelectedOffers from './tables/SelectedOffers'
 import LoadingWithFade from 'components/LoadingWithFade'
 import { schemaRegister, transformForm } from './utils'
-import Select from 'react-select'
-
-const colourStyles = {
-  control: (styles: any) => ({ ...styles, backgroundColor: '#32333A', borderColor: '#3C3C43', color: 'white' }),
-  option: (styles: any, { data, isDisabled, isFocused, isSelected }) => {
-    return {
-      ...styles,
-      color: '#3C3C43',
-      backgroundColor: 'white',
-      cursor: isDisabled ? 'not-allowed' : 'default',
-
-      ':hover': {
-        backgroundColor: '#3C3C43',
-        color: 'white'
-      },
-
-      ':active': {
-        ...styles[':active'],
-        backgroundColor: '#3C3C43'
-      }
-    }
-  },
-  singleValue: (styles, { data }) => ({ ...styles, color: 'white', backgroundColor: '#32333A' })
-}
+import { useAuthContext } from 'context/AuthContext'
 
 interface formOrderCreation {
   description: string
@@ -88,12 +51,10 @@ const FormCreateOrder: React.FC = () => {
   const { data: offersData, isLoading: offersLoading } = useGetProductOffersBundle(id)
   const { data: categories, isLoading: isLoadingCategories, refetch: refetchCategory } = useAllCategories()
   const [addCategoryModal, setAddCategoryModal] = useState<any>(false)
-  const [priorityState, setPriorityState] = useState(0)
-
   const { user } = useAuthContext()
-
   const { mutate, isSuccess, isLoading } = useCreateOrder()
 
+  console.log(offersData)
   const methods = useForm<formOrderCreation>({
     defaultValues: {
       description: '',
@@ -108,8 +69,7 @@ const FormCreateOrder: React.FC = () => {
   const {
     handleSubmit,
     control,
-    formState: { errors },
-    setValue
+    formState: { errors }
   } = methods
 
   useEffect(() => {
@@ -119,7 +79,11 @@ const FormCreateOrder: React.FC = () => {
   }, [isSuccess])
 
   const onSubmit = (data: formOrderCreation) => {
-    const formData = transformForm(data, { productOrderItem: offersData })
+    const formData = transformForm(
+      data,
+      { productOrderItem: offersData },
+      user?.stakeholderClaim?.stakeholderProfile?.name
+    )
     mutate({ ...formData })
   }
 

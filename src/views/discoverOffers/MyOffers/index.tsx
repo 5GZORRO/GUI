@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState } from 'react'
 import { DATETIME_FORMAT_SHOW } from 'config'
 import dayjs from 'dayjs'
@@ -245,7 +246,7 @@ const MyOffers = () => {
                             <p className={'text-light mb-2'}>Status</p>
                             <p className={'font-16 mb-4'}>{modal?.productSpecification?.lifecycleStatus}</p>
                           </CCol>
-                      )}
+                        )}
                     </CRow>
                     {modal?.productSpecification?.description != null &&
                       modal?.productSpecification?.description !== '' && (
@@ -255,7 +256,7 @@ const MyOffers = () => {
                             <p className={'font-16 mb-4'}>{modal?.productSpecification?.description}</p>
                           </CCol>
                         </CRow>
-                    )}
+                      )}
                   </CContainer>
                   {modal?.productSpecification?.serviceSpecification?.length > 0 && (
                     <CContainer
@@ -380,9 +381,7 @@ const MyOffers = () => {
                     </CContainer>
                   )}
                   {modal?.productSpecification?.resourceSpecification?.length > 0 && (
-                    <CContainer
-                      className={'pl-0 pr-0'}
-                    >
+                    <CContainer className={'pl-0 pr-0'}>
                       <h5>Resource Specification</h5>
                       {modal?.productSpecification?.resourceSpecification?.map((rs: any, rsIndex: number) => (
                         <CContainer key={`offer-rs-${rsIndex}`}>
@@ -485,7 +484,7 @@ const MyOffers = () => {
                               <p>{el?.unitOfMeasure?.amount}</p>
                             </CCol>
                           </CRow>
-                      )}
+                        )}
                       {el?.recurringChargePeriodType != null &&
                         el?.recurringChargePeriodType !== '' &&
                         el?.recurringChargePeriodLength != null && (
@@ -499,7 +498,7 @@ const MyOffers = () => {
                               <p>{el?.recurringChargePeriodLength}</p>
                             </CCol>
                           </CRow>
-                      )}
+                        )}
                       <CRow className={'p-3 mt-4'}>
                         <p className={'text-light mb-2'}>Valid for: </p>
                       </CRow>
@@ -558,8 +557,7 @@ const MyOffers = () => {
                   <CRow className={'p-3'}>
                     <SLAAccordViewer
                       id={modal?.serviceLevelAgreement?.id}
-                      templateHref={modal?.serviceLevelAgreement?.templateRef?.href}
-                      readOnly={true}
+                      templateHref={modal?.serviceLevelAgreement?.href}
                     ></SLAAccordViewer>
                   </CRow>
                 </CTabPane>
