@@ -25,7 +25,6 @@ export const schemaRegister = yup.object().shape({
 })
 
 export const transformForm = (form: any, additionalData: any, user: any) => {
-  console.log(additionalData)
   const newData = {
     // agreement: additionalData?.productOrderItem?.map((el) => el?.serviceLevelAgreement),
     agreement: [],

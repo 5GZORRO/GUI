@@ -1,10 +1,11 @@
-import React, { Suspense, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import { TheContent, TheSidebar, TheFooter, TheHeader } from './index'
 import { useAuthContext } from 'context/AuthContext'
 import { CContainer, CFade, CModal } from '@coreui/react'
 import { Route } from 'react-router-dom'
 
 import { LogoVerticalWhite } from 'assets/icons/logos'
+import { io } from 'socket.io-client'
 
 const WaitingApproval = React.lazy(() => import('../views/WaitingApproval'))
 const DeclinedApproval = React.lazy(() => import('../views/DeclinedApproval'))
@@ -17,6 +18,16 @@ const loading = (
 
 const TheLayout: React.FC = () => {
   const { user } = useAuthContext()
+
+  // const [socket, setSocket] = useState<any>(null)
+
+  // useEffect(() => {
+  //   if (user?.id_token) {
+  //     const newSocket = io('https://rabbitmq-service:5672')
+  //     setSocket(newSocket)
+  //     return () => newSocket.close()
+  //   }
+  // }, [])
 
   if (user?.state === 'Stakeholder Declined') {
     return (

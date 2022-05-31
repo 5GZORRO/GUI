@@ -147,6 +147,7 @@ const NewProductOfferingPrice = () => {
   const [recurringState, setRecurringState] = useState(0)
   const [unitState, setUnitState] = useState(0)
   const [advancedSearch, setAdvancedSearch] = useState(false)
+  const [error, setError] = useState(false)
 
   const {
     handleSubmit,
@@ -248,8 +249,14 @@ const NewProductOfferingPrice = () => {
   ]
 
   const onSubmit = (data: formProductOfferingPriceCreation) => {
+    setError(false)
     const newData = TransformFormData(data)
     const { selectedResourceService, ...filtered } = newData
+
+    if (typeSelected === 'NS' || (typeSelected === 'VNF' && selectedResourceService.length <= 0)) {
+      setError(true)
+      return
+    }
     mutate(filtered)
   }
 
@@ -413,8 +420,6 @@ const NewProductOfferingPrice = () => {
         style={{ opacity: 1 }}
         type={'checkbox'}
         name={`selectedResourceService[${item?.id}]`}
-        required={typeSelected === 'NS' || typeSelected === 'VNF'}
-        defaultValue={JSON.stringify(item)}
         checked={selectedResourceService.find((resourceService: any) => resourceService?.id === item?.id)}
         onChange={() => checkResourceService(item)}
       />
@@ -854,6 +859,11 @@ const NewProductOfferingPrice = () => {
                         <CLabel className={'pb-2'}>
                           {typeSelected === 'NS' ? 'Network Service' : 'Virtual Network Function'}
                         </CLabel>
+                        {error && (
+                          <p style={{ color: 'red', padding: '0.5rem', background: 'rgba(255, 0, 0, 0.1)' }}>
+                            Please select at least one item
+                          </p>
+                        )}
                         <CInputGroup>
                           <CCard className={'p-4'} style={{ width: '100%' }}>
                             <CDataTable
@@ -882,9 +892,6 @@ const NewProductOfferingPrice = () => {
                             />
                           </CCard>
                         </CInputGroup>
-                        {errors.pricingLogicAlgorithm && (
-                          <CFormText className="help-block">Please select a licence</CFormText>
-                        )}
                       </CFormGroup>
                     </CRow>
                   )}
