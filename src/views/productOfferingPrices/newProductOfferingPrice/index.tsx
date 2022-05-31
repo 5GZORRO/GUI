@@ -253,7 +253,7 @@ const NewProductOfferingPrice = () => {
     const newData = TransformFormData(data)
     const { selectedResourceService, ...filtered } = newData
 
-    if (typeSelected === 'NS' || (typeSelected === 'VNF' && selectedResourceService.length <= 0)) {
+    if ((typeSelected === 'NS' || typeSelected === 'VNF') && selectedResourceService.length <= 0) {
       setError(true)
       return
     }
