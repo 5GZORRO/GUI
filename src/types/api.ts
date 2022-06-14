@@ -21,12 +21,6 @@ interface BaseApiResponse<T> {
   empty: boolean
 }
 
-interface MembershipsResponse {
-  stakeholderId: string
-  legalName: string
-  address: string
-}
-
 enum ProposalStatus {
   PROPOSED = 'PROPOSED',
   APPROVED = 'APPROVED',
@@ -79,9 +73,8 @@ export interface StackeholderResponse {
   stakeholderServices: [{ type: string; endpoint: string }]
   state: string
   timestamp: string
+  revoked: boolean
 }
-
-export type MemberbershipAPIResponse = BaseApiResponse<MembershipsResponse>
 
 export type GovernanceActionsAPIResponse = BaseApiResponse<GovernanceActionsResponse>
 
@@ -89,10 +82,6 @@ interface BaseApiParams {
   page?: number
   size?: number
   sort?: string
-}
-
-export interface ApiParamsMembership extends BaseApiParams {
-  filterText?: string
 }
 
 export interface ApiParamsGovernanceActions extends BaseApiParams {

@@ -26,6 +26,12 @@ export const getAllRejectedCertificatesAdmin = () => {
   })
 }
 
+export const getAllRevokedCertificatesAdmin = () => {
+  return useQuery('allRevokedCertificatesAdmin', () => api.certificates.getAllRevokedCertificatesAdmin(), {
+    keepPreviousData: true
+  })
+}
+
 export const getAllApprovedCertificatesRegulator = () => {
   return useQuery('allApprovedCertificatesRegulator', () => api.certificates.getAllApprovedCertificatesRegulator(), {
     keepPreviousData: true
@@ -40,6 +46,12 @@ export const getAllPendingCertificatesRegulator = () => {
 
 export const getAllRejectedCertificatesRegulator = () => {
   return useQuery('allRejectedCertificatesRegulator', () => api.certificates.getAllRejectedCertificatesRegulator(), {
+    keepPreviousData: true
+  })
+}
+
+export const getAllRevokedCertificatesRegulator = () => {
+  return useQuery('allRevekoedCertificatesRegulator', () => api.certificates.getAllRevokedCertificatesRegulator(), {
     keepPreviousData: true
   })
 }

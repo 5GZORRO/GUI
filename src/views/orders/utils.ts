@@ -63,12 +63,16 @@ export const transformForm = (form: any, additionalData: any, user: any) => {
     quote: [],
     relatedParty: [
       {
-        name: user,
-        role: 'Buyer'
+        name: user?.stakeholderClaim?.stakeholderProfile?.name,
+        role: 'Buyer',
+        stakeholderDID: user?.stakeholderClaim?.stakeholderDID
       },
       {
         name: additionalData?.productOrderItem[0]?.productSpecification?.relatedParty?.map((el) => el.name)?.join(', '),
-        role: 'Seller'
+        role: 'Seller',
+        stakeholderDID: additionalData?.productOrderItem[0]?.productSpecification?.relatedParty
+          ?.map((el) => el.extendedInfo)
+          .join(', ')
       }
     ],
     requestedCompletionDate: moment(form?.requestedCompletionDate).format(SLA_OUTPUT_DATETIME_FORMAT),

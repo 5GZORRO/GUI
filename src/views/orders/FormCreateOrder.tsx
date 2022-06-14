@@ -54,7 +54,6 @@ const FormCreateOrder: React.FC = () => {
   const { user } = useAuthContext()
   const { mutate, isSuccess, isLoading } = useCreateOrder()
 
-  console.log(offersData)
   const methods = useForm<formOrderCreation>({
     defaultValues: {
       description: '',
@@ -79,11 +78,7 @@ const FormCreateOrder: React.FC = () => {
   }, [isSuccess])
 
   const onSubmit = (data: formOrderCreation) => {
-    const formData = transformForm(
-      data,
-      { productOrderItem: offersData },
-      user?.stakeholderClaim?.stakeholderProfile?.name
-    )
+    const formData = transformForm(data, { productOrderItem: offersData }, user)
     mutate({ ...formData })
   }
 

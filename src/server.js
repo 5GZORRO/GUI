@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable */
 import { createServer, Model, Factory, belongsTo, hasMany, RestSerializer } from 'miragejs'
 import faker from 'faker'
 
-export function makeServer ({ environment = 'development' } = {}) {
+export function makeServer({ environment = 'development' } = {}) {
   const server = createServer({
     environment,
 
@@ -27,7 +27,6 @@ export function makeServer ({ environment = 'development' } = {}) {
 
     models: {
       pagedGovernanceProposal: Model,
-      membership: Model,
       resourceCandidate: Model,
 
       category: Model,
@@ -50,13 +49,13 @@ export function makeServer ({ environment = 'development' } = {}) {
 
     factories: {
       pagedGovernanceProposal: Factory.extend({
-        proposalId () {
+        proposalId() {
           return faker.random.uuid()
         },
-        status () {
+        status() {
           return faker.random.arrayElement(['PROPOSED', 'APPROVED', 'REJECTED'])
         },
-        actionType () {
+        actionType() {
           return faker.random.arrayElement([
             'ONBOARD_STAKEHOLDER',
             'NEW_LEGAL_PROSE_TEMPLATE',
@@ -64,10 +63,10 @@ export function makeServer ({ environment = 'development' } = {}) {
             'SLA_DISPUTE'
           ])
         },
-        statusUpdated () {
+        statusUpdated() {
           return faker.date.recent()
         },
-        actionParams () {
+        actionParams() {
           return {
             entityIdentityId: faker.random.uuid(),
             evidence: faker.random.word()
@@ -75,173 +74,205 @@ export function makeServer ({ environment = 'development' } = {}) {
         }
       }),
 
-      membership: Factory.extend({
-        stakeholderId () {
-          return faker.random.uuid()
-        },
-        legalName () {
-          return faker.random.word()
-        },
-        address () {
-          return faker.address.streetAddress()
-        }
-      }),
-
       resourceCandidate: Factory.extend({
-        baseType () { return 'string' },
-        schemaLocation () { return 'string' },
-        type () { return 'string' },
+        baseType() {
+          return 'string'
+        },
+        schemaLocation() {
+          return 'string'
+        },
+        type() {
+          return 'string'
+        },
         category: [
           {
-            baseType () { return 'string' },
-            schemaLocation () { return 'string' },
-            type () { return 'string' },
-            href () { return faker.internet.url() },
-            id () { return faker.random.uuid() },
-            name () { return faker.lorem.sentence() },
-            version () { return faker.system.semver() }
+            baseType() {
+              return 'string'
+            },
+            schemaLocation() {
+              return 'string'
+            },
+            type() {
+              return 'string'
+            },
+            href() {
+              return faker.internet.url()
+            },
+            id() {
+              return faker.random.uuid()
+            },
+            name() {
+              return faker.lorem.sentence()
+            },
+            version() {
+              return faker.system.semver()
+            }
           }
         ],
-        description () { return faker.lorem.sentences() },
-        href () { return faker.internet.url() },
-        id () { return faker.random.uuid() },
-        lastUpdate () { return faker.date.past() },
-        lifecycleStatus () {
-          return faker.random.arrayElement([
-            'pending',
-            'new',
-            'archive',
-            'delete'
-          ])
+        description() {
+          return faker.lorem.sentences()
         },
-        name () { return faker.lorem.sentence() },
+        href() {
+          return faker.internet.url()
+        },
+        id() {
+          return faker.random.uuid()
+        },
+        lastUpdate() {
+          return faker.date.past()
+        },
+        lifecycleStatus() {
+          return faker.random.arrayElement(['pending', 'new', 'archive', 'delete'])
+        },
+        name() {
+          return faker.lorem.sentence()
+        },
 
-        resourceSpecification () {
+        resourceSpecification() {
           return {
-            referredType () { return 'string' },
-            baseType () { return 'string' },
-            schemaLocation () { return 'string' },
-            type () { return 'string' },
-            href () { return faker.internet.url() },
-            id () { return faker.random.uuid() },
-            name () { return faker.commerce.productName() },
-            version () { return faker.system.semver() }
+            referredType() {
+              return 'string'
+            },
+            baseType() {
+              return 'string'
+            },
+            schemaLocation() {
+              return 'string'
+            },
+            type() {
+              return 'string'
+            },
+            href() {
+              return faker.internet.url()
+            },
+            id() {
+              return faker.random.uuid()
+            },
+            name() {
+              return faker.commerce.productName()
+            },
+            version() {
+              return faker.system.semver()
+            }
           }
         },
 
-        validFor () {
+        validFor() {
           return {
-            endDateTime () { return faker.date.past() },
-            startDateTime () { return faker.date.future() }
+            endDateTime() {
+              return faker.date.past()
+            },
+            startDateTime() {
+              return faker.date.future()
+            }
           }
         },
 
-        version () {
+        version() {
           return faker.random.uuid()
         }
       }),
 
       resource: Factory.extend({
-        name () {
+        name() {
           return faker.lorem.word()
         },
-        description () {
+        description() {
           return faker.commerce.productDescription()
         },
-        version () {
+        version() {
           return faker.system.semver()
         },
-        validFor () {
+        validFor() {
           return faker.date.past()
         },
-        ownerdid () {
+        ownerdid() {
           return faker.random.uuid()
         }
       }),
 
       category: Factory.extend({
-        name () {
+        name() {
           return faker.lorem.word()
         },
-        type () {
+        type() {
           return faker.name.jobType()
         },
-        version () {
+        version() {
           return faker.system.semver()
         }
       }),
 
       resourceSpecification: Factory.extend({
-        name () {
+        name() {
           return faker.lorem.word()
         },
-        description () {
+        description() {
           return faker.commerce.productDescription()
         },
-        version () {
+        version() {
           return faker.system.semver()
         }
       }),
 
       resourcePhysicalCapabilitie: Factory.extend({
-        name () {
+        name() {
           return faker.lorem.word()
         },
-        description () {
+        description() {
           return faker.commerce.productDescription()
         }
       }),
 
       feature: Factory.extend({
-        bundled () {
+        bundled() {
           return faker.random.boolean()
         },
-        type () {
+        type() {
           return faker.random.word()
         }
       }),
 
       hardwareCapabilitie: Factory.extend({
-        value () {
+        value() {
           return faker.random.float()
         },
-        quota () {
+        quota() {
           return faker.random.word()
         }
       }),
 
       resourceVirtualCapabilitie: Factory.extend({
-        name () {
+        name() {
           return faker.lorem.word()
         },
-        description () {
+        description() {
           return faker.commerce.productDescription()
         },
-        isMaster () {
+        isMaster() {
           return faker.random.boolean()
         },
-        type () {
+        type() {
           return faker.database.type()
         }
       }),
 
       virtualCapabilitie: Factory.extend({
-        capValue () {
+        capValue() {
           return faker.random.float()
         },
-        capUnit () {
+        capUnit() {
           return faker.random.number()
         }
       })
     },
 
-    seeds (server) {
+    seeds(server) {
       server.createList('pagedGovernanceProposal', 60)
-      server.createList('membership', 60)
       server.create('resourceCandidate')
     },
 
-    routes () {
+    routes() {
       this.get('/governance-actions', (schema) => {
         const content = schema.pagedGovernanceProposals.all()
         const items = content.models.map(({ attrs }) => ({ ...attrs }))
@@ -260,9 +291,7 @@ export function makeServer ({ environment = 'development' } = {}) {
             pageable: {
               page: 0,
               size: 5,
-              sort: [
-                'string'
-              ]
+              sort: ['string']
             },
             first: true,
             last: true,
@@ -277,36 +306,6 @@ export function makeServer ({ environment = 'development' } = {}) {
         console.log(attrs)
 
         return schema.pagedGovernanceProposals.create(attrs)
-      })
-
-      this.get('/memberships', (schema) => {
-        const content = schema.memberships.all()
-        const items = content.models.map(({ attrs }) => ({ ...attrs }))
-        return {
-          pagedMembers: {
-            totalPages: 0,
-            totalElements: items.length || 0,
-            size: items.length || 0,
-            content: items,
-            number: items.length,
-            sort: {
-              sorted: true,
-              unsorted: true,
-              empty: false
-            },
-            pageable: {
-              page: 0,
-              size: 5,
-              sort: [
-                'string'
-              ]
-            },
-            first: true,
-            last: true,
-            numberOfElements: 5,
-            empty: !items
-          }
-        }
       })
 
       this.get('/tmf-api/resourceCatalogManagement/v2/resourceCandidate', (schema, serialize) => {

@@ -15,12 +15,6 @@ export const useProductSpecification = (id: string) => {
   })
 }
 
-export const useGetMembers = () => {
-  return useQuery(['allMembers'], () => api.memberships.getMembers(), {
-    keepPreviousData: true
-  })
-}
-
 export const useAllResourceAndServiceSpecifications = (params?: any) => {
   return useQuery(
     ['allResourceSpecifications', params],

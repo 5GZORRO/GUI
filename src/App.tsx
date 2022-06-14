@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useRef, useState } from 'react'
 import { Router, Route, Switch, Redirect } from 'react-router'
 import { createBrowserHistory } from 'history'
 import './scss/style.scss'

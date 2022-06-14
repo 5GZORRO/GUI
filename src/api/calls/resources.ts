@@ -124,6 +124,9 @@ const getProductOffersBatch = async (offersIds: string) => {
         axios.get(offer?.productSpecification?.href)
     )
   )
+
+  console.log(productSpecificationResponses)
+
   const locationsResponses = await Promise.allSettled(
     data
       ?.map((offer, index) =>
@@ -146,6 +149,7 @@ const getProductOffersBatch = async (offersIds: string) => {
     }
     return acc
   }, [])
+
   const resourceAndServicesSpecifications = await Promise.allSettled(
     productSpecifications
       ?.filter((el) => el != null)
@@ -166,6 +170,7 @@ const getProductOffersBatch = async (offersIds: string) => {
     }
     return acc
   }, [])
+
   const nestedResourcesResponse = await Promise.allSettled(
     resourceAndServices
       ?.filter((el) => el != null && el?.isService === true)

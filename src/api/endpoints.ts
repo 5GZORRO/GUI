@@ -11,7 +11,6 @@ import {
 } from 'config'
 
 export const endpoints = {
-  MEMBERSHIPS: `${API_GOVERNANCE}/api/v1/memberships`,
   REGISTER: `${API_IPM}/holder/register_stakeholder`,
   REGISTER_ORGANIZATION: `${API_MARKET_PLACE}/party/v4/organization`,
   LOGIN: `${API_IPM}/holder/stakeholder`,
@@ -54,14 +53,17 @@ export const endpoints = {
   CERTIFICATE_ADMIN_PENDING_CERTIFICATES: `${API_IPM}/issuer/stakeholder?state=pending`,
   CERTIFICATE_ADMIN_APPROVED: `${API_IPM}/issuer/stakeholder?state=approved`,
   CERTIFICATE_ADMIN_REJECTED: `${API_IPM}/issuer/stakeholder?state=rejected`,
+  CERTIFICATE_ADMIN_REVOKE_CERTIFICATES: `${API_IPM}/issuer/stakeholder?state=revoked`,
   CERTIFICATE_ADMIN_RESOLVE: `${API_IPM}/issuer/stakeholder/resolve`,
-  CERTIFICATE_ADMIN_REVOKE: `${API_IPM}/issuer/revoke_did`,
+  CERTIFICATE_ADMIN_REVOKE: `${API_IPM}/issuer/stakeholder/revoke`,
   CERTIFICATE_REGULATOR_APPROVED_LICENSE: `${API_IPM}/regulator/license?state=approved`,
   CERTIFICATE_REGULATOR_PENDING_LICENSE: `${API_IPM}/regulator/license?state=pending`,
   CERTIFICATE_REGULATOR_REJECTED_LICENSE: `${API_IPM}/regulator/license?state=rejected`,
+  CERTIFICATE_REGULATOR_REVOKED_LICENSE: `${API_IPM}/regulator/license?state=revoked`,
   CERTIFICATE_REGULATOR_RESOLVE: `${API_IPM}/regulator/license/resolve`,
   CERTIFICATE_APPROVED_LICENSE: `${API_IPM}/holder/license?state=approved`,
   CERTIFICATE_PENDING_LICENSE: `${API_IPM}/holder/license?state=pending`,
   CERTIFICATE_REJECTED_LICENSE: `${API_IPM}/holder/license?state=rejected`,
+  CERTIFICATE_REVOKED_LICENSE: `${API_IPM}/holder/license?state=revoked`,
   RADD_REGISTER_RESOURCE: `${API_RAPP}/SpectrumWallet/registerSpectrumResource`
 }

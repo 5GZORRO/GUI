@@ -57,7 +57,7 @@ const Login: React.FC = () => {
   }, [user])
 
   useEffect(() => {
-    if (isSuccess && data?.stakeholderClaim) {
+    if (isSuccess && data?.stakeholderClaim && data?.revoked !== true) {
       signin(data)
       history.push('/')
     }

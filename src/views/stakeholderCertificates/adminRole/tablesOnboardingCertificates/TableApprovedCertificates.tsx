@@ -1,12 +1,14 @@
+/*eslint-disable */
 import React, { useEffect } from 'react'
 import { getAllApprovedCertificatesAdmin, revokeCertificate } from 'hooks/api/Certificates'
 
 import { CButton, CDataTable } from '@coreui/react'
+import { useAuthContext } from 'context/AuthContext'
 
 const ApprovedCertificates: React.FC = (props: any) => {
   const { triggerRefetch } = props
   const { data, isLoading, refetch } = getAllApprovedCertificatesAdmin()
-  const { mutate, isSuccess, isLoading: loadingRevoke, isError } = revokeCertificate()
+  const { mutate, isSuccess, isLoading: loadingRevoke } = revokeCertificate()
 
   useEffect(() => {
     refetch()
@@ -20,8 +22,13 @@ const ApprovedCertificates: React.FC = (props: any) => {
     { key: 'actions', label: 'Actions', filter: false, sort: false }
   ]
 
-  const handleSubmit = (resolve: { credExchangeId: string }) => {
-    mutate(resolve)
+  const handleSubmit = (item: any) => {
+    console.log(item)
+    const body = { id_token: item?.idToken, stakeholder_did: item.stakeholderDID }
+    if (window.confirm('This action is irreversible. Do you wish to proceed?')) {
+      mutate(body)
+    }
+    return
   }
 
   const showButton = (item: any) => (
@@ -32,7 +39,7 @@ const ApprovedCertificates: React.FC = (props: any) => {
         className={'text-uppercase px-3 mr-1'}
         style={{ fontSize: '10.5px' }}
         shape="rounded"
-        // onClick={() => handleSubmit({ cred_exchange_id: item?.stakeholderDID })}
+        onClick={() => handleSubmit(item)}
       >
         Ban Certificate
       </CButton>

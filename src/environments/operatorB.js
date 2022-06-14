@@ -16,7 +16,7 @@ export const VERIFICATION_KEY = '5gzorroidportalnsmm' // '7XG8C2fxsimza1C1YYpai4
 export const LEDGER_IDENTITY = 'O=OperatorB,OU=Zurich,L=Zurich,C=CH'
 export const HOST = 'BCN'
 
-export const API_SRSD = 'http://172.28.3.103:32068'
+export const API_SRSD = 'http://172.28.3.15:32068'
 
 export const API_ISSM = 'http://172.28.3.15:30080'
 

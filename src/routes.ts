@@ -1,7 +1,6 @@
 import React from 'react'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
-const Membership = React.lazy(() => import('./views/membership/index'))
 const Proposals = React.lazy(() => import('./views/proposals/index'))
 const DiscoverOffers = React.lazy(() => import('./views/discoverOffers/index'))
 const NewProduct = React.lazy(() => import('./views/discoverOffers/newProductOffer'))
@@ -59,7 +58,6 @@ const routes = [
     name: 'New Resource - Virtual Capabilities',
     component: NewVirtualResource
   },
-  { path: '/membership', name: 'Membership', component: Membership },
   { path: '/proposals', name: 'Proposals', component: Proposals },
   { path: '/templates/new/sla/:id', name: 'New SLA', component: NewSLAForm },
 

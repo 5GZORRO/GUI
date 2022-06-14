@@ -104,6 +104,31 @@ const getAllRejectedCertificatesRegulator = async (): Promise<any[]> => {
   }
 }
 
+const getAllRevokedCertificatesRegulator = async (): Promise<any[]> => {
+  try {
+    const response = await axios.get(endpoints.CERTIFICATE_REGULATOR_REVOKED_LICENSE)
+    const newArr: any[] | PromiseLike<any[]> = []
+    if (response) {
+      response?.data.forEach((element: any) => {
+        newArr.push({
+          idToken: element?.id_token,
+          licenseDID: element?.licenseDID,
+          stakeholderServices: element?.stakeholderServices?.[0],
+          timestamp: element?.timestamp,
+          stakeholderDID: element?.stakeholderDID,
+          connection_id: element?.connection_id,
+          credential_definition_id: element?.credential_definition_id
+        })
+      })
+      return newArr
+    }
+    return []
+  } catch (e) {
+    console.log({ e })
+    throw new Error('error')
+  }
+}
+
 const getAllApprovedCertificatesAdmin = async (): Promise<any[]> => {
   try {
     const response = await axios.get(endpoints.CERTIFICATE_ADMIN_APPROVED)
@@ -120,7 +145,8 @@ const getAllApprovedCertificatesAdmin = async (): Promise<any[]> => {
               return el
             })
             ?.join(', '),
-          timestamp: element?.timestamp
+          timestamp: element?.timestamp,
+          idToken: element?.id_token
         })
       })
       return newArr
@@ -194,13 +220,45 @@ const getAllRejectedCertificatesAdmin = async (): Promise<any[]> => {
   }
 }
 
+const getAllRevokedCertificatesAdmin = async (): Promise<any[]> => {
+  try {
+    const response = await axios.get(endpoints.CERTIFICATE_ADMIN_REVOKE_CERTIFICATES)
+    const newArr: any[] | PromiseLike<any[]> = []
+    if (response) {
+      response?.data.forEach((element: any) => {
+        newArr.push({
+          roles: element?.stakeholderClaim?.stakeholderRoles[0]?.assets,
+          stakeholderDID: element?.stakeholderClaim?.stakeholderDID,
+          ledgerIdentity: element?.stakeholderClaim?.stakeholderProfile?.ledgerIdentity,
+          name: element?.stakeholderClaim?.stakeholderProfile?.name,
+          role: element?.stakeholderClaim?.stakeholderRoles[0]?.role,
+          stakeholderRoles: element?.stakeholderClaim?.stakeholderRoles[0]?.assets
+            ?.map((el: any) => {
+              return el
+            })
+            ?.join(', '),
+          state: element?.state,
+          timestamp: element?.timestamp,
+          handler_url: element?.handler_url
+        })
+      })
+      return newArr
+    }
+    return []
+  } catch (e) {
+    console.log({ e })
+    throw new Error('error')
+  }
+}
+
 const getAllLicenceCertificates = async (): Promise<any[]> => {
   try {
     const responseApproved = await axios.get(endpoints.CERTIFICATE_APPROVED_LICENSE)
     const responsePending = await axios.get(endpoints.CERTIFICATE_PENDING_LICENSE)
     const responseRejected = await axios.get(endpoints.CERTIFICATE_REJECTED_LICENSE)
+    const responseRevoked = await axios.get(endpoints.CERTIFICATE_REVOKED_LICENSE)
 
-    const response = await axios.all([responseApproved, responseRejected, responsePending])
+    const response = await axios.all([responseApproved, responseRejected, responsePending, responseRevoked])
     const newArr: any[] | PromiseLike<any[]> = []
     if (response) {
       response?.[0]?.data.forEach((element: any) => {
@@ -222,6 +280,15 @@ const getAllLicenceCertificates = async (): Promise<any[]> => {
         })
       })
       response?.[2]?.data.forEach((element: any) => {
+        newArr.push({
+          idToken: element?.id_token,
+          licenseDID: element?.licenseDID,
+          stakeholderServices: element?.stakeholderServices?.[0],
+          timestamp: element?.timestamp,
+          state: element?.state
+        })
+      })
+      response?.[3]?.data.forEach((element: any) => {
         newArr.push({
           idToken: element?.id_token,
           licenseDID: element?.licenseDID,
@@ -339,11 +406,13 @@ export default {
   getAllApprovedCertificatesAdmin,
   getAllPendingCertificatesAdmin,
   getAllRejectedCertificatesAdmin,
+  getAllRevokedCertificatesAdmin,
   resolveStakeholder,
   revokeCertificate,
   resolveLicense,
   getAllApprovedCertificatesRegulator,
   getAllPendingCertificatesRegulator,
   getAllRejectedCertificatesRegulator,
+  getAllRevokedCertificatesRegulator,
   getAllLicenceCertificates
 }

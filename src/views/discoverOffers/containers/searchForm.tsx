@@ -32,7 +32,7 @@ import {
   CTabContent,
   CTabPane
 } from '@coreui/react'
-import { useAllCategories, useGetMembers, useAllLocations } from 'hooks/api/Resources'
+import { useAllCategories, useAllLocations } from 'hooks/api/Resources'
 import { useSearchOffers, useSearchOffersAdvanced } from 'hooks/api/Products'
 import Autosuggest from 'react-autosuggest'
 
@@ -94,7 +94,6 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
   } = useSearchOffersAdvanced()
   const { data: categories, isLoading: isLoadingCategories } = useAllCategories()
   const { data: locations, isLoading: isLoadingLocations } = useAllLocations()
-  const { data: members, isLoading: isLoadingMembers } = useGetMembers()
 
   const fields = [
     'name',
@@ -111,6 +110,35 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
     {
       key: 'productOfferingPrice',
       label: 'Price Type'
+    },
+    {
+      key: 'show_details',
+      label: '',
+      _style: { width: '1%' },
+      filter: false,
+      sort: false
+    }
+  ]
+
+  const fieldsAdvanced = [
+    'name',
+    'description',
+    'category',
+    {
+      key: 'place',
+      label: 'Location'
+    },
+    {
+      key: 'stakeholder',
+      label: 'Stakeholder'
+    },
+    {
+      key: 'productOfferingPrice',
+      label: 'Price Type'
+    },
+    {
+      key: 'trustScore',
+      label: 'Trust Score'
     },
     {
       key: 'show_details',
@@ -198,7 +226,6 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
 
     const regex = new RegExp('^' + escapedValue, 'i')
     const results = categories?.filter((category: any) => regex.test(category?.name))
-    console.log(results)
     let allCategories: string[] = []
 
     results?.forEach((category: any) => {
@@ -227,8 +254,6 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
       }
     })
 
-    console.log(allCategories)
-
     return !isLoadingCategories ? allCategories : []
   }
 
@@ -238,18 +263,6 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
     const regex = new RegExp('^' + escapedValue, 'i')
 
     return !isLoadingLocations ? locations?.filter((location) => regex.test(location?.geographicLocation?.name)) : []
-  }
-
-  const getSuggestionsMembers = (value: any) => {
-    const escapedValue = escapeRegexCharacters(value?.trim())
-
-    const regex = new RegExp('^' + escapedValue, 'i')
-
-    return !isLoadingMembers ? members?.filter((member) => regex.test(member?.legalName)) : []
-  }
-
-  const onSuggestionsFetchRequestedMembers = ({ value }) => {
-    setSuggestionsMembers(getSuggestionsMembers(value))
   }
 
   const onSuggestionsClearRequestedMembers = () => {
@@ -508,7 +521,6 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
                   render={({ field: { onChange, onBlur, value } }) => (
                     <Autosuggest
                       suggestions={suggestionsMembers}
-                      onSuggestionsFetchRequested={onSuggestionsFetchRequestedMembers}
                       onSuggestionsClearRequested={onSuggestionsClearRequestedMembers}
                       getSuggestionValue={(selected: any) => selected?.legalName}
                       renderSuggestion={(sugg: any) => <span>{sugg?.legalName}</span>}
@@ -583,7 +595,7 @@ const SearchForm: React.FC<SearchFormTypes> = (props: any) => {
             columnFilter
             tableFilter
             clickableRows
-            fields={fields}
+            fields={dataAdvanced ? fieldsAdvanced : fields}
             itemsPerPage={5}
             sorter
             hover

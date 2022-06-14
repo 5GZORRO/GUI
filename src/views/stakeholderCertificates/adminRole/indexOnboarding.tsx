@@ -16,6 +16,7 @@ import {
 import ApprovedCertificates from './tablesOnboardingCertificates/TableApprovedCertificates'
 import RejectedCertificates from './tablesOnboardingCertificates/TableRejectedCertificates'
 import PendingCertificates from './tablesOnboardingCertificates/TablePendingCertificates'
+import RevokedCertificates from './tablesOnboardingCertificates/TableRevokedCertificates'
 
 const AdminCertificates: React.FC = () => {
   const [triggerRefetch, setTriggerRefetch] = useState(false)
@@ -42,6 +43,11 @@ const AdminCertificates: React.FC = () => {
           <CNavItem>
             <CNavLink data-tab="rejectedCertificates" className={'text-uppercase'}>
               Rejected certificates
+            </CNavLink>
+          </CNavItem>
+          <CNavItem>
+            <CNavLink data-tab="revokedCertificates" className={'text-uppercase'}>
+              Revoked certificates
             </CNavLink>
           </CNavItem>
         </CNav>
@@ -73,6 +79,16 @@ const AdminCertificates: React.FC = () => {
               </CCardHeader>
               <CCardBody>
                 <RejectedCertificates {...{ triggerRefetch }} />
+              </CCardBody>
+            </CCard>
+          </CTabPane>
+          <CTabPane data-tab="revokedCertificates">
+            <CCard className={'mt-4'}>
+              <CCardHeader>
+                <h5>Revoked Stakeholder Certificates</h5>
+              </CCardHeader>
+              <CCardBody>
+                <RevokedCertificates {...{ triggerRefetch }} />
               </CCardBody>
             </CCard>
           </CTabPane>

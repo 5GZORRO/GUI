@@ -284,6 +284,7 @@ const getProductOffersAdvanced = async (params: any): Promise<any> => {
       return response?.data?.map((el) => {
         const ps = productSpecifications?.find((rp) => rp?.id === el?.offer_object?.productSpecification?.id)
         return {
+          trustScore: el?.['trust score'],
           ...el?.offer_object,
           productSpecification: {
             ...ps,
