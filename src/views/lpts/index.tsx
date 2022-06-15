@@ -61,12 +61,12 @@ const SLA = () => {
           </CNavItem>
           <CNavItem>
             <CNavLink data-tab="mySLAs" className={'text-uppercase'}>
-              {' MY SlAs'}
+              {'SlAs'}
             </CNavLink>
           </CNavItem>
           <CNavItem>
             <CNavLink data-tab="myLicences" className={'text-uppercase'}>
-              {' MY LICENCEs'}
+              {'LICENCEs'}
             </CNavLink>
           </CNavItem>
         </CNav>
@@ -85,7 +85,7 @@ const SLA = () => {
             <CCard className={'mt-4'}>
               <CCardHeader>
                 <CRow style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <h5 className={'m-0'}>{'My Service Level Agreements'}</h5>
+                  <h5 className={'m-0'}>{'Service Level Agreements'}</h5>
                 </CRow>
               </CCardHeader>
               <CCardBody>
@@ -97,7 +97,7 @@ const SLA = () => {
             <CCard className={'mt-4'}>
               <CCardHeader>
                 <CRow style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <h5 className={'m-0'}>{'My Licences'}</h5>
+                  <h5 className={'m-0'}>{'Licences'}</h5>
                 </CRow>
               </CCardHeader>
               <CCardBody>

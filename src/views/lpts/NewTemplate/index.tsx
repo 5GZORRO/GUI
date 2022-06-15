@@ -50,8 +50,6 @@ const NewTemplate = () => {
   })
   const { mutate, isSuccess, isLoading } = useCreateTemplate()
 
-  console.log(watch('templateFile'))
-
   const history = useHistory()
 
   useEffect(() => {

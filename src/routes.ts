@@ -16,6 +16,7 @@ const ProductOfferingPrices = React.lazy(() => import('./views/productOfferingPr
 const NewProductOfferingPrice = React.lazy(() => import('./views/productOfferingPrices/newProductOfferingPrice'))
 const NewLegalProseTemplate = React.lazy(() => import('./views/lpts/NewTemplate'))
 const NewLicence = React.lazy(() => import('./views/lpts/NewLicence'))
+const NewLicenceForm = React.lazy(() => import('./views/lpts/NewLicenceForm'))
 const NewSLA = React.lazy(() => import('./views/lpts/NewSLA'))
 const NewSLAForm = React.lazy(() => import('./views/lpts/NewSLAForm'))
 const NewOrder = React.lazy(() => import('./views/orders/NewOrder'))
@@ -63,6 +64,7 @@ const routes = [
 
   { path: '/templates/new/sla', name: 'New SLA', component: NewSLA },
 
+  { path: '/templates/new/licence/:id', name: 'New Licence', component: NewLicenceForm },
   { path: '/templates/new/licence', name: 'New Licence', component: NewLicence },
 
   { path: '/templates/new/', name: 'New Legal Prose Template', component: NewLegalProseTemplate },

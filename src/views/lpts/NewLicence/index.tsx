@@ -1,210 +1,184 @@
-import React, { useEffect } from 'react'
+/* eslint-disable react/display-name */
+import React, { useState } from 'react'
 import {
+  CCol,
+  CContainer,
+  CRow,
+  CDataTable,
+  CButton,
   CCard,
   CCardBody,
-  CButton,
-  CCol,
-  CFormGroup,
-  CFormText,
-  CInput,
-  CInputGroup,
-  CLabel,
-  CRow,
-  CTextarea,
-  CContainer,
-  CForm,
-  CInputFile,
-  CSelect
+  CCardHeader,
+  CModal,
+  CModalBody,
+  CModalHeader
 } from '@coreui/react'
-import { FormProvider, Controller, useForm } from 'react-hook-form'
-import { ArrowLeftIcon } from 'assets/icons/externalIcons'
-import LoadingWithFade from 'components/LoadingWithFade'
-import { useCreateTemplate } from 'hooks/api/SLA'
 
-import { useHistory } from 'react-router-dom'
+import { useHistory, Link } from 'react-router-dom'
+import { useAllLicences } from 'hooks/api/SLA'
+import SLATemplateAccordViewer from 'components/SLATemplateAccordViewer'
+import { DATETIME_FORMAT_SHOW } from 'config'
+import dayjs from 'dayjs'
 
-interface templateForm {
-  proposeTemplateRequest: {
-    name: string
-    description: string
-    category: string
+const fields = [
+  { key: 'select', label: '', filter: false, sorter: false },
+  'id',
+  'name',
+  'status',
+  'created',
+  'category',
+  {
+    key: 'show_details',
+    label: '',
+    _style: { width: '1%' },
+    filter: false,
+    sort: false
   }
-  templateFile: any
-}
+]
 
-const NewLicence = () => {
-  const {
-    formState: { errors, ...remain },
-    control,
-    handleSubmit,
-    ...methods
-  } = useForm<templateForm>({
-    defaultValues: {
-      proposeTemplateRequest: {
-        name: '',
-        description: '',
-        category: 'LICENSE'
-      },
-      templateFile: ''
-    }
-  })
-  const { mutate, isSuccess, isLoading } = useCreateTemplate()
-
+const NewLicense: React.FC = () => {
   const history = useHistory()
+  const [selected, setSelected] = useState<string[]>([])
+  const { data, isLoading } = useAllLicences({ size: 9999 })
+  const [modal, setModal] = useState<any | null>(null)
 
-  useEffect(() => {
-    if (isSuccess) {
-      history.push('/templates/')
-    }
-  }, [isSuccess])
+  const check = (item: any) => {
+    const found = selected.find((sla: any) => sla === item?.id)
 
-  const onSubmit = (data: templateForm) => {
-    mutate({ ...data })
-  }
-
-  const handleFileUpload = (e: any, onChange: any, name: any) => {
-    e.preventDefault()
-
-    const reader = new FileReader()
-    const file = e.target.files[0]
-
-    reader.onloadend = () => {
-      onChange({
-        target: {
-          value: file
-        }
-      })
-    }
-
-    if (file) {
-      reader.readAsDataURL(file)
+    if (!found) {
+      setSelected((previous: any) => [item?.id])
+    } else {
+      setSelected((previous: any) => previous.filter((sla: any) => sla !== item?.id))
     }
   }
 
   return (
     <>
       <CContainer>
-        {isLoading && <LoadingWithFade />}
-        <h1 className={'mb-5'}>New Licence</h1>
-        <FormProvider {...methods} {...{ formState: { errors, ...remain }, control, handleSubmit }}>
-          <CForm onSubmit={handleSubmit(onSubmit)}>
-            <CCard>
-              <CCardBody>
-                <CRow>
-                  <CCol sm={6}>
-                    <CFormGroup>
-                      <CLabel htmlFor="name">Name</CLabel>
-                      <Controller
-                        control={control}
-                        defaultValue={''}
-                        rules={{ required: true }}
-                        name="proposeTemplateRequest.name"
-                        render={({ field }) => <CInput placeholder={'Enter Product Offer'} {...field} />}
+        <CRow className={'mb-5'}>
+          <CCol>
+            <h2>New Licence</h2>
+          </CCol>
+        </CRow>
+        <CCard>
+          <CCardHeader>
+            <h5>Licence Templates</h5>
+          </CCardHeader>
+          <CCardBody>
+            <CDataTable
+              cleaner
+              loading={isLoading}
+              items={data?.filter((el) => el != null) ?? []}
+              columnFilter
+              tableFilter
+              clickableRows
+              fields={fields}
+              itemsPerPage={5}
+              scopedSlots={{
+                created: (item: any) => {
+                  return (
+                    <td className="py-2">
+                      {dayjs(item?.created).isValid() ? dayjs(item?.created).format(DATETIME_FORMAT_SHOW) : '-'}
+                    </td>
+                  )
+                },
+                select: (item: { id: any; _selected: boolean | undefined }) => {
+                  return (
+                    <td>
+                      <input
+                        className={'product-offer--checkbox'}
+                        type="radio"
+                        checked={selected?.find((el) => item?.id === el) != null}
+                        onChange={() => check(item)}
                       />
-                      {errors?.proposeTemplateRequest?.name && (
-                        <CFormText className="help-block">Please enter a name</CFormText>
-                      )}
-                    </CFormGroup>
-                  </CCol>
-                  <CCol sm={6}>
-                    <CFormGroup>
-                      <CLabel htmlFor="proposeTemplateRequest.category">Type</CLabel>
-                      <Controller
-                        control={control}
-                        defaultValue={''}
-                        rules={{ required: true }}
-                        name="proposeTemplateRequest.category"
-                        render={({ field }) => (
-                          <CSelect {...field} disabled>
-                            <option value="SLA">SLA</option>
-                            <option value="LICENSE">Licence</option>
-                            {/* <option value='AGREEMENT'>Agreement</option> */}
-                          </CSelect>
-                        )}
-                      />
-                      {errors?.proposeTemplateRequest?.category && (
-                        <CFormText className="help-block">Please select a category</CFormText>
-                      )}
-                    </CFormGroup>
-                  </CCol>
-                </CRow>
-                <CRow>
-                  <CCol sm={12}>
-                    <CFormGroup>
-                      <CLabel>Description</CLabel>
-                      <CInputGroup>
-                        <Controller
-                          control={control}
-                          defaultValue={''}
-                          rules={{ required: true }}
-                          name="proposeTemplateRequest.description"
-                          render={({ field }) => (
-                            <CTextarea
-                              placeholder={'Enter Description'}
-                              {...field}
-                              rows={4}
-                              style={{ resize: 'none' }}
-                            />
-                          )}
-                        />
-                      </CInputGroup>
-                      {errors?.proposeTemplateRequest?.description && (
-                        <CFormText className="help-block">Please insert a description</CFormText>
-                      )}
-                    </CFormGroup>
-                  </CCol>
-                </CRow>
-                <CRow>
-                  <CCol sm={6}>
-                    <CFormGroup>
-                      <CLabel>Template</CLabel>
-                      <CInputGroup>
-                        <Controller
-                          control={control}
-                          defaultValue={''}
-                          rules={{ required: true }}
-                          name="templateFile"
-                          render={({ field: { onChange, value, ref } }) => (
-                            <input
-                              ref={ref}
-                              type={'file'}
-                              accept={'.cta'}
-                              onChange={(e: any) => {
-                                handleFileUpload(e, onChange, 'templateFile')
-                              }}
-                            />
-                          )}
-                        />
-                      </CInputGroup>
-                      {errors?.templateFile && (
-                        <CFormText className="help-block">Please insert a template file (.cta)</CFormText>
-                      )}
-                    </CFormGroup>
-                  </CCol>
-                </CRow>
-              </CCardBody>
-            </CCard>
-            <div className={'mt-5 d-flex justify-content-between mb-5'}>
-              <CButton
-                className={'text-uppercase px-5 d-flex align-items-center'}
-                color={'gradient'}
-                variant={'ghost'}
-                onClick={() => history.goBack()}
-              >
-                <ArrowLeftIcon fill={'#fff'} />
-                Previous
-              </CButton>
-              <div className={'d-flex'}>
-                <CButton className={'text-uppercase px-5'} type="submit" color={'gradient'}>
-                  Submit
-                </CButton>
-              </div>
-            </div>
-          </CForm>
-        </FormProvider>
+                    </td>
+                  )
+                },
+                category: (item: any) => {
+                  return <td className="py-2">{item?.category ? item.category : '-'}</td>
+                },
+                show_details: (item: any) => {
+                  return (
+                    <td className="py-2">
+                      <CButton
+                        color="primary"
+                        className={'text-uppercase'}
+                        shape="square"
+                        onClick={() => setModal(item)}
+                      >
+                        {'Show'}
+                      </CButton>
+                    </td>
+                  )
+                }
+              }}
+              sorter
+              hover
+              pagination
+            />
+          </CCardBody>
+        </CCard>
+        <div className={'d-flex flex-row-reverse mb-5'}>
+          <CButton
+            className={'text-uppercase px-5'}
+            color={'gradient'}
+            disabled={!selected?.length}
+            onClick={() => history.push(`/templates/new/licence/${selected}`)}
+          >
+            next
+          </CButton>
+          <Link to={'/templates/'}>
+            <CButton className={'text-uppercase px-5 mr-3'} variant="outline" color={'white'}>
+              Cancel
+            </CButton>
+          </Link>
+        </div>
       </CContainer>
+      {modal != null && (
+        <CModal show={true} onClose={() => setModal(null)} size="lg">
+          <CModalHeader closeButton>
+            <h5>{'SLA Template'}</h5>
+          </CModalHeader>
+          <CModalBody>
+            <CRow>
+              <CCol xs="6">
+                <p className={'text-light mb-2'}>Name:</p> <p>{modal?.name}</p>
+              </CCol>
+              <CCol xs="6">
+                <p className={'text-light mb-2'}>Last Update:</p>{' '}
+                <p>
+                  {dayjs(modal?.statusUpdated).isValid()
+                    ? dayjs(modal?.statusUpdated).format(DATETIME_FORMAT_SHOW)
+                    : '-'}
+                </p>
+              </CCol>
+            </CRow>
+            <CRow>
+              <CCol xs="12">
+                <p className={'text-light mb-2'}>Description</p>
+                <p>{modal?.description}</p>
+              </CCol>
+            </CRow>
+            <CRow>
+              <CCol xs="6">
+                <p className={'text-light mb-2'}>Status:</p>
+
+                <p>{modal?.status}</p>
+              </CCol>
+            </CRow>
+            <CRow className={'mt-2 p-3'}>
+              <h5>{'Template'}</h5>
+              <CContainer>
+                <CRow className={'mt-2'}>
+                  <SLATemplateAccordViewer id={modal?.id} readOnly={true}></SLATemplateAccordViewer>
+                </CRow>
+              </CContainer>
+            </CRow>
+          </CModalBody>
+        </CModal>
+      )}
     </>
   )
 }
 
-export default NewLicence
+export default NewLicense
