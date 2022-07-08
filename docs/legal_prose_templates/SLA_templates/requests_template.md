@@ -1,0 +1,34 @@
+# Requests/min SLA - {{name}}
+
+**Version:** 1.0
+
+This SLA is valid between **{{startDateTime}}** and **{{endDateTime}}**.
+
+### Named Parties
+
+SLAProvider: **{{stakeholderName}}**
+
+**{{description}}**
+
+In the event of a conflict between the terms of this SLA and the terms of any other agreement with the named SLAProvider governing your use of the Service (the 'Agreement'), the terms and conditions of this SLA apply, but only to the extent of such conflict. Capitalized terms used herein but not defined herein shall have the meanings set forth in the Agreement.
+
+## Service Commitment
+
+The named SLAProvider will use commercially reasonable efforts to maintain the incoming number of requests for a specific sever within some boundaries. The threshold for the number of requests for the defined time period is set by the SLAConsumer, who knows better how many requests can be handled by his/her application. The SLAProvider is legitimate to scale out the service in order to avoid the number of requests to reach the threshold. If the requests exceed the limit (as explained in Service Credits), it will be regarded as an SLA violation. In the event a Service does not meet the Service Commitment, you will be eligible to receive a Service Credit as described below.
+
+## Service Credits
+
+Service Credits are calculated as a percentage of the total charges paid by you for the applicable Service for the billing cycle in which the Number of Requests/min fell within the ranges set forth in 1. specified below.
+
+The following rules are used to check if there is a service breach associated with the metric under analysis. The "operator" defines when a value is considered a violation (operator options: greater than or equal ".ge"; greater than ".g"; equal ".e"; less than ".l"; less than or equal ".le"):
+
+1. A  **{{metric}}** value becomes a breach when it is **{{operator}}** than **{{referenceValue}}** plus **{{tolerance}}**.
+
+We will apply any Service Credits only against future payments otherwise due from you for the Service. At our discretion, we may issue the Service Credit to the credit card you used to pay for the billing cycle in which the Service did not meet the Service Commitment. Service Credits will not entitle you to any refund or other payment from the named SLAProvider. A Service Credit will be applicable and issued only if the credit amount for the applicable monthly billing cycle is greater than one dollar ($1 USD). Service Credits may not be transferred or applied to any other account. Unless otherwise provided in the Order Agreement, your sole and exclusive remedy for any unavailability, non-performance, or other failure by us to provide the Service is the receipt of a Service Credit (if eligible) in accordance with the terms of this SLA.
+
+## SLA Exclusions
+
+The Service Commitment does not apply to any unavailability, suspension or termination of the Service, or any other Service performance issues: (i) caused by factors outside of our reasonable control, including any force major event or Internet access or related problems beyond the demarcation point of the Service; (ii) that result from any actions or inactions of you or any third party that has no direct agreement with the SLAProvider; (iii) that result from your equipment, software or other technology and/or third party equipment, software or other technology (other than third party equipment within our direct control); or (iv) arising from our suspension or termination of your right to use the Service in accordance with the Order Agreement (collectively, the "SLA Exclusions"). 
+
+## Definitions
+- A "Service Credit" is a dollar credit, calculated as set forth above, that we may credit back to an eligible account.
