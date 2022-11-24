@@ -3,15 +3,15 @@
 
 FROM nginx
 
-ARG DEPLOY_DIR
-ARG SRC_DIR
+# ARG SRC_DIR
 
 WORKDIR /etc/nginx
 
 # We only need to set up a folder and copy the build files there
-RUN echo $DEPLOY_DIR
-RUN mkdir $DEPLOY_DIR
+RUN mkdir /work
 
-ADD $SRC_DIR $DEPLOY_DIR
+# ADD $SRC_DIR work
+ADD build /work
+COPY deployment/nginx.conf /etc/nginx/conf.d/default.conf
 
 CMD nginx -g "daemon off;"

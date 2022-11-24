@@ -4,28 +4,20 @@ import { useMutation, useQuery } from 'react-query'
 
 import { api } from 'api'
 
-export const getAllTransactions = (params?: any) => {
+export const getAllTransactions = (profile?: string) => {
   let operator: any
-  if (params.includes('OperatorA')) {
-    operator = '/operator-a'
-  } else if (params.includes('OperatorB')) {
-    operator = '/operator-b'
-  } else if (params.includes('OperatorC')) {
-    operator = '/operator-c'
+  if (profile) {
+    operator = '/' + profile
   }
   return useQuery(['allTransactions', operator], () => api.issm.getAllTransactions(operator), {
     keepPreviousData: false
   })
 }
 
-export const getArchivedTransactions = (params?: any) => {
+export const getArchivedTransactions = (profile?: string) => {
   let operator: any
-  if (params.includes('OperatorA')) {
-    operator = '/operator-a'
-  } else if (params.includes('OperatorB')) {
-    operator = '/operator-b'
-  } else if (params.includes('OperatorC')) {
-    operator = '/operator-c'
+  if (profile) {
+    operator = '/' + profile
   }
   return useQuery(['archivedTransactions', operator], () => api.issm.getArchivedTransactions(operator), {
     keepPreviousData: true

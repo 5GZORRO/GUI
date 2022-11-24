@@ -10,7 +10,7 @@ export const XRM_TRANSLATOR_API_KEY = window._XRM_TRANSLATOR_API_KEY
 export const RAPP_DISCOVERY_API_KEY = window._RAPP_DISCOVERY_API_KEY
 export const SLICE_DISCOVERY_API_KEY = window._SLICE_DISCOVERY_API_KEY
 
-export const APP_ENV = 'development'
+export const APP_ENV = 'production'
 
 export const VERIFICATION_KEY = window._VERIFICATION_KEY
 export const LEDGER_IDENTITY = window._LEDGER_IDENTITY

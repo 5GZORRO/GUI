@@ -14,6 +14,7 @@ export const APP_ENV = 'development'
 export const VERIFICATION_KEY = '5gzorroidportalnsmm'
 export const LEDGER_IDENTITY = 'O=OperatorC,OU=Barcelona,L=Barcelona,C=ES'
 export const HOST = '5Tonic'
+export const PROFILE = 'operator-c'
 
 export const API_SRSD = ''
 

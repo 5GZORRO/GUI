@@ -33,7 +33,7 @@ import LoadingWithFade from 'components/LoadingWithFade'
 
 import { getTransactionsTypes, scaleOutOp } from 'hooks/api/ISSM'
 import CIcon from '@coreui/icons-react'
-import { DATETIME_FORMAT_SHOW, LEDGER_IDENTITY } from 'config'
+import { DATETIME_FORMAT_SHOW, PROFILE } from 'config'
 import { useMyOrders } from 'hooks/api/Orders'
 import { ApiOrders } from 'types/api'
 import dayjs from 'dayjs'
@@ -111,16 +111,7 @@ const NewBusinessTransaction = (props: any) => {
 
   useEffect(() => {
     let operator: any
-    if (LEDGER_IDENTITY.includes('OperatorA')) {
-      operator = 'operator-a'
-    } else if (LEDGER_IDENTITY.includes('OperatorB')) {
-      operator = 'operator-b'
-    } else if (LEDGER_IDENTITY.includes('OperatorC')) {
-      operator = 'operator-c'
-    } else if (LEDGER_IDENTITY.includes('RegulatorA')) {
-      operator = 'regulator'
-    }
-    setValue('operator', operator)
+    setValue('operator', PROFILE)
     setValue('relatedParty', operator.charAt(0).toUpperCase() + operator.slice(1))
   }, [])
 

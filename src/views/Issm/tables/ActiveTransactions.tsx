@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { CButton, CDataTable } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { DATETIME_FORMAT_SHOW, LEDGER_IDENTITY } from 'config'
+import { DATETIME_FORMAT_SHOW, PROFILE } from 'config'
 import { ApiBusinessTransactions } from 'types/api'
 
 import { deleteTransaction, getAllTransactions } from 'hooks/api/ISSM'
@@ -24,7 +24,7 @@ const fields = [
 
 export const ActiveTransactions: React.FC = (props: any) => {
   const { modal } = props
-  const { data, isLoading, refetch } = getAllTransactions(LEDGER_IDENTITY)
+  const { data, isLoading, refetch } = getAllTransactions(PROFILE)
   const { mutate, isLoading: isLoadingDelete, isSuccess } = deleteTransaction()
 
   useEffect(() => {
@@ -34,16 +34,7 @@ export const ActiveTransactions: React.FC = (props: any) => {
   }, [isSuccess, modal])
 
   const handleDelete = (item: ApiBusinessTransactions) => {
-    let operator: any
-    if (LEDGER_IDENTITY.includes('OperatorA')) {
-      operator = 'operator-a'
-    } else if (LEDGER_IDENTITY.includes('OperatorB')) {
-      operator = 'operator-b'
-    } else if (LEDGER_IDENTITY.includes('OperatorC')) {
-      operator = 'operator-c'
-    } else if (LEDGER_IDENTITY.includes('RegulatorA')) {
-      operator = 'regulator'
-    }
+    const operator = PROFILE
     const params = {
       operator,
       transactionUuid: item.transaction_uuid

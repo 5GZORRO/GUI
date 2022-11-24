@@ -15,6 +15,7 @@ export const APP_ENV = 'development'
 export const VERIFICATION_KEY = '5gzorroidportalnsmm' // '7XG8C2fxsimza1C1YYpai4xzYGpUbrktv3ip5S5hx5C3'
 export const LEDGER_IDENTITY = 'O=OperatorB,OU=Zurich,L=Zurich,C=CH'
 export const HOST = 'BCN'
+export const PROFILE = 'operator-b'
 
 export const API_SRSD = 'http://172.28.3.15:32068'
 

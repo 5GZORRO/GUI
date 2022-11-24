@@ -119,7 +119,7 @@
   },
   "scripts": {
     "start": "cross-env APP_ENV=development node scripts/start.js",
-    "build": "cross-env APP_ENV=staging node scripts/build.js",
+    "build": "cross-env APP_ENV=production node scripts/build.js",
     "start:operatorA": "cross-env APP_ENV=operatorA node scripts/start.js",
     "start:operatorB": "cross-env APP_ENV=operatorB node scripts/start.js",
     "start:operatorC": "cross-env APP_ENV=operatorC node scripts/start.js",
@@ -128,14 +128,6 @@
     "start:5tonic:operatorB": "cross-env APP_ENV=5tonic-operatorB node scripts/start.js",
     "start:5tonic:operatorC": "cross-env APP_ENV=5tonic-operatorC node scripts/start.js",
     "start:5tonic:regulatorA": "cross-env APP_ENV=5tonic-regulatorA node scripts/start.js",
-    "build:barcelona:operatorA": "cross-env APP_ENV=operatorA NODE_OPTIONS='--max-old-space-size=8192' node scripts/build.js",
-    "build:barcelona:operatorB": "cross-env APP_ENV=operatorB NODE_OPTIONS='--max-old-space-size=8192' node scripts/build.js",
-    "build:barcelona:operatorC": "cross-env APP_ENV=operatorC NODE_OPTIONS='--max-old-space-size=8192' node scripts/build.js",
-    "build:barcelona:regulatorA": "cross-env APP_ENV=regulatorA NODE_OPTIONS='--max-old-space-size=8192' node scripts/build.js",
-    "build:5tonic:operatorA": "cross-env APP_ENV=5tonic-operatorA NODE_OPTIONS='--max-old-space-size=8192' node scripts/build.js",
-    "build:5tonic:operatorB": "cross-env APP_ENV=5tonic-operatorB NODE_OPTIONS='--max-old-space-size=8192' node scripts/build.js",
-    "build:5tonic:operatorC": "cross-env APP_ENV=5tonic-operatorC NODE_OPTIONS='--max-old-space-size=8192' node scripts/build.js",
-    "build:5tonic:regulatorA": "cross-env APP_ENV=5tonic-regulatorA NODE_OPTIONS='--max-old-space-size=8192' node scripts/build.js",
     "test": "node scripts/test.js --coverage",
     "test:watch": "node scripts/test.js",
     "eject": "react-scripts eject",
@@ -150,7 +142,11 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "react-hooks/rules-of-hooks": "warn",
+      "react-hooks/exhaustive-deps": "warn"
+    }
   },
   "browserslist": {
     "production": [
